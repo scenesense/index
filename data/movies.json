@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "movies": [
     {
       "id": "back-to-the-future-1985",
@@ -9,6 +9,13 @@
       "version": "Theatrical Cut",
       "tmdbId": 105,
       "poster": "https://image.tmdb.org/t/p/w500/fNOH9f1aA7XRTzl1sAOx9iF553Q.jpg",
+      "actors": [
+        "Michael J. Fox",
+        "Christopher Lloyd",
+        "Lea Thompson",
+        "Crispin Glover",
+        "Thomas F. Wilson"
+      ],
       "ratings": {
         "writing": {
           "storyQuality": 5,
@@ -32,6 +39,13 @@
       "version": "Theatrical Cut",
       "tmdbId": 165,
       "poster": "https://image.tmdb.org/t/p/w500/hQq8xZe5uLjFzSBt4LanNP7SQjl.jpg",
+      "actors": [
+        "Michael J. Fox",
+        "Christopher Lloyd",
+        "Lea Thompson",
+        "Thomas F. Wilson",
+        "Elisabeth Shue"
+      ],
       "ratings": {}
     },
     {
@@ -42,6 +56,260 @@
       "version": "Theatrical Cut",
       "tmdbId": 196,
       "poster": "https://image.tmdb.org/t/p/w500/crzoVQnMzIrRfHtQw0tLBirNfVg.jpg",
+      "actors": [
+        "Michael J. Fox",
+        "Christopher Lloyd",
+        "Mary Steenburgen",
+        "Thomas F. Wilson",
+        "Lea Thompson"
+      ],
+      "ratings": {}
+    },
+    {
+      "id": "500-days-of-summer-2009",
+      "title": "500 Days of Summer",
+      "year": 2009,
+      "runtimeMinutes": 95,
+      "version": "Theatrical Cut",
+      "tmdbId": 19913,
+      "poster": "",
+      "actors": [
+        "Joseph Gordon-Levitt",
+        "Zooey Deschanel",
+        "Geoffrey Arend",
+        "Chloë Grace Moretz",
+        "Matthew Gray Gubler"
+      ],
+      "ratings": {}
+    },
+    {
+      "id": "2010-the-year-we-make-contact-1984",
+      "title": "2010: The Year We Make Contact",
+      "year": 1984,
+      "runtimeMinutes": 116,
+      "version": "Theatrical Cut",
+      "poster": "",
+      "actors": [
+        "Roy Scheider",
+        "John Lithgow",
+        "Helen Mirren",
+        "Bob Balaban",
+        "Keir Dullea"
+      ],
+      "ratings": {}
+    },
+    {
+      "id": "a-90s-christmas-2024",
+      "title": "A '90s Christmas",
+      "year": 2024,
+      "runtimeMinutes": 90,
+      "version": "Television Movie",
+      "poster": "",
+      "actors": [
+        "Eva Bourne",
+        "Chandler Massey",
+        "Katherine Barrell",
+        "Alex Hook",
+        "Kate Drummond"
+      ],
+      "ratings": {}
+    },
+    {
+      "id": "a-biltmore-christmas-2023",
+      "title": "A Biltmore Christmas",
+      "year": 2023,
+      "runtimeMinutes": 84,
+      "version": "Television Movie",
+      "poster": "",
+      "actors": [
+        "Bethany Joy Lenz",
+        "Kristoffer Polaha",
+        "Robert Picardo",
+        "Mary Beth McDonough",
+        "A.K. Benninghofen"
+      ],
+      "ratings": {}
+    },
+    {
+      "id": "a-bird-of-the-air-2011",
+      "title": "A Bird of the Air",
+      "year": 2011,
+      "runtimeMinutes": 108,
+      "version": "Theatrical Cut",
+      "poster": "",
+      "actors": [
+        "Rachel Nichols",
+        "Jackson Hurst",
+        "Anjanette Comer",
+        "Linda Emond",
+        "Buck Henry"
+      ],
+      "ratings": {}
+    },
+    {
+      "id": "a-bride-for-christmas-2012",
+      "title": "A Bride for Christmas",
+      "year": 2012,
+      "runtimeMinutes": 84,
+      "version": "Television Movie",
+      "poster": "",
+      "actors": [
+        "Arielle Kebbel",
+        "Andrew W. Walker",
+        "Kimberley Sustad",
+        "Sage Brocklebank",
+        "Karen Kruper"
+      ],
+      "ratings": {}
+    },
+    {
+      "id": "a-little-romance-1979",
+      "title": "A Little Romance",
+      "year": 1979,
+      "runtimeMinutes": 108,
+      "version": "Theatrical Cut",
+      "poster": "",
+      "actors": [
+        "Laurence Olivier",
+        "Diane Lane",
+        "Thelonious Bernard",
+        "Arthur Hill",
+        "Sally Kellerman"
+      ],
+      "ratings": {}
+    },
+    {
+      "id": "a-picture-of-her-2023",
+      "title": "A Picture of Her",
+      "year": 2023,
+      "runtimeMinutes": 84,
+      "version": "Television Movie",
+      "poster": "",
+      "actors": [
+        "Rhiannon Fish",
+        "Tyler Hynes",
+        "Samantha Ferris",
+        "Robert Wisden",
+        "Alison Araya"
+      ],
+      "ratings": {}
+    },
+    {
+      "id": "alien-1979",
+      "title": "Alien",
+      "year": 1979,
+      "runtimeMinutes": 116,
+      "version": "Special Edition",
+      "tmdbId": 348,
+      "poster": "",
+      "actors": [
+        "Tom Skerritt",
+        "Sigourney Weaver",
+        "Veronica Cartwright",
+        "Harry Dean Stanton",
+        "John Hurt"
+      ],
+      "ratings": {}
+    },
+    {
+      "id": "aliens-1986",
+      "title": "Aliens",
+      "year": 1986,
+      "runtimeMinutes": 154,
+      "version": "Special Edition",
+      "tmdbId": 679,
+      "poster": "",
+      "actors": [
+        "Sigourney Weaver",
+        "Carrie Henn",
+        "Michael Biehn",
+        "Paul Reiser",
+        "Lance Henriksen"
+      ],
+      "ratings": {}
+    },
+    {
+      "id": "an-hour-behind-2017",
+      "title": "An Hour Behind",
+      "year": 2017,
+      "runtimeMinutes": 90,
+      "version": "Television Movie",
+      "tmdbId": 481439,
+      "poster": "",
+      "actors": [
+        "Emily Rose",
+        "Barry Watson",
+        "Ali Durham",
+        "Casey Elliott",
+        "Scott Christopher"
+      ],
+      "ratings": {}
+    },
+    {
+      "id": "an-unfinished-life-2005",
+      "title": "An Unfinished Life",
+      "year": 2005,
+      "runtimeMinutes": 108,
+      "version": "Theatrical Cut",
+      "poster": "",
+      "actors": [
+        "Robert Redford",
+        "Jennifer Lopez",
+        "Morgan Freeman",
+        "Josh Lucas",
+        "Camryn Manheim"
+      ],
+      "ratings": {}
+    },
+    {
+      "id": "arachnophobia-1990",
+      "title": "Arachnophobia",
+      "year": 1990,
+      "runtimeMinutes": 109,
+      "version": "Theatrical Cut",
+      "tmdbId": 6488,
+      "poster": "",
+      "actors": [
+        "Jeff Daniels",
+        "Harley Jane Kozak",
+        "John Goodman",
+        "Julian Sands",
+        "Brian McNamara"
+      ],
+      "ratings": {}
+    },
+    {
+      "id": "arn-i-tempelriddaren-2007",
+      "title": "Arn I: Tempelriddaren",
+      "year": 2007,
+      "runtimeMinutes": 139,
+      "version": "Theatrical Cut",
+      "tmdbId": 13491,
+      "poster": "",
+      "actors": [
+        "Joakim Nätterqvist",
+        "Sofia Helin",
+        "Stellan Skarsgård",
+        "Michael Nyqvist",
+        "Mirja Turestedt"
+      ],
+      "ratings": {}
+    },
+    {
+      "id": "arn-ii-riket-vid-vagens-slut-2008",
+      "title": "Arn II: Riket vid vägens slut",
+      "year": 2008,
+      "runtimeMinutes": 128,
+      "version": "Theatrical Cut",
+      "tmdbId": 13522,
+      "poster": "",
+      "actors": [
+        "Joakim Nätterqvist",
+        "Sofia Helin",
+        "Stellan Skarsgård",
+        "Bibi Andersson",
+        "Gustaf Skarsgård"
+      ],
       "ratings": {}
     }
   ]
