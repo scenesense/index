@@ -9,7 +9,20 @@
       "version": "Theatrical Cut",
       "tmdbId": 105,
       "poster": "https://image.tmdb.org/t/p/w500/fNOH9f1aA7XRTzl1sAOx9iF553Q.jpg",
-      "ratings": {}
+      "ratings": {
+        "writing": {
+          "storyQuality": 5,
+          "storyLogic": 5,
+          "development": 5,
+          "construction": 5,
+          "dialogue": 5
+        },
+        "character": {
+          "characterDepth": 5,
+          "drive": 5,
+          "consistency": 4
+        }
+      }
     },
     {
       "id": "back-to-the-future-ii-1989",
