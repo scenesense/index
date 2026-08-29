@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "movies": [
     {
       "id": "back-to-the-future-1985",
@@ -9,6 +9,7 @@
       "version": "Theatrical Cut",
       "tmdbId": 105,
       "poster": "https://image.tmdb.org/t/p/w500/fNOH9f1aA7XRTzl1sAOx9iF553Q.jpg",
+      "description": "A teenager accidentally lands thirty years in the past and must repair his parents’ first meeting before finding a way home. A clockwork adventure where every small choice threatens the future.",
       "actors": [
         "Michael J. Fox",
         "Christopher Lloyd",
@@ -66,6 +67,7 @@
       "version": "Theatrical Cut",
       "tmdbId": 165,
       "poster": "https://image.tmdb.org/t/p/w500/hQq8xZe5uLjFzSBt4LanNP7SQjl.jpg",
+      "description": "Marty and Doc leap into the future, only to discover that one careless idea can poison the present. What follows is a fast, intricate chase through several versions of Hill Valley.",
       "actors": [
         "Michael J. Fox",
         "Christopher Lloyd",
@@ -83,6 +85,7 @@
       "version": "Theatrical Cut",
       "tmdbId": 196,
       "poster": "https://image.tmdb.org/t/p/w500/crzoVQnMzIrRfHtQw0tLBirNfVg.jpg",
+      "description": "A rescue mission strands Marty in the Old West, where getting home means outrunning history itself. The trilogy turns into a warm western without losing its ingenious time-travel machinery.",
       "actors": [
         "Michael J. Fox",
         "Christopher Lloyd",
@@ -99,7 +102,8 @@
       "runtimeMinutes": 95,
       "version": "Theatrical Cut",
       "tmdbId": 19913,
-      "poster": "",
+      "poster": "https://bananaroad.com/cdn/shop/products/pst0441dl_grande.jpeg?v=1464449098",
+      "description": "A romantic idealist looks back over 500 days with the woman he thought was destined for him. The fractured timeline slowly reveals how differently two people can remember the same relationship.",
       "actors": [
         "Joseph Gordon-Levitt",
         "Zooey Deschanel",
@@ -115,7 +119,9 @@
       "year": 1984,
       "runtimeMinutes": 116,
       "version": "Theatrical Cut",
-      "poster": "",
+      "tmdbId": 4437,
+      "poster": "https://www.robots-and-dragons.de/sites/default/files/2010-movie-poster.jpg",
+      "description": "An American-Soviet mission returns to Jupiter to learn what happened to Discovery, HAL and Dave Bowman. Cold War distrust collides with a mystery far larger than either side expects.",
       "actors": [
         "Roy Scheider",
         "John Lithgow",
@@ -131,7 +137,8 @@
       "year": 2024,
       "runtimeMinutes": 90,
       "version": "Television Movie",
-      "poster": "",
+      "poster": "https://www.studiotf1america.com/wp-content/uploads/2025/02/90.png",
+      "description": "A driven lawyer spending Christmas Eve alone is unexpectedly sent back to 1999. Revisiting the people and choices she left behind turns nostalgia into a chance to reconsider the life she built.",
       "actors": [
         "Eva Bourne",
         "Chandler Massey",
@@ -147,7 +154,8 @@
       "year": 2023,
       "runtimeMinutes": 84,
       "version": "Television Movie",
-      "poster": "",
+      "poster": "https://assets-global.website-files.com/5ebb0a75e089719bcd83663c/653c4ed784a3efc081db6ee3_ABiltmoreChristmas_1000.webp",
+      "description": "A screenwriter researching a remake at the Biltmore Estate is swept back to the set of the original film in 1946. Hollywood glamour, Christmas and a dangerous attraction begin to overlap.",
       "actors": [
         "Bethany Joy Lenz",
         "Kristoffer Polaha",
@@ -163,7 +171,9 @@
       "year": 2011,
       "runtimeMinutes": 108,
       "version": "Theatrical Cut",
-      "poster": "",
+      "tmdbId": 70736,
+      "poster": "https://image.tmdb.org/t/p/original/4g0zKGhVWrYOV0S6GHr9RxLJio4.jpg",
+      "description": "A solitary man’s carefully sealed life is disrupted by a stray talking parrot. Tracking down its owner draws him toward an eccentric woman and a past he has spent years avoiding.",
       "actors": [
         "Rachel Nichols",
         "Jackson Hurst",
@@ -179,7 +189,9 @@
       "year": 2012,
       "runtimeMinutes": 84,
       "version": "Television Movie",
-      "poster": "",
+      "tmdbId": 147132,
+      "poster": "https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak%3D/v3/t/assets/p9495753_p_v8_ad.jpg",
+      "description": "After fleeing yet another engagement, a woman swears off marriage just as a confirmed bachelor makes a reckless Christmas bet. Neither expects the game to become emotionally inconvenient.",
       "actors": [
         "Arielle Kebbel",
         "Andrew W. Walker",
@@ -195,7 +207,9 @@
       "year": 1979,
       "runtimeMinutes": 108,
       "version": "Theatrical Cut",
-      "poster": "",
+      "tmdbId": 20813,
+      "poster": "https://cdn.posteritati.com/posters/000/000/052/930/a-little-romance-md-web.jpg",
+      "description": "An American girl and a French boy meet in Paris and decide their young romance deserves one impossible gesture: a journey to Venice and a kiss beneath the Bridge of Sighs.",
       "actors": [
         "Laurence Olivier",
         "Diane Lane",
@@ -211,7 +225,8 @@
       "year": 2023,
       "runtimeMinutes": 84,
       "version": "Television Movie",
-      "poster": "",
+      "poster": "https://m.media-amazon.com/images/M/MV5BMzI1Y2QyNmEtMzYxNC00YzY0LTllZTEtNzdmMzgxNTUxNmE1XkEyXkFqcGc%40._V1_.jpg",
+      "description": "A private moment captured by a photographer unexpectedly turns a woman into the face of a magazine. Curious about the man behind the image, she starts following the photograph back to its source.",
       "actors": [
         "Rhiannon Fish",
         "Tyler Hynes",
@@ -228,7 +243,8 @@
       "runtimeMinutes": 116,
       "version": "Special Edition",
       "tmdbId": 348,
-      "poster": "",
+      "poster": "https://filmartgallery.com/cdn/shop/files/Alien-Vintage-Movie-Poster-Original_10338bff_5000x.jpg?v=1771948335",
+      "description": "A commercial starship answers a mysterious signal on the journey home and brings something aboard that should have remained undiscovered. Industrial science fiction turns into a brutally intimate fight for survival.",
       "actors": [
         "Tom Skerritt",
         "Sigourney Weaver",
@@ -245,7 +261,8 @@
       "runtimeMinutes": 154,
       "version": "Special Edition",
       "tmdbId": 679,
-      "poster": "",
+      "poster": "https://www.allaboutmovies.net.au/media/k2/items/cache/906e2f18d7c05527a5863c8ba3276db9_L.jpg",
+      "description": "Ripley returns to the world that destroyed her life, this time with a squad of colonial marines. What begins as a rescue mission becomes a siege against an enemy that has multiplied.",
       "actors": [
         "Sigourney Weaver",
         "Carrie Henn",
@@ -262,7 +279,8 @@
       "runtimeMinutes": 90,
       "version": "Television Movie",
       "tmdbId": 481439,
-      "poster": "",
+      "poster": "https://m.media-amazon.com/images/M/MV5BNTI4MGJjM2MtNjY4ZS00YjNjLThlNzctZjVhZmM4ZDNlNmZlXkEyXkFqcGc%40._V1_.jpg",
+      "description": "A daylight-saving mix-up sends a woman to the wrong blind date. The mistake is easy to correct; deciding whether she actually wants to correct it proves rather more complicated.",
       "actors": [
         "Emily Rose",
         "Barry Watson",
@@ -278,7 +296,9 @@
       "year": 2005,
       "runtimeMinutes": 108,
       "version": "Theatrical Cut",
-      "poster": "",
+      "tmdbId": 1947,
+      "poster": "https://www.impawards.com/2005/posters/unfinished_life_ver2_xlg.jpg",
+      "description": "A woman and her young daughter seek refuge on the Wyoming ranch of a grieving father-in-law who has never forgiven her. Living together forces old blame into the open.",
       "actors": [
         "Robert Redford",
         "Jennifer Lopez",
@@ -295,7 +315,8 @@
       "runtimeMinutes": 109,
       "version": "Theatrical Cut",
       "tmdbId": 6488,
-      "poster": "",
+      "poster": "https://www.filmpostergallery.co.nz/wp-content/uploads/2022/11/Arachnophobia-One-Sheet-Movie-Poster-14.jpg",
+      "description": "A doctor hoping for a quieter life moves his family to a small town just as an unusually lethal spider arrives from the jungle. Soon the harmless corners of ordinary homes feel considerably less harmless.",
       "actors": [
         "Jeff Daniels",
         "Harley Jane Kozak",
@@ -312,7 +333,8 @@
       "runtimeMinutes": 139,
       "version": "Theatrical Cut",
       "tmdbId": 13491,
-      "poster": "",
+      "poster": "https://image.tmdb.org/t/p/original/aG8RqHIjWYm3xpiNzGC9eqyMrtb.jpg",
+      "description": "Raised in a monastery and trained as a warrior, a Swedish nobleman falls in love just as family politics and religious punishment tear his future apart and send him toward the Crusades.",
       "actors": [
         "Joakim Nätterqvist",
         "Sofia Helin",
@@ -329,7 +351,8 @@
       "runtimeMinutes": 128,
       "version": "Theatrical Cut",
       "tmdbId": 13522,
-      "poster": "",
+      "poster": "https://image.tmdb.org/t/p/original/6yu0RmSffk4sVeEGIRO1LSvtYvq.jpg",
+      "description": "After years of war in the Holy Land, Arn returns north to a homeland still fractured by rival clans. Reuniting with the life he lost may require one final battle.",
       "actors": [
         "Joakim Nätterqvist",
         "Sofia Helin",
