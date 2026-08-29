@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260830-6">
+  <link rel="stylesheet" href="styles.css?v=20260830-8">
   <style>
     html,body,button,input,select,textarea,dialog{
       font-family:"Saira",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif!important;
@@ -20,11 +20,38 @@
     .brandSub{margin-top:-2px;font-size:16px;font-weight:400;letter-spacing:.18px}
     .cardTitle,.ratingName,.fieldLabel{font-weight:600}
 
+    .movieSummary h1{
+      margin:8px 0 0!important;
+    }
+    .detailSubtitle{
+      margin-top:6px;
+      font-size:clamp(23px,3.2vw,40px);
+      font-weight:500;
+      line-height:1.04;
+      color:#cbd6e5;
+    }
+    .detailSubtitle:empty{display:none}
+    .movieSummary .eyebrow{
+      margin-top:12px;
+      margin-bottom:18px;
+    }
+    .detailDescription{
+      max-width:820px;
+      margin:2px 0 22px;
+      color:#c6d0de;
+      font-size:16px;
+      font-weight:400;
+      line-height:1.55;
+      font-variant-caps:normal!important;
+      font-synthesis-small-caps:none!important;
+      text-transform:none!important;
+      letter-spacing:0!important;
+    }
     .actorChips{
       display:flex;
       flex-wrap:wrap;
       gap:8px;
-      margin:-10px 0 22px;
+      margin:0 0 18px;
       max-width:900px;
     }
     .actorChip{
@@ -46,8 +73,41 @@
     }
     .detailVersion{
       margin-top:18px;
-      color:rgba(214,223,235,.62);
+      color:rgba(214,223,235,.58);
       font-size:13px;
+      font-weight:400;
+      font-variant-caps:normal!important;
+      font-synthesis-small-caps:none!important;
+      text-transform:none!important;
+      letter-spacing:0!important;
+    }
+
+    .cardSubtitle{
+      margin-top:3px;
+      color:#c6d0de;
+      font-size:15px;
+      font-weight:500;
+      line-height:1.15;
+    }
+    .cardDescription{
+      display:-webkit-box;
+      -webkit-box-orient:vertical;
+      -webkit-line-clamp:3;
+      overflow:hidden;
+      margin-top:10px;
+      color:#aebccd;
+      font-size:13px;
+      font-weight:400;
+      line-height:1.42;
+      font-variant-caps:normal!important;
+      font-synthesis-small-caps:none!important;
+      text-transform:none!important;
+      letter-spacing:0!important;
+    }
+    .cardVersion{
+      margin-top:10px;
+      color:rgba(156,171,193,.68);
+      font-size:11px;
       font-weight:400;
       font-variant-caps:normal!important;
       font-synthesis-small-caps:none!important;
@@ -190,8 +250,9 @@
       .categories{grid-template-columns:1fr!important}
       .ratingRow{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important}
       .categoryWeight{display:block!important}
-      .actorChips{margin-top:-4px}
       .actorChip{font-size:12px;min-height:30px}
+      .detailDescription{font-size:15px}
+      .cardDescription{-webkit-line-clamp:2}
     }
   </style>
 </head>
@@ -233,9 +294,11 @@
             <img id="detailPoster" class="detailPoster" alt="">
           </div>
           <div class="movieSummary">
-            <div class="eyebrow" id="detailMeta"></div>
             <h1 id="detailTitle"></h1>
+            <div id="detailSubtitle" class="detailSubtitle"></div>
+            <div class="eyebrow" id="detailMeta"></div>
             <div id="actorChips" class="actorChips" aria-label="Principal cast"></div>
+            <div id="detailDescription" class="detailDescription"></div>
             <div class="scoreLine">
               <div class="overallScore" id="overallScore">—</div>
               <div>
@@ -261,7 +324,7 @@
 
   <footer class="footer">
     <div>SceneSense · Independent film scoring</div>
-    <div class="footerFine">Poster imagery via TMDB. This product uses the TMDB API but is not endorsed or certified by TMDB.</div>
+    <div class="footerFine">Poster imagery via TMDB and original promotional sources. TMDB is not affiliated with or responsible for SceneSense.</div>
   </footer>
 
   <dialog id="adminDialog" class="dialog">
@@ -319,6 +382,26 @@
       });
     };
 
+    function splitDisplayTitle(title){
+      const raw = String(title || "");
+      const colon = raw.indexOf(":");
+      if(colon < 0) return {main:raw, subtitle:""};
+      return {
+        main:raw.slice(0,colon).trim(),
+        subtitle:raw.slice(colon+1).trim()
+      };
+    }
+
+    function renderMovieIdentity(movie){
+      if(!movie) return;
+      const parts = splitDisplayTitle(movie.title);
+      $("detailTitle").textContent = parts.main;
+      $("detailSubtitle").textContent = parts.subtitle;
+      $("detailMeta").textContent = `${movie.year} · ${movie.runtimeMinutes} min`;
+      $("detailDescription").textContent = movie.description || "";
+      $("detailVersion").textContent = movie.version || "";
+    }
+
     function renderPrincipalCast(movie){
       const holder = document.getElementById("actorChips");
       if(!holder) return;
@@ -327,11 +410,48 @@
         .join("");
     }
 
-    function renderPresentationVersion(movie){
-      const version = document.getElementById("detailVersion");
-      if(version) version.textContent = movie?.version || "";
-      const meta = document.getElementById("detailMeta");
-      if(meta && movie) meta.textContent = `${movie.year} · ${movie.runtimeMinutes} min`;
+    function decorateLibraryCards(){
+      document.querySelectorAll(".movieCard").forEach(card => {
+        const movie = movieById(card.dataset.movie);
+        if(!movie) return;
+        const info = card.querySelector(".cardInfo");
+        const title = card.querySelector(".cardTitle");
+        const meta = card.querySelector(".cardMeta");
+        if(!info || !title || !meta) return;
+
+        const parts = splitDisplayTitle(movie.title);
+        title.textContent = parts.main;
+
+        let subtitle = info.querySelector(".cardSubtitle");
+        if(parts.subtitle){
+          if(!subtitle){
+            subtitle = document.createElement("div");
+            subtitle.className = "cardSubtitle";
+            meta.before(subtitle);
+          }
+          subtitle.textContent = parts.subtitle;
+        }else if(subtitle){
+          subtitle.remove();
+        }
+
+        meta.textContent = `${movie.year} · ${movie.runtimeMinutes} min`;
+
+        let description = info.querySelector(".cardDescription");
+        if(!description){
+          description = document.createElement("div");
+          description.className = "cardDescription";
+          info.append(description);
+        }
+        description.textContent = movie.description || "";
+
+        let version = info.querySelector(".cardVersion");
+        if(!version){
+          version = document.createElement("div");
+          version.className = "cardVersion";
+          info.append(version);
+        }
+        version.textContent = movie.version || "";
+      });
     }
 
     function applyPosterFallbacks(){
@@ -354,6 +474,7 @@
     const baseRenderLibrary = renderLibrary;
     renderLibrary = function(){
       baseRenderLibrary();
+      decorateLibraryCards();
       applyPosterFallbacks();
     };
 
@@ -361,8 +482,8 @@
     openMovie = function(id, updateHash=true){
       baseOpenMovie(id, updateHash);
       const movie = movieById(id);
+      renderMovieIdentity(movie);
       renderPrincipalCast(movie);
-      renderPresentationVersion(movie);
       if(movie && !movie.poster){
         const detail = document.getElementById("detailPoster");
         if(detail) detail.removeAttribute("src");
@@ -372,8 +493,8 @@
 
     if(activeMovieId){
       const movie = movieById(activeMovieId);
+      renderMovieIdentity(movie);
       renderPrincipalCast(movie);
-      renderPresentationVersion(movie);
       applyPosterFallbacks();
     }
   </script>
