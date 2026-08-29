@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070b12">
+  <title>SceneSense — Movie Quality Index</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <button class="brand" id="homeBtn" type="button" aria-label="SceneSense home">
+      <span class="brandTitle">SceneSense</span>
+      <span class="brandSub">Movie Quality Index</span>
+    </button>
+    <div class="headerTools">
+      <div class="searchWrap">
+        <input id="search" class="search" type="search" placeholder="Search movies…" autocomplete="off">
+      </div>
+      <select id="sort" class="select" aria-label="Sort movies">
+        <option value="year">Year</option>
+        <option value="title">Title</option>
+        <option value="score">Score</option>
+      </select>
+      <button id="adminBtn" class="button" type="button">Unlock scoring</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="libraryView" class="library wrap">
+      <div class="libraryHeading">
+        <div>
+          <h1>Films</h1>
+          <p id="libraryStatus">Loading…</p>
+        </div>
+      </div>
+      <div id="movieGrid" class="movieGrid"></div>
+    </section>
+
+    <section id="movieView" class="movieView hidden" aria-live="polite">
+      <div class="movieHero wrap">
+        <button id="backBtn" class="backBtn" type="button">← Films</button>
+        <div class="movieHeroGrid">
+          <div class="posterPanel">
+            <img id="detailPoster" class="detailPoster" alt="">
+          </div>
+          <div class="movieSummary">
+            <div class="eyebrow" id="detailMeta"></div>
+            <h1 id="detailTitle"></h1>
+            <div class="scoreLine">
+              <div class="overallScore" id="overallScore">—</div>
+              <div>
+                <div class="scoreCaption">overall score</div>
+                <div class="progressText" id="progressText">0 / 75 rated</div>
+              </div>
+            </div>
+            <div class="modeNotice" id="modeNotice">Scores are read-only.</div>
+            <div class="saveRow hidden" id="saveRow">
+              <button id="saveBtn" class="button primary" type="button" disabled>Save score</button>
+              <button id="revertBtn" class="button" type="button" disabled>Revert</button>
+              <span id="saveStatus" class="saveStatus"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="categoriesWrap wrap">
+        <div id="categories" class="categories"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div>SceneSense · Independent film scoring</div>
+    <div class="footerFine">Poster imagery via TMDB. This product uses the TMDB API but is not endorsed or certified by TMDB.</div>
+  </footer>
+
+  <dialog id="adminDialog" class="dialog">
+    <form method="dialog" class="dialogCard" id="adminForm">
+      <button class="dialogClose" value="cancel" aria-label="Close">×</button>
+      <div class="dialogEyebrow">Owner access</div>
+      <h2>Unlock scoring</h2>
+      <p>Enter a GitHub fine-grained personal access token with <strong>Contents: Read and write</strong> access to <code>scenesense/index</code>. It is kept only for this browser session and is never written into the site.</p>
+      <label class="fieldLabel" for="tokenInput">GitHub token</label>
+      <input id="tokenInput" class="tokenInput" type="password" autocomplete="off" placeholder="github_pat_…">
+      <div id="adminError" class="dialogError"></div>
+      <div class="dialogActions">
+        <button class="button" value="cancel">Cancel</button>
+        <button id="unlockBtn" class="button primary" value="default" type="submit">Unlock</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
