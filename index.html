@@ -289,6 +289,11 @@
       integrity:"INTEGRITY"
     };
     CATEGORIES.forEach(category => { category.title = CATEGORY_LABELS[category.key] || category.title; });
+    const chemistryCategory = CATEGORIES.find(category => category.key === "chemistry");
+    const relationshipDepthItem = chemistryCategory?.items.find(item => item[0] === "relationshipDepth");
+    if(relationshipDepthItem){
+      relationshipDepthItem[2] = "Did each important relationship feel uniquely theirs, rather than like a generic connection between two characters?";
+    }
   </script>
   <script src="engine.js?v=20260830-6"></script>
   <script>
