@@ -58,7 +58,7 @@ const CATEGORIES = [
     items:[
       ["connection","Connection","Did the characters genuinely affect each other, or merely share scenes?"],
       ["flow","Flow","Did conversation and body language feel effortless between them?"],
-      ["relationshipDepth","Relationship Depth","Did the relationships feel specific, substantial and genuinely developed, rather than generic or superficial?"],
+      ["relationshipDepth","Relationship Depth","Did the relationships have layers, or did they stay at the surface?"],
       ["relationshipGrowth","Relationship Growth","Did the relationships actually evolve, or keep returning to the same state?"],
       ["relationshipCharge","Relationship Charge","Whatever connected or divided them, did that energy feel genuinely alive?"]
     ]
