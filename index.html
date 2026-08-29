@@ -44,6 +44,16 @@
       text-transform:uppercase!important;
       letter-spacing:.07em!important;
     }
+    .detailVersion{
+      margin-top:18px;
+      color:rgba(214,223,235,.62);
+      font-size:13px;
+      font-weight:400;
+      font-variant-caps:normal!important;
+      font-synthesis-small-caps:none!important;
+      text-transform:none!important;
+      letter-spacing:0!important;
+    }
 
     .posterWrap.missingPoster,
     .posterPanel.missingPoster{
@@ -239,6 +249,7 @@
               <button id="revertBtn" class="button" type="button" disabled>Revert</button>
               <span id="saveStatus" class="saveStatus"></span>
             </div>
+            <div id="detailVersion" class="detailVersion"></div>
           </div>
         </div>
       </div>
@@ -316,6 +327,13 @@
         .join("");
     }
 
+    function renderPresentationVersion(movie){
+      const version = document.getElementById("detailVersion");
+      if(version) version.textContent = movie?.version || "";
+      const meta = document.getElementById("detailMeta");
+      if(meta && movie) meta.textContent = `${movie.year} · ${movie.runtimeMinutes} min`;
+    }
+
     function applyPosterFallbacks(){
       document.querySelectorAll(".poster").forEach(img => {
         const wrap = img.closest(".posterWrap");
@@ -344,6 +362,7 @@
       baseOpenMovie(id, updateHash);
       const movie = movieById(id);
       renderPrincipalCast(movie);
+      renderPresentationVersion(movie);
       if(movie && !movie.poster){
         const detail = document.getElementById("detailPoster");
         if(detail) detail.removeAttribute("src");
@@ -352,7 +371,9 @@
     };
 
     if(activeMovieId){
-      renderPrincipalCast(movieById(activeMovieId));
+      const movie = movieById(activeMovieId);
+      renderPrincipalCast(movie);
+      renderPresentationVersion(movie);
       applyPosterFallbacks();
     }
   </script>
