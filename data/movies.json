@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "movies": [
+    {
+      "id": "back-to-the-future-1985",
+      "title": "Back to the Future",
+      "year": 1985,
+      "runtimeMinutes": 116,
+      "version": "Theatrical Cut",
+      "tmdbId": 105,
+      "poster": "https://image.tmdb.org/t/p/w500/fNOH9f1aA7XRTzl1sAOx9iF553Q.jpg",
+      "ratings": {}
+    },
+    {
+      "id": "back-to-the-future-part-ii-1989",
+      "title": "Back to the Future Part II",
+      "year": 1989,
+      "runtimeMinutes": 108,
+      "version": "Theatrical Cut",
+      "tmdbId": 165,
+      "poster": "https://image.tmdb.org/t/p/w500/YBawEsTkUZBDajKbd5LiHkmMGf.jpg",
+      "ratings": {}
+    },
+    {
+      "id": "back-to-the-future-part-iii-1990",
+      "title": "Back to the Future Part III",
+      "year": 1990,
+      "runtimeMinutes": 118,
+      "version": "Theatrical Cut",
+      "tmdbId": 196,
+      "poster": "https://image.tmdb.org/t/p/w500/crzoVQnMzIrRfHtQw0tLBirNfVg.jpg",
+      "ratings": {}
+    }
+  ]
+}
