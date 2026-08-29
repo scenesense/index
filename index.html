@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260830-2">
+  <link rel="stylesheet" href="styles.css?v=20260830-3">
   <style>
     html,body,button,input,select,textarea,dialog{
       font-family:"Saira",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif!important;
@@ -18,7 +18,13 @@
     }
     .brandTitle{font-size:28px;font-weight:700;letter-spacing:.2px;line-height:1.1}
     .brandSub{margin-top:-2px;font-size:16px;font-weight:400;letter-spacing:.18px}
-    .cardTitle,.categoryTitle,.ratingName,.fieldLabel{font-weight:600}
+    .cardTitle,.ratingName,.fieldLabel{font-weight:600}
+    .categoryTitle{
+      font-weight:700;
+      font-variant-caps:normal!important;
+      text-transform:uppercase;
+      letter-spacing:.075em;
+    }
   </style>
 </head>
 <body>
@@ -104,7 +110,27 @@
     </form>
   </dialog>
 
-  <script src="categories.js"></script>
-  <script src="engine.js"></script>
+  <script src="categories.js?v=20260830-3"></script>
+  <script>
+    const CATEGORY_LABELS = {
+      writing:"WRITING",
+      character:"CHARACTER",
+      realism:"REALISM",
+      casting:"CASTING",
+      performance:"PERFORMANCE",
+      chemistry:"CHEMISTRY",
+      direction:"DIRECTION",
+      editing:"PACING",
+      visuals:"CINEMATOGRAPHY",
+      world:"WORLD",
+      sound:"SOUND",
+      music:"MUSIC",
+      creativity:"ORIGINALITY",
+      morality:"MORALITY",
+      integrity:"INTEGRITY"
+    };
+    CATEGORIES.forEach(category => { category.title = CATEGORY_LABELS[category.key] || category.title; });
+  </script>
+  <script src="engine.js?v=20260830-3"></script>
 </body>
 </html>
