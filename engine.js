@@ -192,6 +192,12 @@ function utf8ToBase64(text){
   return btoa(binary);
 }
 
+function base64ToUtf8(text){
+  const binary=atob(String(text || "").replace(/\s/g,""));
+  const bytes=Uint8Array.from(binary,ch=>ch.charCodeAt(0));
+  return new TextDecoder().decode(bytes);
+}
+
 async function validateToken(token){
   const res=await fetch(`https://api.github.com/repos/${REPO}`,{
     headers:{
@@ -230,18 +236,43 @@ async function saveData(){
   btn.disabled=true;
   $("saveStatus").textContent="Saving…";
   try{
+    const changedIds=(data?.movies || []).filter(localMovie=>{
+      const savedMovie=savedData?.movies?.find(m=>m.id===localMovie.id);
+      return JSON.stringify(localMovie.ratings || {}) !== JSON.stringify(savedMovie?.ratings || {});
+    }).map(m=>m.id);
+
+    if(!changedIds.length){
+      dirty=false;
+      $("saveStatus").textContent="Nothing to save.";
+      renderMovie();
+      return;
+    }
+
     const headers={
       "Accept":"application/vnd.github+json",
       "Authorization":`Bearer ${adminToken}`,
       "X-GitHub-Api-Version":"2022-11-28"
     };
-    const metaRes=await fetch(`https://api.github.com/repos/${REPO}/contents/${DATA_PATH}?ref=${encodeURIComponent(BRANCH)}`,{headers});
+    const metaRes=await fetch(`https://api.github.com/repos/${REPO}/contents/${DATA_PATH}?ref=${encodeURIComponent(BRANCH)}`,{headers,cache:"no-store"});
     if(!metaRes.ok) throw new Error(`Could not read current data file (${metaRes.status}).`);
     const meta=await metaRes.json();
+    const remoteData=JSON.parse(base64ToUtf8(meta.content));
+    remoteData.movies ||= [];
+
+    changedIds.forEach(id=>{
+      const localMovie=data.movies.find(m=>m.id===id);
+      if(!localMovie) return;
+      const remoteMovie=remoteData.movies.find(m=>m.id===id);
+      if(remoteMovie){
+        remoteMovie.ratings=deepClone(localMovie.ratings || {});
+      }else{
+        remoteData.movies.push(deepClone(localMovie));
+      }
+    });
 
     const payload={
       message:`Update SceneSense scores${activeMovieId ? `: ${movieById(activeMovieId)?.title || activeMovieId}` : ""}`,
-      content:utf8ToBase64(JSON.stringify(data,null,2)+"\n"),
+      content:utf8ToBase64(JSON.stringify(remoteData,null,2)+"\n"),
       sha:meta.sha,
       branch:BRANCH
     };
@@ -255,7 +286,9 @@ async function saveData(){
       try{ detail=(await saveRes.json()).message || ""; }catch{}
       throw new Error(`GitHub save failed (${saveRes.status})${detail?`: ${detail}`:""}`);
     }
-    savedData=deepClone(data);
+
+    data=deepClone(remoteData);
+    savedData=deepClone(remoteData);
     dirty=false;
     $("saveStatus").textContent="Saved. GitHub Pages will update shortly.";
     renderMovie();
