@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260830-4">
+  <link rel="stylesheet" href="styles.css?v=20260830-5">
   <style>
     html,body,button,input,select,textarea,dialog{
       font-family:"Saira",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif!important;
@@ -52,7 +52,7 @@
     }
     .categoryWeight{
       display:block!important;
-      margin-top:10px!important;
+      margin-top:12px!important;
       font-size:12px!important;
       line-height:1;
     }
@@ -74,8 +74,11 @@
     }
     .ratingName{
       min-width:0;
+      width:max-content;
+      max-width:100%;
       font-size:15px;
       line-height:1.15;
+      cursor:help;
     }
     .stars{
       min-width:0!important;
@@ -112,13 +115,12 @@
       transition:opacity .12s ease,transform .12s ease,visibility .12s ease;
       pointer-events:none;
     }
-    .ratingRow:hover{z-index:90}
-    .ratingRow:hover .ratingQuestion,
-    .ratingRow:focus-within .ratingQuestion{
+    .ratingName:hover + .ratingQuestion{
       opacity:1;
       visibility:visible;
       transform:translateY(0);
     }
+    .ratingRow:has(.ratingName:hover){z-index:90}
 
     @media(max-width:1250px){
       .categories{grid-template-columns:repeat(2,minmax(0,1fr))!important}
@@ -213,7 +215,7 @@
     </form>
   </dialog>
 
-  <script src="categories.js?v=20260830-4"></script>
+  <script src="categories.js?v=20260830-5"></script>
   <script>
     const CATEGORY_LABELS = {
       writing:"WRITING",
@@ -234,6 +236,23 @@
     };
     CATEGORIES.forEach(category => { category.title = CATEGORY_LABELS[category.key] || category.title; });
   </script>
-  <script src="engine.js?v=20260830-4"></script>
+  <script src="engine.js?v=20260830-5"></script>
+  <script>
+    /* Preserve whichever categories are open across star-click rerenders. */
+    const baseRenderMovie = renderMovie;
+    let preservedOpenCategories = new Set(["writing"]);
+    renderMovie = function(){
+      const existing = [...document.querySelectorAll(".category.open")];
+      if(existing.length || document.querySelector(".category")){
+        preservedOpenCategories = new Set(existing.map(el => el.dataset.category));
+      }
+      baseRenderMovie();
+      document.querySelectorAll(".category").forEach(section => {
+        const isOpen = preservedOpenCategories.has(section.dataset.category);
+        section.classList.toggle("open", isOpen);
+        section.querySelector(".categoryHeader")?.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      });
+    };
+  </script>
 </body>
 </html>
