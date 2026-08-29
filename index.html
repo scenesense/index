@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260830-3">
+  <link rel="stylesheet" href="styles.css?v=20260830-4">
   <style>
     html,body,button,input,select,textarea,dialog{
       font-family:"Saira",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif!important;
@@ -19,11 +19,114 @@
     .brandTitle{font-size:28px;font-weight:700;letter-spacing:.2px;line-height:1.1}
     .brandSub{margin-top:-2px;font-size:16px;font-weight:400;letter-spacing:.18px}
     .cardTitle,.ratingName,.fieldLabel{font-weight:600}
+
+    /* Compact scoring grid */
+    .categories{
+      display:grid!important;
+      grid-template-columns:repeat(3,minmax(0,1fr))!important;
+      gap:16px!important;
+      align-items:start;
+    }
+    .category{
+      position:relative;
+      overflow:visible!important;
+      min-width:0;
+    }
+    .category:hover{z-index:20}
+    .categoryHeader{
+      grid-template-columns:40px minmax(0,1fr) auto!important;
+      gap:12px!important;
+      padding:15px 15px 14px!important;
+      cursor:default!important;
+      pointer-events:none;
+    }
     .categoryTitle{
-      font-weight:700;
+      display:block!important;
+      font-weight:700!important;
       font-variant-caps:normal!important;
-      text-transform:uppercase;
-      letter-spacing:.075em;
+      font-synthesis-small-caps:none!important;
+      text-transform:uppercase!important;
+      letter-spacing:.075em!important;
+      font-size:18px!important;
+      line-height:1.05;
+    }
+    .categoryWeight{
+      display:block!important;
+      margin-top:10px!important;
+      font-size:12px!important;
+      line-height:1;
+    }
+    .categoryChevron{display:none!important}
+    .categoryBody{
+      display:block!important;
+      border-top:1px solid rgba(255,255,255,.07)!important;
+      overflow:visible!important;
+    }
+    .ratingRow{
+      position:relative;
+      display:grid!important;
+      grid-template-columns:minmax(0,1fr) auto!important;
+      align-items:center!important;
+      gap:10px!important;
+      padding:11px 13px!important;
+      min-height:48px;
+      overflow:visible!important;
+    }
+    .ratingName{
+      min-width:0;
+      font-size:15px;
+      line-height:1.15;
+    }
+    .stars{
+      min-width:0!important;
+      justify-content:flex-end!important;
+      gap:0!important;
+    }
+    .star{
+      width:27px!important;
+      height:31px!important;
+      font-size:26px!important;
+    }
+    .ratingQuestion{
+      position:absolute!important;
+      left:12px;
+      right:12px;
+      top:calc(100% - 3px);
+      z-index:100;
+      padding:10px 12px;
+      border:1px solid rgba(255,255,255,.16);
+      border-radius:11px;
+      background:rgba(7,11,18,.97);
+      box-shadow:0 12px 34px rgba(0,0,0,.48);
+      color:#d7e0ec!important;
+      font-size:14px!important;
+      font-weight:400!important;
+      line-height:1.35!important;
+      font-variant-caps:normal!important;
+      font-synthesis-small-caps:none!important;
+      text-transform:none!important;
+      letter-spacing:0!important;
+      opacity:0;
+      visibility:hidden;
+      transform:translateY(-4px);
+      transition:opacity .12s ease,transform .12s ease,visibility .12s ease;
+      pointer-events:none;
+    }
+    .ratingRow:hover{z-index:90}
+    .ratingRow:hover .ratingQuestion,
+    .ratingRow:focus-within .ratingQuestion{
+      opacity:1;
+      visibility:visible;
+      transform:translateY(0);
+    }
+
+    @media(max-width:1250px){
+      .categories{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+    }
+    @media(max-width:760px){
+      .categories{grid-template-columns:1fr!important}
+      .ratingRow{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important}
+      .categoryWeight{display:block!important}
     }
   </style>
 </head>
@@ -110,7 +213,7 @@
     </form>
   </dialog>
 
-  <script src="categories.js?v=20260830-3"></script>
+  <script src="categories.js?v=20260830-4"></script>
   <script>
     const CATEGORY_LABELS = {
       writing:"WRITING",
@@ -131,6 +234,6 @@
     };
     CATEGORIES.forEach(category => { category.title = CATEGORY_LABELS[category.key] || category.title; });
   </script>
-  <script src="engine.js?v=20260830-3"></script>
+  <script src="engine.js?v=20260830-4"></script>
 </body>
 </html>
