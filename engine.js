@@ -1,6 +1,7 @@
 const $ = (id) => document.getElementById(id);
 let data = null;
 let savedData = null;
+let runtimeManifest = [];
 let activeMovieId = null;
 let adminToken = "";
 let dirty = false;
@@ -30,10 +31,46 @@ function overallScore(movie){
 }
 function scoreText(value){ return value == null ? "—" : value.toFixed(1); }
 
+function normalizeRuntimeKey(value){
+  return String(value ?? "")
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "");
+}
+function runtimeKey(item){
+  return `${item.year}|${normalizeRuntimeKey(item.title)}|${normalizeRuntimeKey(item.version)}`;
+}
+function applyRuntimeManifest(targetData, manifest){
+  const byKey = new Map((manifest || []).map(item => [runtimeKey(item), item]));
+  let matched = 0;
+  (targetData?.movies || []).forEach(movie => {
+    const exact = byKey.get(runtimeKey(movie));
+    if(!exact) return;
+    matched += 1;
+    movie.runtimeSeconds = Number(exact.runtimeSeconds);
+    movie.runtimeExact = exact.runtimeExact;
+    movie.runtimeMinutes = Math.floor((movie.runtimeSeconds + 30) / 60);
+  });
+  if(targetData?.movies?.length && matched !== targetData.movies.length){
+    console.warn(`Exact runtime manifest matched ${matched}/${targetData.movies.length} movies.`);
+  }
+}
+function runtimeText(movie){
+  return movie?.runtimeExact || `${movie?.runtimeMinutes ?? "—"} min`;
+}
+
 async function loadData(){
-  const response = await fetch(`data/movies.json?v=${Date.now()}`, {cache:"no-store"});
-  if(!response.ok) throw new Error(`Could not load movie data (${response.status})`);
-  data = await response.json();
+  const stamp = Date.now();
+  const [movieResponse, runtimeResponse] = await Promise.all([
+    fetch(`data/movies.json?v=${stamp}`, {cache:"no-store"}),
+    fetch(`data/exact_runtimes_manifest.json?v=${stamp}`, {cache:"no-store"})
+  ]);
+  if(!movieResponse.ok) throw new Error(`Could not load movie data (${movieResponse.status})`);
+  if(!runtimeResponse.ok) throw new Error(`Could not load exact runtimes (${runtimeResponse.status})`);
+  data = await movieResponse.json();
+  runtimeManifest = await runtimeResponse.json();
+  applyRuntimeManifest(data, runtimeManifest);
   savedData = deepClone(data);
   $("sort").value = sortMode;
   renderLibrary();
@@ -63,7 +100,7 @@ function renderLibrary(){
       </div>
       <div class="cardInfo">
         <div class="cardTitle">${escapeHtml(m.title)}</div>
-        <div class="cardMeta">${m.year} · ${m.runtimeMinutes} min · ${escapeHtml(m.version)}</div>
+        <div class="cardMeta">${m.year} · ${escapeHtml(runtimeText(m))} · ${escapeHtml(m.version)}</div>
       </div>
     </button>`).join("");
   document.querySelectorAll(".movieCard").forEach(btn => btn.addEventListener("click",()=>openMovie(btn.dataset.movie)));
@@ -75,7 +112,7 @@ function renderLibrary(){
       const movie=movieById(card.dataset.movie);
       if(!movie) return;
       const meta=card.querySelector(".cardMeta");
-      if(meta) meta.textContent=`${movie.year} · ${movie.runtimeMinutes} min · ${movie.version}`;
+      if(meta) meta.textContent=`${movie.year} · ${runtimeText(movie)} · ${movie.version}`;
       card.querySelector(".cardDescription")?.remove();
       card.querySelector(".cardVersion")?.remove();
     });
@@ -97,7 +134,7 @@ function openMovie(id, updateHash=true){
   $("detailPoster").src = movie.poster;
   $("detailPoster").alt = `${movie.title} poster`;
   $("detailTitle").textContent = movie.title;
-  $("detailMeta").textContent = `${movie.year} · ${movie.runtimeMinutes} min · ${movie.version}`;
+  $("detailMeta").textContent = `${movie.year} · ${runtimeText(movie)} · ${movie.version}`;
   renderMovie();
   scrollTo({top:0,behavior:"instant"});
 
@@ -108,7 +145,7 @@ function openMovie(id, updateHash=true){
     if(!current) return;
     const meta=$("detailMeta");
     if(meta){
-      meta.textContent=`${current.year} · ${current.runtimeMinutes} min · ${current.version}`;
+      meta.textContent=`${current.year} · ${runtimeText(current)} · ${current.version}`;
       meta.style.color="#aab4c2";
     }
     const separateVersion=$("detailVersion");
@@ -313,7 +350,8 @@ async function saveData(){
     }
 
     data=deepClone(remoteData);
-    savedData=deepClone(remoteData);
+    applyRuntimeManifest(data, runtimeManifest);
+    savedData=deepClone(data);
     dirty=false;
     $("saveStatus").textContent="Saved. GitHub Pages will update shortly.";
     renderMovie();
