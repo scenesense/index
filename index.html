@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260830-8">
+  <link rel="stylesheet" href="styles.css?v=20260830-9">
   <style>
     html,body,button,input,select,textarea,dialog{
       font-family:"Saira",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif!important;
@@ -20,9 +20,7 @@
     .brandSub{margin-top:-2px;font-size:16px;font-weight:400;letter-spacing:.18px}
     .cardTitle,.ratingName,.fieldLabel{font-weight:600}
 
-    .movieSummary h1{
-      margin:8px 0 0!important;
-    }
+    .movieSummary h1{margin:8px 0 0!important}
     .detailSubtitle{
       margin-top:6px;
       font-size:clamp(23px,3.2vw,40px);
@@ -34,6 +32,7 @@
     .movieSummary .eyebrow{
       margin-top:12px;
       margin-bottom:18px;
+      color:#aab4c2!important;
     }
     .detailDescription{
       max-width:820px;
@@ -71,16 +70,6 @@
       text-transform:uppercase!important;
       letter-spacing:.07em!important;
     }
-    .detailVersion{
-      margin-top:18px;
-      color:rgba(214,223,235,.58);
-      font-size:13px;
-      font-weight:400;
-      font-variant-caps:normal!important;
-      font-synthesis-small-caps:none!important;
-      text-transform:none!important;
-      letter-spacing:0!important;
-    }
 
     .cardSubtitle{
       margin-top:3px;
@@ -88,31 +77,6 @@
       font-size:15px;
       font-weight:500;
       line-height:1.15;
-    }
-    .cardDescription{
-      display:-webkit-box;
-      -webkit-box-orient:vertical;
-      -webkit-line-clamp:3;
-      overflow:hidden;
-      margin-top:10px;
-      color:#aebccd;
-      font-size:13px;
-      font-weight:400;
-      line-height:1.42;
-      font-variant-caps:normal!important;
-      font-synthesis-small-caps:none!important;
-      text-transform:none!important;
-      letter-spacing:0!important;
-    }
-    .cardVersion{
-      margin-top:10px;
-      color:rgba(156,171,193,.68);
-      font-size:11px;
-      font-weight:400;
-      font-variant-caps:normal!important;
-      font-synthesis-small-caps:none!important;
-      text-transform:none!important;
-      letter-spacing:0!important;
     }
 
     .posterWrap.missingPoster,
@@ -252,7 +216,6 @@
       .categoryWeight{display:block!important}
       .actorChip{font-size:12px;min-height:30px}
       .detailDescription{font-size:15px}
-      .cardDescription{-webkit-line-clamp:2}
     }
   </style>
 </head>
@@ -306,18 +269,17 @@
                 <div class="progressText" id="progressText">0 / 75 rated</div>
               </div>
             </div>
-            <div class="modeNotice" id="modeNotice">Scores are read-only.</div>
-            <div class="saveRow hidden" id="saveRow">
-              <button id="saveBtn" class="button primary" type="button" disabled>Save score</button>
-              <button id="revertBtn" class="button" type="button" disabled>Revert</button>
-              <span id="saveStatus" class="saveStatus"></span>
-            </div>
-            <div id="detailVersion" class="detailVersion"></div>
           </div>
         </div>
       </div>
       <div class="categoriesWrap wrap">
         <div id="categories" class="categories"></div>
+      </div>
+      <div class="modeNotice" id="modeNotice">Scores are read-only.</div>
+      <div class="saveRow hidden" id="saveRow">
+        <button id="saveBtn" class="button primary" type="button" disabled>Save score</button>
+        <button id="revertBtn" class="button" type="button" disabled>Revert</button>
+        <span id="saveStatus" class="saveStatus"></span>
       </div>
     </section>
   </main>
@@ -364,7 +326,7 @@
     };
     CATEGORIES.forEach(category => { category.title = CATEGORY_LABELS[category.key] || category.title; });
   </script>
-  <script src="engine.js?v=20260830-7"></script>
+  <script src="engine.js?v=20260830-8"></script>
   <script>
     /* Preserve whichever categories are open across star-click rerenders. */
     const baseRenderMovie = renderMovie;
@@ -397,9 +359,8 @@
       const parts = splitDisplayTitle(movie.title);
       $("detailTitle").textContent = parts.main;
       $("detailSubtitle").textContent = parts.subtitle;
-      $("detailMeta").textContent = `${movie.year} · ${movie.runtimeMinutes} min`;
+      $("detailMeta").textContent = `${movie.year} · ${movie.runtimeMinutes} min · ${movie.version}`;
       $("detailDescription").textContent = movie.description || "";
-      $("detailVersion").textContent = movie.version || "";
     }
 
     function renderPrincipalCast(movie){
@@ -434,23 +395,7 @@
           subtitle.remove();
         }
 
-        meta.textContent = `${movie.year} · ${movie.runtimeMinutes} min`;
-
-        let description = info.querySelector(".cardDescription");
-        if(!description){
-          description = document.createElement("div");
-          description.className = "cardDescription";
-          info.append(description);
-        }
-        description.textContent = movie.description || "";
-
-        let version = info.querySelector(".cardVersion");
-        if(!version){
-          version = document.createElement("div");
-          version.className = "cardVersion";
-          info.append(version);
-        }
-        version.textContent = movie.version || "";
+        meta.textContent = `${movie.year} · ${movie.runtimeMinutes} min · ${movie.version}`;
       });
     }
 
