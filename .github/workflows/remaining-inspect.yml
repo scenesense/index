@@ -1,4 +1,4 @@
-name: Probe IMDb metadata
+name: Probe IMDb GraphQL
 
 on:
   push:
@@ -15,25 +15,40 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: pip install requests beautifulsoup4
-      - name: Probe suggestion and title JSON-LD
+      - run: pip install requests
+      - name: Probe IMDb GraphQL
         run: |
           python - <<'PY'
-          import json,requests,urllib.parse
-          from bs4 import BeautifulSoup
-          s=requests.Session(); s.headers.update({'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/131 Safari/537.36','Accept-Language':'en-US,en;q=0.9'})
-          q='In Time'
-          url='https://v3.sg.media-imdb.com/suggestion/x/'+urllib.parse.quote(q)+'.json'
-          r=s.get(url,timeout=30); print('SUGGEST',r.status_code,r.url); r.raise_for_status(); js=r.json(); print(json.dumps(js.get('d',[])[:5],ensure_ascii=False)[:4000])
-          cand=[x for x in js.get('d',[]) if x.get('y')==2011 and str(x.get('id','')).startswith('tt')]
-          x=cand[0]; tid=x['id']; print('CHOSEN',tid,x.get('l'),x.get('y'),x.get('q'),x.get('i'))
-          p=s.get(f'https://www.imdb.com/title/{tid}/',timeout=30); print('PAGE',p.status_code,len(p.text)); p.raise_for_status(); soup=BeautifulSoup(p.text,'html.parser')
-          blobs=[]
-          for tag in soup.select('script[type="application/ld+json"]'):
-              try: blobs.append(json.loads(tag.string or tag.get_text()))
-              except Exception: pass
-          print('JSONLD_COUNT',len(blobs))
-          for b in blobs:
-              if isinstance(b,dict):
-                  print('NAME',b.get('name')); print('IMAGE',b.get('image')); print('GENRE',b.get('genre')); print('DESC',b.get('description')); print('ACTORS',[a.get('name') for a in (b.get('actor') or [])[:8] if isinstance(a,dict)])
+          import json,requests
+          q='''query TitleDetail($id: ID!) {
+            title(id: $id) {
+              id
+              titleText { text }
+              titleType { id text }
+              releaseYear { year endYear }
+              runtime { seconds }
+              plot { plotText { plainText } }
+              genres { genres { text } }
+              primaryImage { url width height }
+              principalCredits {
+                category { id text }
+                credits { name { id nameText { text } } }
+              }
+            }
+          }'''
+          headers={
+            'accept':'application/graphql+json, application/json',
+            'content-type':'application/json',
+            'origin':'https://www.imdb.com',
+            'referer':'https://www.imdb.com/',
+            'x-imdb-client-name':'imdb-web-next',
+            'x-imdb-user-language':'en-US',
+            'x-imdb-user-country':'US',
+            'user-agent':'Mozilla/5.0'
+          }
+          for endpoint in ['https://caching.graphql.imdb.com/','https://api.graphql.imdb.com/']:
+            try:
+              r=requests.post(endpoint,headers=headers,json={'query':q,'variables':{'id':'tt1637688'}},timeout=30)
+              print('ENDPOINT',endpoint,'STATUS',r.status_code,'LEN',len(r.text)); print(r.text[:10000])
+            except Exception as e: print('ERROR',endpoint,repr(e))
           PY
