@@ -25,16 +25,24 @@ A poster is rejected unless it passes all of these checks:
 
 A technically valid image is not automatically an acceptable poster.
 
+## Local hosting rule
+
+Approved posters are stored in `assets/posters/` and referenced from `data/movies.json` by local path. External poster URLs are sourcing candidates only and must not remain as the production poster reference once an image has been approved.
+
+Use WebP for stored posters. Preserve useful source detail while keeping files compact; current target is approximately 1000 px maximum width at WebP quality 82 unless a smaller source makes that pointless.
+
 ## Framing rule
 
-SceneSense displays posters with `object-fit: contain` so the website must never crop or zoom poster artwork to fill the 2:3 frame. Small letterbox margins are preferable to losing part of the poster.
+SceneSense displays posters with `object-fit: cover`. Therefore the approved poster itself must already have sensible portrait framing, with enough safe margin that the 2:3 card frame does not cut off the title or important artwork. Do not solve bad source framing by switching the site to `contain`, because that creates black letterboxing across the library.
 
 ## Verification before completion
 
 - Visually inspect candidate artwork.
-- Confirm the image actually resolves.
+- Confirm the image actually resolves before localizing it.
 - Confirm full title and composition are visible.
 - Check for guns and prohibited clutter.
 - Verify thumbnail and detail framing.
+- Store the approved image locally as WebP.
+- Point `movies.json` at the local poster path.
 - Re-fetch the edited repository file after the commit.
 - Inspect the commit diff and confirm only intended data changed.
