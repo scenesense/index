@@ -67,7 +67,8 @@ function applyRuntimeManifest(targetData, manifest){
   }
 }
 function runtimeText(movie){
-  return movie?.runtimeExact || `${movie?.runtimeMinutes ?? "—"} min`;
+  const detailVisible = activeMovieId === movie?.id && !$("movieView")?.classList.contains("hidden");
+  return detailVisible && movie?.runtimeExact ? movie.runtimeExact : `${movie?.runtimeMinutes ?? "—"} min`;
 }
 
 async function loadData(){
@@ -120,8 +121,6 @@ function renderLibrary(){
     </button>`).join("");
   document.querySelectorAll(".movieCard").forEach(btn => btn.addEventListener("click",()=>openMovie(btn.dataset.movie)));
 
-  /* The enhancement layer may decorate cards after this function returns. Clean
-     them once that synchronous pass has finished so browsing cards stay compact. */
   queueMicrotask(()=>{
     document.querySelectorAll(".movieCard").forEach(card=>{
       const movie=movieById(card.dataset.movie);
@@ -153,8 +152,6 @@ function openMovie(id, updateHash=true){
   renderMovie();
   scrollTo({top:0,behavior:"instant"});
 
-  /* Restore the original year/runtime/edition metadata after the display-title
-     enhancement has run, and keep the metadata visually quiet. */
   queueMicrotask(()=>{
     const current=movieById(id);
     if(!current) return;
