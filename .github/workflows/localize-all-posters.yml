@@ -31,6 +31,9 @@ jobs:
           out.mkdir(parents=True,exist_ok=True)
           session=requests.Session()
           session.headers.update({'User-Agent':'Mozilla/5.0 SceneSensePosterBot/1.0','Accept':'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8'})
+          source_overrides={
+              'bring-it-on-2000':'https://m.media-amazon.com/images/M/MV5BYjgxNzM4YjUtZWU4NC00MzkzLWIzZGItMTE0MGU1MmJiOGY3XkEyXkFqcGc%40._V1_.jpg'
+          }
           converted=[]
           failed=[]
 
@@ -39,13 +42,11 @@ jobs:
               if not src.startswith(('http://','https://')):
                   continue
               slug=m['id']
+              src=source_overrides.get(slug,src)
               dest=out/f'{slug}.webp'
               try:
                   r=session.get(src,timeout=50,allow_redirects=True)
                   r.raise_for_status()
-                  ct=r.headers.get('content-type','').lower()
-                  if 'image' not in ct:
-                      raise RuntimeError(f'non-image content-type {ct}')
                   im=Image.open(io.BytesIO(r.content)).convert('RGB')
                   w,h=im.size
                   if w < 250 or h < 350:
@@ -76,6 +77,6 @@ jobs:
           if git diff --cached --quiet; then
             echo 'Nothing to commit'
           else
-            git commit -m 'Self-host remaining posters as WebP'
+            git commit -m 'Finish self-hosting posters as WebP'
             git push
           fi
