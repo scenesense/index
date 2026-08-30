@@ -141,7 +141,113 @@
         "Thomas F. Wilson",
         "Elisabeth Shue"
       ],
-      "ratings": {}
+      "ratings": {
+        "writing": {
+          "storyQuality": 5,
+          "storyLogic": 5,
+          "development": 5,
+          "construction": 5,
+          "dialogue": 5
+        },
+        "character": {
+          "characterDepth": 5,
+          "drive": 5,
+          "consistency": 5,
+          "practicalIntelligence": 4,
+          "maturity": 3
+        },
+        "realism": {
+          "humanRealism": 4,
+          "realityGrounding": 4,
+          "practicalRealism": 1,
+          "technicalRealism": 2,
+          "physicalRealism": 2
+        },
+        "casting": {
+          "functionalFit": 5,
+          "roleFit": 5,
+          "aesthetics": 4,
+          "magnetism": 4,
+          "ensembleFit": 5
+        },
+        "performance": {
+          "characterization": 4,
+          "emotionalLife": 5,
+          "delivery": 5,
+          "physicalPerformance": 5,
+          "performanceControl": 5
+        },
+        "chemistry": {
+          "connection": 5,
+          "flow": 5,
+          "relationshipDepth": 5,
+          "relationshipGrowth": 5,
+          "relationshipCharge": 5
+        },
+        "direction": {
+          "staging": 4,
+          "actorDirection": 4,
+          "tone": 5,
+          "action": 5,
+          "directorialControl": 5
+        },
+        "editing": {
+          "pacing": 5,
+          "rhythm": 5,
+          "cutting": 5,
+          "clarity": 4,
+          "restraint": 5
+        },
+        "visuals": {
+          "photography": 5,
+          "imageDesign": 5,
+          "imageQuality": 5,
+          "visualEffects": 5,
+          "visualBeauty": 5
+        },
+        "world": {
+          "worldDepth": 3,
+          "place": 4,
+          "productionDesign": 3,
+          "effectsRealization": 5,
+          "designRestraint": 5
+        },
+        "sound": {
+          "soundQuality": 5,
+          "dialogue": 5,
+          "soundscape": 5,
+          "spatialSound": 5,
+          "mixing": 5
+        },
+        "music": {
+          "musicQuality": 5,
+          "execution": 5,
+          "musicalIdentity": 5,
+          "sceneFit": 5,
+          "scoreControl": 5
+        },
+        "creativity": {
+          "originality": 3,
+          "ingenuity": 4,
+          "ideaGrowth": 5,
+          "filmicInvention": 3,
+          "resourcefulness": 5
+        },
+        "morality": {
+          "humanValues": 4,
+          "relationshipEthics": 4,
+          "responsibility": 5,
+          "moralOpposition": 4,
+          "ethicalFraming": 5
+        },
+        "integrity": {
+          "independence": 5,
+          "viewerRespect": 5,
+          "restraint": 5,
+          "degradation": 5,
+          "cohesion": 5
+        }
+      }
     },
     {
       "id": "back-to-the-future-iii-1990",
