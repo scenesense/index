@@ -8,7 +8,7 @@
       "runtimeMinutes": 116,
       "version": "Theatrical Cut",
       "tmdbId": 105,
-      "poster": "https://image.tmdb.org/t/p/w500/fNOH9f1aA7XRTzl1sAOx9iF553Q.jpg",
+      "poster": "assets/posters/back-to-the-future-1985.webp",
       "description": "Marty McFly is accidentally sent from 1985 to 1955 in Doc Brown’s DeLorean, where he disrupts the meeting that made his parents fall in love. To save his own existence, Marty must repair their relationship and find a way back home.",
       "actors": [
         "Michael J. Fox",
@@ -132,7 +132,7 @@
       "runtimeMinutes": 108,
       "version": "Theatrical Cut",
       "tmdbId": 165,
-      "poster": "https://image.tmdb.org/t/p/w500/hQq8xZe5uLjFzSBt4LanNP7SQjl.jpg",
+      "poster": "assets/posters/back-to-the-future-ii-1989.webp",
       "description": "Marty McFly and Doc Brown travel to 2015 to protect Marty’s future family, but Biff Tannen steals an idea that rewrites 1985 into a nightmare. Marty and Doc must untangle the altered timeline without undoing the history they already repaired.",
       "actors": [
         "Michael J. Fox",
@@ -256,7 +256,7 @@
       "runtimeMinutes": 118,
       "version": "Theatrical Cut",
       "tmdbId": 196,
-      "poster": "https://image.tmdb.org/t/p/w500/crzoVQnMzIrRfHtQw0tLBirNfVg.jpg",
+      "poster": "assets/posters/back-to-the-future-iii-1990.webp",
       "description": "After Doc Brown becomes stranded in 1885, Marty McFly travels to the Old West to bring him home before Buford ‘Mad Dog’ Tannen kills him. Their escape grows harder when Doc falls for schoolteacher Clara Clayton.",
       "actors": [
         "Michael J. Fox",
@@ -274,7 +274,7 @@
       "runtimeMinutes": 95,
       "version": "Theatrical Cut",
       "tmdbId": 19913,
-      "poster": "https://bananaroad.com/cdn/shop/products/pst0441dl_grande.jpeg?v=1464449098",
+      "poster": "assets/posters/500-days-of-summer-2009.webp",
       "description": "Greeting-card writer Tom Hansen falls for his coworker Summer Finn, who is clear that she does not believe in lasting love. Told out of order across 500 days, their relationship exposes the gap between Tom’s romantic ideal and what Summer actually promised him.",
       "actors": [
         "Joseph Gordon-Levitt",
@@ -292,7 +292,7 @@
       "runtimeMinutes": 116,
       "version": "Theatrical Cut",
       "tmdbId": 4437,
-      "poster": "https://m.media-amazon.com/images/M/MV5BZTI4YWQzYTAtMDBjOS00Yjg3LTgxZjYtNDU1NGEwN2Y1ODM1XkEyXkFqcGc%40._V1_.jpg",
+      "poster": "assets/posters/2010-the-year-we-make-contact-1984.webp",
       "description": "Dr. Heywood Floyd joins a Soviet mission to Jupiter to board the abandoned Discovery, reactivate HAL 9000 and learn what happened to Dave Bowman nine years earlier. As U.S.-Soviet tensions rise on Earth, the mission encounters a transformation around Jupiter that makes their politics suddenly very small.",
       "actors": [
         "Roy Scheider",
@@ -309,7 +309,7 @@
       "year": 2024,
       "runtimeMinutes": 90,
       "version": "Television Movie",
-      "poster": "https://www.studiotf1america.com/wp-content/uploads/2025/02/90.png",
+      "poster": "assets/posters/a-90s-christmas-2024.webp",
       "description": "Workaholic lawyer Lucy Miller celebrates a promotion alone on Christmas Eve when a mysterious rideshare sends her back to Christmas 1999. Reunited with her family, best friend Grace and high-school love Matt, Lucy gets a chance to see exactly how the relationships in her present were lost.",
       "actors": [
         "Eva Bourne",
@@ -326,7 +326,7 @@
       "year": 2023,
       "runtimeMinutes": 84,
       "version": "Television Movie",
-      "poster": "https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak%3D/v3/t/assets/p25791483_v_v12_aa.jpg",
+      "poster": "assets/posters/a-biltmore-christmas-2023.webp",
       "description": "Screenwriter Lucy Hardgrove is sent to the Biltmore Estate while rewriting a remake of the 1947 Christmas classic His Merry Wife! An antique hourglass carries her onto the original film set, where she meets star Jack Huston and risks changing the movie, and her own future.",
       "actors": [
         "Bethany Joy Lenz",
@@ -344,7 +344,7 @@
       "runtimeMinutes": 108,
       "version": "Theatrical Cut",
       "tmdbId": 70736,
-      "poster": "https://image.tmdb.org/t/p/original/4g0zKGhVWrYOV0S6GHr9RxLJio4.jpg",
+      "poster": "assets/posters/a-bird-of-the-air-2011.webp",
       "description": "Night-shift highway worker Lyman lives almost entirely alone until a stray talking parrot lands in his trailer. Fiona, an impulsive librarian, persuades him to trace the bird’s cryptic phrases back to its owner, pulling Lyman into other people’s lives and toward the history he avoids.",
       "actors": [
         "Rachel Nichols",
@@ -362,7 +362,7 @@
       "runtimeMinutes": 84,
       "version": "Television Movie",
       "tmdbId": 147132,
-      "poster": "https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak%3D/v3/t/assets/p9495753_p_v8_ad.jpg",
+      "poster": "assets/posters/a-bride-for-christmas-2012.webp",
       "description": "Jessie Patterson calls off her third engagement at the altar and swears she will marry only when she is certain. Meanwhile, chronic bachelor Aiden MacTiernan bets his friends he can get a woman to accept a proposal by Christmas, and unknowingly chooses Jessie as his target.",
       "actors": [
         "Arielle Kebbel",
@@ -380,7 +380,7 @@
       "runtimeMinutes": 108,
       "version": "Theatrical Cut",
       "tmdbId": 20813,
-      "poster": "https://m.media-amazon.com/images/M/MV5BNWJhZDE5MzItODM1Yi00MjlkLTk2NDgtYTFjOWM5MTA2NTlkXkEyXkFqcGc%40._V1_.jpg",
+      "poster": "assets/posters/a-little-romance-1979.webp",
       "description": "Bookish American Lauren King and movie-loving Parisian Daniel Michon, both 13, fall in love in Paris. When Lauren learns she must return to America, eccentric elderly Julius Santorin helps them escape toward Venice to test a legend about a kiss beneath the Bridge of Sighs.",
       "actors": [
         "Laurence Olivier",
@@ -397,7 +397,7 @@
       "year": 2023,
       "runtimeMinutes": 84,
       "version": "Television Movie",
-      "poster": "https://www.fakta.id/media/uploads/166/084b3bb5fad792936d03e20e23ee28ea.jpg",
+      "poster": "assets/posters/a-picture-of-her-2023.webp",
       "description": "Beth, a first mate on her father’s salmon boat, visits Los Angeles and unknowingly becomes the subject of photographer Jake Driver’s candid shot at a flower market. The image becomes a magazine-cover sensation just as Beth begins getting close to Jake without knowing he took it.",
       "actors": [
         "Rhiannon Fish",
@@ -415,7 +415,7 @@
       "runtimeMinutes": 121,
       "version": "Special Edition",
       "tmdbId": 348,
-      "poster": "https://image.tmdb.org/t/p/original/7JqXmi6fUrUjOHxmu30CAc8SnXn.jpg",
+      "poster": "assets/posters/alien-1979.webp",
       "description": "The crew of the commercial starship Nostromo diverts to investigate a signal from an unknown moon. After Kane is brought back aboard with a strange organism attached to him, warrant officer Ellen Ripley and the remaining crew discover they are trapped in deep space with a rapidly growing predator.",
       "actors": [
         "Tom Skerritt",
@@ -451,7 +451,7 @@
       "runtimeMinutes": 90,
       "version": "Television Movie",
       "tmdbId": 481439,
-      "poster": "https://m.media-amazon.com/images/M/MV5BNTI4MGJjM2MtNjY4ZS00YjNjLThlNzctZjVhZmM4ZDNlNmZlXkEyXkFqcGc%40._V1_.jpg",
+      "poster": "assets/posters/an-hour-behind-2017.webp",
       "description": "Pastry chef Trish Harper forgets the daylight-saving time change and arrives an hour late for a blind date, where she mistakes paramedic Parker for the man her sister chose. The accidental date works far better than the planned one, but Parker carries a private loss Trish does not yet understand.",
       "actors": [
         "Emily Rose",
@@ -469,7 +469,7 @@
       "runtimeMinutes": 108,
       "version": "Theatrical Cut",
       "tmdbId": 1947,
-      "poster": "https://image.tmdb.org/t/p/original/7ugLG1yF1l8HWYhmdmHHSC3kJ8b.jpg",
+      "poster": "assets/posters/an-unfinished-life-2005.webp",
       "description": "Jean Gilkyson flees an abusive boyfriend with her daughter Griff and seeks refuge at the Wyoming ranch of her estranged father-in-law, Einar. Einar still blames Jean for his son’s death, while his injured friend Mitch quietly pushes the household toward forgiveness.",
       "actors": [
         "Robert Redford",
@@ -487,7 +487,7 @@
       "runtimeMinutes": 109,
       "version": "Theatrical Cut",
       "tmdbId": 6488,
-      "poster": "https://www.originalfilmart.com/cdn/shop/products/Arachnophobia_1990_original_film_art_c79e4bd4-34ec-483b-8295-00c79d103ebb_2000x.jpg?v=1590958262",
+      "poster": "assets/posters/arachnophobia-1990.webp",
       "description": "Dr. Ross Jennings moves his family from San Francisco to the small town of Canaima, hoping to build a quieter medical practice despite his lifelong fear of spiders. Then a lethal Venezuelan spider arrives hidden in a coffin, breeds near his new home and leaves deaths no one else can explain.",
       "actors": [
         "Jeff Daniels",
@@ -505,7 +505,7 @@
       "runtimeMinutes": 139,
       "version": "Theatrical Cut",
       "tmdbId": 13491,
-      "poster": "https://image.tmdb.org/t/p/w780/pbLOWq0vlc3Y6beOj0p5LehlUQy.jpg",
+      "poster": "assets/posters/arn-i-tempelriddaren-2007.webp",
       "description": "Arn Magnusson is raised by Cistercian monks and trained as a warrior before returning to a Sweden divided by rival dynasties. His love for Cecilia Algotsdotter and loyalty to Knut Eriksson bring church punishment that sends Arn to serve as a Knight Templar in the Holy Land.",
       "actors": [
         "Joakim Nätterqvist",
@@ -523,7 +523,7 @@
       "runtimeMinutes": 128,
       "version": "Theatrical Cut",
       "tmdbId": 13522,
-      "poster": "https://image.tmdb.org/t/p/original/6yu0RmSffk4sVeEGIRO1LSvtYvq.jpg",
+      "poster": "assets/posters/arn-ii-riket-vid-vagens-slut-2008.webp",
       "description": "After years as a Templar commander in the Holy Land, Arn Magnusson survives the Crusaders’ defeat and is finally allowed to return to Sweden. Reunited with Cecilia, he builds a new life at Forsvik, only to be drawn into the struggle that will decide Sweden’s future.",
       "actors": [
         "Joakim Nätterqvist",
@@ -541,7 +541,7 @@
       "runtimeMinutes": 140,
       "version": "Theatrical Cut",
       "tmdbId": 272,
-      "poster": "https://m.media-amazon.com/images/M/MV5BMjQ3OTcyOGMtMzAwYy00ZDg5LWIzMWUtM2I4MjQ0YjY5ZjdlXkEyXkFqcGc%40._V1_.jpg",
+      "poster": "assets/posters/batman-begins-2005.webp",
       "description": "After years abroad confronting the criminal world, Bruce Wayne returns to Gotham and creates Batman with help from Alfred Pennyworth and Lucius Fox. As Dr. Jonathan Crane spreads a fear toxin through the city, Bruce discovers that Henri Ducard and the League of Shadows have a larger plan for Gotham.",
       "actors": [
         "Christian Bale",
@@ -577,7 +577,7 @@
       "runtimeMinutes": 98,
       "version": "Theatrical Cut",
       "tmdbId": 397837,
-      "poster": "https://image.tmdb.org/t/p/original/eowzonDJMCuNXoJGVkP9Z7oCmiM.jpg",
+      "poster": "assets/posters/before-i-fall-2017.webp",
       "description": "Samantha Kingston dies after a party and wakes to relive February 12 again and again. Repeating the same day forces her to reconsider Lindsay, Rob, Kent and the group’s treatment of Juliet Sykes as she searches for the choice that can change what happens.",
       "actors": [
         "Zoey Deutch",
@@ -595,7 +595,7 @@
       "runtimeMinutes": 130,
       "version": "Director's Cut",
       "tmdbId": 2280,
-      "poster": "https://images.plex.tv/photo?scale=2&size=large-480&url=https%3A%2F%2Fmetadata-static.plex.tv%2F5%2Fgracenote%2F5522d34dd1e8bba72a617ffdce02c4ec.jpg",
+      "poster": "assets/posters/big-1988.webp",
       "description": "Twelve-year-old Josh Baskin makes a wish at a Zoltar machine and wakes in the body of an adult. With his friend Billy searching for the machine, Josh finds work at MacMillan Toy Company, wins the trust of owner MacMillan and becomes close to coworker Susan Lawrence while trying to get his childhood back.",
       "actors": [
         "Tom Hanks",
@@ -613,7 +613,7 @@
       "runtimeMinutes": 100,
       "version": "Theatrical Cut",
       "tmdbId": 14347,
-      "poster": "https://image.tmdb.org/t/p/original/kl0GeX6ZIueFWUVZsABqlY6YZrg.jpg",
+      "poster": "assets/posters/blame-it-on-rio-1984.webp",
       "description": "Matthew Hollis vacations in Rio with his friend Victor Lyons and their daughters Nicole and Jennifer. Matthew begins a secret affair with Jennifer, while an unsuspecting Victor becomes obsessed with finding the older man involved with his daughter.",
       "actors": [
         "Michael Caine",
@@ -685,7 +685,7 @@
       "runtimeMinutes": 117,
       "version": "Theatrical Cut",
       "tmdbId": 920,
-      "poster": "https://cdn.shopify.com/s/files/1/1416/8662/products/cars_2006_advance_original_film_art_52a514b9-58fc-4c90-bb28-cb40a1f9988c_1200x.jpg?v=1575238315",
+      "poster": "assets/posters/cars-2006.webp",
       "description": "Rookie race car Lightning McQueen gets stranded in Radiator Springs while traveling to a Piston Cup tiebreaker. Forced to repair the town’s road under Doc Hudson’s watch, Lightning befriends Sally and Mater and discovers that winning is not the only thing worth chasing.",
       "actors": [
         "Owen Wilson",
@@ -703,7 +703,7 @@
       "runtimeMinutes": 112,
       "version": "Theatrical Cut",
       "tmdbId": 9681,
-      "poster": "https://es.web.img3.acsta.net/medias/nmedia/18/36/01/81/18447577.jpg",
+      "poster": "assets/posters/casanova-2005.webp",
       "description": "In Venice, Giacomo Casanova becomes fascinated by outspoken Francesca Bruni, one woman unimpressed by his reputation. Pursuing her while hiding behind false identities draws him into conflict with Bishop Pucci, Francesca’s intended husband Paprizzio and the consequences of his own habits.",
       "actors": [
         "Heath Ledger",
@@ -756,7 +756,7 @@
       "year": 1976,
       "runtimeMinutes": 74,
       "version": "Television Movie",
-      "poster": "https://image.tmdb.org/t/p/original/5gGiqH3EHO7vdS84zIt15QYk2Cq.jpg",
+      "poster": "assets/posters/charlies-angels-1976.webp",
       "description": "Charlie Townsend sends Sabrina Duncan, Jill Munroe and Kelly Garrett to wine country to learn what happened to Vincent Le Mer before he is declared legally dead and his estate is divided. The Angels go undercover among the competing heirs while Bosley and Scott Woodville support the investigation.",
       "actors": [
         "Kate Jackson",
@@ -773,7 +773,7 @@
       "year": 2012,
       "runtimeMinutes": 88,
       "version": "Television Movie",
-      "poster": "https://m.media-amazon.com/images/S/pv-target-images/ac466c78a4c329c6a25864dcb1de8fff0a131e7f03c2d38f871da4973ee37f58.jpg",
+      "poster": "assets/posters/christmas-with-holly-2012.webp",
       "description": "After six-year-old Holly stops speaking following her mother’s death, her uncle Mark Nagle moves with her to Friday Harbor to live with his brothers Alex and Scott. Newcomer Maggie Conway opens a toy shop nearby and gradually connects with Holly and Mark as Christmas approaches.",
       "actors": [
         "Sean Faris",
@@ -791,7 +791,7 @@
       "runtimeMinutes": 85,
       "version": "Online Release",
       "tmdbId": 1195469,
-      "poster": "https://images.justwatch.com/poster/322862032/s718/christmas-with-the-knightlys.jpg",
+      "poster": "assets/posters/christmas-with-the-knightlys-2023.webp",
       "description": "Schoolteacher Georgia Jackson wants to save her students’ Christmas showcase and secure a new community center. When the press mistakes her for billionaire heir Chase Knightly’s girlfriend, Georgia agrees to continue the fake relationship in exchange for his family’s support, only for the arrangement to become less artificial.",
       "actors": [
         "Celeste Desjardins",
@@ -809,7 +809,7 @@
       "runtimeMinutes": 118,
       "version": "Theatrical Cut",
       "tmdbId": 50646,
-      "poster": "https://image.tmdb.org/t/p/original/coKTdJdnl3XcxWY9ofyfkf05rYP.jpg",
+      "poster": "assets/posters/crazy-stupid-love-2011.webp",
       "description": "Cal Weaver’s marriage collapses when Emily asks for a divorce, leaving him adrift until smooth bachelor Jacob Palmer decides to rebuild his dating life. Jacob then unexpectedly falls for Hannah, while Cal’s son Robbie pursues Jessica, tying several seemingly separate romances back into the same family.",
       "actors": [
         "Steve Carell",
@@ -826,7 +826,7 @@
       "year": 2008,
       "runtimeMinutes": 88,
       "version": "Television Movie",
-      "poster": "https://image.tmdb.org/t/p/w780/hMhLX6t3C5xAmPqqHoD6ddcwI3I.jpg",
+      "poster": "assets/posters/crusoe-2008.webp",
       "description": "Years after being shipwrecked, Robinson Crusoe survives on a tropical island with his friend Friday while holding onto memories of his wife Susannah. When armed outsiders arrive, Crusoe and Friday are drawn into a new fight over the island and another fragile possibility of getting Crusoe home.",
       "actors": [
         "Philip Winchester",
