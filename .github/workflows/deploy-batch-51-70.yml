@@ -13,28 +13,26 @@ jobs:
       - name: Add exactly 20 movies
         run: |
           python - <<'PY'
-          import json,subprocess
+          import base64,gzip,json,subprocess
           from pathlib import Path
           src='fa01afc2e554d801b282e69cae6d5fc237158549'
-          ids='half-light-2006 heaven-can-wait-1943 holiday-engagement-2011 in-a-world-2013 in-time-2011 indiana-jones-the-last-crusade-1989 indiana-jones-raiders-of-the-lost-ark-1981 john-tucker-must-die-2006 jurassic-park-1993 just-in-time-for-christmas-2015 k-19-the-widowmaker-2002 kate-and-leopold-2001 king-kong-1976 king-solomons-mines-i-2004 king-solomons-mines-ii-2004 leaving-d-c-2012 love-actually-2003 master-and-commander-2003 me-before-you-2016 minuscule-2013'.split()
-          p=Path('data/movies.json'); data=json.loads(p.read_text())
-          assert len(data['movies'])==50
-          hist=json.loads(subprocess.check_output(['git','show',f'{src}:data/movies.json']))
-          byid={m['id']:m for m in hist['movies']}; batch=[byid[i] for i in ids]
-          assert len(batch)==20 and not ({m['id'] for m in data['movies']} & set(ids))
+          data_path=Path('data/movies.json')
+          data=json.loads(data_path.read_text(encoding='utf-8'))
+          batch=json.loads(gzip.decompress(base64.b64decode(Path('data/batch51_70.payload').read_text())).decode())['movies']
+          assert len(data['movies'])==50 and len(batch)==20
+          ids={m['id'] for m in data['movies']}; assert not ids.intersection(m['id'] for m in batch)
           for m in batch:
-            m['ratings']={}
             out=Path(m['poster']); out.parent.mkdir(parents=True,exist_ok=True)
             out.write_bytes(subprocess.check_output(['git','show',f'{src}:{m["poster"]}']))
           data['movies'].extend(batch); assert len(data['movies'])==70
-          p.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
-          for f in ['data/movies-batch-51-70.json','BATCH_51_70_BUNDLE.zip','data/batch51chunks/1.json','.github/workflows/deploy-batch-51-70.yml']:
-            q=Path(f)
-            if q.exists(): q.unlink()
+          data_path.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          for f in ['data/batch51_70.payload','data/movies-batch-51-70.json','BATCH_51_70_BUNDLE.zip','data/batch51chunks/1.json','.github/workflows/deploy-batch-51-70.yml']:
+            p=Path(f)
+            if p.exists(): p.unlink()
           PY
           git config user.name 'SceneSense Library Bot'
           git config user.email 'actions@users.noreply.github.com'
           git add -A
           git commit -m 'Add SceneSense movies 51-70 with local posters'
           git push origin HEAD:main
-# trigger
+# run4
