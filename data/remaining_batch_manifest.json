@@ -1,0 +1,947 @@
+[
+  {
+    "title": "Half Light",
+    "year": 2006,
+    "version": "Theatrical Cut",
+    "displayTitle": "Half Light",
+    "query": "Half Light",
+    "runtimeSeconds": 6599,
+    "runtimeExact": "01:49:59"
+  },
+  {
+    "title": "Heaven Can Wait",
+    "year": 1943,
+    "version": "Theatrical Cut",
+    "displayTitle": "Heaven Can Wait",
+    "query": "Heaven Can Wait",
+    "runtimeSeconds": 6766,
+    "runtimeExact": "01:52:46"
+  },
+  {
+    "title": "Holiday Engagement",
+    "year": 2011,
+    "version": "Television Movie",
+    "displayTitle": "Holiday Engagement",
+    "query": "Holiday Engagement",
+    "runtimeSeconds": 5511,
+    "runtimeExact": "01:31:51"
+  },
+  {
+    "title": "In a World",
+    "year": 2013,
+    "version": "Theatrical Cut",
+    "displayTitle": "In a World",
+    "query": "In a World...",
+    "runtimeSeconds": 5577,
+    "runtimeExact": "01:32:57"
+  },
+  {
+    "title": "In Time",
+    "year": 2011,
+    "version": "Theatrical Cut",
+    "displayTitle": "In Time",
+    "query": "In Time",
+    "runtimeSeconds": 6556,
+    "runtimeExact": "01:49:16"
+  },
+  {
+    "title": "Indiana Jones and the Last Crusade",
+    "year": 1989,
+    "version": "Theatrical Cut",
+    "displayTitle": "Indiana Jones: The Last Crusade",
+    "query": "Indiana Jones and the Last Crusade",
+    "runtimeSeconds": 7611,
+    "runtimeExact": "02:06:51",
+    "sortTitle": "Indiana Jones 03"
+  },
+  {
+    "title": "Indiana Jones and the Raiders of the Lost Ark",
+    "year": 1981,
+    "version": "Theatrical Cut",
+    "displayTitle": "Indiana Jones: Raiders of the Lost Ark",
+    "query": "Raiders of the Lost Ark",
+    "runtimeSeconds": 6918,
+    "runtimeExact": "01:55:18",
+    "sortTitle": "Indiana Jones 01"
+  },
+  {
+    "title": "John Tucker Must Die",
+    "year": 2006,
+    "version": "Theatrical Cut",
+    "displayTitle": "John Tucker Must Die",
+    "query": "John Tucker Must Die",
+    "runtimeSeconds": 5391,
+    "runtimeExact": "01:29:51"
+  },
+  {
+    "title": "Jurassic Park",
+    "year": 1993,
+    "version": "Theatrical Cut",
+    "displayTitle": "Jurassic Park",
+    "query": "Jurassic Park",
+    "runtimeSeconds": 7588,
+    "runtimeExact": "02:06:28"
+  },
+  {
+    "title": "Just in Time for Christmas",
+    "year": 2015,
+    "version": "Television Movie",
+    "displayTitle": "Just in Time for Christmas",
+    "query": "Just in Time for Christmas",
+    "runtimeSeconds": 5793,
+    "runtimeExact": "01:36:33"
+  },
+  {
+    "title": "K-19: The Widowmaker",
+    "year": 2002,
+    "version": "Theatrical Cut",
+    "displayTitle": "K-19: The Widowmaker",
+    "query": "K-19: The Widowmaker",
+    "runtimeSeconds": 8280,
+    "runtimeExact": "02:18:00"
+  },
+  {
+    "title": "Kate and Leopold",
+    "year": 2001,
+    "version": "Director’s Cut",
+    "displayTitle": "Kate and Leopold",
+    "query": "Kate & Leopold",
+    "runtimeSeconds": 7380,
+    "runtimeExact": "02:03:00"
+  },
+  {
+    "title": "King Kong",
+    "year": 1976,
+    "version": "Theatrical Cut",
+    "displayTitle": "King Kong",
+    "query": "King Kong",
+    "runtimeSeconds": 8088,
+    "runtimeExact": "02:14:48"
+  },
+  {
+    "title": "King Solomon’s Mines I",
+    "year": 2004,
+    "version": "Television Movie",
+    "displayTitle": "King Solomon’s Mines I",
+    "query": "King Solomon's Mines",
+    "runtimeSeconds": 5290,
+    "runtimeExact": "01:28:10"
+  },
+  {
+    "title": "King Solomon’s Mines II",
+    "year": 2004,
+    "version": "Television Movie",
+    "displayTitle": "King Solomon’s Mines II",
+    "query": "King Solomon's Mines",
+    "runtimeSeconds": 5290,
+    "runtimeExact": "01:28:10"
+  },
+  {
+    "title": "Leaving D.C.",
+    "year": 2012,
+    "version": "Online Release",
+    "displayTitle": "Leaving D.C.",
+    "query": "Leaving D.C.",
+    "runtimeSeconds": 4612,
+    "runtimeExact": "01:16:52"
+  },
+  {
+    "title": "Love Actually",
+    "year": 2003,
+    "version": "Bonus Edition",
+    "displayTitle": "Love Actually",
+    "query": "Love Actually",
+    "runtimeSeconds": 9049,
+    "runtimeExact": "02:30:49"
+  },
+  {
+    "title": "Master and Commander",
+    "year": 2003,
+    "version": "Theatrical Cut",
+    "displayTitle": "Master and Commander",
+    "query": "Master and Commander: The Far Side of the World",
+    "runtimeSeconds": 8301,
+    "runtimeExact": "02:18:21"
+  },
+  {
+    "title": "Me Before You",
+    "year": 2016,
+    "version": "Theatrical Cut",
+    "displayTitle": "Me Before You",
+    "query": "Me Before You",
+    "runtimeSeconds": 6614,
+    "runtimeExact": "01:50:14"
+  },
+  {
+    "title": "Minuscule",
+    "year": 2013,
+    "version": "Theatrical Cut",
+    "displayTitle": "Minuscule",
+    "query": "Minuscule: Valley of the Lost Ants",
+    "runtimeSeconds": 5307,
+    "runtimeExact": "01:28:27"
+  },
+  {
+    "title": "Miracle",
+    "year": 2004,
+    "version": "Theatrical Cut",
+    "displayTitle": "Miracle",
+    "query": "Miracle",
+    "runtimeSeconds": 8155,
+    "runtimeExact": "02:15:55"
+  },
+  {
+    "title": "Monsoon",
+    "year": 2018,
+    "version": "Theatrical Cut",
+    "displayTitle": "Monsoon",
+    "query": "Monsoon",
+    "runtimeSeconds": 6130,
+    "runtimeExact": "01:42:10"
+  },
+  {
+    "title": "Moon",
+    "year": 2009,
+    "version": "Special Edition",
+    "displayTitle": "Moon",
+    "query": "Moon",
+    "runtimeSeconds": 5774,
+    "runtimeExact": "01:36:14"
+  },
+  {
+    "title": "Much Ado About Christmas",
+    "year": 2021,
+    "version": "Television Movie",
+    "displayTitle": "Much Ado About Christmas",
+    "query": "Much Ado About Christmas",
+    "runtimeSeconds": 5077,
+    "runtimeExact": "01:24:37"
+  },
+  {
+    "title": "National Treasure",
+    "year": 2004,
+    "version": "Theatrical Cut",
+    "displayTitle": "National Treasure",
+    "query": "National Treasure",
+    "runtimeSeconds": 7864,
+    "runtimeExact": "02:11:04"
+  },
+  {
+    "title": "Next Stop Christmas",
+    "year": 2021,
+    "version": "Television Movie",
+    "displayTitle": "Next Stop Christmas",
+    "query": "Next Stop Christmas",
+    "runtimeSeconds": 5067,
+    "runtimeExact": "01:24:27"
+  },
+  {
+    "title": "Nick and Norah’s Infinite Playlist",
+    "year": 2008,
+    "version": "Theatrical Cut",
+    "displayTitle": "Nick and Norah’s Infinite Playlist",
+    "query": "Nick and Norah's Infinite Playlist",
+    "runtimeSeconds": 5373,
+    "runtimeExact": "01:29:33"
+  },
+  {
+    "title": "Oblivion",
+    "year": 2013,
+    "version": "Theatrical Cut",
+    "displayTitle": "Oblivion",
+    "query": "Oblivion",
+    "runtimeSeconds": 7482,
+    "runtimeExact": "02:04:42"
+  },
+  {
+    "title": "Peter Pan",
+    "year": 2003,
+    "version": "Theatrical Cut",
+    "displayTitle": "Peter Pan",
+    "query": "Peter Pan",
+    "runtimeSeconds": 6801,
+    "runtimeExact": "01:53:21"
+  },
+  {
+    "title": "Pirates of the Caribbean",
+    "year": 2003,
+    "version": "Theatrical Cut",
+    "displayTitle": "Pirates of the Caribbean",
+    "query": "Pirates of the Caribbean: The Curse of the Black Pearl",
+    "runtimeSeconds": 8595,
+    "runtimeExact": "02:23:15"
+  },
+  {
+    "title": "Premonition",
+    "year": 2007,
+    "version": "Theatrical Cut",
+    "displayTitle": "Premonition",
+    "query": "Premonition",
+    "runtimeSeconds": 5787,
+    "runtimeExact": "01:36:27"
+  },
+  {
+    "title": "Ratatouille",
+    "year": 2007,
+    "version": "Theatrical Cut",
+    "displayTitle": "Ratatouille",
+    "query": "Ratatouille",
+    "runtimeSeconds": 6663,
+    "runtimeExact": "01:51:03"
+  },
+  {
+    "title": "Remember Sunday",
+    "year": 2013,
+    "version": "Television Movie",
+    "displayTitle": "Remember Sunday",
+    "query": "Remember Sunday",
+    "runtimeSeconds": 5812,
+    "runtimeExact": "01:36:52"
+  },
+  {
+    "title": "Robot and Frank",
+    "year": 2012,
+    "version": "Theatrical Cut",
+    "displayTitle": "Robot and Frank",
+    "query": "Robot & Frank",
+    "runtimeSeconds": 5340,
+    "runtimeExact": "01:29:00"
+  },
+  {
+    "title": "Say Anything",
+    "year": 1989,
+    "version": "Theatrical Cut",
+    "displayTitle": "Say Anything",
+    "query": "Say Anything",
+    "runtimeSeconds": 6038,
+    "runtimeExact": "01:40:38"
+  },
+  {
+    "title": "Scoop",
+    "year": 2006,
+    "version": "Theatrical Cut",
+    "displayTitle": "Scoop",
+    "query": "Scoop",
+    "runtimeSeconds": 5733,
+    "runtimeExact": "01:35:33"
+  },
+  {
+    "title": "Secondhand Lions",
+    "year": 2003,
+    "version": "Theatrical Cut",
+    "displayTitle": "Secondhand Lions",
+    "query": "Secondhand Lions",
+    "runtimeSeconds": 6549,
+    "runtimeExact": "01:49:09"
+  },
+  {
+    "title": "Shades of Ray",
+    "year": 2008,
+    "version": "Theatrical Cut",
+    "displayTitle": "Shades of Ray",
+    "query": "Shades of Ray",
+    "runtimeSeconds": 5176,
+    "runtimeExact": "01:26:16"
+  },
+  {
+    "title": "Signs",
+    "year": 2002,
+    "version": "Theatrical Cut",
+    "displayTitle": "Signs",
+    "query": "Signs",
+    "runtimeSeconds": 6389,
+    "runtimeExact": "01:46:29"
+  },
+  {
+    "title": "Six Days Seven Nights",
+    "year": 1998,
+    "version": "Theatrical Cut",
+    "displayTitle": "Six Days Seven Nights",
+    "query": "Six Days Seven Nights",
+    "runtimeSeconds": 6115,
+    "runtimeExact": "01:41:55"
+  },
+  {
+    "title": "Snow Bride",
+    "year": 2013,
+    "version": "Television Movie",
+    "displayTitle": "Snow Bride",
+    "query": "Snow Bride",
+    "runtimeSeconds": 5119,
+    "runtimeExact": "01:25:19"
+  },
+  {
+    "title": "Some Kind of Wonderful",
+    "year": 1987,
+    "version": "Theatrical Cut",
+    "displayTitle": "Some Kind of Wonderful",
+    "query": "Some Kind of Wonderful",
+    "runtimeSeconds": 5678,
+    "runtimeExact": "01:34:38"
+  },
+  {
+    "title": "Source Code",
+    "year": 2011,
+    "version": "Theatrical Cut",
+    "displayTitle": "Source Code",
+    "query": "Source Code",
+    "runtimeSeconds": 5595,
+    "runtimeExact": "01:33:15"
+  },
+  {
+    "title": "Spider-Man I",
+    "year": 2002,
+    "version": "Theatrical Cut",
+    "displayTitle": "Spider-Man I",
+    "query": "Spider-Man",
+    "runtimeSeconds": 7272,
+    "runtimeExact": "02:01:12"
+  },
+  {
+    "title": "Spider-Man II",
+    "year": 2004,
+    "version": "Theatrical Cut",
+    "displayTitle": "Spider-Man II",
+    "query": "Spider-Man 2",
+    "runtimeSeconds": 7647,
+    "runtimeExact": "02:07:27"
+  },
+  {
+    "title": "Spirit: Stallion of the Cimarron",
+    "year": 2002,
+    "version": "Theatrical Cut",
+    "displayTitle": "Spirit: Stallion of the Cimarron",
+    "query": "Spirit: Stallion of the Cimarron",
+    "runtimeSeconds": 5008,
+    "runtimeExact": "01:23:28"
+  },
+  {
+    "title": "Star Trek: First Contact",
+    "year": 1996,
+    "version": "Theatrical Cut",
+    "displayTitle": "Star Trek: First Contact",
+    "query": "Star Trek: First Contact",
+    "runtimeSeconds": 6643,
+    "runtimeExact": "01:50:43",
+    "sortTitle": "Star Trek 08"
+  },
+  {
+    "title": "Star Trek Generations",
+    "year": 1994,
+    "version": "Theatrical Cut",
+    "displayTitle": "Star Trek Generations",
+    "query": "Star Trek: Generations",
+    "runtimeSeconds": 7077,
+    "runtimeExact": "01:57:57",
+    "sortTitle": "Star Trek 07"
+  },
+  {
+    "title": "Star Trek: Insurrection",
+    "year": 1998,
+    "version": "Theatrical Cut",
+    "displayTitle": "Star Trek: Insurrection",
+    "query": "Star Trek: Insurrection",
+    "runtimeSeconds": 6178,
+    "runtimeExact": "01:42:58",
+    "sortTitle": "Star Trek 09"
+  },
+  {
+    "title": "Star Trek: The Cage",
+    "year": 1965,
+    "version": "Television Movie",
+    "displayTitle": "Star Trek: The Cage",
+    "query": "Star Trek: The Cage",
+    "runtimeSeconds": 3813,
+    "runtimeExact": "01:03:33",
+    "sourceType": "tv",
+    "sourceId": 253,
+    "sortTitle": "Star Trek 00"
+  },
+  {
+    "title": "Star Trek: The Motion Picture",
+    "year": 1979,
+    "version": "Director’s Cut",
+    "displayTitle": "Star Trek: The Motion Picture",
+    "query": "Star Trek: The Motion Picture",
+    "runtimeSeconds": 8203,
+    "runtimeExact": "02:16:43",
+    "sortTitle": "Star Trek 01"
+  },
+  {
+    "title": "Star Trek III: The Search for Spock",
+    "year": 1984,
+    "version": "Theatrical Cut",
+    "displayTitle": "Star Trek III: The Search for Spock",
+    "query": "Star Trek III: The Search for Spock",
+    "runtimeSeconds": 6314,
+    "runtimeExact": "01:45:14",
+    "sortTitle": "Star Trek 03"
+  },
+  {
+    "title": "Star Trek VI: The Undiscovered Country",
+    "year": 1991,
+    "version": "Director’s Cut",
+    "displayTitle": "Star Trek VI: The Undiscovered Country",
+    "query": "Star Trek VI: The Undiscovered Country",
+    "runtimeSeconds": 6801,
+    "runtimeExact": "01:53:21",
+    "sortTitle": "Star Trek 06"
+  },
+  {
+    "title": "Star Trek IV: The Voyage Home",
+    "year": 1986,
+    "version": "Theatrical Cut",
+    "displayTitle": "Star Trek IV: The Voyage Home",
+    "query": "Star Trek IV: The Voyage Home",
+    "runtimeSeconds": 7131,
+    "runtimeExact": "01:58:51",
+    "sortTitle": "Star Trek 04"
+  },
+  {
+    "title": "Star Trek II: The Wrath of Khan",
+    "year": 1982,
+    "version": "Director’s Cut",
+    "displayTitle": "Star Trek II: The Wrath of Khan",
+    "query": "Star Trek II: The Wrath of Khan",
+    "runtimeSeconds": 6991,
+    "runtimeExact": "01:56:31",
+    "sortTitle": "Star Trek 02"
+  },
+  {
+    "title": "Star Wars: A New Hope",
+    "year": 1977,
+    "version": "Streamlined Edition",
+    "displayTitle": "Star Wars: A New Hope",
+    "query": "Star Wars: A New Hope",
+    "runtimeSeconds": 6769,
+    "runtimeExact": "01:52:49",
+    "sortTitle": "Star Wars 01"
+  },
+  {
+    "title": "Star Wars: Return of the Jedi",
+    "year": 1983,
+    "version": "Streamlined Edition",
+    "displayTitle": "Star Wars: Return of the Jedi",
+    "query": "Star Wars: Return of the Jedi",
+    "runtimeSeconds": 7294,
+    "runtimeExact": "02:01:34",
+    "sortTitle": "Star Wars 03"
+  },
+  {
+    "title": "Star Wars: The Empire Strikes Back",
+    "year": 1980,
+    "version": "Streamlined Edition",
+    "displayTitle": "Star Wars: The Empire Strikes Back",
+    "query": "Star Wars: The Empire Strikes Back",
+    "runtimeSeconds": 7478,
+    "runtimeExact": "02:04:38",
+    "sortTitle": "Star Wars 02"
+  },
+  {
+    "title": "Stargate",
+    "year": 1994,
+    "version": "Director’s Cut",
+    "displayTitle": "Stargate",
+    "query": "Stargate",
+    "runtimeSeconds": 7798,
+    "runtimeExact": "02:09:58"
+  },
+  {
+    "title": "Stealing Christmas",
+    "year": 2003,
+    "version": "Television Movie",
+    "displayTitle": "Stealing Christmas",
+    "query": "Stealing Christmas",
+    "runtimeSeconds": 5324,
+    "runtimeExact": "01:28:44"
+  },
+  {
+    "title": "Superman Returns",
+    "year": 2006,
+    "version": "Theatrical Cut",
+    "displayTitle": "Superman Returns",
+    "query": "Superman Returns",
+    "runtimeSeconds": 9261,
+    "runtimeExact": "02:34:21"
+  },
+  {
+    "title": "Surprised by Love",
+    "year": 2015,
+    "version": "Television Movie",
+    "displayTitle": "Surprised by Love",
+    "query": "Surprised by Love",
+    "runtimeSeconds": 5042,
+    "runtimeExact": "01:24:02"
+  },
+  {
+    "title": "Tangled",
+    "year": 2010,
+    "version": "Bonus Edition",
+    "displayTitle": "Tangled",
+    "query": "Tangled",
+    "runtimeSeconds": 6405,
+    "runtimeExact": "01:46:45"
+  },
+  {
+    "title": "Team Bride",
+    "year": 2023,
+    "version": "Television Movie",
+    "displayTitle": "Team Bride",
+    "query": "Team Bride",
+    "runtimeSeconds": 5485,
+    "runtimeExact": "01:31:25"
+  },
+  {
+    "title": "The Abyss",
+    "year": 1989,
+    "version": "Special Edition",
+    "displayTitle": "The Abyss",
+    "query": "The Abyss",
+    "runtimeSeconds": 10261,
+    "runtimeExact": "02:51:01"
+  },
+  {
+    "title": "The Adjustment Bureau",
+    "year": 2011,
+    "version": "Theatrical Cut",
+    "displayTitle": "The Adjustment Bureau",
+    "query": "The Adjustment Bureau",
+    "runtimeSeconds": 6350,
+    "runtimeExact": "01:45:50"
+  },
+  {
+    "title": "The Age of Adaline",
+    "year": 2015,
+    "version": "Theatrical Cut",
+    "displayTitle": "The Age of Adaline",
+    "query": "The Age of Adaline",
+    "runtimeSeconds": 6764,
+    "runtimeExact": "01:52:44"
+  },
+  {
+    "title": "The Blue Lagoon",
+    "year": 1980,
+    "version": "Theatrical Cut",
+    "displayTitle": "The Blue Lagoon",
+    "query": "The Blue Lagoon",
+    "runtimeSeconds": 6283,
+    "runtimeExact": "01:44:43"
+  },
+  {
+    "title": "The Children’s Hour",
+    "year": 1961,
+    "version": "Theatrical Cut",
+    "displayTitle": "The Children’s Hour",
+    "query": "The Children’s Hour",
+    "runtimeSeconds": 6508,
+    "runtimeExact": "01:48:28"
+  },
+  {
+    "title": "The Day the Earth Stood Still",
+    "year": 1951,
+    "version": "Theatrical Cut",
+    "displayTitle": "The Day the Earth Stood Still",
+    "query": "The Day the Earth Stood Still",
+    "runtimeSeconds": 5531,
+    "runtimeExact": "01:32:11"
+  },
+  {
+    "title": "The Englishman Who Went Up a Hill",
+    "year": 1995,
+    "version": "Theatrical Cut",
+    "displayTitle": "The Englishman Who Went Up a Hill",
+    "query": "The Englishman Who Went Up a Hill",
+    "runtimeSeconds": 5748,
+    "runtimeExact": "01:35:48"
+  },
+  {
+    "title": "The First Time",
+    "year": 2012,
+    "version": "Theatrical Cut",
+    "displayTitle": "The First Time",
+    "query": "The First Time",
+    "runtimeSeconds": 5698,
+    "runtimeExact": "01:34:58"
+  },
+  {
+    "title": "The Forty Four Hundred",
+    "year": 2004,
+    "version": "Special Edition",
+    "displayTitle": "The Forty Four Hundred",
+    "query": "The 4400",
+    "runtimeSeconds": 10578,
+    "runtimeExact": "02:56:18",
+    "sourceType": "tv"
+  },
+  {
+    "title": "The Ghost and Mrs. Muir",
+    "year": 1947,
+    "version": "Theatrical Cut",
+    "displayTitle": "The Ghost and Mrs. Muir",
+    "query": "The Ghost and Mrs. Muir",
+    "runtimeSeconds": 6264,
+    "runtimeExact": "01:44:24"
+  },
+  {
+    "title": "The Greatest Game Ever Played",
+    "year": 2005,
+    "version": "Theatrical Cut",
+    "displayTitle": "The Greatest Game Ever Played",
+    "query": "The Greatest Game Ever Played",
+    "runtimeSeconds": 7232,
+    "runtimeExact": "02:00:32"
+  },
+  {
+    "title": "The Imitation Game",
+    "year": 2014,
+    "version": "Theatrical Cut",
+    "displayTitle": "The Imitation Game",
+    "query": "The Imitation Game",
+    "runtimeSeconds": 6832,
+    "runtimeExact": "01:53:52"
+  },
+  {
+    "title": "The Iron Giant",
+    "year": 1999,
+    "version": "Director’s Cut",
+    "displayTitle": "The Iron Giant",
+    "query": "The Iron Giant",
+    "runtimeSeconds": 5398,
+    "runtimeExact": "01:29:58"
+  },
+  {
+    "title": "The Island",
+    "year": 2005,
+    "version": "Theatrical Cut",
+    "displayTitle": "The Island",
+    "query": "The Island",
+    "runtimeSeconds": 8164,
+    "runtimeExact": "02:16:04"
+  },
+  {
+    "title": "The Lake House",
+    "year": 2006,
+    "version": "Theatrical Cut",
+    "displayTitle": "The Lake House",
+    "query": "The Lake House",
+    "runtimeSeconds": 5913,
+    "runtimeExact": "01:38:33"
+  },
+  {
+    "title": "The Last Letter from Your Lover",
+    "year": 2021,
+    "version": "Theatrical Cut",
+    "displayTitle": "The Last Letter from Your Lover",
+    "query": "The Last Letter from Your Lover",
+    "runtimeSeconds": 6557,
+    "runtimeExact": "01:49:17"
+  },
+  {
+    "title": "The Man from Earth",
+    "year": 2007,
+    "version": "Theatrical Cut",
+    "displayTitle": "The Man from Earth",
+    "query": "The Man from Earth",
+    "runtimeSeconds": 5232,
+    "runtimeExact": "01:27:12"
+  },
+  {
+    "title": "The Most Colorful Time of the Year",
+    "year": 2022,
+    "version": "Television Movie",
+    "displayTitle": "The Most Colorful Time of the Year",
+    "query": "The Most Colorful Time of the Year",
+    "runtimeSeconds": 5008,
+    "runtimeExact": "01:23:28"
+  },
+  {
+    "title": "The Notebook",
+    "year": 2004,
+    "version": "Theatrical Cut",
+    "displayTitle": "The Notebook",
+    "query": "The Notebook",
+    "runtimeSeconds": 7386,
+    "runtimeExact": "02:03:06"
+  },
+  {
+    "title": "The Phantom of the Opera",
+    "year": 2004,
+    "version": "Theatrical Cut",
+    "displayTitle": "The Phantom of the Opera",
+    "query": "The Phantom of the Opera",
+    "runtimeSeconds": 8464,
+    "runtimeExact": "02:21:04"
+  },
+  {
+    "title": "The Princess and the Marine",
+    "year": 2001,
+    "version": "Television Movie",
+    "displayTitle": "The Princess and the Marine",
+    "query": "The Princess and the Marine",
+    "runtimeSeconds": 5318,
+    "runtimeExact": "01:28:38"
+  },
+  {
+    "title": "The Soulmate Search",
+    "year": 2023,
+    "version": "Television Movie",
+    "displayTitle": "The Soulmate Search",
+    "query": "The Soulmate Search",
+    "runtimeSeconds": 5344,
+    "runtimeExact": "01:29:04"
+  },
+  {
+    "title": "The Sure Thing",
+    "year": 1985,
+    "version": "Theatrical Cut",
+    "displayTitle": "The Sure Thing",
+    "query": "The Sure Thing",
+    "runtimeSeconds": 5702,
+    "runtimeExact": "01:35:02"
+  },
+  {
+    "title": "The Terminator",
+    "year": 1984,
+    "version": "Theatrical Cut",
+    "displayTitle": "The Terminator",
+    "query": "The Terminator",
+    "runtimeSeconds": 6441,
+    "runtimeExact": "01:47:21"
+  },
+  {
+    "title": "The Time Traveler’s Wife",
+    "year": 2009,
+    "version": "Theatrical Cut",
+    "displayTitle": "The Time Traveler’s Wife",
+    "query": "The Time Traveler’s Wife",
+    "runtimeSeconds": 6445,
+    "runtimeExact": "01:47:25"
+  },
+  {
+    "title": "The Vow",
+    "year": 2012,
+    "version": "Theatrical Cut",
+    "displayTitle": "The Vow",
+    "query": "The Vow",
+    "runtimeSeconds": 6234,
+    "runtimeExact": "01:43:54"
+  },
+  {
+    "title": "The X-Files",
+    "year": 1998,
+    "version": "Director’s Cut",
+    "displayTitle": "The X-Files",
+    "query": "The X Files",
+    "runtimeSeconds": 7361,
+    "runtimeExact": "02:02:41"
+  },
+  {
+    "title": "Timeless Love",
+    "year": 2019,
+    "version": "Television Movie",
+    "displayTitle": "Timeless Love",
+    "query": "Timeless Love",
+    "runtimeSeconds": 5141,
+    "runtimeExact": "01:25:41"
+  },
+  {
+    "title": "Un Plan Parfait",
+    "year": 2012,
+    "version": "Theatrical Cut",
+    "displayTitle": "Un Plan Parfait",
+    "query": "Un plan parfait",
+    "runtimeSeconds": 6309,
+    "runtimeExact": "01:45:09"
+  },
+  {
+    "title": "Waiting for Forever",
+    "year": 2010,
+    "version": "Theatrical Cut",
+    "displayTitle": "Waiting for Forever",
+    "query": "Waiting for Forever",
+    "runtimeSeconds": 5645,
+    "runtimeExact": "01:34:05"
+  },
+  {
+    "title": "WALL-E",
+    "year": 2008,
+    "version": "Theatrical Cut",
+    "displayTitle": "WALL-E",
+    "query": "WALL-E",
+    "runtimeSeconds": 5892,
+    "runtimeExact": "01:38:12"
+  },
+  {
+    "title": "Wallace and Gromit",
+    "year": 2005,
+    "version": "Theatrical Cut",
+    "displayTitle": "Wallace and Gromit",
+    "query": "Wallace & Gromit: The Curse of the Were-Rabbit",
+    "runtimeSeconds": 5099,
+    "runtimeExact": "01:24:59"
+  },
+  {
+    "title": "When Love Springs",
+    "year": 2023,
+    "version": "Television Movie",
+    "displayTitle": "When Love Springs",
+    "query": "When Love Springs",
+    "runtimeSeconds": 5043,
+    "runtimeExact": "01:24:03"
+  },
+  {
+    "title": "When We First Met",
+    "year": 2018,
+    "version": "Online Release",
+    "displayTitle": "When We First Met",
+    "query": "When We First Met",
+    "runtimeSeconds": 5788,
+    "runtimeExact": "01:36:28"
+  },
+  {
+    "title": "White Collar",
+    "year": 2009,
+    "version": "Television Movie",
+    "displayTitle": "White Collar",
+    "query": "White Collar",
+    "runtimeSeconds": 3637,
+    "runtimeExact": "01:00:37",
+    "sourceType": "tv"
+  },
+  {
+    "title": "Wicker Park",
+    "year": 2004,
+    "version": "Theatrical Cut",
+    "displayTitle": "Wicker Park",
+    "query": "Wicker Park",
+    "runtimeSeconds": 6896,
+    "runtimeExact": "01:54:56"
+  },
+  {
+    "title": "Win a Date with Tad Hamilton",
+    "year": 2004,
+    "version": "Open Matte",
+    "displayTitle": "Win a Date with Tad Hamilton",
+    "query": "Win a Date with Tad Hamilton",
+    "runtimeSeconds": 5768,
+    "runtimeExact": "01:36:08"
+  },
+  {
+    "title": "Wonder Woman",
+    "year": 2017,
+    "version": "Theatrical Cut",
+    "displayTitle": "Wonder Woman",
+    "query": "Wonder Woman",
+    "runtimeSeconds": 8476,
+    "runtimeExact": "02:21:16"
+  },
+  {
+    "title": "You’ve Got Mail",
+    "year": 1998,
+    "version": "Theatrical Cut",
+    "displayTitle": "You’ve Got Mail",
+    "query": "You’ve Got Mail",
+    "runtimeSeconds": 7163,
+    "runtimeExact": "01:59:23"
+  }
+]
