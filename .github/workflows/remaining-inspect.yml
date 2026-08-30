@@ -1,4 +1,4 @@
-name: QC remaining 103 films
+name: Resolve remaining 103 films
 
 on:
   push:
@@ -9,124 +9,121 @@ permissions:
   contents: read
 
 jobs:
-  inspect:
+  resolve:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: pip install pillow requests beautifulsoup4
-      - name: Fetch metadata and poster candidates
+      - run: pip install requests
+      - name: Resolve exact TMDB IDs through Wikidata
         run: |
           python - <<'PY'
-          import io,json,re,unicodedata,difflib,time
+          import json,re,time,unicodedata,difflib,requests
           from pathlib import Path
-          from urllib.parse import quote
-          import requests
-          from bs4 import BeautifulSoup
-          from PIL import Image,ImageDraw,ImageFont
 
           items=json.load(open('data/remaining_batch_manifest.json',encoding='utf-8'))
-          out=Path('remaining-qc'); out.mkdir(exist_ok=True)
-          posters=out/'posters'; posters.mkdir(exist_ok=True)
-          s=requests.Session(); s.headers.update({'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/131 Safari/537.36','Accept-Language':'en-US,en;q=0.9'})
-
+          s=requests.Session(); s.headers.update({'User-Agent':'SceneSenseMetadata/1.0 (github.com/scenesense/index)'})
+          API='https://www.wikidata.org/w/api.php'
+          MANUAL={
+            'Indiana Jones: Raiders of the Lost Ark':('movie',85),
+            'Indiana Jones: The Last Crusade':('movie',89),
+            'Spider-Man I':('movie',557),
+            'Spider-Man II':('movie',558),
+            'Star Trek: The Cage':('tv',253),
+            'Star Trek: The Motion Picture':('movie',152),
+            'Star Trek II: The Wrath of Khan':('movie',154),
+            'Star Trek III: The Search for Spock':('movie',157),
+            'Star Trek IV: The Voyage Home':('movie',168),
+            'Star Trek VI: The Undiscovered Country':('movie',174),
+            'Star Trek Generations':('movie',193),
+            'Star Trek: First Contact':('movie',199),
+            'Star Trek: Insurrection':('movie',200),
+            'Star Wars: A New Hope':('movie',11),
+            'Star Wars: The Empire Strikes Back':('movie',1891),
+            'Star Wars: Return of the Jedi':('movie',1892),
+            'White Collar':('tv',21510),
+            'The Forty Four Hundred':('tv',1481),
+          }
           def norm(x):
               x=unicodedata.normalize('NFKD',str(x)).encode('ascii','ignore').decode().lower()
               return re.sub(r'[^a-z0-9]+','',x)
-          def slugify(x):
-              x=unicodedata.normalize('NFKD',x).encode('ascii','ignore').decode().lower()
-              return re.sub(r'[^a-z0-9]+','-',x).strip('-')
-          def page_info(kind,href):
-              if href.startswith('/'):
-                  url='https://www.themoviedb.org'+href
-              else: url=href
-              if '?' not in url: url+='?language=en-US'
-              r=s.get(url,timeout=45); r.raise_for_status(); soup=BeautifulSoup(r.text,'html.parser')
-              ogt=soup.find('meta',attrs={'property':'og:title'}); ogi=soup.find('meta',attrs={'property':'og:image'}); ogd=soup.find('meta',attrs={'property':'og:description'})
-              title=(ogt.get('content','') if ogt else '').strip()
-              body=soup.get_text(' ',strip=True)
-              overview_el=soup.select_one('div.overview p')
-              overview=(overview_el.get_text(' ',strip=True) if overview_el else (ogd.get('content','') if ogd else '')).strip()
-              genres=[a.get_text(' ',strip=True) for a in soup.select('span.genres a')]
-              actors=[]
-              for a in soup.select('ol.people.scroller li.card p a'):
-                  n=a.get_text(' ',strip=True)
-                  if n and n not in actors: actors.append(n)
-                  if len(actors)>=5: break
-              image=(ogi.get('content','') if ogi else '').strip()
-              m=re.search(r'/(?:movie|tv)/(\d+)',url)
-              return {'sourceType':kind,'sourceId':int(m.group(1)) if m else None,'sourceTitle':title,'body':body,'overview':overview,'rawGenres':genres,'actors':actors,'imageUrl':image,'sourceUrl':url}
-          def choose(item):
-              preferred=item.get('sourceType')
-              if item.get('sourceId'):
-                  kind=preferred or 'movie'
-                  return page_info(kind,f'https://www.themoviedb.org/{kind}/{item["sourceId"]}')
-              kinds=[preferred] if preferred else ['movie','tv']
-              best=None
-              for kind in kinds:
-                  search=f'https://www.themoviedb.org/search/{kind}?query={quote(item["query"])}&language=en-US'
-                  r=s.get(search,timeout=45); r.raise_for_status(); soup=BeautifulSoup(r.text,'html.parser')
-                  seen=set(); links=[]
-                  for a in soup.select(f'a[href^="/{kind}/"]'):
-                      href=a.get('href','').split('?')[0]
-                      m=re.match(fr'/{kind}/(\d+)',href)
-                      if not m or m.group(1) in seen: continue
-                      seen.add(m.group(1)); links.append(href)
-                      if len(links)>=8: break
-                  for href in links:
-                      try: info=page_info(kind,href)
+          def claim_value(ent,prop):
+              vals=[]
+              for c in ent.get('claims',{}).get(prop,[]):
+                  try:
+                      v=c['mainsnak']['datavalue']['value']
+                      if isinstance(v,dict) and 'time' in v: vals.append(v['time'])
+                      else: vals.append(v)
+                  except Exception: pass
+              return vals
+          def entity(qid):
+              r=s.get(API,params={'action':'wbgetentities','ids':qid,'props':'labels|aliases|claims','languages':'en','format':'json'},timeout=30); r.raise_for_status()
+              return r.json()['entities'][qid]
+          def years(ent):
+              ys=[]
+              for p in ('P577','P580','P571'):
+                  for v in claim_value(ent,p):
+                      m=re.search(r'([12]\d{3})',str(v))
+                      if m: ys.append(int(m.group(1)))
+              return ys
+          def tmdb(ent):
+              m=claim_value(ent,'P4947')
+              t=claim_value(ent,'P4983')
+              if m: return 'movie',int(str(m[0]))
+              if t: return 'tv',int(str(t[0]))
+              return None,None
+          def resolve(item):
+              if item['displayTitle'] in MANUAL:
+                  kind,sid=MANUAL[item['displayTitle']]
+                  return {'sourceType':kind,'sourceId':sid,'wikidataId':None,'resolver':'manual'}
+              searches=[item['query'],item['title'],item['displayTitle']]
+              seen=set(); best=None
+              for text in searches:
+                  r=s.get(API,params={'action':'wbsearchentities','search':text,'language':'en','format':'json','limit':8,'type':'item'},timeout=30); r.raise_for_status()
+                  for sr in r.json().get('search',[]):
+                      qid=sr['id']
+                      if qid in seen: continue
+                      seen.add(qid)
+                      try: ent=entity(qid)
                       except Exception: continue
-                      sim=difflib.SequenceMatcher(None,norm(item['query']),norm(info['sourceTitle'])).ratio()
-                      year_bonus=1.0 if str(item['year']) in info['body'] else 0.0
-                      score=sim*10+year_bonus*6
-                      if best is None or score>best[0]: best=(score,info)
-                      if sim>=0.93 and year_bonus: return info
-              if not best: raise RuntimeError('no source match')
-              return best[1]
-
-          results=[]; errors=[]
-          manual_overview={
-            'Star Trek: The Cage':'Captain Christopher Pike and the Enterprise investigate a distress call from Talos IV, where Pike is captured by powerful telepathic inhabitants who create elaborate illusions around the human survivor Vina.',
-          }
-          for idx,item in enumerate(items,1):
+                      kind,sid=tmdb(ent)
+                      if sid is None: continue
+                      labels=[]
+                      lab=ent.get('labels',{}).get('en',{}).get('value')
+                      if lab: labels.append(lab)
+                      labels += [a.get('value','') for a in ent.get('aliases',{}).get('en',[])]
+                      target=norm(item['query'])
+                      sim=max([difflib.SequenceMatcher(None,target,norm(x)).ratio() for x in labels if x] or [0])
+                      ys=years(ent); yd=min([abs(y-item['year']) for y in ys] or [99])
+                      year_score=6 if yd==0 else (2 if yd==1 else (-4 if yd>2 else 0))
+                      desc=sr.get('description','') or ''
+                      media_bonus=1 if any(w in desc.lower() for w in ['film','television','movie','series']) else 0
+                      score=sim*10+year_score+media_bonus
+                      rec={'sourceType':kind,'sourceId':sid,'wikidataId':qid,'resolver':'wikidata','matchedLabel':lab,'years':ys,'similarity':sim,'score':score,'description':desc}
+                      if best is None or score>best[0]: best=(score,rec)
+                      if sim>=.92 and yd==0: return rec
+                  time.sleep(.08)
+              if best and best[0]>=7: return best[1]
+              return None
+          resolved=[]; unresolved=[]
+          for i,item in enumerate(items,1):
               try:
-                  info=choose(item)
-                  if item['title'] in manual_overview: info['overview']=manual_overview[item['title']]
-                  if not info['imageUrl']: raise RuntimeError('no poster image')
-                  rr=s.get(info['imageUrl'],timeout=60); rr.raise_for_status()
-                  im=Image.open(io.BytesIO(rr.content)).convert('RGB'); orig=im.size
-                  im.thumbnail((1000,1500),Image.Resampling.LANCZOS)
-                  slug=slugify(item['displayTitle'])+'-'+str(item['year'])
-                  p=posters/f'{slug}.webp'; im.save(p,'WEBP',quality=88,method=6)
-                  rec={**item,**{k:v for k,v in info.items() if k!='body'},'slug':slug,'originalSize':orig,'savedSize':im.size}
-                  results.append(rec)
-                  print(f'{idx:03d}/{len(items)} OK {item["displayTitle"]} -> {info["sourceType"]}:{info["sourceId"]} {info["sourceTitle"]} {orig}')
+                  rec=resolve(item)
+                  if rec:
+                      resolved.append({**item,**rec}); print(f'{i:03d} OK {item["displayTitle"]}: {rec["sourceType"]}:{rec["sourceId"]} {rec.get("matchedLabel")}',flush=True)
+                  else:
+                      unresolved.append(item); print(f'{i:03d} MISS {item["displayTitle"]}',flush=True)
               except Exception as e:
-                  errors.append({'item':item,'error':repr(e)}); print(f'{idx:03d}/{len(items)} FAIL {item["displayTitle"]}: {e}')
-              time.sleep(.08)
-
-          json.dump(results,open(out/'metadata.json','w',encoding='utf-8'),ensure_ascii=False,indent=2)
-          json.dump(errors,open(out/'errors.json','w',encoding='utf-8'),ensure_ascii=False,indent=2)
-
-          # Contact sheets, 20 posters each. Images are shown whole, never cropped.
-          W,H=260,430; cols,rows=5,4
-          for page,start in enumerate(range(0,len(results),20),1):
-              batch=results[start:start+20]
-              sheet=Image.new('RGB',(W*cols,H*rows),'black')
-              for j,rec in enumerate(batch):
-                  im=Image.open(posters/f'{rec["slug"]}.webp').convert('RGB')
-                  im.thumbnail((W-20,H-75),Image.Resampling.LANCZOS)
-                  cell=Image.new('RGB',(W,H),'#101010'); cell.paste(im,((W-im.width)//2,5))
-                  d=ImageDraw.Draw(cell); label=f'{start+j+1}. {rec["displayTitle"]} ({rec["year"]})'; d.text((7,H-61),label,fill='white'); d.text((7,H-39),f'{rec["sourceType"]}:{rec["sourceId"]} {rec["savedSize"][0]}x{rec["savedSize"][1]}',fill='#bbbbbb')
-                  sheet.paste(cell,((j%cols)*W,(j//cols)*H))
-              sheet.save(out/f'CONTACT_{page:02d}.jpg','JPEG',quality=92)
-          print('RESULTS',len(results),'ERRORS',len(errors))
-          if errors: print(json.dumps(errors,ensure_ascii=False,indent=2))
+                  unresolved.append({**item,'error':repr(e)}); print(f'{i:03d} ERROR {item["displayTitle"]}: {e}',flush=True)
+          out=Path('remaining-resolved'); out.mkdir(exist_ok=True)
+          json.dump(resolved,open(out/'resolved.json','w',encoding='utf-8'),ensure_ascii=False,indent=2)
+          json.dump(unresolved,open(out/'unresolved.json','w',encoding='utf-8'),ensure_ascii=False,indent=2)
+          print('RESOLVED',len(resolved),'UNRESOLVED',len(unresolved))
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: remaining-103-qc
-          path: remaining-qc
+          name: remaining-wikidata-resolved
+          path: remaining-resolved
           if-no-files-found: error
