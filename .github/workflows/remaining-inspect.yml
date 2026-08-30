@@ -1,4 +1,4 @@
-name: Probe IMDb cast credits
+name: Build final 103-film QC
 
 on:
   push:
@@ -9,26 +9,177 @@ permissions:
   contents: read
 
 jobs:
-  probe:
+  qc:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: pip install requests
-      - name: Probe full cast credits
+      - run: pip install pillow requests
+      - name: Resolve metadata and posters
         run: |
           python - <<'PY'
+          import io,json,re,unicodedata,difflib,time,urllib.parse
+          from pathlib import Path
+          from concurrent.futures import ThreadPoolExecutor,as_completed
           import requests
-          q='''query CastProbe($id: ID!) {
+          from PIL import Image,ImageDraw
+
+          items=json.load(open('data/remaining_batch_manifest.json',encoding='utf-8'))
+          out=Path('remaining-final-qc'); out.mkdir(exist_ok=True)
+          posters=out/'posters'; posters.mkdir(exist_ok=True)
+
+          MANUAL={
+            'Indiana Jones: Raiders of the Lost Ark':'tt0082971',
+            'Indiana Jones: The Last Crusade':'tt0097576',
+            'Spider-Man I':'tt0145487',
+            'Spider-Man II':'tt0316654',
+            'Star Trek: The Cage':'tt0059753',
+            'Star Trek: The Motion Picture':'tt0079945',
+            'Star Trek II: The Wrath of Khan':'tt0084726',
+            'Star Trek III: The Search for Spock':'tt0088170',
+            'Star Trek IV: The Voyage Home':'tt0092007',
+            'Star Trek VI: The Undiscovered Country':'tt0102975',
+            'Star Trek Generations':'tt0111280',
+            'Star Trek: First Contact':'tt0117731',
+            'Star Trek: Insurrection':'tt0120844',
+            'Star Wars: A New Hope':'tt0076759',
+            'Star Wars: The Empire Strikes Back':'tt0080684',
+            'Star Wars: Return of the Jedi':'tt0086190',
+            'King Solomon’s Mines I':'tt0397501',
+            'King Solomon’s Mines II':'tt0397501',
+            'The Forty Four Hundred':'tt0389564',
+            'White Collar':'tt1358522',
+            'Wallace and Gromit':'tt0312004',
+          }
+          HEAD={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/131 Safari/537.36','Accept-Language':'en-US,en;q=0.9'}
+          GHEAD={
+            'accept':'application/graphql+json, application/json','content-type':'application/json',
+            'origin':'https://www.imdb.com','referer':'https://www.imdb.com/',
+            'x-imdb-client-name':'imdb-web-next','x-imdb-user-language':'en-US','x-imdb-user-country':'US',
+            'user-agent':'Mozilla/5.0'
+          }
+          QUERY='''query SceneSenseTitle($id: ID!) {
             title(id: $id) {
-              titleText { text }
-              credits(first: 10, filter: { categories: ["actor", "actress"] }) {
+              id titleText { text } titleType { id text } releaseYear { year endYear }
+              plot { plotText { plainText } }
+              genres { genres { text } }
+              primaryImage { url width height }
+              principalCredits { category { id text } credits { name { id nameText { text } } } }
+              credits(first: 25, filter: { categories: ["actor", "actress"] }) {
                 edges { node { name { id nameText { text } } category { id text } } }
               }
             }
           }'''
-          headers={'accept':'application/graphql+json, application/json','content-type':'application/json','origin':'https://www.imdb.com','referer':'https://www.imdb.com/','x-imdb-client-name':'imdb-web-next','x-imdb-user-language':'en-US','x-imdb-user-country':'US','user-agent':'Mozilla/5.0'}
-          r=requests.post('https://caching.graphql.imdb.com/',headers=headers,json={'query':q,'variables':{'id':'tt1637688'}},timeout=30)
-          print('STATUS',r.status_code,'LEN',len(r.text)); print(r.text[:12000])
+          def norm(x):
+              x=unicodedata.normalize('NFKD',str(x)).encode('ascii','ignore').decode().lower()
+              return re.sub(r'[^a-z0-9]+','',x)
+          def slugify(x):
+              x=unicodedata.normalize('NFKD',str(x)).encode('ascii','ignore').decode().lower()
+              return re.sub(r'[^a-z0-9]+','-',x).strip('-')
+          def session():
+              s=requests.Session(); s.headers.update(HEAD); return s
+          def suggest(item,s):
+              if item['displayTitle'] in MANUAL:
+                  return MANUAL[item['displayTitle']], {'manual':True}
+              best=None
+              queries=[]
+              for q in [item.get('query'),item.get('title'),item.get('displayTitle')]:
+                  if q and q not in queries: queries.append(q)
+              for q in queries:
+                  url='https://v3.sg.media-imdb.com/suggestion/x/'+urllib.parse.quote(q)+'.json'
+                  r=s.get(url,timeout=30); r.raise_for_status(); data=r.json().get('d',[])
+                  for hit in data:
+                      tid=str(hit.get('id',''))
+                      if not tid.startswith('tt'): continue
+                      hy=hit.get('y')
+                      if hy is None:
+                          yr=str(hit.get('yr','')); m=re.match(r'(\d{4})',yr); hy=int(m.group(1)) if m else None
+                      if hy != item['year']: continue
+                      label=hit.get('l','')
+                      sims=[difflib.SequenceMatcher(None,norm(x),norm(label)).ratio() for x in [item.get('query',''),item.get('title',''),item.get('displayTitle','')] if x]
+                      sim=max(sims or [0])
+                      qid=str(hit.get('qid','')).lower(); rawq=str(hit.get('q','')).lower()
+                      tv_pref=item['version'] in ('Television Movie','Online Release') or item['displayTitle'] in ('White Collar','The Forty Four Hundred')
+                      type_bonus=0
+                      if tv_pref and ('tv' in qid or 'tv' in rawq): type_bonus=.12
+                      if not tv_pref and ('movie' in qid or 'feature' in rawq): type_bonus=.08
+                      score=sim+type_bonus
+                      if best is None or score>best[0]: best=(score,tid,hit)
+                  if best and best[0]>=.94: break
+              if not best: raise RuntimeError('no exact-year IMDb suggestion')
+              return best[1],best[2]
+          def detail(tid):
+              r=requests.post('https://caching.graphql.imdb.com/',headers=GHEAD,json={'query':QUERY,'variables':{'id':tid}},timeout=35)
+              r.raise_for_status(); js=r.json()
+              if js.get('errors'): raise RuntimeError('GraphQL '+json.dumps(js['errors'])[:500])
+              t=(js.get('data') or {}).get('title')
+              if not t: raise RuntimeError('no GraphQL title')
+              return t
+          def actors_from(t):
+              names=[]
+              for pc in t.get('principalCredits') or []:
+                  if (pc.get('category') or {}).get('id')!='cast': continue
+                  for cr in pc.get('credits') or []:
+                      n=((cr.get('name') or {}).get('nameText') or {}).get('text')
+                      if n and n not in names: names.append(n)
+              for edge in ((t.get('credits') or {}).get('edges') or []):
+                  n=((((edge.get('node') or {}).get('name') or {}).get('nameText') or {}).get('text'))
+                  if n and n not in names: names.append(n)
+                  if len(names)>=5: break
+              return names[:5]
+          def work(pair):
+              ix,item=pair; s=session(); tid,hit=suggest(item,s); t=detail(tid)
+              actual=((t.get('releaseYear') or {}).get('year'))
+              if actual and actual!=item['year']:
+                  raise RuntimeError(f'year mismatch IMDb {actual}')
+              title=((t.get('titleText') or {}).get('text') or '').strip()
+              sims=[difflib.SequenceMatcher(None,norm(x),norm(title)).ratio() for x in [item.get('query',''),item.get('title',''),item.get('displayTitle','')] if x]
+              if max(sims or [0])<.42: raise RuntimeError(f'title mismatch: {title}')
+              image=t.get('primaryImage') or {}; image_url=image.get('url')
+              if not image_url and isinstance(hit,dict):
+                  hi=hit.get('i') or {}; image_url=hi.get('imageUrl') if isinstance(hi,dict) else None
+              if not image_url: raise RuntimeError('no poster image')
+              rr=s.get(image_url,timeout=45); rr.raise_for_status(); im=Image.open(io.BytesIO(rr.content)).convert('RGB'); orig=im.size
+              if im.height<=im.width: raise RuntimeError(f'poster not portrait {orig}')
+              if im.width<300 or im.height<450: raise RuntimeError(f'poster too small {orig}')
+              im.thumbnail((1000,1500),Image.Resampling.LANCZOS)
+              slug=slugify(item['displayTitle'])+'-'+str(item['year'])
+              p=posters/f'{slug}.webp'; im.save(p,'WEBP',quality=82,method=6)
+              plot=((((t.get('plot') or {}).get('plotText') or {}).get('plainText')) or '').strip()
+              genres=[g.get('text') for g in ((t.get('genres') or {}).get('genres') or []) if g.get('text')]
+              actors=actors_from(t)
+              if len(actors)<3: raise RuntimeError(f'only {len(actors)} actors')
+              return ix,{**item,'slug':slug,'imdbId':tid,'sourceTitle':title,'description':plot,'rawGenres':genres,'actors':actors,'imageUrl':image_url,'originalSize':orig,'savedSize':im.size}
+
+          results=[None]*len(items); errors=[]
+          with ThreadPoolExecutor(max_workers=6) as ex:
+              futs={ex.submit(work,p):p for p in enumerate(items)}
+              for fut in as_completed(futs):
+                  ix,item=futs[fut]
+                  try:
+                      i,rec=fut.result(); results[i]=rec; print(f'{i+1:03d} OK {item["displayTitle"]} -> {rec["imdbId"]} {rec["sourceTitle"]}',flush=True)
+                  except Exception as e:
+                      errors.append({'index':ix,'item':item,'error':repr(e)}); print(f'{ix+1:03d} FAIL {item["displayTitle"]}: {e}',flush=True)
+          good=[r for r in results if r]
+          json.dump(good,open(out/'metadata.json','w',encoding='utf-8'),ensure_ascii=False,indent=2)
+          json.dump(errors,open(out/'errors.json','w',encoding='utf-8'),ensure_ascii=False,indent=2)
+          W,H=270,445; cols,rows=5,4
+          for page,start in enumerate(range(0,len(good),20),1):
+              batch=good[start:start+20]; sheet=Image.new('RGB',(W*cols,H*rows),'black')
+              for j,rec in enumerate(batch):
+                  im=Image.open(posters/f'{rec["slug"]}.webp').convert('RGB'); im.thumbnail((W-20,H-78),Image.Resampling.LANCZOS)
+                  cell=Image.new('RGB',(W,H),'#101010'); cell.paste(im,((W-im.width)//2,5)); d=ImageDraw.Draw(cell)
+                  d.text((7,H-65),f'{start+j+1}. {rec["displayTitle"]} ({rec["year"]})',fill='white')
+                  d.text((7,H-43),f'{rec["imdbId"]} · {rec["savedSize"][0]}x{rec["savedSize"][1]}',fill='#bbbbbb')
+                  sheet.paste(cell,((j%cols)*W,(j//cols)*H))
+              sheet.save(out/f'CONTACT_{page:02d}.jpg','JPEG',quality=92)
+          print('RESULTS',len(good),'ERRORS',len(errors),flush=True)
+          if errors: print(json.dumps(errors,ensure_ascii=False,indent=2),flush=True)
           PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: remaining-final-103-qc
+          path: remaining-final-qc
+          if-no-files-found: error
