@@ -116,7 +116,7 @@ function renderLibrary(){
       </div>
       <div class="cardInfo">
         <div class="cardTitle">${escapeHtml(m.title)}</div>
-        <div class="cardMeta">${m.year} · ${escapeHtml(runtimeText(m))} · ${escapeHtml(m.version)}</div>
+        <div class="cardMeta">${m.year} · ${m.runtimeMinutes} min · ${escapeHtml(m.version)}</div>
       </div>
     </button>`).join("");
   document.querySelectorAll(".movieCard").forEach(btn => btn.addEventListener("click",()=>openMovie(btn.dataset.movie)));
@@ -126,7 +126,7 @@ function renderLibrary(){
       const movie=movieById(card.dataset.movie);
       if(!movie) return;
       const meta=card.querySelector(".cardMeta");
-      if(meta) meta.textContent=`${movie.year} · ${runtimeText(movie)} · ${movie.version}`;
+      if(meta) meta.textContent=`${movie.year} · ${movie.runtimeMinutes} min · ${movie.version}`;
       card.querySelector(".cardDescription")?.remove();
       card.querySelector(".cardVersion")?.remove();
     });
