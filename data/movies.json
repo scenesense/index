@@ -230,7 +230,7 @@
           "originality": 3,
           "ingenuity": 4,
           "ideaGrowth": 5,
-          "filmicInvention": 3,
+          "filmicInvention": 2,
           "resourcefulness": 5
         },
         "morality": {
@@ -243,7 +243,7 @@
         "integrity": {
           "independence": 5,
           "viewerRespect": 5,
-          "restraint": 5,
+          "restraint": 4,
           "degradation": 5,
           "cohesion": 5
         }
