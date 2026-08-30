@@ -1,0 +1,105 @@
+name: QC 15-film batch
+
+on:
+  push:
+    paths:
+      - BATCH_ADD_QC_TRIGGER
+
+permissions:
+  contents: read
+
+jobs:
+  qc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pillow requests beautifulsoup4
+      - name: Fetch TMDB matches and poster candidates
+        run: |
+          python - <<'PY'
+          import io, json, re, urllib.parse
+          from pathlib import Path
+          import requests
+          from bs4 import BeautifulSoup
+          from PIL import Image
+
+          movies = [
+            ('dangerous-beauty-1998','Dangerous Beauty','Dangerous Beauty',1998),
+            ('dark-water-2005','Dark Water','Dark Water',2005),
+            ('dashing-home-for-christmas-2020','Dashing Home for Christmas','Dashing Home for Christmas',2020),
+            ('deja-vu-2006','Deja Vu','Déjà Vu',2006),
+            ('desk-set-1957','Desk Set','Desk Set',1957),
+            ('dragonheart-1996','DragonHeart','DragonHeart',1996),
+            ('easy-a-2010','Easy A','Easy A',2010),
+            ('farmer-seeking-love-2022','Farmer Seeking Love','Farmer Seeking Love',2022),
+            ('finding-christmas-2013','Finding Christmas','Finding Christmas',2013),
+            ('finding-neverland-2004','Finding Neverland','Finding Neverland',2004),
+            ('flight-of-the-navigator-1986','Flight of the Navigator','Flight of the Navigator',1986),
+            ('flyboys-2006','Flyboys','Flyboys',2006),
+            ('french-kiss-1995','French Kiss','French Kiss',1995),
+            ('gojira-mainasu-wan-2023','Godzilla Minus One','Godzilla Minus One',2023),
+            ('guess-whos-coming-to-dinner-1967',"Guess Who's Coming to Dinner","Guess Who's Coming to Dinner",1967),
+          ]
+          out=Path('batch-add-qc'); out.mkdir(exist_ok=True)
+          s=requests.Session(); s.headers.update({'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/131 Safari/537.36','Accept-Language':'en-US,en;q=0.9'})
+          results=[]
+
+          def tmdb_match(query, year):
+              url='https://www.themoviedb.org/search/movie?query='+urllib.parse.quote(query)
+              r=s.get(url,timeout=45); r.raise_for_status()
+              soup=BeautifulSoup(r.text,'html.parser')
+              candidates=[]
+              seen=set()
+              for a in soup.select('a[href^="/movie/"]'):
+                  href=a.get('href','').split('?')[0]
+                  m=re.match(r'/movie/(\d+)(?:-[^/]*)?$',href)
+                  if not m or m.group(1) in seen: continue
+                  seen.add(m.group(1))
+                  container=a
+                  for _ in range(4):
+                      if container.parent: container=container.parent
+                  text=container.get_text(' ',strip=True)
+                  score=0
+                  if str(year) in text: score+=10
+                  qwords=[w for w in re.findall(r'[a-z0-9]+',query.lower()) if len(w)>2]
+                  al=a.get_text(' ',strip=True).lower()
+                  score+=sum(1 for w in qwords if w in al)
+                  candidates.append((score,m.group(1),href,text[:250]))
+              if not candidates: raise RuntimeError('No TMDB candidates for '+query)
+              candidates.sort(reverse=True)
+              for score,mid,href,text in candidates[:8]:
+                  rr=s.get('https://www.themoviedb.org'+href+'?language=en-US',timeout=45); rr.raise_for_status()
+                  ss=BeautifulSoup(rr.text,'html.parser')
+                  ogt=ss.find('meta',attrs={'property':'og:title'})
+                  ogi=ss.find('meta',attrs={'property':'og:image'})
+                  page_title=(ogt.get('content','') if ogt else '')
+                  body=ss.get_text(' ',strip=True)[:4000]
+                  if str(year) in page_title or str(year) in body:
+                      if ogi and ogi.get('content'):
+                          return int(mid), page_title, ogi['content']
+              score,mid,href,text=candidates[0]
+              rr=s.get('https://www.themoviedb.org'+href+'?language=en-US',timeout=45); rr.raise_for_status()
+              ss=BeautifulSoup(rr.text,'html.parser')
+              ogt=ss.find('meta',attrs={'property':'og:title'}); ogi=ss.find('meta',attrs={'property':'og:image'})
+              if not ogi: raise RuntimeError('No og:image for '+query)
+              return int(mid),(ogt.get('content','') if ogt else ''),ogi['content']
+
+          for slug,query,display,year in movies:
+              mid,page_title,imgurl=tmdb_match(query,year)
+              r=s.get(imgurl,timeout=60); r.raise_for_status()
+              im=Image.open(io.BytesIO(r.content)).convert('RGB')
+              orig=im.size
+              im.thumbnail((1200,1800),Image.Resampling.LANCZOS)
+              im.save(out/f'{slug}.webp','WEBP',quality=90,method=6)
+              results.append({'slug':slug,'displayTitle':display,'year':year,'tmdbId':mid,'tmdbPageTitle':page_title,'imageUrl':imgurl,'originalSize':orig,'savedSize':im.size})
+              print(slug,mid,page_title,imgurl,orig,'=>',im.size)
+          (out/'metadata.json').write_text(json.dumps(results,ensure_ascii=False,indent=2),encoding='utf-8')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: batch-add-qc
+          path: batch-add-qc/*
+          if-no-files-found: error
