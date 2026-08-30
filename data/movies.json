@@ -185,8 +185,8 @@
           "relationshipCharge": 5
         },
         "direction": {
-          "staging": 4,
-          "actorDirection": 4,
+          "staging": 3,
+          "actorDirection": 3,
           "tone": 5,
           "action": 5,
           "directorialControl": 5
