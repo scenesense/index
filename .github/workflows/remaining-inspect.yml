@@ -1,4 +1,4 @@
-name: Inspect remaining metadata
+name: QC remaining 103 films
 
 on:
   push:
@@ -12,23 +12,121 @@ jobs:
   inspect:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: pip install requests beautifulsoup4
-      - name: Inspect TMDB search markup
+      - run: pip install pillow requests beautifulsoup4
+      - name: Fetch metadata and poster candidates
         run: |
           python - <<'PY'
+          import io,json,re,unicodedata,difflib,time
+          from pathlib import Path
+          from urllib.parse import quote
           import requests
           from bs4 import BeautifulSoup
-          from urllib.parse import quote
-          s=requests.Session(); s.headers.update({'User-Agent':'Mozilla/5.0','Accept-Language':'en-US,en;q=0.9'})
-          u='https://www.themoviedb.org/search/movie?query='+quote('Desk Set')+'&language=en-US'
-          r=s.get(u,timeout=30); r.raise_for_status(); soup=BeautifulSoup(r.text,'html.parser')
-          print('cards',len(soup.select('div.card.v4.tight')))
-          for card in soup.select('div.card.v4.tight')[:10]:
-            print('CARD',card.get_text(' ',strip=True)[:400])
-            print('LINKS',[(a.get_text(' ',strip=True),a.get('href')) for a in card.select('a[href^="/movie/"]')[:5]])
-            print('DATE',[x.get_text(' ',strip=True) for x in card.select('.release_date,.release')])
-          print('all movie links',[(a.get_text(' ',strip=True),a.get('href')) for a in soup.select('a[href^="/movie/"]')[:20]])
+          from PIL import Image,ImageDraw,ImageFont
+
+          items=json.load(open('data/remaining_batch_manifest.json',encoding='utf-8'))
+          out=Path('remaining-qc'); out.mkdir(exist_ok=True)
+          posters=out/'posters'; posters.mkdir(exist_ok=True)
+          s=requests.Session(); s.headers.update({'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/131 Safari/537.36','Accept-Language':'en-US,en;q=0.9'})
+
+          def norm(x):
+              x=unicodedata.normalize('NFKD',str(x)).encode('ascii','ignore').decode().lower()
+              return re.sub(r'[^a-z0-9]+','',x)
+          def slugify(x):
+              x=unicodedata.normalize('NFKD',x).encode('ascii','ignore').decode().lower()
+              return re.sub(r'[^a-z0-9]+','-',x).strip('-')
+          def page_info(kind,href):
+              if href.startswith('/'):
+                  url='https://www.themoviedb.org'+href
+              else: url=href
+              if '?' not in url: url+='?language=en-US'
+              r=s.get(url,timeout=45); r.raise_for_status(); soup=BeautifulSoup(r.text,'html.parser')
+              ogt=soup.find('meta',attrs={'property':'og:title'}); ogi=soup.find('meta',attrs={'property':'og:image'}); ogd=soup.find('meta',attrs={'property':'og:description'})
+              title=(ogt.get('content','') if ogt else '').strip()
+              body=soup.get_text(' ',strip=True)
+              overview_el=soup.select_one('div.overview p')
+              overview=(overview_el.get_text(' ',strip=True) if overview_el else (ogd.get('content','') if ogd else '')).strip()
+              genres=[a.get_text(' ',strip=True) for a in soup.select('span.genres a')]
+              actors=[]
+              for a in soup.select('ol.people.scroller li.card p a'):
+                  n=a.get_text(' ',strip=True)
+                  if n and n not in actors: actors.append(n)
+                  if len(actors)>=5: break
+              image=(ogi.get('content','') if ogi else '').strip()
+              m=re.search(r'/(?:movie|tv)/(\d+)',url)
+              return {'sourceType':kind,'sourceId':int(m.group(1)) if m else None,'sourceTitle':title,'body':body,'overview':overview,'rawGenres':genres,'actors':actors,'imageUrl':image,'sourceUrl':url}
+          def choose(item):
+              preferred=item.get('sourceType')
+              if item.get('sourceId'):
+                  kind=preferred or 'movie'
+                  return page_info(kind,f'https://www.themoviedb.org/{kind}/{item["sourceId"]}')
+              kinds=[preferred] if preferred else ['movie','tv']
+              best=None
+              for kind in kinds:
+                  search=f'https://www.themoviedb.org/search/{kind}?query={quote(item["query"])}&language=en-US'
+                  r=s.get(search,timeout=45); r.raise_for_status(); soup=BeautifulSoup(r.text,'html.parser')
+                  seen=set(); links=[]
+                  for a in soup.select(f'a[href^="/{kind}/"]'):
+                      href=a.get('href','').split('?')[0]
+                      m=re.match(fr'/{kind}/(\d+)',href)
+                      if not m or m.group(1) in seen: continue
+                      seen.add(m.group(1)); links.append(href)
+                      if len(links)>=8: break
+                  for href in links:
+                      try: info=page_info(kind,href)
+                      except Exception: continue
+                      sim=difflib.SequenceMatcher(None,norm(item['query']),norm(info['sourceTitle'])).ratio()
+                      year_bonus=1.0 if str(item['year']) in info['body'] else 0.0
+                      score=sim*10+year_bonus*6
+                      if best is None or score>best[0]: best=(score,info)
+                      if sim>=0.93 and year_bonus: return info
+              if not best: raise RuntimeError('no source match')
+              return best[1]
+
+          results=[]; errors=[]
+          manual_overview={
+            'Star Trek: The Cage':'Captain Christopher Pike and the Enterprise investigate a distress call from Talos IV, where Pike is captured by powerful telepathic inhabitants who create elaborate illusions around the human survivor Vina.',
+          }
+          for idx,item in enumerate(items,1):
+              try:
+                  info=choose(item)
+                  if item['title'] in manual_overview: info['overview']=manual_overview[item['title']]
+                  if not info['imageUrl']: raise RuntimeError('no poster image')
+                  rr=s.get(info['imageUrl'],timeout=60); rr.raise_for_status()
+                  im=Image.open(io.BytesIO(rr.content)).convert('RGB'); orig=im.size
+                  im.thumbnail((1000,1500),Image.Resampling.LANCZOS)
+                  slug=slugify(item['displayTitle'])+'-'+str(item['year'])
+                  p=posters/f'{slug}.webp'; im.save(p,'WEBP',quality=88,method=6)
+                  rec={**item,**{k:v for k,v in info.items() if k!='body'},'slug':slug,'originalSize':orig,'savedSize':im.size}
+                  results.append(rec)
+                  print(f'{idx:03d}/{len(items)} OK {item["displayTitle"]} -> {info["sourceType"]}:{info["sourceId"]} {info["sourceTitle"]} {orig}')
+              except Exception as e:
+                  errors.append({'item':item,'error':repr(e)}); print(f'{idx:03d}/{len(items)} FAIL {item["displayTitle"]}: {e}')
+              time.sleep(.08)
+
+          json.dump(results,open(out/'metadata.json','w',encoding='utf-8'),ensure_ascii=False,indent=2)
+          json.dump(errors,open(out/'errors.json','w',encoding='utf-8'),ensure_ascii=False,indent=2)
+
+          # Contact sheets, 20 posters each. Images are shown whole, never cropped.
+          W,H=260,430; cols,rows=5,4
+          for page,start in enumerate(range(0,len(results),20),1):
+              batch=results[start:start+20]
+              sheet=Image.new('RGB',(W*cols,H*rows),'black')
+              for j,rec in enumerate(batch):
+                  im=Image.open(posters/f'{rec["slug"]}.webp').convert('RGB')
+                  im.thumbnail((W-20,H-75),Image.Resampling.LANCZOS)
+                  cell=Image.new('RGB',(W,H),'#101010'); cell.paste(im,((W-im.width)//2,5))
+                  d=ImageDraw.Draw(cell); label=f'{start+j+1}. {rec["displayTitle"]} ({rec["year"]})'; d.text((7,H-61),label,fill='white'); d.text((7,H-39),f'{rec["sourceType"]}:{rec["sourceId"]} {rec["savedSize"][0]}x{rec["savedSize"][1]}',fill='#bbbbbb')
+                  sheet.paste(cell,((j%cols)*W,(j//cols)*H))
+              sheet.save(out/f'CONTACT_{page:02d}.jpg','JPEG',quality=92)
+          print('RESULTS',len(results),'ERRORS',len(errors))
+          if errors: print(json.dumps(errors,ensure_ascii=False,indent=2))
           PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: remaining-103-qc
+          path: remaining-qc
+          if-no-files-found: error
