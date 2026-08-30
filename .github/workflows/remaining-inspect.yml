@@ -1,4 +1,4 @@
-name: Resolve remaining 103 films
+name: Probe IMDb metadata
 
 on:
   push:
@@ -9,121 +9,31 @@ permissions:
   contents: read
 
 jobs:
-  resolve:
+  probe:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: pip install requests
-      - name: Resolve exact TMDB IDs through Wikidata
+      - run: pip install requests beautifulsoup4
+      - name: Probe suggestion and title JSON-LD
         run: |
           python - <<'PY'
-          import json,re,time,unicodedata,difflib,requests
-          from pathlib import Path
-
-          items=json.load(open('data/remaining_batch_manifest.json',encoding='utf-8'))
-          s=requests.Session(); s.headers.update({'User-Agent':'SceneSenseMetadata/1.0 (github.com/scenesense/index)'})
-          API='https://www.wikidata.org/w/api.php'
-          MANUAL={
-            'Indiana Jones: Raiders of the Lost Ark':('movie',85),
-            'Indiana Jones: The Last Crusade':('movie',89),
-            'Spider-Man I':('movie',557),
-            'Spider-Man II':('movie',558),
-            'Star Trek: The Cage':('tv',253),
-            'Star Trek: The Motion Picture':('movie',152),
-            'Star Trek II: The Wrath of Khan':('movie',154),
-            'Star Trek III: The Search for Spock':('movie',157),
-            'Star Trek IV: The Voyage Home':('movie',168),
-            'Star Trek VI: The Undiscovered Country':('movie',174),
-            'Star Trek Generations':('movie',193),
-            'Star Trek: First Contact':('movie',199),
-            'Star Trek: Insurrection':('movie',200),
-            'Star Wars: A New Hope':('movie',11),
-            'Star Wars: The Empire Strikes Back':('movie',1891),
-            'Star Wars: Return of the Jedi':('movie',1892),
-            'White Collar':('tv',21510),
-            'The Forty Four Hundred':('tv',1481),
-          }
-          def norm(x):
-              x=unicodedata.normalize('NFKD',str(x)).encode('ascii','ignore').decode().lower()
-              return re.sub(r'[^a-z0-9]+','',x)
-          def claim_value(ent,prop):
-              vals=[]
-              for c in ent.get('claims',{}).get(prop,[]):
-                  try:
-                      v=c['mainsnak']['datavalue']['value']
-                      if isinstance(v,dict) and 'time' in v: vals.append(v['time'])
-                      else: vals.append(v)
-                  except Exception: pass
-              return vals
-          def entity(qid):
-              r=s.get(API,params={'action':'wbgetentities','ids':qid,'props':'labels|aliases|claims','languages':'en','format':'json'},timeout=30); r.raise_for_status()
-              return r.json()['entities'][qid]
-          def years(ent):
-              ys=[]
-              for p in ('P577','P580','P571'):
-                  for v in claim_value(ent,p):
-                      m=re.search(r'([12]\d{3})',str(v))
-                      if m: ys.append(int(m.group(1)))
-              return ys
-          def tmdb(ent):
-              m=claim_value(ent,'P4947')
-              t=claim_value(ent,'P4983')
-              if m: return 'movie',int(str(m[0]))
-              if t: return 'tv',int(str(t[0]))
-              return None,None
-          def resolve(item):
-              if item['displayTitle'] in MANUAL:
-                  kind,sid=MANUAL[item['displayTitle']]
-                  return {'sourceType':kind,'sourceId':sid,'wikidataId':None,'resolver':'manual'}
-              searches=[item['query'],item['title'],item['displayTitle']]
-              seen=set(); best=None
-              for text in searches:
-                  r=s.get(API,params={'action':'wbsearchentities','search':text,'language':'en','format':'json','limit':8,'type':'item'},timeout=30); r.raise_for_status()
-                  for sr in r.json().get('search',[]):
-                      qid=sr['id']
-                      if qid in seen: continue
-                      seen.add(qid)
-                      try: ent=entity(qid)
-                      except Exception: continue
-                      kind,sid=tmdb(ent)
-                      if sid is None: continue
-                      labels=[]
-                      lab=ent.get('labels',{}).get('en',{}).get('value')
-                      if lab: labels.append(lab)
-                      labels += [a.get('value','') for a in ent.get('aliases',{}).get('en',[])]
-                      target=norm(item['query'])
-                      sim=max([difflib.SequenceMatcher(None,target,norm(x)).ratio() for x in labels if x] or [0])
-                      ys=years(ent); yd=min([abs(y-item['year']) for y in ys] or [99])
-                      year_score=6 if yd==0 else (2 if yd==1 else (-4 if yd>2 else 0))
-                      desc=sr.get('description','') or ''
-                      media_bonus=1 if any(w in desc.lower() for w in ['film','television','movie','series']) else 0
-                      score=sim*10+year_score+media_bonus
-                      rec={'sourceType':kind,'sourceId':sid,'wikidataId':qid,'resolver':'wikidata','matchedLabel':lab,'years':ys,'similarity':sim,'score':score,'description':desc}
-                      if best is None or score>best[0]: best=(score,rec)
-                      if sim>=.92 and yd==0: return rec
-                  time.sleep(.08)
-              if best and best[0]>=7: return best[1]
-              return None
-          resolved=[]; unresolved=[]
-          for i,item in enumerate(items,1):
-              try:
-                  rec=resolve(item)
-                  if rec:
-                      resolved.append({**item,**rec}); print(f'{i:03d} OK {item["displayTitle"]}: {rec["sourceType"]}:{rec["sourceId"]} {rec.get("matchedLabel")}',flush=True)
-                  else:
-                      unresolved.append(item); print(f'{i:03d} MISS {item["displayTitle"]}',flush=True)
-              except Exception as e:
-                  unresolved.append({**item,'error':repr(e)}); print(f'{i:03d} ERROR {item["displayTitle"]}: {e}',flush=True)
-          out=Path('remaining-resolved'); out.mkdir(exist_ok=True)
-          json.dump(resolved,open(out/'resolved.json','w',encoding='utf-8'),ensure_ascii=False,indent=2)
-          json.dump(unresolved,open(out/'unresolved.json','w',encoding='utf-8'),ensure_ascii=False,indent=2)
-          print('RESOLVED',len(resolved),'UNRESOLVED',len(unresolved))
+          import json,requests,urllib.parse
+          from bs4 import BeautifulSoup
+          s=requests.Session(); s.headers.update({'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/131 Safari/537.36','Accept-Language':'en-US,en;q=0.9'})
+          q='In Time'
+          url='https://v3.sg.media-imdb.com/suggestion/x/'+urllib.parse.quote(q)+'.json'
+          r=s.get(url,timeout=30); print('SUGGEST',r.status_code,r.url); r.raise_for_status(); js=r.json(); print(json.dumps(js.get('d',[])[:5],ensure_ascii=False)[:4000])
+          cand=[x for x in js.get('d',[]) if x.get('y')==2011 and str(x.get('id','')).startswith('tt')]
+          x=cand[0]; tid=x['id']; print('CHOSEN',tid,x.get('l'),x.get('y'),x.get('q'),x.get('i'))
+          p=s.get(f'https://www.imdb.com/title/{tid}/',timeout=30); print('PAGE',p.status_code,len(p.text)); p.raise_for_status(); soup=BeautifulSoup(p.text,'html.parser')
+          blobs=[]
+          for tag in soup.select('script[type="application/ld+json"]'):
+              try: blobs.append(json.loads(tag.string or tag.get_text()))
+              except Exception: pass
+          print('JSONLD_COUNT',len(blobs))
+          for b in blobs:
+              if isinstance(b,dict):
+                  print('NAME',b.get('name')); print('IMAGE',b.get('image')); print('GENRE',b.get('genre')); print('DESC',b.get('description')); print('ACTORS',[a.get('name') for a in (b.get('actor') or [])[:8] if isinstance(a,dict)])
           PY
-      - uses: actions/upload-artifact@v4
-        with:
-          name: remaining-wikidata-resolved
-          path: remaining-resolved
-          if-no-files-found: error
