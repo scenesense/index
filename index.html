@@ -25,7 +25,7 @@
   <dialog id="adminDialog" class="dialog"><form method="dialog" class="dialogCard" id="adminForm"><button class="dialogClose" value="cancel" aria-label="Close">×</button><div class="dialogEyebrow">Owner access</div><h2>Unlock scoring</h2><p>Enter a GitHub fine-grained personal access token with <strong>Contents: Read and write</strong> access to <code>scenesense/index</code>. It is kept only for this browser session and is never written into the site.</p><label class="fieldLabel" for="tokenInput">GitHub token</label><input id="tokenInput" class="tokenInput" type="password" autocomplete="off" placeholder="github_pat_…"><div id="adminError" class="dialogError"></div><div class="dialogActions"><button class="button" value="cancel">Cancel</button><button id="unlockBtn" class="button primary" value="default" type="submit">Unlock</button></div></form></dialog>
   <script src="categories.js?v=20260830-10"></script>
   <script>const CATEGORY_LABELS={writing:"WRITING",character:"CHARACTER",realism:"REALISM",casting:"CASTING",performance:"PERFORMANCE",chemistry:"CHEMISTRY",direction:"DIRECTION",editing:"PACING",visuals:"CINEMATOGRAPHY",world:"WORLD",sound:"SOUND",music:"MUSIC",creativity:"ORIGINALITY",morality:"MORALITY",integrity:"INTEGRITY"};CATEGORIES.forEach(category=>{category.title=CATEGORY_LABELS[category.key]||category.title;});</script>
-  <script src="engine.js?v=20260830-11"></script>
+  <script src="engine.js?v=20260830-12"></script>
   <script>
     const GENRE_VOCABULARY=Object.freeze(["Action","Adventure","Comedy","Crime","Drama","Horror","Romance","Science Fiction","Thriller","Western","Musical","Mystery","Christmas","Fantasy"]);
     const MOVIE_GENRES=Object.freeze({
