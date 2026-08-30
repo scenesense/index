@@ -1,0 +1,46 @@
+name: User poster QC
+
+on:
+  push:
+    paths:
+      - USER_POSTER_QC_TRIGGER
+
+permissions:
+  contents: read
+
+jobs:
+  qc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pillow requests
+      - name: Download exact user poster files
+        run: |
+          python - <<'PY'
+          import io
+          from pathlib import Path
+          import requests
+          from PIL import Image
+          urls=[
+            'https://lumiere-a.akamaihd.net/v1/images/pp_aliens_3133_da3ef017.jpeg',
+            'https://m.media-amazon.com/images/M/MV5BNjIyNTE0Y2EtYjE3Zi00NTA4LTgyMjUtMmU3MDQwZjIzYzM3XkEyXkFqcGc@._V1_.jpg',
+            'https://m.media-amazon.com/images/M/MV5BYTY3NDg2YzktYWFjZC00MTExLTlmZDctMGY3MWYzZTlkYTNiXkEyXkFqcGc@._V1_.jpg',
+            'https://image.tmdb.org/t/p/original/r3a5gGWfS0SDS9nriNrJzSSrErf.jpg'
+          ]
+          out=Path('user-poster-qc'); out.mkdir(exist_ok=True)
+          s=requests.Session(); s.headers.update({'User-Agent':'Mozilla/5.0','Accept':'image/avif,image/webp,image/apng,image/*,*/*;q=0.8'})
+          for i,u in enumerate(urls,1):
+              r=s.get(u,timeout=60,allow_redirects=True); r.raise_for_status()
+              im=Image.open(io.BytesIO(r.content)).convert('RGB')
+              print(i,u,im.size,r.headers.get('content-type'))
+              im.thumbnail((1600,2400),Image.Resampling.LANCZOS)
+              im.save(out/f'candidate-{i}.webp','WEBP',quality=90,method=6)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: user-poster-qc
+          path: user-poster-qc/*.webp
+          if-no-files-found: error
