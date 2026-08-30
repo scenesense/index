@@ -47,6 +47,9 @@ jobs:
                   nh=round(w/target); y=round((h-nh)*cy); y=max(0,min(y,h-nh)); im=im.crop((0,y,w,y+nh))
               return im.resize((1000,1500),Image.Resampling.LANCZOS)
 
+          def recrop(im,left,top,right,bottom):
+              return im.crop((left,top,right,bottom)).resize((1000,1500),Image.Resampling.LANCZOS)
+
           def font(size,bold=True,italic=False):
               if italic:
                   p='/usr/share/fonts/truetype/dejavu/DejaVuSerif-Italic.ttf'
@@ -56,39 +59,40 @@ jobs:
                   p='/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed.ttf'
               return ImageFont.truetype(p,size)
 
-          def draw_centered(im,text,y,fnt,fill=(245,245,245),stroke=4,spacing=12):
+          def draw_centered(im,text,y,fnt,fill=(245,245,245),stroke=4):
               d=ImageDraw.Draw(im)
-              lines=text.split('\n')
-              line_h=max(fnt.getbbox(x)[3]-fnt.getbbox(x)[1] for x in lines)
-              for i,line in enumerate(lines):
-                  box=d.textbbox((0,0),line,font=fnt,stroke_width=stroke)
-                  x=(im.width-(box[2]-box[0]))//2
-                  d.text((x,y+i*(line_h+spacing)),line,font=fnt,fill=fill,stroke_width=stroke,stroke_fill=(0,0,0))
+              box=d.textbbox((0,0),text,font=fnt,stroke_width=stroke)
+              x=(im.width-(box[2]-box[0]))//2
+              d.text((x,y),text,font=fnt,fill=fill,stroke_width=stroke,stroke_fill=(0,0,0))
 
-          # A Little Romance: take only the clean pointillist artwork, discarding the boxed title area and border.
+          # A Little Romance: pointillist artwork only. Remove the original boxed title/border and the blank paper margin.
           alr=fetch('https://m.media-amazon.com/images/M/MV5BNWJhZDE5MzItODM1Yi00MjlkLTk2NDgtYTFjOWM5MTA2NTlkXkEyXkFqcGc%40._V1_.jpg')
           alr=crop_frac(alr,.055,.035,.055,.405)
           alr=fit23(alr,cx=.58)
-          draw_centered(alr,'A LITTLE ROMANCE',1310,font(62,italic=True),fill=(248,241,218),stroke=3)
+          alr=recrop(alr,0,235,1000,1500)
+          draw_centered(alr,'A LITTLE ROMANCE',1335,font(58,italic=True),fill=(248,241,218),stroke=3)
           alr.save(out/'a-little-romance-1979.webp','WEBP',quality=84,method=6)
 
-          # Aliens: image-dominant Xenomorph art, with all original fine-print/title area removed and a clean title restored.
+          # Aliens: Xenomorph artwork only. Remove the source's white edge and every original title/credit line.
           aliens=fetch('https://posterspy.com/wp-content/uploads/2019/03/aliens-1.jpg')
           aliens=crop_frac(aliens,0,0,0,.205)
           aliens=fit23(aliens,cx=.5,cy=.45)
-          draw_centered(aliens,'A L I E N S',1315,font(68,bold=False),fill=(221,239,255),stroke=3)
+          aliens=recrop(aliens,0,45,1000,1315)
+          draw_centered(aliens,'A L I E N S',1340,font(66,bold=False),fill=(221,239,255),stroke=3)
           aliens.save(out/'aliens-1986.webp','WEBP',quality=84,method=6)
 
-          # Beauty and the Beast: clean digital illustrated art with large characters and title, no scan/fold texture or billing block.
-          beauty=fetch('https://image.pmgstatic.com/cache/resized/w663/files/images/film/posters/158/727/158727715_ffb107.jpg')
-          beauty=fit23(beauty,cx=.5,cy=.5)
+          # Beauty and the Beast: extract only the clean blue minimalist artwork from the product mockup.
+          beauty=fetch('https://images.squarespace-cdn.com/content/v1/553e1e3ae4b0c7db85dc4fb3/1524053735259-6R6A2320UFKTDEDJUNRC/Beauty_Beast_Movie_Posteritty_Minimalist.jpg?format=2500w')
+          beauty=crop_frac(beauty,.165,.005,.165,.075)
+          beauty=fit23(beauty,cx=.5,cy=.48)
           beauty.save(out/'beauty-and-the-beast-1991.webp','WEBP',quality=84,method=6)
 
-          # Can't Hardly Wait: remove the title-box graphic from the source and use the cast photography as the poster image.
+          # Can't Hardly Wait: cast photography only. Remove the source's top title graphics and bottom red title panel.
           chw=fetch('https://flxt.tmsimg.com/assets/p21121_p_v12_al.jpg')
           chw=crop_frac(chw,0,.205,0,0)
           chw=fit23(chw,cx=.5,cy=.52)
-          draw_centered(chw,"CAN'T HARDLY WAIT",1320,font(58,bold=True),fill=(255,255,255),stroke=4)
+          chw=recrop(chw,0,105,1000,1315)
+          draw_centered(chw,"CAN'T HARDLY WAIT",1340,font(55,bold=True),fill=(255,255,255),stroke=4)
           chw.save(out/'cant-hardly-wait-1998.webp','WEBP',quality=84,method=6)
 
           for p in sorted(out.glob('*.webp')):
