@@ -66,8 +66,8 @@ const CATEGORIES = [
   {
     key:"direction", title:"Direction & Scene Construction", weight:5,
     items:[
-      ["staging","Staging","Did scenes feel deliberately shaped rather than merely recorded?"],
-      ["actorDirection","Actor Direction","Did everyone seem to be acting in the same movie?"],
+      ["staging","Staging","Did scenes use the space around the characters well, or did everyone just stand where the camera needed them?"],
+      ["actorDirection","Actor Direction","Did the performances work together naturally, or did some actors seem to be playing a different scene?"],
       ["tone","Tone","Could the film change mood without feeling like it became a different movie?"],
       ["action","Action","Could I follow the action and feel it build, or did it dissolve into chaos?"],
       ["directorialControl","Directorial Control","Did the direction serve the movie, or keep trying to impress me?"]
