@@ -20,6 +20,19 @@
     .brandSub{margin-top:-2px;font-size:16px;font-weight:400;letter-spacing:.18px}
     .cardTitle,.ratingName,.fieldLabel{font-weight:600}
 
+    /* Use a controlled chevron instead of the browser's edge-hugging native arrow. */
+    .select{
+      -webkit-appearance:none!important;
+      appearance:none!important;
+      min-width:112px!important;
+      padding:0 39px 0 15px!important;
+      background-color:rgba(255,255,255,.035)!important;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.25 6 6.25 11 1.25' fill='none' stroke='%239cabc1' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")!important;
+      background-repeat:no-repeat!important;
+      background-position:right 14px center!important;
+      background-size:12px 8px!important;
+    }
+
     .movieSummary h1{margin:8px 0 0!important}
     .detailSubtitle{
       margin-top:6px;
@@ -31,9 +44,19 @@
     .detailSubtitle:empty{display:none}
     .movieSummary .eyebrow{
       margin-top:12px;
-      margin-bottom:18px;
+      margin-bottom:8px;
       color:#aab4c2!important;
     }
+    .detailGenres{
+      min-height:18px;
+      margin:0 0 15px;
+      color:#91abc1;
+      font-size:14px;
+      font-weight:500;
+      line-height:1.25;
+      white-space:normal;
+    }
+    .detailGenres:empty{display:none}
     .detailDescription{
       max-width:820px;
       margin:2px 0 22px;
@@ -77,6 +100,17 @@
       font-size:15px;
       font-weight:500;
       line-height:1.15;
+    }
+    .cardGenres{
+      width:100%;
+      margin-top:6px;
+      overflow:hidden;
+      color:#91abc1;
+      font-size:12px;
+      font-weight:500;
+      line-height:1.15;
+      white-space:nowrap;
+      text-overflow:ellipsis;
     }
 
     .posterWrap.missingPoster,
@@ -216,6 +250,10 @@
       .categoryWeight{display:block!important}
       .actorChip{font-size:12px;min-height:30px}
       .detailDescription{font-size:15px}
+      .detailGenres{font-size:13px}
+    }
+    @media(max-width:620px){
+      .cardGenres{font-size:10.5px;letter-spacing:0}
     }
   </style>
 </head>
@@ -260,6 +298,7 @@
             <h1 id="detailTitle"></h1>
             <div id="detailSubtitle" class="detailSubtitle"></div>
             <div class="eyebrow" id="detailMeta"></div>
+            <div id="detailGenres" class="detailGenres"></div>
             <div id="actorChips" class="actorChips" aria-label="Principal cast"></div>
             <div id="detailDescription" class="detailDescription"></div>
             <div class="scoreLine">
@@ -328,6 +367,41 @@
   </script>
   <script src="engine.js?v=20260830-9"></script>
   <script>
+    const GENRE_VOCABULARY = Object.freeze([
+      "Action","Adventure","Comedy","Crime","Drama","Horror","Romance",
+      "Science Fiction","Thriller","Western","Musical","Mystery","Christmas","Fantasy"
+    ]);
+
+    /* Ordered by dominant viewing experience, not alphabetically and not by setting. */
+    const MOVIE_GENRES = Object.freeze({
+      "back-to-the-future-1985": ["Adventure","Science Fiction"],
+      "back-to-the-future-ii-1989": ["Adventure","Science Fiction"],
+      "back-to-the-future-iii-1990": ["Adventure","Western","Science Fiction","Romance"],
+      "500-days-of-summer-2009": ["Romance","Drama","Comedy"],
+      "2010-the-year-we-make-contact-1984": ["Science Fiction","Thriller","Drama"],
+      "a-90s-christmas-2024": ["Christmas","Romance","Drama","Fantasy"],
+      "a-biltmore-christmas-2023": ["Christmas","Romance","Fantasy"],
+      "a-bird-of-the-air-2011": ["Romance","Drama"],
+      "a-bride-for-christmas-2012": ["Romance","Christmas","Comedy"],
+      "a-little-romance-1979": ["Romance","Adventure","Comedy"],
+      "a-picture-of-her-2023": ["Romance","Drama"],
+      "alien-1979": ["Horror","Thriller","Science Fiction"],
+      "aliens-1986": ["Action","Thriller","Horror","Science Fiction"],
+      "an-hour-behind-2017": ["Romance","Drama"],
+      "an-unfinished-life-2005": ["Drama"],
+      "arachnophobia-1990": ["Horror","Comedy","Thriller"],
+      "arn-i-tempelriddaren-2007": ["Adventure","Drama","Romance","Action"],
+      "arn-ii-riket-vid-vagens-slut-2008": ["Adventure","Action","Drama","Romance"]
+    });
+
+    function genresFor(movie){
+      return movie ? (MOVIE_GENRES[movie.id] || []) : [];
+    }
+    function genreText(movie, limit=null){
+      const values = genresFor(movie);
+      return (limit == null ? values : values.slice(0,limit)).join(" · ");
+    }
+
     /* Preserve whichever categories are open across star-click rerenders. */
     const baseRenderMovie = renderMovie;
     let preservedOpenCategories = new Set(["writing"]);
@@ -360,6 +434,7 @@
       $("detailTitle").textContent = parts.main;
       $("detailSubtitle").textContent = parts.subtitle;
       $("detailMeta").textContent = `${movie.year} · ${movie.runtimeMinutes} min · ${movie.version}`;
+      $("detailGenres").textContent = genreText(movie);
       $("detailDescription").textContent = movie.description || "";
     }
 
@@ -395,6 +470,13 @@
           subtitle.remove();
         }
 
+        let genreRow = info.querySelector(".cardGenres");
+        if(!genreRow){
+          genreRow = document.createElement("div");
+          genreRow.className = "cardGenres";
+          meta.before(genreRow);
+        }
+        genreRow.textContent = genreText(movie,2);
         meta.textContent = `${movie.year} · ${movie.runtimeMinutes} min · ${movie.version}`;
       });
     }
