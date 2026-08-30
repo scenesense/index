@@ -1,0 +1,90 @@
+name: Poster QC four
+
+on:
+  push:
+    paths:
+      - POSTER_QC_FOUR_TRIGGER
+
+permissions:
+  contents: read
+
+jobs:
+  qc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pillow requests
+      - name: Build four poster candidates
+        run: |
+          python - <<'PY'
+          import io
+          from pathlib import Path
+          import requests
+          from PIL import Image
+
+          out=Path('poster-qc-four')
+          out.mkdir(exist_ok=True)
+          s=requests.Session()
+          s.headers.update({'User-Agent':'Mozilla/5.0 SceneSensePosterQC/1.0','Accept':'image/avif,image/webp,image/apng,image/*,*/*;q=0.8'})
+
+          specs={
+            'a-little-romance-1979':{
+              'urls':['https://irs.www.warnerbros.com/gallery-v2-jpeg/a_little_romance_posterlarge_5-556466385.jpg'],
+              'crop':(0.00,0.00,0.00,0.105)
+            },
+            'aliens-1986':{
+              'urls':['https://posterspy.com/wp-content/uploads/2019/03/aliens-1.jpg','https://www.tallengestore.com/cdn/shop/products/Alien_Queen_ATarts_485b2f3a-36c9-4b5e-b183-eafbc52a669d.jpg?v=1634645739'],
+              'crop':(0.00,0.00,0.00,0.145)
+            },
+            'beauty-and-the-beast-1991':{
+              'urls':['https://image.pmgstatic.com/cache/resized/w663/files/images/film/posters/158/727/158727715_ffb107.jpg'],
+              'crop':(0.00,0.00,0.00,0.00)
+            },
+            'cant-hardly-wait-1998':{
+              'urls':['https://images.justwatch.com/poster/305301926/s718/cant-hardly-wait.jpg','https://images.justwatch.com/poster/305301926/s718/cant-hardly-wait.webp','https://images.justwatch.com/poster/305301926/s718/cant-hardly-wait.%7Bformat%7D'],
+              'crop':(0.00,0.00,0.00,0.00)
+            }
+          }
+
+          def get(urls):
+            last=None
+            for u in urls:
+              try:
+                r=s.get(u,timeout=50,allow_redirects=True)
+                r.raise_for_status()
+                im=Image.open(io.BytesIO(r.content)).convert('RGB')
+                print('FETCH',u,im.size,r.headers.get('content-type'))
+                return im,u
+              except Exception as e:
+                print('FAIL',u,e)
+                last=e
+            raise last
+
+          def crop_frac(im,c):
+            l,t,r,b=c; w,h=im.size
+            return im.crop((round(w*l),round(h*t),round(w*(1-r)),round(h*(1-b))))
+
+          for slug,cfg in specs.items():
+            im,u=get(cfg['urls'])
+            im=crop_frac(im,cfg['crop'])
+            w,h=im.size
+            # preserve composition: center-crop only enough to reach 2:3, never enlarge a landscape crop blindly
+            target=2/3
+            ratio=w/h
+            if ratio>target:
+              nw=round(h*target); x=(w-nw)//2; im=im.crop((x,0,x+nw,h))
+            elif ratio<target:
+              nh=round(w/target); y=max(0,(h-nh)//2); im=im.crop((0,y,w,y+nh))
+            im=im.resize((1000,1500),Image.Resampling.LANCZOS)
+            p=out/f'{slug}.webp'
+            im.save(p,'WEBP',quality=84,method=6)
+            print('SAVED',slug,u,p.stat().st_size)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: poster-qc-four
+          path: poster-qc-four/*.webp
+          if-no-files-found: error
