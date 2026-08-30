@@ -2,6 +2,7 @@ const $ = (id) => document.getElementById(id);
 let data = null;
 let savedData = null;
 let runtimeManifest = [];
+let supplementalMovies = [];
 let activeMovieId = null;
 let adminToken = "";
 let dirty = false;
@@ -41,19 +42,28 @@ function normalizeRuntimeKey(value){
 function runtimeKey(item){
   return `${item.year}|${normalizeRuntimeKey(item.title)}|${normalizeRuntimeKey(item.version)}`;
 }
+function mergeSupplementalMovies(targetData){
+  targetData.movies ||= [];
+  const known = new Set(targetData.movies.map(movie => movie.id));
+  supplementalMovies.forEach(movie => {
+    if(known.has(movie.id)) return;
+    targetData.movies.push(deepClone(movie));
+    known.add(movie.id);
+  });
+  return targetData;
+}
 function applyRuntimeManifest(targetData, manifest){
   const byKey = new Map((manifest || []).map(item => [runtimeKey(item), item]));
-  let matched = 0;
   (targetData?.movies || []).forEach(movie => {
     const exact = byKey.get(runtimeKey(movie));
     if(!exact) return;
-    matched += 1;
     movie.runtimeSeconds = Number(exact.runtimeSeconds);
     movie.runtimeExact = exact.runtimeExact;
     movie.runtimeMinutes = Math.floor((movie.runtimeSeconds + 30) / 60);
   });
-  if(targetData?.movies?.length && matched !== targetData.movies.length){
-    console.warn(`Exact runtime manifest matched ${matched}/${targetData.movies.length} movies.`);
+  const covered=(targetData?.movies || []).filter(movie => movie.runtimeExact).length;
+  if(targetData?.movies?.length && covered !== targetData.movies.length){
+    console.warn(`Exact runtime data available for ${covered}/${targetData.movies.length} movies.`);
   }
 }
 function runtimeText(movie){
@@ -62,14 +72,19 @@ function runtimeText(movie){
 
 async function loadData(){
   const stamp = Date.now();
-  const [movieResponse, runtimeResponse] = await Promise.all([
+  const [movieResponse, runtimeResponse, supplementalResponse] = await Promise.all([
     fetch(`data/movies.json?v=${stamp}`, {cache:"no-store"}),
-    fetch(`data/exact_runtimes_manifest.json?v=${stamp}`, {cache:"no-store"})
+    fetch(`data/exact_runtimes_manifest.json?v=${stamp}`, {cache:"no-store"}),
+    fetch(`data/movies-additions-20260830.json?v=${stamp}`, {cache:"no-store"})
   ]);
   if(!movieResponse.ok) throw new Error(`Could not load movie data (${movieResponse.status})`);
   if(!runtimeResponse.ok) throw new Error(`Could not load exact runtimes (${runtimeResponse.status})`);
+  if(!supplementalResponse.ok) throw new Error(`Could not load supplemental movies (${supplementalResponse.status})`);
   data = await movieResponse.json();
   runtimeManifest = await runtimeResponse.json();
+  const supplementalPayload = await supplementalResponse.json();
+  supplementalMovies = supplementalPayload.movies || [];
+  mergeSupplementalMovies(data);
   applyRuntimeManifest(data, runtimeManifest);
   savedData = deepClone(data);
   $("sort").value = sortMode;
@@ -350,6 +365,7 @@ async function saveData(){
     }
 
     data=deepClone(remoteData);
+    mergeSupplementalMovies(data);
     applyRuntimeManifest(data, runtimeManifest);
     savedData=deepClone(data);
     dirty=false;
