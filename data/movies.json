@@ -144,7 +144,7 @@
       "ratings": {
         "writing": {
           "storyQuality": 5,
-          "storyLogic": 5,
+          "storyLogic": 4,
           "development": 5,
           "construction": 5,
           "dialogue": 5
@@ -153,7 +153,7 @@
           "characterDepth": 5,
           "drive": 5,
           "consistency": 5,
-          "practicalIntelligence": 4,
+          "practicalIntelligence": 3,
           "maturity": 3
         },
         "realism": {
@@ -199,7 +199,7 @@
           "restraint": 5
         },
         "visuals": {
-          "photography": 5,
+          "photography": 4,
           "imageDesign": 5,
           "imageQuality": 5,
           "visualEffects": 5,
