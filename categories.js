@@ -8,7 +8,7 @@ const CATEGORIES = [
     items:[
       ["storyQuality","Story Quality","Did the story keep revealing more, or did its main idea wear thin?"],
       ["storyLogic","Story Logic","Did events grow naturally from what came before, or did the script force them?"],
-      ["development","Development","Did the story keep going somewhere meaningful, or mostly run in place?"],
+      ["development","Development","Did the story keep moving toward meaningful change?"],
       ["construction","Construction","Did the story set things up and pay them off, or leave pieces hanging?"],
       ["dialogue","Dialogue","Did people sound like themselves, or like the screenplay talking?"]
     ]
@@ -49,8 +49,8 @@ const CATEGORIES = [
       ["characterization","Characterization","Did I see the characters, or mostly actors performing?"],
       ["emotionalLife","Emotional Life","Could I read what the characters were feeling even when they said nothing?"],
       ["delivery","Delivery","Did the lines feel spoken to someone, or delivered at the camera?"],
-      ["physicalPerformance","Physical Performance","Did the characters stay alive in the performers' faces and bodies, even when no one was speaking?"],
-      ["performanceControl","Performance Control","When the movie changed gears, did the actors shift with it without losing their characters?"]
+      ["physicalPerformance","Physical Performance","Did the performers' faces and body language stay true to the characters?"],
+      ["performanceControl","Performance Control","When the movie changed gears, did the actors shift with it?"]
     ]
   },
   {
@@ -80,7 +80,7 @@ const CATEGORIES = [
       ["rhythm","Rhythm","Did the film know when to move and when to let a moment breathe?"],
       ["cutting","Cutting","Did the cuts land at the right moments, or did scenes feel chopped up?"],
       ["clarity","Clarity","Did I always know where and when I was without having to reconstruct it?"],
-      ["restraint","Restraint","Did scenes get room to play out, or were they cut off before they could land?"]
+      ["restraint","Restraint","Did the editing know when not to cut?"]
     ]
   },
   {
@@ -109,7 +109,7 @@ const CATEGORIES = [
       ["soundQuality","Sound Quality","Could the soundtrack go from whisper-quiet to huge without losing control?"],
       ["dialogue","Dialogue","Did voices stay clear without sounding pasted onto the scene?"],
       ["soundscape","Soundscape","If I closed my eyes, would the world still feel alive and specific?"],
-      ["spatialSound","Spatial Sound","Did sounds seem to come from different places in the scene, or did the sound all feel stuck in one place?"],
+      ["spatialSound","Spatial Sound","Did the sound create a convincing sense of space?"],
       ["mixing","Mixing","Did the important sounds come through naturally, or fight for attention?"]
     ]
   },
@@ -120,7 +120,7 @@ const CATEGORIES = [
       ["execution","Execution","Did the music sound fully alive, or like a sketch of what it could have been?"],
       ["musicalIdentity","Musical Identity","Could I recognize this film from its music alone?"],
       ["sceneFit","Scene Fit","Did the music deepen scenes, or just tell me what to feel?"],
-      ["scoreControl","Score Control","Did the musical score feel like one journey from beginning to end, or like separate pieces dropped into scenes?"]
+      ["scoreControl","Score Control","Did the musical score feel like one journey from beginning to end?"]
     ]
   },
   {
@@ -146,11 +146,11 @@ const CATEGORIES = [
   {
     key:"integrity", title:"Artistic Integrity / Restraint / Cohesion", weight:8,
     items:[
-      ["independence","Independence","Did the movie feel like its own thing, or like it was checking corporate boxes?"],
+      ["independence","Independence","Did the movie follow its own creative vision, or check corporate boxes?"],
       ["viewerRespect","Viewer Respect","Did the film trust me, or keep trying to force a reaction?"],
       ["restraint","Restraint","Did the film know when enough was enough?"],
       ["degradation","Degradation","Did the profanity and depravity earn their place, or just drag the film down?"],
-      ["cohesion","Cohesion","Did all the parts feel like one movie, or did some feel bolted on?"]
+      ["cohesion","Cohesion","Did the movie feel whole, or did some parts feel out of place?"]
     ]
   }
 ];
