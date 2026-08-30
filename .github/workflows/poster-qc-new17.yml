@@ -1,0 +1,122 @@
+name: Poster QC new 17
+
+on:
+  push:
+    paths:
+      - POSTER_QC_NEW17_TRIGGER
+
+permissions:
+  contents: read
+
+jobs:
+  qc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pillow requests
+      - name: Build poster candidates
+        run: |
+          python - <<'PY'
+          import io
+          from pathlib import Path
+          import requests
+          from PIL import Image, ImageDraw, ImageFont
+
+          out=Path('poster-qc-new17')
+          out.mkdir(exist_ok=True)
+          s=requests.Session()
+          s.headers.update({
+            'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/131 Safari/537.36',
+            'Accept':'image/avif,image/webp,image/apng,image/*,*/*;q=0.8',
+            'Accept-Language':'en-US,en;q=0.9'
+          })
+
+          # crop = left, top, right, bottom fractions applied before 2:3 normalization.
+          candidates=[
+            ('half-light-a','https://m.media-amazon.com/images/M/MV5BOGMzMDczOTctNmE0NS00OWIwLTk0N2ItOGJkNjc2YTU4OWM5XkEyXkFqcGc%40._V1_.jpg',(0,0,0,0)),
+            ('half-light-crop','https://m.media-amazon.com/images/M/MV5BOGMzMDczOTctNmE0NS00OWIwLTk0N2ItOGJkNjc2YTU4OWM5XkEyXkFqcGc%40._V1_.jpg',(0,0,0,0.18)),
+            ('heaven-can-wait','https://images.sr.roku.com/idType/roku/context/global/id/73b8001974615c9ba1a3209e4f8e1916/images/gracenote/assets/p4384_v_v8_af.jpg/magic/1000x0/filters%3Aquality%2890%29',(0,0,0,0)),
+            ('holiday-engagement','https://image.tmdb.org/t/p/original/A6kymOV3KIi620vHx1CuGMFPf3P.jpg',(0,0,0,0)),
+            ('in-a-world','https://m.media-amazon.com/images/M/MV5BMTU0NzE0Mzg3M15BMl5BanBnXkFtZTcwNzY2MDY3OQ%40%40._V1_.jpg',(0,0,0,0)),
+            ('in-time-a','https://pics.filmaffinity.com/In_Time-139117348-large.jpg',(0,0,0,0)),
+            ('in-time-b','https://www.heyuguys.com/images/2011/08/In-Time-UK-Poster.jpg',(0,0,0,0)),
+            ('last-crusade','https://m.media-amazon.com/images/M/MV5BN2QxYWY2YTYtN2E1Ny00ZmQ4LTk0YjQtYzQ0OWI0YTEwMGFhXkEyXkFqcGc%40._V1_.jpg',(0,0,0,0)),
+            ('raiders-a','https://www.popmovee.com/uploads/1/9/6/2/19626163/raiders-of-the-lost-ark-movie-1981-poster1_2_orig.jpg',(0,0,0,0)),
+            ('raiders-crop','https://www.popmovee.com/uploads/1/9/6/2/19626163/raiders-of-the-lost-ark-movie-1981-poster1_2_orig.jpg',(0,0,0,0.14)),
+            ('john-tucker','https://feminisminromcoms.wordpress.com/wp-content/uploads/2015/03/john-tucker-must-die.jpg?crop=1&h=1500&w=1000',(0,0,0,0)),
+            ('jurassic-a','https://i.pinimg.com/736x/09/6c/96/096c968dd97ab36844781be3ba8f5f48.jpg',(0,0,0,0)),
+            ('jurassic-teaser-crop','https://a.1stdibscdn.com/archivesE/upload/1722654/f_76488031497641905195/1_org_79__master.jpg',(0,0,0,0.09)),
+            ('just-in-time-a','https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak%3D/v3/t/assets/p12216957_p_v13_ax.jpg',(0,0,0,0)),
+            ('just-in-time-crop','https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak%3D/v3/t/assets/p12216957_p_v13_ax.jpg',(0,0.08,0,0)),
+            ('k19-clean','https://image.tmdb.org/t/p/original/ji7YWKx40TM8YexbRqfJZKMhQY3.jpg',(0,0,0,0)),
+            ('kate-leopold','https://images.vpro.nl/66dq2jrtgwq4/w_1200/pfn_5z8h4u07ris.jpg',(0,0,0,0)),
+            ('king-kong-a','https://cdn11.bigcommerce.com/s-hb4cr1x1/images/stencil/900x1800/products/559/848/Untitled-1350__26013.1689228605.jpg?c=1',(0,0,0,0)),
+            ('king-kong-crop','https://cdn11.bigcommerce.com/s-hb4cr1x1/images/stencil/900x1800/products/559/848/Untitled-1350__26013.1689228605.jpg?c=1',(0,0,0,0.14)),
+            ('king-solomons-a','https://www.moviemeter.nl/images/cover/27000/27653.jpg?cb=1671101551',(0,0,0,0)),
+            ('king-solomons-crop','https://www.moviemeter.nl/images/cover/27000/27653.jpg?cb=1671101551',(0,0.075,0,0)),
+            ('leaving-dc','https://m.media-amazon.com/images/S/pv-target-images/74794cd4a2badedb6f6fb5d885ecf01f24a63374bc59588702fc80ea2214ecd8.jpg',(0,0,0,0)),
+            ('love-actually','https://image.tmdb.org/t/p/original/1ODdWLpyOnIVl0l67GrdaFDlJGf.jpg',(0,0,0,0)),
+          ]
+
+          def fetch(url):
+            r=s.get(url,timeout=50,allow_redirects=True)
+            r.raise_for_status()
+            ctype=r.headers.get('content-type','')
+            if 'image' not in ctype.lower():
+              raise RuntimeError(f'not image: {ctype}')
+            return Image.open(io.BytesIO(r.content)).convert('RGB')
+
+          def crop_frac(im,c):
+            l,t,r,b=c; w,h=im.size
+            return im.crop((round(w*l),round(h*t),round(w*(1-r)),round(h*(1-b))))
+
+          def normalize(im):
+            w,h=im.size
+            target=2/3
+            ratio=w/h
+            if ratio>target:
+              nw=round(h*target); x=(w-nw)//2
+              im=im.crop((x,0,x+nw,h))
+            elif ratio<target:
+              nh=round(w/target); y=max(0,(h-nh)//2)
+              im=im.crop((0,y,w,y+nh))
+            return im.resize((1000,1500),Image.Resampling.LANCZOS)
+
+          thumbs=[]
+          failures=[]
+          for slug,url,crop in candidates:
+            try:
+              im=fetch(url)
+              print('FETCH',slug,url,im.size)
+              im=normalize(crop_frac(im,crop))
+              path=out/f'{slug}.webp'
+              im.save(path,'WEBP',quality=86,method=6)
+              thumb=im.resize((240,360),Image.Resampling.LANCZOS)
+              thumbs.append((slug,thumb))
+              print('SAVED',slug,path.stat().st_size)
+            except Exception as e:
+              print('FAIL',slug,url,repr(e))
+              failures.append(f'{slug}: {url} :: {e}')
+
+          # Contact sheet makes the actual post-crop result easy to inspect.
+          cell_w,cell_h=260,405
+          cols=5
+          rows=(len(thumbs)+cols-1)//cols
+          sheet=Image.new('RGB',(cols*cell_w,max(1,rows)*cell_h),(18,22,29))
+          d=ImageDraw.Draw(sheet)
+          font=ImageFont.load_default()
+          for i,(slug,im) in enumerate(thumbs):
+            x=(i%cols)*cell_w+10; y=(i//cols)*cell_h+10
+            sheet.paste(im,(x,y))
+            d.text((x,y+365),slug,fill=(235,240,247),font=font)
+          sheet.save(out/'CONTACT_SHEET.jpg','JPEG',quality=92)
+          (out/'FAILURES.txt').write_text('\n'.join(failures) if failures else 'none',encoding='utf-8')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: poster-qc-new17
+          path: poster-qc-new17/
+          if-no-files-found: error
