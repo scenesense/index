@@ -8,7 +8,7 @@ const CATEGORIES = [
     items:[
       ["storyQuality","Story Quality","Did the story keep revealing more, or did its main idea wear thin?"],
       ["storyLogic","Story Logic","Did events grow naturally from what came before, or did the script force them?"],
-      ["development","Development","Did the story build toward meaningful change, or mostly spin its wheels?"],
+      ["development","Development","Did the story keep going somewhere meaningful, or mostly run in place?"],
       ["construction","Construction","Did the story set things up and pay them off, or leave pieces hanging?"],
       ["dialogue","Dialogue","Did people sound like themselves, or like the screenplay talking?"]
     ]
@@ -47,10 +47,10 @@ const CATEGORIES = [
     key:"performance", title:"Performance & Character Embodiment", weight:6,
     items:[
       ["characterization","Characterization","Did I see the characters, or mostly actors performing?"],
-      ["emotionalLife","Emotional Life","Could I see thoughts and feelings happening before the words came out?"],
+      ["emotionalLife","Emotional Life","Could I read what the characters were feeling even when they said nothing?"],
       ["delivery","Delivery","Did the lines feel spoken to someone, or delivered at the camera?"],
-      ["physicalPerformance","Physical Performance","Did the performers stay in character even when they weren't speaking?"],
-      ["performanceControl","Performance Control","Did the performances stay convincing when the mood or style shifted?"]
+      ["physicalPerformance","Physical Performance","Did the characters stay alive in the performers' faces and bodies, even when no one was speaking?"],
+      ["performanceControl","Performance Control","When the movie changed gears, did the actors shift with it without losing their characters?"]
     ]
   },
   {
@@ -60,14 +60,14 @@ const CATEGORIES = [
       ["flow","Flow","Did people flow naturally together, or feel like actors taking turns?"],
       ["relationshipDepth","Relationship Depth","Did the relationships have layers, or did they stay at the surface?"],
       ["relationshipGrowth","Relationship Growth","Did the relationships actually evolve, or keep returning to the same state?"],
-      ["relationshipCharge","Relationship Charge","Did the relationships feel alive, or did they feel flat?"]
+      ["relationshipCharge","Relationship Charge","Did the relationships have real energy, or did the film have to force it?"]
     ]
   },
   {
     key:"direction", title:"Direction & Scene Construction", weight:5,
     items:[
       ["staging","Staging","Did scenes use the space around the characters well, or did everyone just stand where the camera needed them?"],
-      ["actorDirection","Actor Direction","Did the performances work together naturally, or did some actors seem to be playing a different scene?"],
+      ["actorDirection","Actor Direction","Did the cast feel in sync, or did some performances throw the scene off?"],
       ["tone","Tone","Could the film change mood without feeling like it became a different movie?"],
       ["action","Action","Could I follow the action and feel it build, or did it dissolve into chaos?"],
       ["directorialControl","Directorial Control","Did the direction serve the movie, or keep trying to impress me?"]
@@ -78,9 +78,9 @@ const CATEGORIES = [
     items:[
       ["pacing","Pacing","Did scenes last as long as they needed to, without dragging or rushing?"],
       ["rhythm","Rhythm","Did the film know when to move and when to let a moment breathe?"],
-      ["cutting","Cutting","Did the cuts carry me along, or keep making me notice the editing?"],
+      ["cutting","Cutting","Did the cuts land at the right moments, or did scenes feel chopped up?"],
       ["clarity","Clarity","Did I always know where and when I was without having to reconstruct it?"],
-      ["restraint","Restraint","Did the editing let scenes breathe, or keep interrupting them for attention?"]
+      ["restraint","Restraint","Did scenes get room to play out, or were they cut off before they could land?"]
     ]
   },
   {
@@ -109,7 +109,7 @@ const CATEGORIES = [
       ["soundQuality","Sound Quality","Could the soundtrack go from whisper-quiet to huge without losing control?"],
       ["dialogue","Dialogue","Did voices stay clear without sounding pasted onto the scene?"],
       ["soundscape","Soundscape","If I closed my eyes, would the world still feel alive and specific?"],
-      ["spatialSound","Spatial Sound","Did the mix create a convincing sense of where sounds were, or did everything feel flat?"],
+      ["spatialSound","Spatial Sound","Did sounds seem to come from different places in the scene, or did the sound all feel stuck in one place?"],
       ["mixing","Mixing","Did the important sounds come through naturally, or fight for attention?"]
     ]
   },
@@ -120,7 +120,7 @@ const CATEGORIES = [
       ["execution","Execution","Did the music sound fully alive, or like a sketch of what it could have been?"],
       ["musicalIdentity","Musical Identity","Could I recognize this film from its music alone?"],
       ["sceneFit","Scene Fit","Did the music deepen scenes, or just tell me what to feel?"],
-      ["scoreControl","Score Control","Did the score feel like one musical journey, or a pile of scene cues?"]
+      ["scoreControl","Score Control","Did the musical score feel like one journey from beginning to end, or like separate pieces dropped into scenes?"]
     ]
   },
   {
@@ -136,21 +136,21 @@ const CATEGORIES = [
   {
     key:"morality", title:"Moral / Ethical Quality", weight:7,
     items:[
-      ["humanValues","Human Values","Did the film treat people as worth something, or mostly reward cynicism?"],
-      ["relationshipEthics","Relationship Ethics","Did the film understand the difference between care and control?"],
+      ["humanValues","Human Values","Did the film itself value human dignity, or treat people as disposable?"],
+      ["relationshipEthics","Relationship Ethics","Did the film understand healthy relationships, or mistake manipulation and control for love or loyalty?"],
       ["responsibility","Responsibility","Did good and bad choices carry meaningful consequences?"],
-      ["moralOpposition","Moral Opposition","Did the film oppose something genuinely wrong, or just point at a villain?"],
+      ["moralOpposition","Moral Opposition","Did the film make its opposition both worth opposing and memorable, or just give me a generic bad guy?"],
       ["ethicalFraming","Ethical Framing","Did the film show harm for what it was, or make it look cool?"]
     ]
   },
   {
     key:"integrity", title:"Artistic Integrity / Restraint / Cohesion", weight:8,
     items:[
-      ["independence","Independence","Did the movie feel like itself, or like it was checking someone else's boxes?"],
+      ["independence","Independence","Did the movie feel like its own thing, or like it was checking corporate boxes?"],
       ["viewerRespect","Viewer Respect","Did the film trust me, or keep trying to force a reaction?"],
       ["restraint","Restraint","Did the film know when enough was enough?"],
       ["degradation","Degradation","Did the profanity and depravity earn their place, or just drag the film down?"],
-      ["cohesion","Cohesion","Did everything feel like it belonged in the same movie?"]
+      ["cohesion","Cohesion","Did all the parts feel like one movie, or did some feel bolted on?"]
     ]
   }
 ];
