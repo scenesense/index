@@ -69,6 +69,19 @@ function renderLibrary(){
       </div>
     </button>`).join("");
   document.querySelectorAll(".movieCard").forEach(btn => btn.addEventListener("click",()=>openMovie(btn.dataset.movie)));
+
+  /* The enhancement layer may decorate cards after this function returns. Clean
+     them once that synchronous pass has finished so browsing cards stay compact. */
+  queueMicrotask(()=>{
+    document.querySelectorAll(".movieCard").forEach(card=>{
+      const movie=movieById(card.dataset.movie);
+      if(!movie) return;
+      const meta=card.querySelector(".cardMeta");
+      if(meta) meta.textContent=`${movie.year} · ${movie.runtimeMinutes} min · ${movie.version}`;
+      card.querySelector(".cardDescription")?.remove();
+      card.querySelector(".cardVersion")?.remove();
+    });
+  });
 }
 
 function escapeHtml(v){
@@ -89,6 +102,20 @@ function openMovie(id, updateHash=true){
   $("detailMeta").textContent = `${movie.year} · ${movie.runtimeMinutes} min · ${movie.version}`;
   renderMovie();
   scrollTo({top:0,behavior:"instant"});
+
+  /* Restore the original year/runtime/edition metadata after the display-title
+     enhancement has run, and keep the metadata visually quiet. */
+  queueMicrotask(()=>{
+    const current=movieById(id);
+    if(!current) return;
+    const meta=$("detailMeta");
+    if(meta){
+      meta.textContent=`${current.year} · ${current.runtimeMinutes} min · ${current.version}`;
+      meta.style.color="#aab4c2";
+    }
+    const separateVersion=$("detailVersion");
+    if(separateVersion) separateVersion.textContent="";
+  });
 }
 
 function closeMovie(){
