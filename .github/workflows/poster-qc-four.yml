@@ -1,4 +1,4 @@
-name: Poster QC four
+name: Deploy approved four posters
 
 on:
   push:
@@ -6,10 +6,10 @@ on:
       - POSTER_QC_FOUR_TRIGGER
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  qc:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,7 +17,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install pillow requests
-      - name: Build four poster candidates
+      - name: Build visually approved posters
         run: |
           python - <<'PY'
           import io
@@ -25,7 +25,7 @@ jobs:
           import requests
           from PIL import Image, ImageDraw, ImageFont
 
-          out=Path('poster-qc-four'); out.mkdir(exist_ok=True)
+          out=Path('assets/posters'); out.mkdir(parents=True,exist_ok=True)
           s=requests.Session()
           s.headers.update({'User-Agent':'Mozilla/5.0 SceneSensePosterQC/1.0','Accept':'image/avif,image/webp,image/apng,image/*,*/*;q=0.8'})
 
@@ -65,7 +65,6 @@ jobs:
               x=(im.width-(box[2]-box[0]))//2
               d.text((x,y),text,font=fnt,fill=fill,stroke_width=stroke,stroke_fill=(0,0,0))
 
-          # A Little Romance: pointillist artwork only. Remove the entire original boxed title/border and paper margin.
           alr=fetch('https://m.media-amazon.com/images/M/MV5BNWJhZDE5MzItODM1Yi00MjlkLTk2NDgtYTFjOWM5MTA2NTlkXkEyXkFqcGc%40._V1_.jpg')
           alr=crop_frac(alr,.055,.035,.055,.405)
           alr=fit23(alr,cx=.58)
@@ -73,7 +72,6 @@ jobs:
           draw_centered(alr,'A LITTLE ROMANCE',1335,font(58,italic=True),fill=(248,241,218),stroke=3)
           alr.save(out/'a-little-romance-1979.webp','WEBP',quality=84,method=6)
 
-          # Aliens: Xenomorph artwork only. Remove the source's white edge and every original title/credit line.
           aliens=fetch('https://posterspy.com/wp-content/uploads/2019/03/aliens-1.jpg')
           aliens=crop_frac(aliens,0,0,0,.205)
           aliens=fit23(aliens,cx=.5,cy=.45)
@@ -81,14 +79,12 @@ jobs:
           draw_centered(aliens,'A L I E N S',1340,font(66,bold=False),fill=(221,239,255),stroke=3)
           aliens.save(out/'aliens-1986.webp','WEBP',quality=84,method=6)
 
-          # Beauty and the Beast: clean character art, large Belle and Beast, then title only. No poster scan or product mockup.
           beauty=fetch('https://i.servimg.com/u/f22/14/42/01/49/717.jpg')
           beauty=fit23(beauty,cx=.53,cy=.5)
           beauty=recrop(beauty,0,0,1000,1420)
           draw_centered(beauty,'BEAUTY AND THE BEAST',1325,font(52,bold=True),fill=(255,221,95),stroke=4)
           beauty.save(out/'beauty-and-the-beast-1991.webp','WEBP',quality=84,method=6)
 
-          # Can't Hardly Wait: cast photography only. Remove the source's top title graphics and bottom red title panel.
           chw=fetch('https://flxt.tmsimg.com/assets/p21121_p_v12_al.jpg')
           chw=crop_frac(chw,0,.205,0,0)
           chw=fit23(chw,cx=.5,cy=.52)
@@ -96,12 +92,16 @@ jobs:
           draw_centered(chw,"CAN'T HARDLY WAIT",1340,font(55,bold=True),fill=(255,255,255),stroke=4)
           chw.save(out/'cant-hardly-wait-1998.webp','WEBP',quality=84,method=6)
 
-          for p in sorted(out.glob('*.webp')):
+          for p in [out/'a-little-romance-1979.webp',out/'aliens-1986.webp',out/'beauty-and-the-beast-1991.webp',out/'cant-hardly-wait-1998.webp']:
               im=Image.open(p)
-              print('SAVED',p.name,im.size,p.stat().st_size)
+              if im.size != (1000,1500): raise SystemExit(f'bad size {p}: {im.size}')
+              print('APPROVED',p.name,p.stat().st_size)
           PY
-      - uses: actions/upload-artifact@v4
-        with:
-          name: poster-qc-four
-          path: poster-qc-four/*.webp
-          if-no-files-found: error
+      - name: Commit four posters and remove one-shot QC machinery
+        run: |
+          git config user.name 'SceneSense Poster Bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add assets/posters/a-little-romance-1979.webp assets/posters/aliens-1986.webp assets/posters/beauty-and-the-beast-1991.webp assets/posters/cant-hardly-wait-1998.webp
+          git rm .github/workflows/poster-qc-four.yml POSTER_QC_FOUR_TRIGGER
+          git commit -m 'Replace four posters after visual QC'
+          git push
