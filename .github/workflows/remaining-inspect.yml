@@ -1,4 +1,4 @@
-name: Probe IMDb GraphQL
+name: Probe IMDb cast credits
 
 on:
   push:
@@ -16,39 +16,19 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install requests
-      - name: Probe IMDb GraphQL
+      - name: Probe full cast credits
         run: |
           python - <<'PY'
-          import json,requests
-          q='''query TitleDetail($id: ID!) {
+          import requests
+          q='''query CastProbe($id: ID!) {
             title(id: $id) {
-              id
               titleText { text }
-              titleType { id text }
-              releaseYear { year endYear }
-              runtime { seconds }
-              plot { plotText { plainText } }
-              genres { genres { text } }
-              primaryImage { url width height }
-              principalCredits {
-                category { id text }
-                credits { name { id nameText { text } } }
+              credits(first: 10, filter: { categories: ["actor", "actress"] }) {
+                edges { node { name { id nameText { text } } category { id text } } }
               }
             }
           }'''
-          headers={
-            'accept':'application/graphql+json, application/json',
-            'content-type':'application/json',
-            'origin':'https://www.imdb.com',
-            'referer':'https://www.imdb.com/',
-            'x-imdb-client-name':'imdb-web-next',
-            'x-imdb-user-language':'en-US',
-            'x-imdb-user-country':'US',
-            'user-agent':'Mozilla/5.0'
-          }
-          for endpoint in ['https://caching.graphql.imdb.com/','https://api.graphql.imdb.com/']:
-            try:
-              r=requests.post(endpoint,headers=headers,json={'query':q,'variables':{'id':'tt1637688'}},timeout=30)
-              print('ENDPOINT',endpoint,'STATUS',r.status_code,'LEN',len(r.text)); print(r.text[:10000])
-            except Exception as e: print('ERROR',endpoint,repr(e))
+          headers={'accept':'application/graphql+json, application/json','content-type':'application/json','origin':'https://www.imdb.com','referer':'https://www.imdb.com/','x-imdb-client-name':'imdb-web-next','x-imdb-user-language':'en-US','x-imdb-user-country':'US','user-agent':'Mozilla/5.0'}
+          r=requests.post('https://caching.graphql.imdb.com/',headers=headers,json={'query':q,'variables':{'id':'tt1637688'}},timeout=30)
+          print('STATUS',r.status_code,'LEN',len(r.text)); print(r.text[:12000])
           PY
