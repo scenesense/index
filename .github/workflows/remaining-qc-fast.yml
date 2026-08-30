@@ -3,7 +3,7 @@ name: QC remaining library fast
 on:
   push:
     paths:
-      - REMAINING_FAST_TRIGGER
+      - REMAINING_INSPECT_TRIGGER
 
 permissions:
   contents: read
@@ -20,7 +20,7 @@ jobs:
       - name: Fetch candidates in parallel
         run: |
           python - <<'PY'
-          import io,json,re,unicodedata,difflib,threading
+          import io,json,re,unicodedata,difflib
           from pathlib import Path
           from urllib.parse import quote
           from concurrent.futures import ThreadPoolExecutor,as_completed
