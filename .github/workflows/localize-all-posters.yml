@@ -1,0 +1,81 @@
+name: Localize remaining posters
+
+on:
+  push:
+    paths:
+      - POSTER_LOCALIZE_ALL_TRIGGER
+
+permissions:
+  contents: write
+
+jobs:
+  localize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pillow requests
+      - name: Download and convert external posters
+        run: |
+          python - <<'PY'
+          import io, json, time
+          from pathlib import Path
+          import requests
+          from PIL import Image
+
+          db=Path('data/movies.json')
+          data=json.loads(db.read_text(encoding='utf-8'))
+          out=Path('assets/posters')
+          out.mkdir(parents=True,exist_ok=True)
+          session=requests.Session()
+          session.headers.update({'User-Agent':'Mozilla/5.0 SceneSensePosterBot/1.0','Accept':'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8'})
+          converted=[]
+          failed=[]
+
+          for m in data['movies']:
+              src=str(m.get('poster') or '')
+              if not src.startswith(('http://','https://')):
+                  continue
+              slug=m['id']
+              dest=out/f'{slug}.webp'
+              try:
+                  r=session.get(src,timeout=50,allow_redirects=True)
+                  r.raise_for_status()
+                  ct=r.headers.get('content-type','').lower()
+                  if 'image' not in ct:
+                      raise RuntimeError(f'non-image content-type {ct}')
+                  im=Image.open(io.BytesIO(r.content)).convert('RGB')
+                  w,h=im.size
+                  if w < 250 or h < 350:
+                      raise RuntimeError(f'image too small: {w}x{h}')
+                  maxw=1000
+                  if w>maxw:
+                      nh=round(h*maxw/w)
+                      im=im.resize((maxw,nh),Image.Resampling.LANCZOS)
+                  im.save(dest,'WEBP',quality=82,method=6)
+                  m['poster']=f'assets/posters/{slug}.webp'
+                  converted.append((slug,w,h,dest.stat().st_size))
+                  print('OK',slug,w,h,'=>',dest.stat().st_size)
+              except Exception as e:
+                  failed.append((slug,src,str(e)))
+                  print('FAIL',slug,e)
+              time.sleep(0.15)
+
+          db.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print('CONVERTED',len(converted))
+          print('FAILED',len(failed))
+          for x in failed: print('FAILED_ITEM',*x)
+          PY
+      - name: Commit localized posters
+        run: |
+          git config user.name 'SceneSense Poster Bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add assets/posters data/movies.json
+          if git diff --cached --quiet; then
+            echo 'Nothing to commit'
+          else
+            git commit -m 'Self-host remaining posters as WebP'
+            git push
+          fi
