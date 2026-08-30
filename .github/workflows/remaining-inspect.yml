@@ -1,0 +1,43 @@
+name: Inspect remaining metadata
+
+on:
+  push:
+    paths:
+      - REMAINING_INSPECT_TRIGGER
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install requests beautifulsoup4
+      - name: Inspect TMDB markup
+        run: |
+          python - <<'PY'
+          import requests,re
+          from bs4 import BeautifulSoup
+          s=requests.Session(); s.headers.update({'User-Agent':'Mozilla/5.0','Accept-Language':'en-US,en;q=0.9'})
+          u='https://www.themoviedb.org/movie/105-back-to-the-future?language=en-US'
+          r=s.get(u,timeout=30); r.raise_for_status(); soup=BeautifulSoup(r.text,'html.parser')
+          tests={
+            'title':'h2 a',
+            'runtime':'span.runtime',
+            'genres':'span.genres a',
+            'overview':'div.overview p',
+            'cast1':'ol.people.scroller li.card p a',
+            'cast2':'ol.people li.card p a',
+            'cast3':'section.panel.top_billed ol.people li p a',
+          }
+          for name,sel in tests.items():
+            vals=[x.get_text(' ',strip=True) for x in soup.select(sel)[:10]]
+            print(name, vals)
+          print('og:title',soup.find('meta',attrs={'property':'og:title'}))
+          print('og:description',soup.find('meta',attrs={'property':'og:description'}))
+          print('og:image',soup.find('meta',attrs={'property':'og:image'}))
+          print('movie-links sample',[(a.get_text(' ',strip=True),a.get('href')) for a in soup.select('a[href^="/person/"]')[:20]])
+          PY
