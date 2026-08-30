@@ -8,7 +8,7 @@ const CATEGORIES = [
     items:[
       ["storyQuality","Story Quality","Did the story keep revealing more, or did its main idea wear thin?"],
       ["storyLogic","Story Logic","Did events grow naturally from what came before, or did the script force them?"],
-      ["development","Development","Did the story keep moving toward meaningful change?"],
+      ["development","Development","Did the story build on itself as it went?"],
       ["construction","Construction","Did the story set things up and pay them off, or leave pieces hanging?"],
       ["dialogue","Dialogue","Did people sound like themselves, or like the screenplay talking?"]
     ]
@@ -49,7 +49,7 @@ const CATEGORIES = [
       ["characterization","Characterization","Did I see the characters, or mostly actors performing?"],
       ["emotionalLife","Emotional Life","Could I read what the characters were feeling even when they said nothing?"],
       ["delivery","Delivery","Did the lines feel spoken to someone, or delivered at the camera?"],
-      ["physicalPerformance","Physical Performance","Did the performers' faces and body language stay true to the characters?"],
+      ["physicalPerformance","Physical Performance","Did the performers use their faces and bodies to bring the characters to life?"],
       ["performanceControl","Performance Control","When the movie changed gears, did the actors shift with it?"]
     ]
   },
@@ -80,7 +80,7 @@ const CATEGORIES = [
       ["rhythm","Rhythm","Did the film know when to move and when to let a moment breathe?"],
       ["cutting","Cutting","Did the cuts land at the right moments, or did scenes feel chopped up?"],
       ["clarity","Clarity","Did I always know where and when I was without having to reconstruct it?"],
-      ["restraint","Restraint","Did the editing know when not to cut?"]
+      ["restraint","Restraint","Did the editing give important moments enough time to land?"]
     ]
   },
   {
