@@ -1,0 +1,49 @@
+name: Import supplied poster assets
+on:
+  push:
+    paths:
+      - '.github/workflows/import-supplied-posters.yml'
+permissions:
+  contents: write
+jobs:
+  import:
+    if: github.event.head_commit.message == 'Import supplied poster assets'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download exact supplied images and update paths
+        run: |
+          set -euo pipefail
+          mkdir -p assets/posters
+          curl -L --fail --retry 3 -A 'Mozilla/5.0' 'https://media.themoviedb.org/t/p/w500/v5f1qO6NJnxWgONgkYg21TW39DT.jpg' -o assets/posters/easy-a-2010.jpg
+          curl -L --fail --retry 3 -A 'Mozilla/5.0' 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnFBQospIeHTpg0Yc2sYYdlU3e7rz0RnYpZGI1wIuTYNiegbQE-c1ZFfs&s=10' -o assets/posters/gojira-mainasu-wan-2023.jpg
+          curl -L --fail --retry 3 -A 'Mozilla/5.0' 'https://image.tmdb.org/t/p/original/6B9d8079TdnLDQXxoIweKZgyKOi.jpg' -o assets/posters/guess-whos-coming-to-dinner-1967.jpg
+          file assets/posters/easy-a-2010.jpg | grep -Ei 'JPEG|image'
+          file assets/posters/gojira-mainasu-wan-2023.jpg | grep -Ei 'JPEG|image'
+          file assets/posters/guess-whos-coming-to-dinner-1967.jpg | grep -Ei 'JPEG|image'
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('data/movies.json')
+          data=json.loads(p.read_text(encoding='utf-8'))
+          replacements={
+            'easy-a-2010':'assets/posters/easy-a-2010.jpg',
+            'gojira-mainasu-wan-2023':'assets/posters/gojira-mainasu-wan-2023.jpg',
+            'guess-whos-coming-to-dinner-1967':'assets/posters/guess-whos-coming-to-dinner-1967.jpg',
+          }
+          found=set()
+          for movie in data.get('movies',[]):
+            if movie.get('id') in replacements:
+              movie['poster']=replacements[movie['id']]
+              found.add(movie['id'])
+          assert found==set(replacements), (found, set(replacements))
+          p.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+          rm .github/workflows/import-supplied-posters.yml
+          git config user.name 'SceneSense Library Bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add -A
+          git commit -m 'Use supplied local poster assets'
+          git push origin HEAD:main
