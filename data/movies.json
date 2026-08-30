@@ -85,7 +85,43 @@
           "soundQuality": 5,
           "dialogue": 5,
           "soundscape": 5,
-          "mixing": 5
+          "mixing": 5,
+          "spatialSound": 5
+        },
+        "direction": {
+          "staging": 4,
+          "actorDirection": 4,
+          "tone": 5,
+          "action": 5,
+          "directorialControl": 5
+        },
+        "music": {
+          "musicQuality": 5,
+          "execution": 5,
+          "musicalIdentity": 5,
+          "sceneFit": 5,
+          "scoreControl": 5
+        },
+        "creativity": {
+          "originality": 5,
+          "ingenuity": 5,
+          "ideaGrowth": 5,
+          "filmicInvention": 5,
+          "resourcefulness": 5
+        },
+        "morality": {
+          "humanValues": 5,
+          "relationshipEthics": 5,
+          "responsibility": 5,
+          "moralOpposition": 3,
+          "ethicalFraming": 5
+        },
+        "integrity": {
+          "independence": 5,
+          "viewerRespect": 5,
+          "restraint": 5,
+          "degradation": 5,
+          "cohesion": 5
         }
       }
     },
