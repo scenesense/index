@@ -1,70 +1,39 @@
-name: Deploy SceneSense batch 51-70
-
+name: Deploy SceneSense 51-70
 on:
   push:
-    paths:
-      - BATCH_51_70_BUNDLE.zip
-
+    paths: ['.github/workflows/deploy-batch-51-70.yml']
 permissions:
   contents: write
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Deploy exactly 20 movies and posters
+        with: {fetch-depth: 0}
+      - name: Add exactly 20 movies
         run: |
           python - <<'PY'
-          import json, zipfile
+          import json,subprocess
           from pathlib import Path
-
-          data_path = Path('data/movies.json')
-          batch_path = Path('data/movies-batch-51-70.json')
-          bundle_path = Path('BATCH_51_70_BUNDLE.zip')
-          workflow_path = Path('.github/workflows/deploy-batch-51-70.yml')
-          poster_dir = Path('assets/posters')
-
-          data = json.loads(data_path.read_text(encoding='utf-8'))
-          batch = json.loads(batch_path.read_text(encoding='utf-8'))
-          movies = batch.get('movies', [])
-          assert len(movies) == 20, f'Expected exactly 20 batch movies, got {len(movies)}'
-          assert len(data.get('movies', [])) == 50, f'Expected 50 existing movies, got {len(data.get("movies", []))}'
-
-          existing_ids = {m['id'] for m in data['movies']}
-          incoming_ids = [m['id'] for m in movies]
-          assert len(set(incoming_ids)) == 20, 'Duplicate IDs inside batch'
-          overlap = existing_ids.intersection(incoming_ids)
-          assert not overlap, f'Batch overlaps existing movies: {sorted(overlap)}'
-
-          with zipfile.ZipFile(bundle_path) as z:
-              poster_names = {n for n in z.namelist() if n.lower().endswith('.webp')}
-              assert len(poster_names) == 20, f'Expected exactly 20 WebP posters, got {len(poster_names)}'
-              expected = {Path(m['poster']).name for m in movies}
-              assert poster_names == expected, f'Poster bundle mismatch: missing={sorted(expected-poster_names)}, extra={sorted(poster_names-expected)}'
-              poster_dir.mkdir(parents=True, exist_ok=True)
-              z.extractall(poster_dir)
-
-          for m in movies:
-              assert Path(m['poster']).is_file(), f'Missing poster after extraction: {m["poster"]}'
-
-          data['movies'].extend(movies)
-          assert len(data['movies']) == 70, f'Expected final library count 70, got {len(data["movies"])}'
-          data_path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-
-          batch_path.unlink()
-          bundle_path.unlink()
-          workflow_path.unlink()
+          src='fa01afc2e554d801b282e69cae6d5fc237158549'
+          ids='half-light-2006 heaven-can-wait-1943 holiday-engagement-2011 in-a-world-2013 in-time-2011 indiana-jones-the-last-crusade-1989 indiana-jones-raiders-of-the-lost-ark-1981 john-tucker-must-die-2006 jurassic-park-1993 just-in-time-for-christmas-2015 k-19-the-widowmaker-2002 kate-and-leopold-2001 king-kong-1976 king-solomons-mines-i-2004 king-solomons-mines-ii-2004 leaving-d-c-2012 love-actually-2003 master-and-commander-2003 me-before-you-2016 minuscule-2013'.split()
+          p=Path('data/movies.json'); data=json.loads(p.read_text())
+          assert len(data['movies'])==50
+          hist=json.loads(subprocess.check_output(['git','show',f'{src}:data/movies.json']))
+          byid={m['id']:m for m in hist['movies']}; batch=[byid[i] for i in ids]
+          assert len(batch)==20 and not ({m['id'] for m in data['movies']} & set(ids))
+          for m in batch:
+            m['ratings']={}
+            out=Path(m['poster']); out.parent.mkdir(parents=True,exist_ok=True)
+            out.write_bytes(subprocess.check_output(['git','show',f'{src}:{m["poster"]}']))
+          data['movies'].extend(batch); assert len(data['movies'])==70
+          p.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
+          for f in ['data/movies-batch-51-70.json','BATCH_51_70_BUNDLE.zip','data/batch51chunks/1.json','.github/workflows/deploy-batch-51-70.yml']:
+            q=Path(f)
+            if q.exists(): q.unlink()
           PY
-      - name: Commit clean 70-movie library
-        run: |
-          git config user.name "SceneSense Library Bot"
-          git config user.email "actions@users.noreply.github.com"
+          git config user.name 'SceneSense Library Bot'
+          git config user.email 'actions@users.noreply.github.com'
           git add -A
-          git commit -m "Add SceneSense movies 51-70 with approved posters"
+          git commit -m 'Add SceneSense movies 51-70 with local posters'
           git push origin HEAD:main
