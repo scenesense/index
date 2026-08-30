@@ -23,65 +23,77 @@ jobs:
           import io
           from pathlib import Path
           import requests
-          from PIL import Image
+          from PIL import Image, ImageDraw, ImageFont
 
-          out=Path('poster-qc-four')
-          out.mkdir(exist_ok=True)
+          out=Path('poster-qc-four'); out.mkdir(exist_ok=True)
           s=requests.Session()
           s.headers.update({'User-Agent':'Mozilla/5.0 SceneSensePosterQC/1.0','Accept':'image/avif,image/webp,image/apng,image/*,*/*;q=0.8'})
 
-          specs={
-            'a-little-romance-1979':{
-              'urls':['https://irs.www.warnerbros.com/gallery-v2-jpeg/a_little_romance_posterlarge_5-556466385.jpg'],
-              'crop':(0.00,0.00,0.00,0.105)
-            },
-            'aliens-1986':{
-              'urls':['https://posterspy.com/wp-content/uploads/2019/03/aliens-1.jpg','https://www.tallengestore.com/cdn/shop/products/Alien_Queen_ATarts_485b2f3a-36c9-4b5e-b183-eafbc52a669d.jpg?v=1634645739'],
-              'crop':(0.00,0.00,0.00,0.145)
-            },
-            'beauty-and-the-beast-1991':{
-              'urls':['https://image.pmgstatic.com/cache/resized/w663/files/images/film/posters/158/727/158727715_ffb107.jpg'],
-              'crop':(0.00,0.00,0.00,0.00)
-            },
-            'cant-hardly-wait-1998':{
-              'urls':['https://images.justwatch.com/poster/305301926/s718/cant-hardly-wait.jpg','https://images.justwatch.com/poster/305301926/s718/cant-hardly-wait.webp','https://images.justwatch.com/poster/305301926/s718/cant-hardly-wait.%7Bformat%7D'],
-              'crop':(0.00,0.00,0.00,0.00)
-            }
-          }
+          def fetch(url):
+              r=s.get(url,timeout=50,allow_redirects=True); r.raise_for_status()
+              im=Image.open(io.BytesIO(r.content)).convert('RGB')
+              print('FETCH',url,im.size,r.headers.get('content-type'))
+              return im
 
-          def get(urls):
-            last=None
-            for u in urls:
-              try:
-                r=s.get(u,timeout=50,allow_redirects=True)
-                r.raise_for_status()
-                im=Image.open(io.BytesIO(r.content)).convert('RGB')
-                print('FETCH',u,im.size,r.headers.get('content-type'))
-                return im,u
-              except Exception as e:
-                print('FAIL',u,e)
-                last=e
-            raise last
+          def crop_frac(im,l=0,t=0,r=0,b=0):
+              w,h=im.size
+              return im.crop((round(w*l),round(h*t),round(w*(1-r)),round(h*(1-b))))
 
-          def crop_frac(im,c):
-            l,t,r,b=c; w,h=im.size
-            return im.crop((round(w*l),round(h*t),round(w*(1-r)),round(h*(1-b))))
+          def fit23(im,cx=.5,cy=.5):
+              w,h=im.size; target=2/3; ratio=w/h
+              if ratio>target:
+                  nw=round(h*target); x=round((w-nw)*cx); x=max(0,min(x,w-nw)); im=im.crop((x,0,x+nw,h))
+              elif ratio<target:
+                  nh=round(w/target); y=round((h-nh)*cy); y=max(0,min(y,h-nh)); im=im.crop((0,y,w,y+nh))
+              return im.resize((1000,1500),Image.Resampling.LANCZOS)
 
-          for slug,cfg in specs.items():
-            im,u=get(cfg['urls'])
-            im=crop_frac(im,cfg['crop'])
-            w,h=im.size
-            # preserve composition: center-crop only enough to reach 2:3, never enlarge a landscape crop blindly
-            target=2/3
-            ratio=w/h
-            if ratio>target:
-              nw=round(h*target); x=(w-nw)//2; im=im.crop((x,0,x+nw,h))
-            elif ratio<target:
-              nh=round(w/target); y=max(0,(h-nh)//2); im=im.crop((0,y,w,y+nh))
-            im=im.resize((1000,1500),Image.Resampling.LANCZOS)
-            p=out/f'{slug}.webp'
-            im.save(p,'WEBP',quality=84,method=6)
-            print('SAVED',slug,u,p.stat().st_size)
+          def font(size,bold=True,italic=False):
+              if italic:
+                  p='/usr/share/fonts/truetype/dejavu/DejaVuSerif-Italic.ttf'
+              elif bold:
+                  p='/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf'
+              else:
+                  p='/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed.ttf'
+              return ImageFont.truetype(p,size)
+
+          def draw_centered(im,text,y,fnt,fill=(245,245,245),stroke=4,spacing=12):
+              d=ImageDraw.Draw(im)
+              lines=text.split('\n')
+              line_h=max(fnt.getbbox(x)[3]-fnt.getbbox(x)[1] for x in lines)
+              for i,line in enumerate(lines):
+                  box=d.textbbox((0,0),line,font=fnt,stroke_width=stroke)
+                  x=(im.width-(box[2]-box[0]))//2
+                  d.text((x,y+i*(line_h+spacing)),line,font=fnt,fill=fill,stroke_width=stroke,stroke_fill=(0,0,0))
+
+          # A Little Romance: take only the clean pointillist artwork, discarding the boxed title area and border.
+          alr=fetch('https://m.media-amazon.com/images/M/MV5BNWJhZDE5MzItODM1Yi00MjlkLTk2NDgtYTFjOWM5MTA2NTlkXkEyXkFqcGc%40._V1_.jpg')
+          alr=crop_frac(alr,.055,.035,.055,.405)
+          alr=fit23(alr,cx=.58)
+          draw_centered(alr,'A LITTLE ROMANCE',1310,font(62,italic=True),fill=(248,241,218),stroke=3)
+          alr.save(out/'a-little-romance-1979.webp','WEBP',quality=84,method=6)
+
+          # Aliens: image-dominant Xenomorph art, with all original fine-print/title area removed and a clean title restored.
+          aliens=fetch('https://posterspy.com/wp-content/uploads/2019/03/aliens-1.jpg')
+          aliens=crop_frac(aliens,0,0,0,.205)
+          aliens=fit23(aliens,cx=.5,cy=.45)
+          draw_centered(aliens,'A L I E N S',1315,font(68,bold=False),fill=(221,239,255),stroke=3)
+          aliens.save(out/'aliens-1986.webp','WEBP',quality=84,method=6)
+
+          # Beauty and the Beast: clean digital illustrated art with large characters and title, no scan/fold texture or billing block.
+          beauty=fetch('https://image.pmgstatic.com/cache/resized/w663/files/images/film/posters/158/727/158727715_ffb107.jpg')
+          beauty=fit23(beauty,cx=.5,cy=.5)
+          beauty.save(out/'beauty-and-the-beast-1991.webp','WEBP',quality=84,method=6)
+
+          # Can't Hardly Wait: remove the title-box graphic from the source and use the cast photography as the poster image.
+          chw=fetch('https://flxt.tmsimg.com/assets/p21121_p_v12_al.jpg')
+          chw=crop_frac(chw,0,.205,0,0)
+          chw=fit23(chw,cx=.5,cy=.52)
+          draw_centered(chw,"CAN'T HARDLY WAIT",1320,font(58,bold=True),fill=(255,255,255),stroke=4)
+          chw.save(out/'cant-hardly-wait-1998.webp','WEBP',quality=84,method=6)
+
+          for p in sorted(out.glob('*.webp')):
+              im=Image.open(p)
+              print('SAVED',p.name,im.size,p.stat().st_size)
           PY
       - uses: actions/upload-artifact@v4
         with:
