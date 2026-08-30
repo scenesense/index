@@ -5,7 +5,7 @@ let activeMovieId = null;
 let adminToken = "";
 let dirty = false;
 let query = "";
-let sortMode = "year";
+let sortMode = "score";
 
 function deepClone(v){ return JSON.parse(JSON.stringify(v)); }
 function movieById(id){ return data?.movies.find(m => m.id === id); }
@@ -35,6 +35,7 @@ async function loadData(){
   if(!response.ok) throw new Error(`Could not load movie data (${response.status})`);
   data = await response.json();
   savedData = deepClone(data);
+  $("sort").value = sortMode;
   renderLibrary();
   const hashId = decodeURIComponent(location.hash.replace(/^#movie=/,""));
   if(location.hash.startsWith("#movie=") && movieById(hashId)) openMovie(hashId, false);
@@ -47,14 +48,11 @@ function renderLibrary(){
   if(q) movies = movies.filter(m => `${m.title} ${m.year} ${m.version}`.toLowerCase().includes(q));
   movies.sort((a,b)=>{
     if(sortMode === "title") return a.title.localeCompare(b.title);
-    if(sortMode === "score"){
-      const sa=overallScore(a), sb=overallScore(b);
-      if(sa == null && sb == null) return a.year-b.year;
-      if(sa == null) return 1;
-      if(sb == null) return -1;
-      return sb-sa;
-    }
-    return a.year-b.year;
+    if(sortMode === "year") return a.year-b.year || a.title.localeCompare(b.title);
+    const sa = overallScore(a) ?? 0;
+    const sb = overallScore(b) ?? 0;
+    if(sb !== sa) return sb-sa;
+    return a.title.localeCompare(b.title);
   });
   $("libraryStatus").textContent = `${movies.length} ${movies.length===1?"film":"films"}`;
   $("movieGrid").innerHTML = movies.map(m => `
