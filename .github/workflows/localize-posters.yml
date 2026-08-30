@@ -1,0 +1,124 @@
+name: Localize curated posters
+
+on:
+  push:
+    paths:
+      - POSTER_LOCALIZE_TRIGGER
+
+permissions:
+  contents: write
+
+jobs:
+  localize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pillow requests
+      - name: Download, clean and convert posters
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image, ImageOps
+          import requests, io
+
+          out = Path('assets/posters')
+          out.mkdir(parents=True, exist_ok=True)
+
+          items = {
+              'aliens-1986': {
+                  'url': 'https://cartelesmix.es/images/CartelesA/alienselregreso86/aliens8601.jpg',
+                  'crop': (0.00, 0.00, 0.00, 0.12),
+                  'bg': (3, 6, 11),
+              },
+              'beauty-and-the-beast-1991': {
+                  'url': 'https://goldenglobes.com/wp-content/uploads/2023/10/1992-beauty_and_the_beast.jpg?w=1676',
+                  'crop': (0.00, 0.00, 0.00, 0.00),
+                  'bg': None,
+              },
+              'cant-hardly-wait-1998': {
+                  'url': 'https://www.pictureserver1.auctionninja.com/pictureserver/provenanceauctions/auction-images/88/10461_9866_7693626_cant1.jpg',
+                  'crop': (0.065, 0.035, 0.065, 0.055),
+                  'bg': None,
+              },
+              'chances-are-1989': {
+                  'url': 'https://artworks.thetvdb.com/banners/movies/10165/posters/10165.jpg',
+                  'crop': (0.00, 0.00, 0.00, 0.00),
+                  'bg': None,
+              },
+              'chaos-theory-2008': {
+                  'url': 'https://image.tmdb.org/t/p/original/mhdFTzpeHelDEpGj7HIwqu0nnWb.jpg',
+                  'crop': (0.00, 0.00, 0.00, 0.11),
+                  'bg': (255, 255, 255),
+              },
+          }
+
+          def fetch(url):
+              r = requests.get(url, timeout=45, headers={'User-Agent':'Mozilla/5.0 SceneSensePosterBot/1.0'})
+              r.raise_for_status()
+              if 'image' not in r.headers.get('content-type','').lower():
+                  raise RuntimeError(f'not an image: {url} {r.headers.get("content-type")}')
+              return Image.open(io.BytesIO(r.content)).convert('RGB')
+
+          def crop_fraction(im, spec):
+              l,t,r,b = spec
+              w,h = im.size
+              return im.crop((round(w*l), round(h*t), round(w*(1-r)), round(h*(1-b))))
+
+          def to_two_three(im, bg=None):
+              target_ratio = 2/3
+              w,h = im.size
+              ratio = w/h
+              if bg is None:
+                  if ratio > target_ratio:
+                      nw = round(h*target_ratio)
+                      left = max(0,(w-nw)//2)
+                      im = im.crop((left,0,left+nw,h))
+                  elif ratio < target_ratio:
+                      nh = round(w/target_ratio)
+                      top = max(0,(h-nh)//2)
+                      im = im.crop((0,top,w,top+nh))
+              else:
+                  if ratio > target_ratio:
+                      nh = round(w/target_ratio)
+                      canvas = Image.new('RGB',(w,nh),bg)
+                      canvas.paste(im,(0,(nh-h)//2))
+                      im = canvas
+                  elif ratio < target_ratio:
+                      nw = round(h*target_ratio)
+                      canvas = Image.new('RGB',(nw,h),bg)
+                      canvas.paste(im,((nw-w)//2,0))
+                      im = canvas
+              return ImageOps.fit(im,(1000,1500),method=Image.Resampling.LANCZOS,centering=(0.5,0.5))
+
+          for slug, cfg in items.items():
+              im = fetch(cfg['url'])
+              print(slug, 'source', im.size)
+              im = crop_fraction(im, cfg['crop'])
+              im = to_two_three(im, cfg['bg'])
+              path = out / f'{slug}.webp'
+              im.save(path,'WEBP',quality=82,method=6)
+              print(slug, 'saved', path, path.stat().st_size)
+          PY
+      - name: Point database at local posters
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path=Path('data/movies.json')
+          data=json.loads(path.read_text(encoding='utf-8'))
+          ids={'aliens-1986','beauty-and-the-beast-1991','cant-hardly-wait-1998','chances-are-1989','chaos-theory-2008'}
+          for m in data['movies']:
+              if m['id'] in ids:
+                  m['poster']=f"assets/posters/{m['id']}.webp"
+          path.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+      - name: Commit localized posters
+        run: |
+          git config user.name 'SceneSense Poster Bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add assets/posters data/movies.json
+          git commit -m 'Self-host five curated WebP posters'
+          git push
