@@ -24,7 +24,7 @@
     .select{
       -webkit-appearance:none!important;
       appearance:none!important;
-      min-width:112px!important;
+      min-width:126px!important;
       padding:0 39px 0 15px!important;
       background-color:rgba(255,255,255,.035)!important;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.25 6 6.25 11 1.25' fill='none' stroke='%239cabc1' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")!important;
@@ -265,12 +265,17 @@
     </button>
     <div class="headerTools">
       <div class="searchWrap">
-        <input id="search" class="search" type="search" placeholder="Search movies…" autocomplete="off">
+        <input id="search" class="search" type="search" placeholder="Search title, year, genre, actor…" autocomplete="off">
       </div>
       <select id="sort" class="select" aria-label="Sort movies">
-        <option value="score" selected>Score</option>
-        <option value="title">Title</option>
-        <option value="year">Year</option>
+        <option value="score" selected>Score ↓</option>
+        <option value="score-asc">Score ↑</option>
+        <option value="title">Title A–Z</option>
+        <option value="title-desc">Title Z–A</option>
+        <option value="year-desc">Year ↓</option>
+        <option value="year">Year ↑</option>
+        <option value="runtime-desc">Runtime ↓</option>
+        <option value="runtime">Runtime ↑</option>
       </select>
       <button id="adminBtn" class="button" type="button">Unlock scoring</button>
     </div>
@@ -518,9 +523,67 @@
       }
     }
 
-    const baseRenderLibrary = renderLibrary;
+    function movieSearchText(movie){
+      return [
+        movie.title,
+        movie.year,
+        movie.version,
+        ...genresFor(movie),
+        ...(movie.actors || [])
+      ].join(" ").toLowerCase();
+    }
+
+    function compareLibraryMovies(a,b){
+      const titleAsc = a.title.localeCompare(b.title);
+      switch(sortMode){
+        case "score-asc": {
+          const sa = overallScore(a) ?? 0;
+          const sb = overallScore(b) ?? 0;
+          return sa !== sb ? sa-sb : titleAsc;
+        }
+        case "title": return titleAsc;
+        case "title-desc": return b.title.localeCompare(a.title);
+        case "year": return a.year-b.year || titleAsc;
+        case "year-desc": return b.year-a.year || titleAsc;
+        case "runtime": return a.runtimeMinutes-b.runtimeMinutes || titleAsc;
+        case "runtime-desc": return b.runtimeMinutes-a.runtimeMinutes || titleAsc;
+        case "score":
+        default: {
+          const sa = overallScore(a) ?? 0;
+          const sb = overallScore(b) ?? 0;
+          return sb !== sa ? sb-sa : titleAsc;
+        }
+      }
+    }
+
+    /* Rich library search/sorting. This replaces the simpler core renderer while
+       leaving scoring, saving and movie-detail behavior untouched. */
     renderLibrary = function(){
-      baseRenderLibrary();
+      if(!data) return;
+      let movies = [...data.movies];
+      const terms = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
+      if(terms.length){
+        movies = movies.filter(movie => {
+          const haystack = movieSearchText(movie);
+          return terms.every(term => haystack.includes(term));
+        });
+      }
+      movies.sort(compareLibraryMovies);
+
+      $("libraryStatus").textContent = `${movies.length} ${movies.length===1?"film":"films"}`;
+      $("movieGrid").innerHTML = movies.map(movie => `
+        <button class="movieCard" type="button" data-movie="${escapeAttr(movie.id)}">
+          <div class="posterWrap">
+            <img class="poster" src="${escapeAttr(movie.poster)}" alt="${escapeAttr(movie.title)} poster" loading="lazy">
+            <div class="cardScore">${scoreText(overallScore(movie))}</div>
+          </div>
+          <div class="cardInfo">
+            <div class="cardTitle">${escapeHtml(movie.title)}</div>
+            <div class="cardMeta">${movie.year} · ${movie.runtimeMinutes} min · ${escapeHtml(movie.version)}</div>
+          </div>
+        </button>`).join("");
+
+      document.querySelectorAll(".movieCard").forEach(btn => btn.addEventListener("click",()=>openMovie(btn.dataset.movie)));
       decorateLibraryCards();
       applyPosterFallbacks();
       requestAnimationFrame(fitAllCardGenres);
@@ -545,6 +608,7 @@
       applyPosterFallbacks();
     };
 
+    if(data) renderLibrary();
     if(activeMovieId){
       const movie = movieById(activeMovieId);
       renderMovieIdentity(movie);
