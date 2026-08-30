@@ -55,7 +55,37 @@
         },
         "chemistry": {
           "connection": 5,
-          "flow": 5
+          "flow": 5,
+          "relationshipDepth": 5,
+          "relationshipGrowth": 4,
+          "relationshipCharge": 4
+        },
+        "editing": {
+          "pacing": 5,
+          "rhythm": 5,
+          "cutting": 5,
+          "clarity": 5,
+          "restraint": 5
+        },
+        "visuals": {
+          "photography": 5,
+          "imageDesign": 5,
+          "imageQuality": 5,
+          "visualEffects": 4,
+          "visualBeauty": 5
+        },
+        "world": {
+          "worldDepth": 5,
+          "place": 5,
+          "productionDesign": 4,
+          "effectsRealization": 4,
+          "designRestraint": 4
+        },
+        "sound": {
+          "soundQuality": 5,
+          "dialogue": 5,
+          "soundscape": 5,
+          "mixing": 5
         }
       }
     },
