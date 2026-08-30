@@ -109,7 +109,7 @@ const CATEGORIES = [
       ["soundQuality","Sound Quality","Could the soundtrack go from whisper-quiet to huge without losing control?"],
       ["dialogue","Dialogue","Did voices stay clear without sounding pasted onto the scene?"],
       ["soundscape","Soundscape","If I closed my eyes, would the world still feel alive and specific?"],
-      ["spatialSound","Spatial Sound","Did sounds seem to come from real places in the scene, or just sit on top of the picture?"],
+      ["spatialSound","Spatial Sound","Did the mix create a convincing sense of where sounds were, or did everything feel flat?"],
       ["mixing","Mixing","Did the important sounds come through naturally, or fight for attention?"]
     ]
   },
