@@ -230,9 +230,9 @@
         <input id="search" class="search" type="search" placeholder="Search movies…" autocomplete="off">
       </div>
       <select id="sort" class="select" aria-label="Sort movies">
-        <option value="year">Year</option>
+        <option value="score" selected>Score</option>
         <option value="title">Title</option>
-        <option value="score">Score</option>
+        <option value="year">Year</option>
       </select>
       <button id="adminBtn" class="button" type="button">Unlock scoring</button>
     </div>
@@ -305,7 +305,7 @@
     </form>
   </dialog>
 
-  <script src="categories.js?v=20260830-7"></script>
+  <script src="categories.js?v=20260830-8"></script>
   <script>
     const CATEGORY_LABELS = {
       writing:"WRITING",
@@ -326,7 +326,7 @@
     };
     CATEGORIES.forEach(category => { category.title = CATEGORY_LABELS[category.key] || category.title; });
   </script>
-  <script src="engine.js?v=20260830-8"></script>
+  <script src="engine.js?v=20260830-9"></script>
   <script>
     /* Preserve whichever categories are open across star-click rerenders. */
     const baseRenderMovie = renderMovie;
