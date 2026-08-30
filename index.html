@@ -110,7 +110,7 @@
       font-weight:500;
       line-height:1.15;
       white-space:nowrap;
-      text-overflow:ellipsis;
+      text-overflow:clip;
     }
 
     .posterWrap.missingPoster,
@@ -401,6 +401,26 @@
       const values = genresFor(movie);
       return (limit == null ? values : values.slice(0,limit)).join(" · ");
     }
+    function fitCardGenres(row, movie){
+      const genres = genresFor(movie);
+      if(!row || !genres.length){
+        if(row) row.textContent = "";
+        return;
+      }
+      let count = genres.length;
+      row.textContent = genres.join(" · ");
+      while(count > 1 && row.scrollWidth > row.clientWidth){
+        count -= 1;
+        row.textContent = genres.slice(0,count).join(" · ");
+      }
+    }
+    function fitAllCardGenres(){
+      document.querySelectorAll(".movieCard").forEach(card => {
+        const movie = movieById(card.dataset.movie);
+        const row = card.querySelector(".cardGenres");
+        if(movie && row) fitCardGenres(row, movie);
+      });
+    }
 
     /* Preserve whichever categories are open across star-click rerenders. */
     const baseRenderMovie = renderMovie;
@@ -474,10 +494,10 @@
         if(!genreRow){
           genreRow = document.createElement("div");
           genreRow.className = "cardGenres";
-          meta.before(genreRow);
         }
-        genreRow.textContent = genreText(movie,2);
         meta.textContent = `${movie.year} · ${movie.runtimeMinutes} min · ${movie.version}`;
+        meta.after(genreRow);
+        fitCardGenres(genreRow, movie);
       });
     }
 
@@ -503,7 +523,14 @@
       baseRenderLibrary();
       decorateLibraryCards();
       applyPosterFallbacks();
+      requestAnimationFrame(fitAllCardGenres);
     };
+
+    let genreResizeTimer = 0;
+    window.addEventListener("resize",()=>{
+      clearTimeout(genreResizeTimer);
+      genreResizeTimer = setTimeout(fitAllCardGenres,80);
+    });
 
     const baseOpenMovie = openMovie;
     openMovie = function(id, updateHash=true){
