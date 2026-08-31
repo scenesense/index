@@ -1,0 +1,32 @@
+name: Fix detail 4K and colors
+on:
+  push:
+    paths: ['.github/workflows/fix-detail-4k-colors.yml']
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch index
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('color:#9aa4b0!important','color:#858f99!important')
+          s=s.replace('color:#5f8fdb!important','color:#4f78bf!important')
+          old='const baseOpenMovie=openMovie;openMovie=function(id,updateHash=true){baseOpenMovie(id,updateHash);const movie=movieById(id);renderMovieIdentity(movie);renderPrincipalCast(movie);if(movie&&!movie.poster){const detail=document.getElementById("detailPoster");if(detail)detail.removeAttribute("src")}applyPosterFallbacks()};'
+          new='const baseOpenMovie=openMovie;openMovie=function(id,updateHash=true){baseOpenMovie(id,updateHash);const movie=movieById(id);renderMovieIdentity(movie);renderPrincipalCast(movie);if(movie&&!movie.poster){const detail=document.getElementById("detailPoster");if(detail)detail.removeAttribute("src")}applyPosterFallbacks();queueMicrotask(()=>{const current=movieById(id);if(current)renderMovieIdentity(current)})};'
+          if old not in s:
+              raise SystemExit('openMovie override pattern not found; aborting')
+          s=s.replace(old,new,1)
+          p.write_text(s,encoding='utf-8')
+          Path('.github/workflows/fix-detail-4k-colors.yml').unlink()
+          PY
+          git config user.name 'SceneSense Library Bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add -A
+          git commit -m 'Fix detail 4K marker and darken colors'
+          git push origin HEAD:main
