@@ -1434,11 +1434,23 @@
       "runtimeSeconds": 7478,
       "runtimeExact": "02:04:38",
       "version": "Streamlined Edition",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/star-wars-the-empire-strikes-back-1980.webp",
+      "description": "Driven from their base by the Empire, the Rebel Alliance scatters while Luke Skywalker travels to Dagobah to train with Jedi Master Yoda. Han, Leia and their companions flee Darth Vader across the galaxy, drawing Luke toward a confrontation that changes what he understands about his enemy and himself.",
+      "actors": [
+        "Mark Hamill",
+        "Harrison Ford",
+        "Carrie Fisher",
+        "Billy Dee Williams",
+        "Anthony Daniels"
+      ],
+      "genres": [
+        "Adventure",
+        "Science Fiction",
+        "Drama",
+        "Action"
+      ],
+      "ratings": {},
+      "tmdbId": 1891
     },
     {
       "id": "stargate-1994",
@@ -1448,11 +1460,22 @@
       "runtimeSeconds": 7798,
       "runtimeExact": "02:09:58",
       "version": "Director's Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/stargate-1994.webp",
+      "description": "Egyptologist Daniel Jackson deciphers an ancient device as a gateway to another planet, where Colonel Jack O'Neil leads a military expedition through it. On the far side they find a human civilization ruled by a being whose connection to ancient Egypt explains far more of Earth's past than anyone expected.",
+      "actors": [
+        "James Spader",
+        "Kurt Russell",
+        "Jaye Davidson",
+        "Viveca Lindfors",
+        "Alexis Cruz"
+      ],
+      "genres": [
+        "Adventure",
+        "Science Fiction",
+        "Action"
+      ],
+      "ratings": {},
+      "tmdbId": 2164
     },
     {
       "id": "stealing-christmas-2003",
@@ -1462,11 +1485,23 @@
       "runtimeSeconds": 5324,
       "runtimeExact": "01:28:44",
       "version": "Television Movie",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/stealing-christmas-2003.webp",
+      "description": "Small-time thief Jack Clayton escapes a failed robbery wearing a Santa suit and is mistaken for the man hired to play Santa in a small town. Planning another bank job, he instead becomes involved with shop owner Sarah, her daughter and the community's Christmas traditions, making his old plan harder to carry through.",
+      "actors": [
+        "Tony Danza",
+        "Lea Thompson",
+        "Angela Goethals",
+        "Betty White",
+        "David Parker"
+      ],
+      "genres": [
+        "Christmas",
+        "Comedy",
+        "Romance",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 40836
     },
     {
       "id": "superman-returns-2006",
@@ -1476,11 +1511,24 @@
       "runtimeSeconds": 9261,
       "runtimeExact": "02:34:21",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/superman-returns-2006.webp",
+      "description": "After years away searching for remnants of Krypton, Superman returns to Earth and finds that Lois Lane has built a life without him. As he tries to understand his place in that life, Lex Luthor uses stolen Kryptonian technology to create a scheme that could reshape the planet at enormous human cost.",
+      "actors": [
+        "Brandon Routh",
+        "Kate Bosworth",
+        "Kevin Spacey",
+        "James Marsden",
+        "Parker Posey"
+      ],
+      "genres": [
+        "Action",
+        "Adventure",
+        "Science Fiction",
+        "Drama",
+        "Romance"
+      ],
+      "ratings": {},
+      "tmdbId": 1452
     },
     {
       "id": "surprised-by-love-2015",
@@ -1490,11 +1538,22 @@
       "runtimeSeconds": 5042,
       "runtimeExact": "01:24:02",
       "version": "Television Movie",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/surprised-by-love-2015.webp",
+      "description": "Businesswoman Josie wants her disapproving parents to accept polished boyfriend Richard, so Richard suggests using Josie's scruffy old flame Maxwell as a deliberately worse alternative. A weekend with the family backfires when Maxwell proves more genuine than expected and Josie begins reconsidering which relationship actually fits her.",
+      "actors": [
+        "Hilarie Burton Morgan",
+        "Paul Campbell",
+        "Tim Conway",
+        "Aaron Craven",
+        "Malcolm Stewart"
+      ],
+      "genres": [
+        "Romance",
+        "Comedy",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 315134
     },
     {
       "id": "tangled-2010",
@@ -1504,11 +1563,24 @@
       "runtimeSeconds": 6405,
       "runtimeExact": "01:46:45",
       "version": "Bonus Edition",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/tangled-2010.webp",
+      "description": "Rapunzel has spent her life locked in a hidden tower by Mother Gothel, who uses the girl's magical hair to preserve her own youth. When wanted thief Flynn Rider stumbles into the tower, Rapunzel makes him guide her to the floating lights she has watched every birthday and begins discovering who she really is.",
+      "actors": [
+        "Mandy Moore",
+        "Zachary Levi",
+        "Donna Murphy",
+        "Ron Perlman",
+        "M.C. Gainey"
+      ],
+      "genres": [
+        "Musical",
+        "Adventure",
+        "Romance",
+        "Fantasy",
+        "Comedy"
+      ],
+      "ratings": {},
+      "tmdbId": 38757
     },
     {
       "id": "team-bride-2023",
@@ -1518,11 +1590,22 @@
       "runtimeSeconds": 5485,
       "runtimeExact": "01:31:25",
       "version": "Television Movie",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/team-bride-2023.webp",
+      "description": "Bridal-shop employee Hannah restores vintage wedding dresses on the side and hopes to build something of her own. When company heir Will is forced to work on the shop floor before taking over the family business, Hannah becomes his reluctant mentor and discovers that his ideas improve as he starts listening.",
+      "actors": [
+        "Rhiannon Fish",
+        "Marcus Rosner",
+        "Anna Primiani",
+        "Nikki Rae Hallow",
+        "Reamonn Joshee"
+      ],
+      "genres": [
+        "Romance",
+        "Comedy",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 1039066
     },
     {
       "id": "the-abyss-1989",
@@ -1532,11 +1615,23 @@
       "runtimeSeconds": 10261,
       "runtimeExact": "02:51:01",
       "version": "Special Edition",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/the-abyss-1989.webp",
+      "description": "When a U.S. nuclear submarine sinks near a deep-sea oil platform, its civilian crew is drafted into a military recovery mission led by an increasingly unstable SEAL team. Engineer Bud Brigman and designer Lindsey Brigman soon realize that the disaster has also drawn the attention of something living far below them.",
+      "actors": [
+        "Ed Harris",
+        "Mary Elizabeth Mastrantonio",
+        "Michael Biehn",
+        "Leo Burmester",
+        "Todd Graff"
+      ],
+      "genres": [
+        "Science Fiction",
+        "Adventure",
+        "Thriller",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 2756
     },
     {
       "id": "the-adjustment-bureau-2011",
@@ -1546,11 +1641,23 @@
       "runtimeSeconds": 6350,
       "runtimeExact": "01:45:50",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/the-adjustment-bureau-2011.webp",
+      "description": "Politician David Norris meets dancer Elise Sellas and feels an immediate connection, only to discover a hidden organization that insists their relationship is not part of the approved plan for either life. David decides that staying with Elise is worth challenging the people who quietly manage chance itself.",
+      "actors": [
+        "Matt Damon",
+        "Emily Blunt",
+        "John Slattery",
+        "Anthony Mackie",
+        "Michael Kelly"
+      ],
+      "genres": [
+        "Romance",
+        "Science Fiction",
+        "Thriller",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 38050
     },
     {
       "id": "the-age-of-adaline-2015",
@@ -1560,11 +1667,22 @@
       "runtimeSeconds": 6764,
       "runtimeExact": "01:52:44",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/the-age-of-adaline-2015.webp",
+      "description": "After an unusual accident in 1937, Adaline Bowman stops aging and spends decades changing identities before anyone notices. Her carefully controlled solitude begins to fail when she falls for Ellis Jones and then meets someone in his family who recognizes the woman she was supposed to have left behind.",
+      "actors": [
+        "Blake Lively",
+        "Michiel Huisman",
+        "Harrison Ford",
+        "Ellen Burstyn",
+        "Kathy Baker"
+      ],
+      "genres": [
+        "Romance",
+        "Drama",
+        "Fantasy"
+      ],
+      "ratings": {},
+      "tmdbId": 293863
     },
     {
       "id": "the-blue-lagoon-1980",
@@ -1574,11 +1692,22 @@
       "runtimeSeconds": 6283,
       "runtimeExact": "01:44:43",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/the-blue-lagoon-1980.webp",
+      "description": "Children Richard and Emmeline survive a shipwreck and grow up together on an isolated tropical island with little guidance from the adult world. As childhood becomes adolescence, they must work out survival, intimacy, jealousy and parenthood largely by themselves.",
+      "actors": [
+        "Brooke Shields",
+        "Christopher Atkins",
+        "Leo McKern",
+        "William Daniels",
+        "Jeffrey Kleiser"
+      ],
+      "genres": [
+        "Romance",
+        "Adventure",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 5689
     },
     {
       "id": "the-childrens-hour-1961",
@@ -1588,11 +1717,20 @@
       "runtimeSeconds": 6508,
       "runtimeExact": "01:48:28",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/the-childrens-hour-1961.webp",
+      "description": "Teachers Karen Wright and Martha Dobie run a girls' boarding school until a malicious student invents a story about their relationship. The accusation spreads through the community, destroying the school and forcing both women to confront truths that rumor and respectability have made almost impossible to discuss.",
+      "actors": [
+        "Audrey Hepburn",
+        "Shirley MacLaine",
+        "James Garner",
+        "Miriam Hopkins",
+        "Fay Bainter"
+      ],
+      "genres": [
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 20139
     },
     {
       "id": "the-day-the-earth-stood-still-1951",
@@ -1602,11 +1740,22 @@
       "runtimeSeconds": 5531,
       "runtimeExact": "01:32:11",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/the-day-the-earth-stood-still-1951.webp",
+      "description": "Alien visitor Klaatu lands in Washington with a warning intended for every nation on Earth, but fear and military suspicion prevent him from delivering it. Escaping government custody, he lives anonymously among ordinary people while searching for a way to demonstrate that his message cannot simply be ignored.",
+      "actors": [
+        "Michael Rennie",
+        "Patricia Neal",
+        "Billy Gray",
+        "Sam Jaffe",
+        "Hugh Marlowe"
+      ],
+      "genres": [
+        "Science Fiction",
+        "Drama",
+        "Thriller"
+      ],
+      "ratings": {},
+      "tmdbId": 828
     },
     {
       "id": "the-englishman-who-went-up-a-hill-1995",
@@ -1616,11 +1765,22 @@
       "runtimeSeconds": 5748,
       "runtimeExact": "01:35:48",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/the-englishman-who-went-up-a-hill-1995.webp",
+      "description": "Two English cartographers arrive in a Welsh village and declare that its beloved local mountain is a few feet too short to qualify as one. The villagers respond by organizing an improbable effort to raise the summit before the surveyors can leave, while one of the outsiders becomes increasingly attached to the place.",
+      "actors": [
+        "Hugh Grant",
+        "Tara Fitzgerald",
+        "Colm Meaney",
+        "Ian McNeice",
+        "Ian Hart"
+      ],
+      "genres": [
+        "Comedy",
+        "Romance",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 10612
     },
     {
       "id": "the-first-time-2012",
@@ -1630,11 +1790,22 @@
       "runtimeSeconds": 5698,
       "runtimeExact": "01:34:58",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/the-first-time-2012.webp",
+      "description": "Dave, a high-school senior stuck on a girl who sees him only as a friend, meets outspoken junior Aubrey outside a party. One long conversation becomes a relationship, and both discover that first love and first sex are considerably less tidy than the versions they have imagined.",
+      "actors": [
+        "Dylan O'Brien",
+        "Britt Robertson",
+        "Craig Roberts",
+        "James Frecheville",
+        "Victoria Justice"
+      ],
+      "genres": [
+        "Romance",
+        "Comedy",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 84199
     },
     {
       "id": "the-forty-four-hundred-2004",
@@ -1644,11 +1815,23 @@
       "runtimeSeconds": 10578,
       "runtimeExact": "02:56:18",
       "version": "Special Edition",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/the-forty-four-hundred-2004.webp",
+      "description": "Exactly 4,400 people who vanished over many decades suddenly reappear together without having aged and with no memory of where they have been. Federal agents Tom Baldwin and Diana Skouris investigate the returnees as unusual abilities begin emerging and the event starts changing families, institutions and the wider world.",
+      "actors": [
+        "Jacqueline McKenzie",
+        "Joel Gretsch",
+        "Patrick John Flueger",
+        "Conchita Campbell",
+        "Chad Faust"
+      ],
+      "genres": [
+        "Science Fiction",
+        "Mystery",
+        "Drama",
+        "Thriller"
+      ],
+      "ratings": {},
+      "tmdbId": 1481
     },
     {
       "id": "the-ghost-and-mrs-muir-1947",
@@ -1658,11 +1841,22 @@
       "runtimeSeconds": 6264,
       "runtimeExact": "01:44:24",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/the-ghost-and-mrs-muir-1947.webp",
+      "description": "Independent widow Lucy Muir moves with her daughter into a seaside cottage despite warnings that it is haunted. The ghost of its former owner, irascible sea captain Daniel Gregg, initially tries to drive her out but becomes an unexpected companion when Lucy refuses to be intimidated.",
+      "actors": [
+        "Gene Tierney",
+        "Rex Harrison",
+        "George Sanders",
+        "Edna Best",
+        "Vanessa Brown"
+      ],
+      "genres": [
+        "Romance",
+        "Fantasy",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 22292
     },
     {
       "id": "the-greatest-game-ever-played-2005",
@@ -1672,11 +1866,20 @@
       "runtimeSeconds": 7232,
       "runtimeExact": "02:00:32",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/the-greatest-game-ever-played-2005.webp",
+      "description": "Working-class amateur Francis Ouimet earns a place in the 1913 U.S. Open and finds himself competing against British champion Harry Vardon, a man who also rose from modest beginnings. The tournament becomes a test of talent, class assumptions and whether either man will be allowed to define himself by more than his origins.",
+      "actors": [
+        "Shia LaBeouf",
+        "Stephen Dillane",
+        "Josh Flitter",
+        "Peter Firth",
+        "Elias Koteas"
+      ],
+      "genres": [
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 15487
     },
     {
       "id": "the-imitation-game-2014",
@@ -1686,11 +1889,21 @@
       "runtimeSeconds": 6832,
       "runtimeExact": "01:53:52",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/the-imitation-game-2014.webp",
+      "description": "Mathematician Alan Turing joins Britain's wartime effort to break Germany's Enigma cipher and pushes his team toward building a machine capable of finding patterns faster than people can. The secrecy surrounding that work later collides with a society prepared to prosecute Turing for his private life.",
+      "actors": [
+        "Benedict Cumberbatch",
+        "Keira Knightley",
+        "Matthew Goode",
+        "Rory Kinnear",
+        "Allen Leech"
+      ],
+      "genres": [
+        "Drama",
+        "Thriller"
+      ],
+      "ratings": {},
+      "tmdbId": 205596
     },
     {
       "id": "the-iron-giant-1999",
@@ -1700,11 +1913,22 @@
       "runtimeSeconds": 5398,
       "runtimeExact": "01:29:58",
       "version": "Director's Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/the-iron-giant-1999.webp",
+      "description": "Young Hogarth Hughes discovers a gigantic robot that has fallen from space into rural Maine and secretly teaches it about language, friendship and choice. Their bond is threatened when a suspicious federal agent becomes convinced the machine is a weapon and brings the military closer to the town.",
+      "actors": [
+        "Jennifer Aniston",
+        "Harry Connick Jr.",
+        "Vin Diesel",
+        "James Gammon",
+        "Cloris Leachman"
+      ],
+      "genres": [
+        "Science Fiction",
+        "Adventure",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 10386
     },
     {
       "id": "the-island-2005",
