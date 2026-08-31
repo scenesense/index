@@ -924,11 +924,22 @@
       "runtimeSeconds": 5176,
       "runtimeExact": "01:26:16",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/shades-of-ray-2008.webp",
+      "description": "Ray Rehman is a half-Pakistani actor in Los Angeles who has just proposed to his longtime girlfriend when his estranged father moves in after leaving Ray's mother. Meeting a woman with a similarly mixed background makes Ray question both his relationship and the identity he has spent years simplifying.",
+      "actors": [
+        "Zachary Levi",
+        "Fran Kranz",
+        "Sarah Shahi",
+        "Bonnie Somerville",
+        "Brian George"
+      ],
+      "genres": [
+        "Romance",
+        "Comedy",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 79519
     },
     {
       "id": "signs-2002",
@@ -938,11 +949,23 @@
       "runtimeSeconds": 6389,
       "runtimeExact": "01:46:29",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/signs-2002.webp",
+      "description": "Former minister Graham Hess discovers enormous crop circles in the fields around his Pennsylvania farmhouse just as similar formations appear around the world. As strange events close in on the isolated family, Graham is forced to confront both a possible extraterrestrial threat and the faith he abandoned after his wife's death.",
+      "actors": [
+        "Mel Gibson",
+        "Joaquin Phoenix",
+        "Rory Culkin",
+        "Abigail Breslin",
+        "Cherry Jones"
+      ],
+      "genres": [
+        "Thriller",
+        "Science Fiction",
+        "Mystery",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 2675
     },
     {
       "id": "six-days-seven-nights-1998",
@@ -952,11 +975,23 @@
       "runtimeSeconds": 6115,
       "runtimeExact": "01:41:55",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/six-days-seven-nights-1998.webp",
+      "description": "New York magazine editor Robin Monroe hires rough island pilot Quinn Harris for an emergency flight during a tropical vacation. A storm forces them down on an uninhabited island, where escaping the wilderness, pirates and each other's temperament becomes more complicated than either expected.",
+      "actors": [
+        "Harrison Ford",
+        "Anne Heche",
+        "David Schwimmer",
+        "Jacqueline Obradors",
+        "Temuera Morrison"
+      ],
+      "genres": [
+        "Adventure",
+        "Romance",
+        "Comedy",
+        "Action"
+      ],
+      "ratings": {},
+      "tmdbId": 6068
     },
     {
       "id": "snow-bride-2013",
@@ -966,11 +1001,22 @@
       "runtimeSeconds": 5119,
       "runtimeExact": "01:25:19",
       "version": "Television Movie",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/snow-bride-2013.webp",
+      "description": "Tabloid reporter Greta Kaine races to a wealthy family's snowy Christmas retreat hoping to uncover a rumored engagement before her rival does. Mistaken for a guest, she gets close to the Tannenhills and to eldest son Ben, making the story she came to exploit increasingly difficult to publish.",
+      "actors": [
+        "Katrina Law",
+        "Patricia Richardson",
+        "Susie Abromeit",
+        "Jordan Belfi",
+        "Robert Curtis Brown"
+      ],
+      "genres": [
+        "Christmas",
+        "Romance",
+        "Comedy"
+      ],
+      "ratings": {},
+      "tmdbId": 235662
     },
     {
       "id": "some-kind-of-wonderful-1987",
@@ -980,11 +1026,21 @@
       "runtimeSeconds": 5678,
       "runtimeExact": "01:34:38",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/some-kind-of-wonderful-1987.webp",
+      "description": "Working-class high-school senior Keith Nelson finally lands a date with popular Amanda Jones, despite the hostility of her wealthy ex-boyfriend. His tomboy best friend Watts helps him prepare for the evening while struggling with the fact that Keith is chasing someone else.",
+      "actors": [
+        "Eric Stoltz",
+        "Mary Stuart Masterson",
+        "Lea Thompson",
+        "Chynna Phillips",
+        "Craig Sheffer"
+      ],
+      "genres": [
+        "Romance",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 15143
     },
     {
       "id": "source-code-2011",
@@ -994,11 +1050,23 @@
       "runtimeSeconds": 5595,
       "runtimeExact": "01:33:15",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/source-code-2011.webp",
+      "description": "Army pilot Colter Stevens repeatedly wakes inside the final eight minutes of a commuter train that has already been destroyed by a bomb. Each reset gives him another chance to identify the attacker, while fragments outside the simulation raise a more disturbing question about Colter's own condition.",
+      "actors": [
+        "Jake Gyllenhaal",
+        "Michelle Monaghan",
+        "Vera Farmiga",
+        "Jeffrey Wright",
+        "Michael Arden"
+      ],
+      "genres": [
+        "Science Fiction",
+        "Thriller",
+        "Mystery",
+        "Action"
+      ],
+      "ratings": {},
+      "tmdbId": 45612
     },
     {
       "id": "spider-man-i-2002",
@@ -1008,11 +1076,23 @@
       "runtimeSeconds": 7272,
       "runtimeExact": "02:01:12",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/spider-man-i-2002.webp",
+      "description": "Teenager Peter Parker gains extraordinary strength, agility and wall-crawling abilities after a genetically altered spider bite. Personal tragedy turns those powers into a responsibility, just as industrialist Norman Osborn becomes the violent Green Goblin and threatens the people Peter cares about most.",
+      "actors": [
+        "Tobey Maguire",
+        "Willem Dafoe",
+        "Kirsten Dunst",
+        "James Franco",
+        "Cliff Robertson"
+      ],
+      "genres": [
+        "Action",
+        "Adventure",
+        "Drama",
+        "Romance"
+      ],
+      "ratings": {},
+      "tmdbId": 557
     },
     {
       "id": "spider-man-ii-2004",
@@ -1022,11 +1102,23 @@
       "runtimeSeconds": 7647,
       "runtimeExact": "02:07:27",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/spider-man-ii-2004.webp",
+      "description": "Peter Parker is exhausted by the conflict between ordinary life and the demands of being Spider-Man, while his relationships and studies begin to collapse. At the same time, scientist Otto Octavius is transformed by a failed experiment into a dangerous new opponent whose ambitions put the city at risk.",
+      "actors": [
+        "Tobey Maguire",
+        "Kirsten Dunst",
+        "James Franco",
+        "Alfred Molina",
+        "Rosemary Harris"
+      ],
+      "genres": [
+        "Action",
+        "Drama",
+        "Adventure",
+        "Romance"
+      ],
+      "ratings": {},
+      "tmdbId": 558
     },
     {
       "id": "spirit-stallion-of-the-cimarron-2002",
@@ -1036,11 +1128,22 @@
       "runtimeSeconds": 5008,
       "runtimeExact": "01:23:28",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/spirit-stallion-of-the-cimarron-2002.webp",
+      "description": "Wild stallion Spirit is captured by the U.S. Cavalry and refuses repeated attempts to break him. His bond with a Lakota man named Little Creek and mare Rain pulls him through captivity, railroad construction and a long fight to return to his herd.",
+      "actors": [
+        "Matt Damon",
+        "James Cromwell",
+        "Daniel Studi",
+        "Chopper Bernet",
+        "Jeff LeBeau"
+      ],
+      "genres": [
+        "Adventure",
+        "Drama",
+        "Western"
+      ],
+      "ratings": {},
+      "tmdbId": 9023
     },
     {
       "id": "star-trek-first-contact-1996",
@@ -1050,11 +1153,23 @@
       "runtimeSeconds": 6643,
       "runtimeExact": "01:50:43",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/star-trek-first-contact-1996.webp",
+      "description": "After the Borg attack Earth, Captain Picard disobeys orders and follows their sphere into the twenty-first century. The Enterprise crew must stop the Borg from preventing humanity's first warp flight and first contact with an alien civilization while Picard confronts how much the Borg still control his judgment.",
+      "actors": [
+        "Patrick Stewart",
+        "Jonathan Frakes",
+        "Brent Spiner",
+        "LeVar Burton",
+        "Michael Dorn"
+      ],
+      "genres": [
+        "Science Fiction",
+        "Action",
+        "Adventure",
+        "Thriller"
+      ],
+      "ratings": {},
+      "tmdbId": 199
     },
     {
       "id": "star-trek-generations-1994",
@@ -1064,11 +1179,23 @@
       "runtimeSeconds": 7077,
       "runtimeExact": "01:57:57",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/star-trek-generations-1994.webp",
+      "description": "Captain Picard pursues scientist Tolian Soran, whose plan to re-enter a timeless energy ribbon will destroy an inhabited star system. The crisis eventually links Picard with retired Captain James T. Kirk, giving two generations of Enterprise captains a shared problem neither can solve alone.",
+      "actors": [
+        "Patrick Stewart",
+        "Jonathan Frakes",
+        "Brent Spiner",
+        "LeVar Burton",
+        "Michael Dorn"
+      ],
+      "genres": [
+        "Science Fiction",
+        "Adventure",
+        "Drama",
+        "Action"
+      ],
+      "ratings": {},
+      "tmdbId": 193
     },
     {
       "id": "star-trek-insurrection-1998",
@@ -1078,11 +1205,23 @@
       "runtimeSeconds": 6178,
       "runtimeExact": "01:42:58",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/star-trek-insurrection-1998.webp",
+      "description": "While investigating Data's strange behavior on a peaceful planet, Captain Picard discovers that Starfleet officers are helping the Son'a secretly relocate the Ba'ku. The Enterprise crew must decide whether orders still deserve obedience when the mission itself violates the principles the Federation claims to defend.",
+      "actors": [
+        "Patrick Stewart",
+        "Brent Spiner",
+        "Michael Dorn",
+        "Jonathan Frakes",
+        "F. Murray Abraham"
+      ],
+      "genres": [
+        "Science Fiction",
+        "Adventure",
+        "Action",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 200
     },
     {
       "id": "star-trek-the-cage-1965",
@@ -1092,10 +1231,20 @@
       "runtimeSeconds": 3813,
       "runtimeExact": "01:03:33",
       "version": "Television Movie",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
+      "poster": "assets/posters/star-trek-the-cage-1965.webp",
+      "description": "Captain Christopher Pike answers a distress call from Talos IV and finds survivors of an expedition lost years earlier. The apparent rescue is a trap set by powerful telepaths who imprison Pike and use elaborate illusions to test whether he and captive Vina can become the foundation of a human breeding colony.",
+      "actors": [
+        "Jeffrey Hunter",
+        "Susan Oliver",
+        "Leonard Nimoy",
+        "Majel Barrett",
+        "John Hoyt"
+      ],
+      "genres": [
+        "Science Fiction",
+        "Drama",
+        "Adventure"
+      ],
       "ratings": {}
     },
     {
@@ -1106,11 +1255,22 @@
       "runtimeSeconds": 8203,
       "runtimeExact": "02:16:43",
       "version": "Director's Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/star-trek-the-motion-picture-1979.webp",
+      "description": "A vast energy cloud moving toward Earth destroys everything in its path, forcing Admiral Kirk to take command of a newly refitted Enterprise before the ship or crew is fully ready. The object at the cloud's center turns the mission from interception into a confrontation with an intelligence seeking its creator.",
+      "actors": [
+        "William Shatner",
+        "Leonard Nimoy",
+        "DeForest Kelley",
+        "James Doohan",
+        "George Takei"
+      ],
+      "genres": [
+        "Science Fiction",
+        "Adventure",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 152
     },
     {
       "id": "star-trek-iii-the-search-for-spock-1984",
@@ -1120,11 +1280,23 @@
       "runtimeSeconds": 6314,
       "runtimeExact": "01:45:14",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/star-trek-iii-the-search-for-spock-1984.webp",
+      "description": "After learning that Spock's living spirit may be trapped inside Dr. McCoy while his body lies on the unstable Genesis planet, Kirk defies Starfleet and steals the Enterprise. The rescue brings his crew into conflict with a Klingon commander who wants Genesis for himself.",
+      "actors": [
+        "William Shatner",
+        "DeForest Kelley",
+        "James Doohan",
+        "George Takei",
+        "Walter Koenig"
+      ],
+      "genres": [
+        "Science Fiction",
+        "Adventure",
+        "Drama",
+        "Action"
+      ],
+      "ratings": {},
+      "tmdbId": 157
     },
     {
       "id": "star-trek-vi-the-undiscovered-country-1991",
@@ -1134,11 +1306,23 @@
       "runtimeSeconds": 6801,
       "runtimeExact": "01:53:21",
       "version": "Director's Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/star-trek-vi-the-undiscovered-country-1991.webp",
+      "description": "An environmental disaster forces the Klingon Empire to seek peace with the Federation, but the negotiations are sabotaged by conspirators on both sides. Kirk and McCoy are framed for murder while Spock and the Enterprise crew race to expose the plot before a historic peace conference becomes another target.",
+      "actors": [
+        "William Shatner",
+        "Leonard Nimoy",
+        "DeForest Kelley",
+        "James Doohan",
+        "Walter Koenig"
+      ],
+      "genres": [
+        "Science Fiction",
+        "Mystery",
+        "Thriller",
+        "Adventure"
+      ],
+      "ratings": {},
+      "tmdbId": 174
     },
     {
       "id": "star-trek-iv-the-voyage-home-1986",
@@ -1148,11 +1332,22 @@
       "runtimeSeconds": 7131,
       "runtimeExact": "01:58:51",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/star-trek-iv-the-voyage-home-1986.webp",
+      "description": "A mysterious probe arrives at Earth and begins devastating the planet while transmitting a call no living species can answer. Kirk and his crew travel to 1986 San Francisco to find the humpback whales whose voices may be the only response the probe will accept.",
+      "actors": [
+        "William Shatner",
+        "Leonard Nimoy",
+        "DeForest Kelley",
+        "James Doohan",
+        "George Takei"
+      ],
+      "genres": [
+        "Science Fiction",
+        "Adventure",
+        "Comedy"
+      ],
+      "ratings": {},
+      "tmdbId": 168
     },
     {
       "id": "star-trek-ii-the-wrath-of-khan-1982",
@@ -1162,11 +1357,23 @@
       "runtimeSeconds": 6991,
       "runtimeExact": "01:56:31",
       "version": "Director's Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/star-trek-ii-the-wrath-of-khan-1982.webp",
+      "description": "Admiral Kirk's inspection of a training cruise becomes a personal battle when Khan Noonien Singh escapes exile and seizes a starship. Khan wants both the experimental Genesis device and revenge on Kirk, forcing the Enterprise into a contest of tactics with increasingly irreversible costs.",
+      "actors": [
+        "William Shatner",
+        "Leonard Nimoy",
+        "Ricardo Montalban",
+        "DeForest Kelley",
+        "James Doohan"
+      ],
+      "genres": [
+        "Science Fiction",
+        "Adventure",
+        "Drama",
+        "Action"
+      ],
+      "ratings": {},
+      "tmdbId": 154
     },
     {
       "id": "star-wars-a-new-hope-1977",
@@ -1176,11 +1383,22 @@
       "runtimeSeconds": 6769,
       "runtimeExact": "01:52:49",
       "version": "Streamlined Edition",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/star-wars-a-new-hope-1977.webp",
+      "description": "Farm boy Luke Skywalker is pulled into a galactic rebellion after two droids carry stolen plans for the Empire's planet-destroying Death Star to his home. With Obi-Wan Kenobi, Han Solo and Princess Leia, Luke joins a desperate attempt to deliver the plans and attack the station before it can destroy the rebel base.",
+      "actors": [
+        "Mark Hamill",
+        "Harrison Ford",
+        "Carrie Fisher",
+        "Peter Cushing",
+        "Alec Guinness"
+      ],
+      "genres": [
+        "Adventure",
+        "Science Fiction",
+        "Action"
+      ],
+      "ratings": {},
+      "tmdbId": 11
     },
     {
       "id": "star-wars-return-of-the-jedi-1983",
@@ -1190,11 +1408,23 @@
       "runtimeSeconds": 7294,
       "runtimeExact": "02:01:34",
       "version": "Streamlined Edition",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/star-wars-return-of-the-jedi-1983.webp",
+      "description": "After rescuing Han Solo from Jabba the Hutt, the Rebel Alliance prepares to destroy a second Death Star before it becomes fully operational. Luke Skywalker meanwhile confronts Darth Vader and Emperor Palpatine, convinced that the conflict with his father does not have to end the way the Emperor expects.",
+      "actors": [
+        "Mark Hamill",
+        "Harrison Ford",
+        "Carrie Fisher",
+        "Billy Dee Williams",
+        "Anthony Daniels"
+      ],
+      "genres": [
+        "Adventure",
+        "Science Fiction",
+        "Action",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 1892
     },
     {
       "id": "star-wars-the-empire-strikes-back-1980",
