@@ -52,7 +52,7 @@ button{color:inherit}
 .poster{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 .cardScore{position:absolute;right:10px;bottom:10px;display:flex;align-items:center;justify-content:center;min-width:58px;height:50px;padding:0 10px;border:1px solid rgba(255,255,255,.18);border-radius:15px;background:rgba(7,11,18,.86);backdrop-filter:blur(10px);font-size:25px;font-weight:700;box-shadow:0 8px 25px rgba(0,0,0,.35)}
 .cardInfo{padding:13px 14px 15px}
-.cardTitle{font-size:18px!important;font-weight:650;line-height:1.02!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
+.cardTitle{font-size:19.5px!important;font-weight:650;line-height:1.02!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
 .cardSubtitle{margin-top:-1px!important;line-height:1.02!important}
 .cardMeta{font-family:var(--font)!important;font-size:13px;font-weight:400;font-variant-caps:small-caps!important;font-synthesis-small-caps:auto!important;text-transform:none!important;letter-spacing:.02em!important;color:#fff;margin-top:5px}
 .movieView{position:relative;padding-bottom:150px}
@@ -114,6 +114,16 @@ button{color:inherit}
 .dialogActions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
 .dialogError{min-height:20px;color:var(--danger);font-size:13px;margin-top:8px}
 code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#dce8ff}
+.poster[alt="Indiana Jones and the Raiders of the Lost Ark poster"],.detailPoster[alt="Indiana Jones and the Raiders of the Lost Ark poster"]{content:url("https://image.tmdb.org/t/p/original/hm799c7uDQdJHenPSJQprX0l6L.jpg")!important}
+.poster[alt="Indiana Jones and the Last Crusade poster"],.detailPoster[alt="Indiana Jones and the Last Crusade poster"]{content:url("https://i.ebayimg.com/00/s/MTYwMFgxMDY2/z/-FgAAOSwwK5juLUD/$_57.JPG?set_id=880000500F")!important}
+.poster[alt="John Tucker Must Die poster"],.detailPoster[alt="John Tucker Must Die poster"]{content:url("https://m.media-amazon.com/images/M/MV5BYWZlYzFmYzMtNjI2MS00MmE3LTlhZTQtNzBlZmYyZjM3MmFmXkEyXkFqcGc@._V1_.jpg")!important}
+.poster[alt="Jurassic Park poster"],.detailPoster[alt="Jurassic Park poster"]{content:url("https://cdng.europosters.eu/pod_public/750/266264.jpg")!important}
+.poster[alt="Just in Time for Christmas poster"],.detailPoster[alt="Just in Time for Christmas poster"]{content:url("https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p12216957_p_v13_ax.jpg")!important}
+.poster[alt="K-19: The Widowmaker poster"],.detailPoster[alt="K-19: The Widowmaker poster"]{content:url("https://image.tmdb.org/t/p/original/lg45uF9zyeqhXm7URE5WQ9cOjuF.jpg")!important}
+.poster[alt="Kate and Leopold poster"],.detailPoster[alt="Kate and Leopold poster"]{content:url("https://www.cinematerial.com/p/500x/e7duc9ek/kate-leopold-movie-poster.jpg?v=1456197882")!important;object-fit:cover!important;object-position:center top!important}
+.poster[alt="King Kong poster"],.detailPoster[alt="King Kong poster"]{content:url("https://studiocloudstoragelive.blob.core.windows.net/media/7d5225b6-270c-4e47-9cd4-a8ee4a1ccc38.jpg")!important}
+.poster[alt="King Solomon's Mines II poster"],.detailPoster[alt="King Solomon's Mines II poster"]{content:url("https://m.media-amazon.com/images/S/pv-target-images/26133729336eaabd49ca7bd59fb904921146dee403c76be2bd5ecaffb137324b.png")!important}
+.poster[alt="Love Actually poster"],.detailPoster[alt="Love Actually poster"]{content:url("https://m.media-amazon.com/images/M/MV5BYWRlZjcwYTgtYWJkOS00MGYwLTk3Y2ItNmU4NTg5Nzg2YTQ2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg")!important}
 @media(max-width:900px){
   .topbar{align-items:flex-start;flex-wrap:wrap}
   .headerTools{width:100%;max-width:none}
@@ -130,7 +140,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#dce8ff}
   .select{width:100%}
   .movieGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
   .cardInfo{padding:10px 10px 12px}
-  .cardTitle{font-size:15px!important;line-height:1.02!important}
+  .cardTitle{font-size:16.5px!important;line-height:1.02!important}
   .cardScore{min-width:48px;height:43px;font-size:21px}
   .movieHeroGrid{grid-template-columns:105px 1fr;gap:15px}
   .posterPanel{border-radius:12px}
