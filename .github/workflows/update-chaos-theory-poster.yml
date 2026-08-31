@@ -1,0 +1,34 @@
+name: Update Chaos Theory poster
+on:
+  push:
+    paths:
+      - '.github/workflows/update-chaos-theory-poster.yml'
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply supplied Chaos Theory artwork
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('styles.css')
+          s = p.read_text(encoding='utf-8')
+          rule = '.poster[alt="Chaos Theory poster"],.detailPoster[alt="Chaos Theory poster"]{content:url("https://tr.web.img4.acsta.net/pictures/bzp/02/135533.jpg")!important}'
+          if rule not in s:
+              s = s.rstrip() + '\n' + rule + '\n'
+              p.write_text(s, encoding='utf-8')
+          PY
+          git config user.name "SceneSense Poster Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add styles.css
+          git diff --cached --quiet || git commit -m "Use supplied Chaos Theory poster artwork"
+          git push origin main
+      - name: Remove temporary workflow
+        run: |
+          git pull --ff-only origin main
+          git rm .github/workflows/update-chaos-theory-poster.yml
+          git commit -m "Remove Chaos Theory poster update workflow"
+          git push origin main
