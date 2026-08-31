@@ -1,0 +1,76 @@
+name: Apply Pirates title layout
+
+on:
+  push:
+    paths:
+      - '.github/workflows/apply-pirates-title-layout-20260831.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Patch Pirates title presentation
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+
+          path = Path('index.html')
+          text = path.read_text(encoding='utf-8')
+
+          replacements = [
+              (
+                  '.cardTitle{white-space:nowrap;overflow:hidden;text-overflow:clip}',
+                  '.cardTitle{white-space:nowrap;overflow:hidden;text-overflow:clip}.piratesMainNarrow{display:block!important;width:111.112%!important;white-space:nowrap!important;overflow:visible!important;transform:scaleX(.9);transform-origin:left center}.piratesSubtitleNarrow{display:block!important;width:106.383%!important;white-space:nowrap!important;overflow:visible!important;transform:scaleX(.94);transform-origin:left center}'
+              ),
+              (
+                  'function fitCardLine(row,minSize=10){if(!row)return;row.style.fontSize="";',
+                  'function fitCardLine(row,minSize=10){if(!row||row.dataset.noFit==="1")return;row.style.fontSize="";'
+              ),
+              (
+                  'function renderMovieIdentity(movie){if(!movie)return;const parts=splitDisplayTitle(movie.title);$("detailTitle").textContent=parts.main;$("detailSubtitle").textContent=parts.subtitle;$("detailMeta")',
+                  'function renderMovieIdentity(movie){if(!movie)return;const parts=splitDisplayTitle(movie.title),isPirates=movie.id==="pirates-of-the-caribbean-2003",detailTitle=$("detailTitle"),detailSubtitle=$("detailSubtitle");detailTitle.textContent=parts.main;detailSubtitle.textContent=parts.subtitle;detailTitle.classList.toggle("piratesMainNarrow",isPirates);detailSubtitle.classList.toggle("piratesSubtitleNarrow",isPirates);if(isPirates){detailTitle.dataset.noFit="1";detailSubtitle.dataset.noFit="1"}else{delete detailTitle.dataset.noFit;delete detailSubtitle.dataset.noFit}$("detailMeta")'
+              ),
+              (
+                  'const parts=splitDisplayTitle(movie.title);title.textContent=parts.main;requestAnimationFrame(()=>fitCardLine(title,11));let subtitle=info.querySelector(".cardSubtitle");',
+                  'const parts=splitDisplayTitle(movie.title),isPirates=movie.id==="pirates-of-the-caribbean-2003";title.textContent=parts.main;title.classList.toggle("piratesMainNarrow",isPirates);if(isPirates)title.dataset.noFit="1";else delete title.dataset.noFit;requestAnimationFrame(()=>fitCardLine(title,11));let subtitle=info.querySelector(".cardSubtitle");'
+              ),
+              (
+                  'subtitle.textContent=parts.subtitle;requestAnimationFrame(()=>fitCardLine(subtitle,10))',
+                  'subtitle.textContent=parts.subtitle;subtitle.classList.toggle("piratesSubtitleNarrow",isPirates);if(isPirates)subtitle.dataset.noFit="1";else delete subtitle.dataset.noFit;requestAnimationFrame(()=>fitCardLine(subtitle,10))'
+              ),
+          ]
+
+          for old, new in replacements:
+              if old not in text:
+                  raise SystemExit(f'Expected index.html fragment not found: {old[:80]}')
+              text = text.replace(old, new, 1)
+
+          path.write_text(text, encoding='utf-8')
+
+          data_path = Path('data/movies-additions-20260830.json')
+          payload = json.loads(data_path.read_text(encoding='utf-8'))
+          found = False
+          for movie in payload.get('movies', []):
+              if movie.get('id') == 'pirates-of-the-caribbean-2003':
+                  movie['title'] = 'Pirates of the Caribbean: The Curse of the Black Pearl'
+                  found = True
+                  break
+          if not found:
+              raise SystemExit('Pirates movie entry not found')
+          data_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          PY
+
+          git config user.name "SceneSense Site Update"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html data/movies-additions-20260830.json
+          git commit -m "Refine Pirates title and add subtitle"
+          git push origin main
