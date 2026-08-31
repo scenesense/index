@@ -389,7 +389,113 @@
         "Chloë Grace Moretz",
         "Matthew Gray Gubler"
       ],
-      "ratings": {}
+      "ratings": {
+        "writing": {
+          "storyQuality": 3,
+          "storyLogic": 2,
+          "development": 3,
+          "construction": 3,
+          "dialogue": 4
+        },
+        "character": {
+          "characterDepth": 4,
+          "drive": 4,
+          "consistency": 2,
+          "practicalIntelligence": 2,
+          "maturity": 2
+        },
+        "realism": {
+          "humanRealism": 3,
+          "realityGrounding": 5,
+          "practicalRealism": 5,
+          "technicalRealism": 5,
+          "physicalRealism": 5
+        },
+        "casting": {
+          "functionalFit": 5,
+          "roleFit": 4,
+          "aesthetics": 3,
+          "magnetism": 2,
+          "ensembleFit": 4
+        },
+        "performance": {
+          "characterization": 3,
+          "emotionalLife": 3,
+          "delivery": 4,
+          "physicalPerformance": 5,
+          "performanceControl": 4
+        },
+        "chemistry": {
+          "connection": 3,
+          "flow": 4,
+          "relationshipDepth": 2,
+          "relationshipGrowth": 2,
+          "relationshipCharge": 2
+        },
+        "direction": {
+          "staging": 5,
+          "actorDirection": 5,
+          "tone": 3,
+          "action": 3,
+          "directorialControl": 3
+        },
+        "editing": {
+          "pacing": 4,
+          "rhythm": 3,
+          "cutting": 1,
+          "clarity": 2,
+          "restraint": 4
+        },
+        "visuals": {
+          "photography": 5,
+          "imageDesign": 4,
+          "imageQuality": 4,
+          "visualEffects": 5,
+          "visualBeauty": 5
+        },
+        "world": {
+          "worldDepth": 5,
+          "place": 5,
+          "productionDesign": 5,
+          "effectsRealization": 4,
+          "designRestraint": 3
+        },
+        "sound": {
+          "soundQuality": 4,
+          "dialogue": 5,
+          "soundscape": 4,
+          "spatialSound": 4,
+          "mixing": 5
+        },
+        "music": {
+          "musicQuality": 3,
+          "execution": 4,
+          "musicalIdentity": 4,
+          "sceneFit": 4,
+          "scoreControl": 3
+        },
+        "creativity": {
+          "originality": 3,
+          "ingenuity": 2,
+          "ideaGrowth": 3,
+          "filmicInvention": 2,
+          "resourcefulness": 3
+        },
+        "morality": {
+          "humanValues": 5,
+          "relationshipEthics": 2,
+          "responsibility": 3,
+          "moralOpposition": 2,
+          "ethicalFraming": 5
+        },
+        "integrity": {
+          "independence": 5,
+          "viewerRespect": 3,
+          "restraint": 5,
+          "degradation": 3,
+          "cohesion": 3
+        }
+      }
     },
     {
       "id": "2010-the-year-we-make-contact-1984",
