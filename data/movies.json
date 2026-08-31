@@ -1659,6 +1659,137 @@
         }
       },
       "tmdbId": 13363
+    },
+    {
+      "id": "the-age-of-adaline-2015",
+      "title": "The Age of Adaline",
+      "year": 2015,
+      "runtimeMinutes": 113,
+      "runtimeSeconds": 6764,
+      "runtimeExact": "01:52:44",
+      "version": "Theatrical Cut",
+      "poster": "assets/posters/the-age-of-adaline-2015.webp",
+      "description": "After an unusual accident in 1937, Adaline Bowman stops aging and spends decades changing identities before anyone notices. Her carefully controlled solitude begins to fail when she falls for Ellis Jones and then meets someone in his family who recognizes the woman she was supposed to have left behind.",
+      "actors": [
+        "Blake Lively",
+        "Michiel Huisman",
+        "Harrison Ford",
+        "Ellen Burstyn",
+        "Kathy Baker"
+      ],
+      "genres": [
+        "Romance",
+        "Drama",
+        "Fantasy"
+      ],
+      "ratings": {
+        "writing": {
+          "storyQuality": 5,
+          "storyLogic": 5,
+          "development": 5,
+          "construction": 5,
+          "dialogue": 4
+        },
+        "character": {
+          "characterDepth": 4,
+          "drive": 3,
+          "consistency": 5,
+          "practicalIntelligence": 4,
+          "maturity": 4
+        },
+        "realism": {
+          "humanRealism": 5,
+          "realityGrounding": 4,
+          "practicalRealism": 2,
+          "technicalRealism": 1,
+          "physicalRealism": 5
+        },
+        "casting": {
+          "functionalFit": 5,
+          "roleFit": 5,
+          "aesthetics": 4,
+          "magnetism": 4,
+          "ensembleFit": 4
+        },
+        "performance": {
+          "characterization": 5,
+          "emotionalLife": 5,
+          "delivery": 5,
+          "physicalPerformance": 5,
+          "performanceControl": 4
+        },
+        "chemistry": {
+          "connection": 4,
+          "flow": 4,
+          "relationshipDepth": 3,
+          "relationshipGrowth": 4,
+          "relationshipCharge": 3
+        },
+        "direction": {
+          "staging": 3,
+          "actorDirection": 3,
+          "tone": 5,
+          "action": 4,
+          "directorialControl": 3
+        },
+        "editing": {
+          "pacing": 4,
+          "rhythm": 4,
+          "cutting": 4,
+          "clarity": 4,
+          "restraint": 4
+        },
+        "visuals": {
+          "photography": 5,
+          "imageDesign": 5,
+          "imageQuality": 5,
+          "visualEffects": 5,
+          "visualBeauty": 5
+        },
+        "world": {
+          "worldDepth": 5,
+          "place": 4,
+          "productionDesign": 3,
+          "effectsRealization": 3,
+          "designRestraint": 4
+        },
+        "sound": {
+          "soundQuality": 4,
+          "dialogue": 5,
+          "soundscape": 4,
+          "spatialSound": 5,
+          "mixing": 4
+        },
+        "music": {
+          "musicQuality": 3,
+          "execution": 3,
+          "musicalIdentity": 3,
+          "sceneFit": 5,
+          "scoreControl": 5
+        },
+        "creativity": {
+          "originality": 5,
+          "ingenuity": 5,
+          "ideaGrowth": 5,
+          "filmicInvention": 4,
+          "resourcefulness": 4
+        },
+        "morality": {
+          "humanValues": 5,
+          "relationshipEthics": 4,
+          "responsibility": 5,
+          "moralOpposition": 2,
+          "ethicalFraming": 4
+        },
+        "integrity": {
+          "independence": 5,
+          "viewerRespect": 2,
+          "restraint": 3,
+          "degradation": 5,
+          "cohesion": 4
+        }
+      },
+      "tmdbId": 293863
     }
   ]
 }
