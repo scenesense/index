@@ -1,0 +1,113 @@
+name: SceneSense selected poster refresh
+
+on:
+  push:
+    paths:
+      - '.github/workflows/scenesense-poster-refresh.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install image tools
+        run: python -m pip install --disable-pip-version-check pillow requests
+
+      - name: Download and normalize selected posters
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from io import BytesIO
+          import requests
+          from PIL import Image
+
+          sources = {
+              'oblivion-2013.webp': 'https://images.contentstack.io/v3/assets/blt13adb7e2033fcee5/bltf432ea7a708d957c/691c84d62c2e688561802132/Oblivion_Poster_2000x3000_uaa.jpg?width=2560',
+              'source-code-2011.webp': 'https://image.tmdb.org/t/p/original/8jVrqcX9lFBDQL2lcI8OjurTuhp.jpg',
+              'minuscule-2013.webp': 'https://image.tmdb.org/t/p/original/zOoAoHhOcunlUsB4FXhbfwu52rT.jpg',
+              'say-anything-1989.webp': 'https://image.tmdb.org/t/p/original/nkucKciFGSRalw6dJtsglWqOXMC.jpg',
+              'spirit-stallion-of-the-cimarron-2002.webp': 'https://images.contentstack.io/v3/assets/blt13adb7e2033fcee5/blte0a92fd525229bf1/691c8776b80cd0e89e7c83e6/SpiritStallionOfTheCimarron_Poster_2000x3000_uaa.jpg?width=2560',
+              'stealing-christmas-2003.webp': 'https://images.contentstack.io/v3/assets/blt13adb7e2033fcee5/blte721f8f69a9f9f84/691c89843e51b042086e0ec2/StealingChristmas_Poster_2000x3000_uaa.jpg?width=2560',
+          }
+
+          out_dir = Path('assets/posters')
+          out_dir.mkdir(parents=True, exist_ok=True)
+          headers = {'User-Agent': 'Mozilla/5.0 SceneSense poster refresh'}
+
+          for filename, url in sources.items():
+              response = requests.get(url, headers=headers, timeout=90)
+              response.raise_for_status()
+              image = Image.open(BytesIO(response.content))
+              image.load()
+              if image.width < 500 or image.height < 700:
+                  raise RuntimeError(f'{filename}: source too small at {image.width}x{image.height}')
+              ratio = image.width / image.height
+              if not 0.60 <= ratio <= 0.80:
+                  raise RuntimeError(f'{filename}: unsuitable portrait ratio {ratio:.3f} ({image.width}x{image.height})')
+              image = image.convert('RGB')
+              if image.width > 1200:
+                  new_h = round(image.height * (1200 / image.width))
+                  image = image.resize((1200, new_h), Image.Resampling.LANCZOS)
+              target = out_dir / filename
+              image.save(target, 'WEBP', quality=92, method=6)
+              print(f'{filename}: {image.width}x{image.height} -> {target.stat().st_size} bytes')
+          PY
+
+      - name: Add requested display accents
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('styles.css')
+          css = path.read_text(encoding='utf-8')
+          marker = '/* SceneSense: ST1 title + Man from Earth 4K accent */'
+          block = r'''
+
+          /* SceneSense: ST1 title + Man from Earth 4K accent */
+          .movieCard[data-movie="star-trek-the-motion-picture-1979"] .cardTitle{font-size:0!important;line-height:1.02!important}
+          .movieCard[data-movie="star-trek-the-motion-picture-1979"] .cardTitle::after{content:"STAR TREK I";font-size:19.5px;line-height:1.02}
+          .movieHeroGrid:has(.detailPoster[alt="Star Trek: The Motion Picture poster"]) #detailTitle{font-size:0!important;line-height:.98!important}
+          .movieHeroGrid:has(.detailPoster[alt="Star Trek: The Motion Picture poster"]) #detailTitle::after{content:"STAR TREK I";font-size:clamp(34px,5vw,66px);line-height:.98}
+          .movieCard[data-movie="the-man-from-earth-2007"] .format4k,
+          .movieHeroGrid:has(.detailPoster[alt="The Man from Earth poster"]) .format4k{color:#a04a4a!important}
+          @media(max-width:900px){
+            .movieHeroGrid:has(.detailPoster[alt="Star Trek: The Motion Picture poster"]) #detailTitle::after{font-size:40px}
+          }
+          @media(max-width:620px){
+            .movieCard[data-movie="star-trek-the-motion-picture-1979"] .cardTitle::after{font-size:16.5px}
+            .movieHeroGrid:has(.detailPoster[alt="Star Trek: The Motion Picture poster"]) #detailTitle::after{font-size:30px}
+          }
+          '''
+          if marker not in css:
+              path.write_text(css.rstrip() + block + '\n', encoding='utf-8')
+          PY
+
+      - name: Commit refreshed assets
+        shell: bash
+        run: |
+          git config user.name "SceneSense maintenance"
+          git config user.email "actions@users.noreply.github.com"
+          git add assets/posters/oblivion-2013.webp \
+                  assets/posters/source-code-2011.webp \
+                  assets/posters/minuscule-2013.webp \
+                  assets/posters/say-anything-1989.webp \
+                  assets/posters/spirit-stallion-of-the-cimarron-2002.webp \
+                  assets/posters/stealing-christmas-2003.webp \
+                  styles.css
+          git diff --cached --stat
+          git commit -m "Refresh six posters and film display accents"
+          git push origin HEAD:main
