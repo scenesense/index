@@ -1,0 +1,46 @@
+name: Finalize poster paths
+
+on:
+  push:
+    paths:
+      - '.github/workflows/finalize-poster-paths.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update poster references
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('data/movies-additions-20260830.json')
+          text = path.read_text(encoding='utf-8')
+
+          changes = {
+              '"poster": "assets/posters/in-a-world-2013.jpg"': '"poster": "assets/posters/in-a-world-2013.webp"',
+              '"poster": "assets/posters/in-time-2011.jpg"': '"poster": "assets/posters/in-time-2011.webp"',
+          }
+
+          for old, new in changes.items():
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'Expected exactly one occurrence of {old!r}, found {count}')
+              text = text.replace(old, new)
+
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Commit poster references
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/movies-additions-20260830.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Point In a World and In Time to WebP posters"
+          git push
