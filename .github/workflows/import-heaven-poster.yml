@@ -1,0 +1,26 @@
+name: Import Heaven Can Wait poster
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/import-heaven-poster.yml
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Download supplied poster
+        run: |
+          mkdir -p assets/posters
+          curl --fail --location --retry 3 'https://images.ctfassets.net/22n7d68fswlw/1KrWRANuh8eXs0lvOuhjJ6/3a5800a994de9d0c3e1644ee1bd5f580/HCW_poster.jpg' -o assets/posters/heaven-can-wait-1943.jpg
+      - name: Commit poster
+        run: |
+          git config user.name 'SceneSense Library Bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add assets/posters/heaven-can-wait-1943.jpg
+          git commit -m 'Add Heaven Can Wait poster asset' || exit 0
+          git push origin main
