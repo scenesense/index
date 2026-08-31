@@ -2436,11 +2436,22 @@
       "runtimeSeconds": 5788,
       "runtimeExact": "01:36:28",
       "version": "Online Release",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/when-we-first-met-2018.webp",
+      "description": "Noah believes the night he met Avery should have made them a couple, but three years later she is engaged to someone else. A magical photo booth repeatedly sends him back to that first evening, letting him rewrite the encounter until he finally understands which parts of his desired future are actually wrong.",
+      "actors": [
+        "Adam Devine",
+        "Alexandra Daddario",
+        "Shelley Hennig",
+        "Andrew Bachelor",
+        "Robbie Amell"
+      ],
+      "genres": [
+        "Romance",
+        "Comedy",
+        "Fantasy"
+      ],
+      "ratings": {},
+      "tmdbId": 433310
     },
     {
       "id": "white-collar-2009",
@@ -2450,11 +2461,22 @@
       "runtimeSeconds": 3637,
       "runtimeExact": "01:00:37",
       "version": "Television Movie",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/white-collar-2009.webp",
+      "description": "Brilliant con artist Neal Caffrey escapes prison to search for the woman he loves, only to be recaptured by FBI agent Peter Burke. Neal bargains for supervised release as Peter's consultant, turning the hunter and fugitive into an uneasy team solving sophisticated white-collar crimes.",
+      "actors": [
+        "Matt Bomer",
+        "Tim DeKay",
+        "Willie Garson",
+        "Tiffani-Amber Thiessen",
+        "Sharif Atkins"
+      ],
+      "genres": [
+        "Crime",
+        "Drama",
+        "Comedy"
+      ],
+      "ratings": {},
+      "tmdbId": 21510
     },
     {
       "id": "wicker-park-2004",
@@ -2464,11 +2486,23 @@
       "runtimeSeconds": 6896,
       "runtimeExact": "01:54:56",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/wicker-park-2004.webp",
+      "description": "Advertising executive Matthew sees a woman in a restaurant whom he believes is Lisa, the girlfriend who vanished from his life two years earlier. His attempt to find her pulls him through overlapping apartments, messages and relationships, gradually revealing that the disappearance was not as simple as either abandonment or coincidence.",
+      "actors": [
+        "Josh Hartnett",
+        "Rose Byrne",
+        "Matthew Lillard",
+        "Diane Kruger",
+        "Christopher Cousins"
+      ],
+      "genres": [
+        "Romance",
+        "Mystery",
+        "Drama",
+        "Thriller"
+      ],
+      "ratings": {},
+      "tmdbId": 11208
     },
     {
       "id": "win-a-date-with-tad-hamilton-2004",
@@ -2478,11 +2512,21 @@
       "runtimeSeconds": 5768,
       "runtimeExact": "01:36:08",
       "version": "Open Matte",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/win-a-date-with-tad-hamilton-2004.webp",
+      "description": "Small-town grocery clerk Rosalee wins a publicity contest for a date with movie star Tad Hamilton, and the actor unexpectedly keeps pursuing her afterward. Her best friend Pete, who has loved Rosalee quietly for years, must decide whether to keep waiting or finally make his feelings impossible to miss.",
+      "actors": [
+        "Kate Bosworth",
+        "Topher Grace",
+        "Josh Duhamel",
+        "Nathan Lane",
+        "Sean Hayes"
+      ],
+      "genres": [
+        "Romance",
+        "Comedy"
+      ],
+      "ratings": {},
+      "tmdbId": 13476
     },
     {
       "id": "wonder-woman-2017",
@@ -2492,11 +2536,23 @@
       "runtimeSeconds": 8476,
       "runtimeExact": "02:21:16",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/wonder-woman-2017.webp",
+      "description": "Amazon princess Diana leaves her hidden island after rescuing American pilot Steve Trevor and learning of the war consuming the outside world. Convinced an ancient enemy is driving the conflict, she joins Steve's mission and discovers that human violence is more complicated than the explanation she was raised to expect.",
+      "actors": [
+        "Gal Gadot",
+        "Chris Pine",
+        "Connie Nielsen",
+        "Robin Wright",
+        "Danny Huston"
+      ],
+      "genres": [
+        "Action",
+        "Adventure",
+        "Fantasy",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 297762
     },
     {
       "id": "youve-got-mail-1998",
@@ -2506,11 +2562,22 @@
       "runtimeSeconds": 7163,
       "runtimeExact": "01:59:23",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/youve-got-mail-1998.webp",
+      "description": "Independent bookseller Kathleen Kelly and chain-store executive Joe Fox become enemies when his new megastore threatens her neighborhood shop. Neither realizes that they are also the anonymous email correspondents whose increasingly personal messages have become the most honest relationship in either life.",
+      "actors": [
+        "Meg Ryan",
+        "Tom Hanks",
+        "Greg Kinnear",
+        "Parker Posey",
+        "Heather Burns"
+      ],
+      "genres": [
+        "Romance",
+        "Comedy",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 9489
     }
   ]
 }
