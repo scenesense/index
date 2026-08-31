@@ -1069,5 +1069,26 @@
     "version": "Theatrical Cut",
     "runtimeSeconds": 7163,
     "runtimeExact": "01:59:23"
+  },
+  {
+    "title": "Star Trek: The Motion Picture",
+    "year": 1979,
+    "version": "Director's Cut",
+    "runtimeSeconds": 8203,
+    "runtimeExact": "02:16:43"
+  },
+  {
+    "title": "Star Trek VI: The Undiscovered Country",
+    "year": 1991,
+    "version": "Director's Cut",
+    "runtimeSeconds": 6801,
+    "runtimeExact": "01:53:21"
+  },
+  {
+    "title": "Star Trek II: The Wrath of Khan",
+    "year": 1982,
+    "version": "Director's Cut",
+    "runtimeSeconds": 6991,
+    "runtimeExact": "01:56:31"
   }
 ]
