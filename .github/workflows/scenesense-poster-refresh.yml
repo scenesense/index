@@ -40,7 +40,7 @@ jobs:
               'minuscule-2013.webp': 'https://image.tmdb.org/t/p/original/zOoAoHhOcunlUsB4FXhbfwu52rT.jpg',
               'say-anything-1989.webp': 'https://image.tmdb.org/t/p/original/nkucKciFGSRalw6dJtsglWqOXMC.jpg',
               'spirit-stallion-of-the-cimarron-2002.webp': 'https://images.contentstack.io/v3/assets/blt13adb7e2033fcee5/blte0a92fd525229bf1/691c8776b80cd0e89e7c83e6/SpiritStallionOfTheCimarron_Poster_2000x3000_uaa.jpg?width=2560',
-              'stealing-christmas-2003.webp': 'https://images.contentstack.io/v3/assets/blt13adb7e2033fcee5/blte721f8f69a9f9f84/691c89843e51b042086e0ec2/StealingChristmas_Poster_2000x3000_uaa.jpg',
+              'stealing-christmas-2003.webp': 'https://canvas-lb.tubitv.com/opts/dJ5v30o1RN8zkQ%3D%3D/eb6f36f6-3da0-42e3-bf9b-f2a88087a9ad/CJgDEMcEOgUxLjEuNg%3D%3D',
           }
 
           out_dir = Path('assets/posters')
