@@ -107,7 +107,7 @@
       "runtimeExact": "01:49:16",
       "version": "Theatrical Cut",
       "tmdbId": 49530,
-      "poster": "https://pics.filmaffinity.com/In_Time-139117348-large.jpg",
+      "poster": "assets/posters/in-time-2011.jpg",
       "description": "In a society where people stop aging at twenty-five and time has become currency, factory worker Will Salas receives more than a century from a wealthy stranger and is immediately suspected of murder. After entering the privileged time zone and taking heiress Sylvia Weis with him, Will is pursued by Timekeeper Raymond Leon while the pair begin attacking the system that keeps the poor literally running out of life.",
       "actors": [
         "Justin Timberlake",
@@ -387,8 +387,8 @@
         "Cynthia E. Jones"
       ],
       "genres": [
-        "Horror",
         "Mystery",
+        "Horror",
         "Thriller"
       ],
       "ratings": {}
