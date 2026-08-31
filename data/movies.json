@@ -565,7 +565,113 @@
         "Linda Emond",
         "Buck Henry"
       ],
-      "ratings": {}
+      "ratings": {
+        "writing": {
+          "storyQuality": 3,
+          "storyLogic": 4,
+          "development": 3,
+          "construction": 3,
+          "dialogue": 5
+        },
+        "character": {
+          "characterDepth": 5,
+          "drive": 3,
+          "consistency": 4,
+          "practicalIntelligence": 3,
+          "maturity": 3
+        },
+        "realism": {
+          "humanRealism": 5,
+          "realityGrounding": 5,
+          "practicalRealism": 4,
+          "technicalRealism": 4,
+          "physicalRealism": 4
+        },
+        "casting": {
+          "functionalFit": 5,
+          "roleFit": 5,
+          "aesthetics": 5,
+          "magnetism": 5,
+          "ensembleFit": 5
+        },
+        "performance": {
+          "characterization": 4,
+          "emotionalLife": 4,
+          "delivery": 4,
+          "physicalPerformance": 5,
+          "performanceControl": 4
+        },
+        "chemistry": {
+          "connection": 5,
+          "flow": 3,
+          "relationshipDepth": 4,
+          "relationshipGrowth": 4,
+          "relationshipCharge": 4
+        },
+        "direction": {
+          "staging": 5,
+          "actorDirection": 4,
+          "tone": 4,
+          "action": 3,
+          "directorialControl": 5
+        },
+        "editing": {
+          "pacing": 4,
+          "rhythm": 5,
+          "cutting": 5,
+          "clarity": 4,
+          "restraint": 5
+        },
+        "visuals": {
+          "photography": 4,
+          "imageDesign": 5,
+          "imageQuality": 5,
+          "visualEffects": 4,
+          "visualBeauty": 4
+        },
+        "world": {
+          "worldDepth": 5,
+          "place": 4,
+          "productionDesign": 4,
+          "effectsRealization": 3,
+          "designRestraint": 5
+        },
+        "sound": {
+          "soundQuality": 3,
+          "dialogue": 4,
+          "soundscape": 3,
+          "spatialSound": 3,
+          "mixing": 3
+        },
+        "music": {
+          "musicQuality": 3,
+          "execution": 3,
+          "musicalIdentity": 2,
+          "sceneFit": 2,
+          "scoreControl": 2
+        },
+        "creativity": {
+          "originality": 5,
+          "ingenuity": 5,
+          "ideaGrowth": 3,
+          "filmicInvention": 4,
+          "resourcefulness": 4
+        },
+        "morality": {
+          "humanValues": 5,
+          "relationshipEthics": 4,
+          "responsibility": 5,
+          "moralOpposition": 2,
+          "ethicalFraming": 5
+        },
+        "integrity": {
+          "independence": 5,
+          "viewerRespect": 5,
+          "restraint": 5,
+          "degradation": 4,
+          "cohesion": 5
+        }
+      }
     },
     {
       "id": "a-bride-for-christmas-2012",
