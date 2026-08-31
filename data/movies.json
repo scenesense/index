@@ -1723,11 +1723,11 @@
           "flow": 4,
           "relationshipDepth": 3,
           "relationshipGrowth": 4,
-          "relationshipCharge": 3
+          "relationshipCharge": 4
         },
         "direction": {
           "staging": 3,
-          "actorDirection": 3,
+          "actorDirection": 4,
           "tone": 5,
           "action": 4,
           "directorialControl": 3
@@ -1754,7 +1754,7 @@
           "designRestraint": 4
         },
         "sound": {
-          "soundQuality": 4,
+          "soundQuality": 5,
           "dialogue": 5,
           "soundscape": 4,
           "spatialSound": 5,
