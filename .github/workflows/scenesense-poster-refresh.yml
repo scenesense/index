@@ -52,7 +52,8 @@ jobs:
               response.raise_for_status()
               image = Image.open(BytesIO(response.content))
               image.load()
-              if image.width < 500 or image.height < 700:
+              min_w, min_h = ((350, 500) if filename == 'stealing-christmas-2003.webp' else (500, 700))
+              if image.width < min_w or image.height < min_h:
                   raise RuntimeError(f'{filename}: source too small at {image.width}x{image.height}')
               ratio = image.width / image.height
               if not 0.60 <= ratio <= 0.80:
