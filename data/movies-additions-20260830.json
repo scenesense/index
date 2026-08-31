@@ -10,8 +10,19 @@
       "version": "Theatrical Cut",
       "poster": "https://m.media-amazon.com/images/M/MV5BOGMzMDczOTctNmE0NS00OWIwLTk0N2ItOGJkNjc2YTU4OWM5XkEyXkFqcGc%40._V1_.jpg",
       "description": "After the accidental death of her young son, novelist Rachel Carlson retreats to a remote coastal village hoping to recover and write again. She becomes close to lighthouse keeper Angus McCulloch, only to learn that the man she has been seeing is supposed to have died years earlier, leaving Rachel to determine whether she is being haunted, deceived or losing her grip on reality.",
-      "actors": ["Demi Moore", "Hans Matheson", "Henry Ian Cusick", "James Cosmo", "Kate Isitt"],
-      "genres": ["Thriller", "Mystery", "Horror", "Romance"],
+      "actors": [
+        "Demi Moore",
+        "Hans Matheson",
+        "Henry Ian Cusick",
+        "James Cosmo",
+        "Kate Isitt"
+      ],
+      "genres": [
+        "Thriller",
+        "Mystery",
+        "Horror",
+        "Romance"
+      ],
       "ratings": {}
     },
     {
@@ -23,10 +34,21 @@
       "runtimeExact": "01:52:46",
       "version": "Theatrical Cut",
       "tmdbId": 18727,
-      "poster": "https://cdn11.bigcommerce.com/s-yzgoj/images/stencil/1280x1280/products/978059/4309069/apiwwiapu__02557.1626451661.jpg?c=2",
+      "poster": "assets/posters/heaven-can-wait-1943.jpg",
       "description": "After his death, Henry Van Cleve arrives at the entrance to Hell convinced that his lifelong weakness for women has earned him admission. His Excellency is unconvinced, so Henry recounts his life, his marriage to Martha and the family complications surrounding them in an attempt to prove that he belongs downstairs.",
-      "actors": ["Don Ameche", "Gene Tierney", "Charles Coburn", "Laird Cregar", "Marjorie Main"],
-      "genres": ["Comedy", "Romance", "Fantasy", "Drama"],
+      "actors": [
+        "Don Ameche",
+        "Gene Tierney",
+        "Charles Coburn",
+        "Laird Cregar",
+        "Marjorie Main"
+      ],
+      "genres": [
+        "Comedy",
+        "Romance",
+        "Fantasy",
+        "Drama"
+      ],
       "ratings": {}
     },
     {
@@ -40,8 +62,17 @@
       "tmdbId": 82099,
       "poster": "https://image.tmdb.org/t/p/original/A6kymOV3KIi620vHx1CuGMFPf3P.jpg",
       "description": "When Hillary Burns is dumped just before bringing her fiancé home for Thanksgiving, she cannot face another round of disappointment from her demanding family. She hires actor David to pose as the missing fiancé for the holiday weekend, but maintaining the lie becomes harder as David fits into the family rather better than the man he is replacing.",
-      "actors": ["Bonnie Somerville", "Jordan Bridges", "Shelley Long", "Sam McMurray", "Haylie Duff"],
-      "genres": ["Romance", "Comedy"],
+      "actors": [
+        "Bonnie Somerville",
+        "Jordan Bridges",
+        "Shelley Long",
+        "Sam McMurray",
+        "Haylie Duff"
+      ],
+      "genres": [
+        "Romance",
+        "Comedy"
+      ],
       "ratings": {}
     },
     {
@@ -54,8 +85,17 @@
       "version": "Theatrical Cut",
       "poster": "https://m.media-amazon.com/images/M/MV5BMTU0NzE0Mzg3M15BMl5BanBnXkFtZTcwNzY2MDY3OQ%40%40._V1_.jpg",
       "description": "Voice coach Carol Solomon lives in the shadow of her famous trailer-voice father Sam and survives on small recording jobs. When a coveted movie-trailer campaign opens up, Carol unexpectedly becomes a contender against both Sam and his protégé Gustav, turning a professional opportunity into a family collision.",
-      "actors": ["Lake Bell", "Fred Melamed", "Demetri Martin", "Michaela Watkins", "Ken Marino"],
-      "genres": ["Comedy", "Drama"],
+      "actors": [
+        "Lake Bell",
+        "Fred Melamed",
+        "Demetri Martin",
+        "Michaela Watkins",
+        "Ken Marino"
+      ],
+      "genres": [
+        "Comedy",
+        "Drama"
+      ],
       "ratings": {}
     },
     {
@@ -69,8 +109,19 @@
       "tmdbId": 49530,
       "poster": "https://pics.filmaffinity.com/In_Time-139117348-large.jpg",
       "description": "In a society where people stop aging at twenty-five and time has become currency, factory worker Will Salas receives more than a century from a wealthy stranger and is immediately suspected of murder. After entering the privileged time zone and taking heiress Sylvia Weis with him, Will is pursued by Timekeeper Raymond Leon while the pair begin attacking the system that keeps the poor literally running out of life.",
-      "actors": ["Justin Timberlake", "Amanda Seyfried", "Cillian Murphy", "Vincent Kartheiser", "Olivia Wilde"],
-      "genres": ["Thriller", "Science Fiction", "Action", "Romance"],
+      "actors": [
+        "Justin Timberlake",
+        "Amanda Seyfried",
+        "Cillian Murphy",
+        "Vincent Kartheiser",
+        "Olivia Wilde"
+      ],
+      "genres": [
+        "Thriller",
+        "Science Fiction",
+        "Action",
+        "Romance"
+      ],
       "ratings": {}
     },
     {
@@ -84,8 +135,17 @@
       "tmdbId": 89,
       "poster": "https://www.mauvais-genres.com/28112-thickbox_default/indiana-jones-et-la-derniere-croisade-affiche-de-film-32x49-cm-1989-harrison-ford-steven-spielberg.jpg",
       "description": "Indiana Jones learns that his estranged father Henry disappeared while searching for the Holy Grail. Following Henry's trail through Venice and into Nazi hands turns the archaeological hunt into a rescue mission, with father and son forced to work together before the Grail can be claimed by people with considerably worse plans for it.",
-      "actors": ["Harrison Ford", "Sean Connery", "Alison Doody", "Denholm Elliott", "John Rhys-Davies"],
-      "genres": ["Adventure", "Action"],
+      "actors": [
+        "Harrison Ford",
+        "Sean Connery",
+        "Alison Doody",
+        "Denholm Elliott",
+        "John Rhys-Davies"
+      ],
+      "genres": [
+        "Adventure",
+        "Action"
+      ],
       "ratings": {}
     },
     {
@@ -99,8 +159,17 @@
       "tmdbId": 85,
       "poster": "https://www.popmovee.com/uploads/1/9/6/2/19626163/raiders-of-the-lost-ark-movie-1981-poster1_2_orig.jpg",
       "description": "Archaeologist Indiana Jones is sent to find the Ark of the Covenant before a Nazi expedition can obtain it. The search reunites him with Marion Ravenwood and puts him against rival archaeologist René Belloq as the trail moves from Nepal to Cairo and finally to the dangerous consequences of opening what they have been chasing.",
-      "actors": ["Harrison Ford", "Karen Allen", "Paul Freeman", "John Rhys-Davies", "Ronald Lacey"],
-      "genres": ["Adventure", "Action"],
+      "actors": [
+        "Harrison Ford",
+        "Karen Allen",
+        "Paul Freeman",
+        "John Rhys-Davies",
+        "Ronald Lacey"
+      ],
+      "genres": [
+        "Adventure",
+        "Action"
+      ],
       "ratings": {}
     },
     {
@@ -114,8 +183,17 @@
       "tmdbId": 9293,
       "poster": "https://pad.mymovies.it/filmclub/2006/07/233/locandinapg3.jpg",
       "description": "Heather, Beth and Carrie discover that school basketball star John Tucker has been dating all three of them at once. They recruit new student Kate to help dismantle his reputation and engineer the heartbreak he usually leaves to other people, but the plan gets complicated when Kate becomes close to John's brother Scott.",
-      "actors": ["Jesse Metcalfe", "Brittany Snow", "Ashanti", "Sophia Bush", "Arielle Kebbel"],
-      "genres": ["Comedy", "Romance"],
+      "actors": [
+        "Jesse Metcalfe",
+        "Brittany Snow",
+        "Ashanti",
+        "Sophia Bush",
+        "Arielle Kebbel"
+      ],
+      "genres": [
+        "Comedy",
+        "Romance"
+      ],
       "ratings": {}
     },
     {
@@ -129,8 +207,18 @@
       "tmdbId": 329,
       "poster": "https://i.pinimg.com/736x/09/6c/96/096c968dd97ab36844781be3ba8f5f48.jpg",
       "description": "John Hammond invites paleontologists Alan Grant and Ellie Sattler, mathematician Ian Malcolm and his own grandchildren to inspect a nearly finished island theme park populated by cloned dinosaurs. When sabotage disables the park's security systems, the visitors are separated across the island and the attraction becomes a survival problem its designers never truly controlled.",
-      "actors": ["Sam Neill", "Laura Dern", "Jeff Goldblum", "Richard Attenborough", "Ariana Richards"],
-      "genres": ["Adventure", "Thriller", "Science Fiction"],
+      "actors": [
+        "Sam Neill",
+        "Laura Dern",
+        "Jeff Goldblum",
+        "Richard Attenborough",
+        "Ariana Richards"
+      ],
+      "genres": [
+        "Adventure",
+        "Thriller",
+        "Science Fiction"
+      ],
       "ratings": {}
     },
     {
@@ -144,8 +232,19 @@
       "tmdbId": 363486,
       "poster": "https://m.media-amazon.com/images/M/MV5BMWU1MDM3ZjUtNTE3MS00MmI0LWE2ZTMtN2IyYzU4NDVhNzk4XkEyXkFqcGc%40._V1_FMjpg_UX1000_.jpg",
       "description": "Psychology professor Lindsay Rogers is offered her dream academic job just as longtime boyfriend Jason proposes marriage. Unable to choose between leaving home and building a life with him, Lindsay meets a mysterious coachman who carries her three years into the future, where she can see what one version of that decision actually costs.",
-      "actors": ["Eloise Mumford", "Michael Stahl-David", "Christopher Lloyd", "William Shatner", "Tess Atkins"],
-      "genres": ["Romance", "Christmas", "Fantasy", "Drama"],
+      "actors": [
+        "Eloise Mumford",
+        "Michael Stahl-David",
+        "Christopher Lloyd",
+        "William Shatner",
+        "Tess Atkins"
+      ],
+      "genres": [
+        "Romance",
+        "Christmas",
+        "Fantasy",
+        "Drama"
+      ],
       "ratings": {}
     },
     {
@@ -159,8 +258,17 @@
       "tmdbId": 8665,
       "poster": "https://i.etsystatic.com/6632084/r/il/6f8384/2940233231/il_1140xN.2940233231_kua3.jpg",
       "description": "Captain Alexei Vostrikov is ordered to take command of the Soviet nuclear submarine K-19 from Captain Mikhail Polenin and rush the vessel through sea trials during the Cold War. When the reactor cooling system fails far from home, command rivalry becomes secondary to containing a nuclear disaster that could kill the crew and provoke a much larger crisis.",
-      "actors": ["Harrison Ford", "Liam Neeson", "Peter Sarsgaard", "Joss Ackland", "John Shrapnel"],
-      "genres": ["Thriller", "Drama"],
+      "actors": [
+        "Harrison Ford",
+        "Liam Neeson",
+        "Peter Sarsgaard",
+        "Joss Ackland",
+        "John Shrapnel"
+      ],
+      "genres": [
+        "Thriller",
+        "Drama"
+      ],
       "ratings": {}
     },
     {
@@ -174,8 +282,18 @@
       "tmdbId": 11232,
       "poster": "https://i.ebayimg.com/00/s/MTYwMFgxMDM1/z/xvYAAOSwnHZYi5ZD/%24_57.JPG?set_id=8800005007",
       "description": "Scientist Stuart Besser accidentally brings nineteenth-century Duke Leopold into modern New York through a time portal. Stuart's ex-girlfriend Kate initially treats Leopold as another problem created by Stuart, but the courtly visitor adapts to the present surprisingly well and the growing attraction between Kate and Leopold collides with the fact that history requires him to go home.",
-      "actors": ["Meg Ryan", "Hugh Jackman", "Liev Schreiber", "Breckin Meyer", "Natasha Lyonne"],
-      "genres": ["Romance", "Comedy", "Fantasy"],
+      "actors": [
+        "Meg Ryan",
+        "Hugh Jackman",
+        "Liev Schreiber",
+        "Breckin Meyer",
+        "Natasha Lyonne"
+      ],
+      "genres": [
+        "Romance",
+        "Comedy",
+        "Fantasy"
+      ],
       "ratings": {}
     },
     {
@@ -188,8 +306,18 @@
       "version": "Theatrical Cut",
       "poster": "https://cdn11.bigcommerce.com/s-hb4cr1x1/images/stencil/900x1800/products/559/848/Untitled-1350__26013.1689228605.jpg?c=1",
       "description": "Petrox executive Fred Wilson leads an expedition to an uncharted island in search of oil, carrying paleontologist Jack Prescott and rescued castaway Dwan with him. The island instead yields a gigantic ape worshipped as Kong, and Wilson's decision to capture the animal for publicity turns an already dangerous discovery into a catastrophe transported back to New York.",
-      "actors": ["Jeff Bridges", "Jessica Lange", "Charles Grodin", "John Randolph", "René Auberjonois"],
-      "genres": ["Adventure", "Thriller", "Drama"],
+      "actors": [
+        "Jeff Bridges",
+        "Jessica Lange",
+        "Charles Grodin",
+        "John Randolph",
+        "René Auberjonois"
+      ],
+      "genres": [
+        "Adventure",
+        "Thriller",
+        "Drama"
+      ],
       "ratings": {}
     },
     {
@@ -202,8 +330,19 @@
       "version": "Television Movie",
       "poster": "https://www.moviemeter.nl/images/cover/27000/27653.jpg?cb=1671101551",
       "description": "After abandoning a mercenary safari partner whose brutality disgusts him, Allan Quatermain accepts an offer from Elizabeth Maitland to find her missing father in Africa. Dr. Maitland disappeared while pursuing the legendary King Solomon's Mines, and the expedition soon becomes a race involving the map, hostile rivals and forces seeking the treasure for themselves.",
-      "actors": ["Patrick Swayze", "Alison Doody", "Roy Marsden", "Gavin Hood", "John Standing"],
-      "genres": ["Adventure", "Action", "Drama", "Romance"],
+      "actors": [
+        "Patrick Swayze",
+        "Alison Doody",
+        "Roy Marsden",
+        "Gavin Hood",
+        "John Standing"
+      ],
+      "genres": [
+        "Adventure",
+        "Action",
+        "Drama",
+        "Romance"
+      ],
       "ratings": {}
     },
     {
@@ -216,8 +355,19 @@
       "version": "Television Movie",
       "poster": "https://www.moviemeter.nl/images/cover/27000/27653.jpg?cb=1671101551",
       "description": "Quatermain, Elizabeth Maitland and their companions push deeper into the expedition as the search finally reaches the territory surrounding King Solomon's Mines. Rival treasure hunters, tribal conflict and the dangers inside the mines turn the rescue of Elizabeth's father and the legendary riches into the same increasingly narrow path to survival.",
-      "actors": ["Patrick Swayze", "Alison Doody", "Roy Marsden", "Gavin Hood", "John Standing"],
-      "genres": ["Adventure", "Action", "Drama", "Romance"],
+      "actors": [
+        "Patrick Swayze",
+        "Alison Doody",
+        "Roy Marsden",
+        "Gavin Hood",
+        "John Standing"
+      ],
+      "genres": [
+        "Adventure",
+        "Action",
+        "Drama",
+        "Romance"
+      ],
       "ratings": {}
     },
     {
@@ -230,8 +380,17 @@
       "version": "Online Release",
       "poster": "https://m.media-amazon.com/images/S/pv-target-images/d0588bb173e02ce42bec9642139b3856240554e360652c6ec2520add3a645be3.jpg",
       "description": "After two decades in Washington, D.C., Mark Klein moves alone to a remote house in West Virginia and sends video updates to the OCD support group he left behind. Strange nighttime sounds from the surrounding woods lead him to begin recording and measuring what happens outside, but each attempt to make the disturbances rational produces evidence that is harder to explain.",
-      "actors": ["Josh Criss", "Karin Crighton", "Jeff Manney", "Cynthia E. Jones"],
-      "genres": ["Horror", "Mystery", "Thriller"],
+      "actors": [
+        "Josh Criss",
+        "Karin Crighton",
+        "Jeff Manney",
+        "Cynthia E. Jones"
+      ],
+      "genres": [
+        "Horror",
+        "Mystery",
+        "Thriller"
+      ],
       "ratings": {}
     },
     {
@@ -245,8 +404,19 @@
       "tmdbId": 508,
       "poster": "https://artofthemovies.co.uk/cdn/shop/files/IMG_8795-395277_76f3b788-1690-4f96-a444-9177890e8b60.jpg?v=1712148626",
       "description": "In the weeks before Christmas, a network of Londoners navigate marriages, new attractions, grief, betrayal and badly timed declarations of love. Their stories range from the newly elected Prime Minister's attraction to Natalie to Daniel helping his stepson Sam pursue a first crush, with the separate relationships gradually revealing how closely their lives overlap.",
-      "actors": ["Hugh Grant", "Emma Thompson", "Colin Firth", "Liam Neeson", "Keira Knightley"],
-      "genres": ["Romance", "Comedy", "Christmas", "Drama"],
+      "actors": [
+        "Hugh Grant",
+        "Emma Thompson",
+        "Colin Firth",
+        "Liam Neeson",
+        "Keira Knightley"
+      ],
+      "genres": [
+        "Romance",
+        "Comedy",
+        "Christmas",
+        "Drama"
+      ],
       "ratings": {}
     }
   ]
