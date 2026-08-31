@@ -1004,3 +1004,8 @@ A fresh chat taking over this project should do this before making changes:
 8. verify the commit and Pages deployment
 
 The current site is in a good working state. Preserve that state first; improve it second.
+
+## Current 4K metadata convention
+
+Library cards and movie-detail metadata both end with a `4K` marker. The metadata row must remain on one line and may shrink slightly to fit rather than wrap or clip. The normal marker is silver. Blue is reserved for these current IDs: BTTF I–III, Alien, Bring It On, Dragonheart, Gojira Minus One, Guess Who’s Coming to Dinner, both Indiana Jones films, and Jurassic Park. The implementation currently lives in the inline UI layer in `index.html`.
+
