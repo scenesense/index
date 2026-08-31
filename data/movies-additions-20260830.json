@@ -427,11 +427,22 @@
       "runtimeSeconds": 8301,
       "runtimeExact": "02:18:21",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/master-and-commander-2003.webp",
+      "description": "Captain Jack Aubrey takes HMS Surprise after a powerful French privateer, turning a brutal first encounter into a long pursuit across two oceans. The chase tests Aubrey's duty to the mission, his responsibility to his crew and his friendship with surgeon Stephen Maturin.",
+      "actors": [
+        "Russell Crowe",
+        "Paul Bettany",
+        "James D'Arcy",
+        "Robert Pugh",
+        "David Threlfall"
+      ],
+      "genres": [
+        "Adventure",
+        "Drama",
+        "Action"
+      ],
+      "ratings": {},
+      "tmdbId": 8619
     },
     {
       "id": "me-before-you-2016",
@@ -441,11 +452,21 @@
       "runtimeSeconds": 6614,
       "runtimeExact": "01:50:14",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/me-before-you-2016.webp",
+      "description": "Cheerful but directionless Lou Clark takes a job caring for Will Traynor, whose life changed completely after an accident left him quadriplegic. As Lou tries to draw him back into the world, their growing attachment collides with Will's firmly held plans for his own future.",
+      "actors": [
+        "Emilia Clarke",
+        "Sam Claflin",
+        "Janet McTeer",
+        "Charles Dance",
+        "Brendan Coyle"
+      ],
+      "genres": [
+        "Romance",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 296096
     },
     {
       "id": "minuscule-2013",
@@ -455,11 +476,21 @@
       "runtimeSeconds": 5307,
       "runtimeExact": "01:28:27",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/minuscule-2013.webp",
+      "description": "A young ladybug is separated from its family and falls in with a colony of black ants carrying an abandoned box of sugar home. When rival red ants pursue the prize, the tiny journey turns into a full-scale siege fought across the forest floor.",
+      "actors": [
+        "Diego Hancy",
+        "Peter Lee",
+        "Helsa Baneria",
+        "Nerietta Sophia Buller",
+        "Craig Ferdivo"
+      ],
+      "genres": [
+        "Adventure",
+        "Comedy"
+      ],
+      "ratings": {},
+      "tmdbId": 140870
     },
     {
       "id": "miracle-2004",
@@ -469,11 +500,20 @@
       "runtimeSeconds": 8155,
       "runtimeExact": "02:15:55",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/miracle-2004.webp",
+      "description": "Coach Herb Brooks is given the task of building the 1980 United States Olympic hockey team from talented college rivals. His punishing methods are meant to turn them into one unit capable of facing the dominant Soviet team when the tournament reaches Lake Placid.",
+      "actors": [
+        "Kurt Russell",
+        "Patricia Clarkson",
+        "Noah Emmerich",
+        "Sean McCann",
+        "Kenneth Welsh"
+      ],
+      "genres": [
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 14292
     },
     {
       "id": "monsoon-2018",
@@ -483,10 +523,19 @@
       "runtimeSeconds": 6130,
       "runtimeExact": "01:42:10",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
+      "poster": "assets/posters/monsoon-2018.webp",
+      "description": "John survives the accident that killed his closest friend Sarah, but recovery leaves him trapped between grief and the life he was supposed to resume. A new relationship with co-worker Caitlyn forces him to confront the future he has been postponing and finally let Sarah go.",
+      "actors": [
+        "Austin Lyon",
+        "Katherine Hughes",
+        "Yvette Monreal",
+        "Eve Plumb",
+        "Scott Lowell"
+      ],
+      "genres": [
+        "Drama",
+        "Romance"
+      ],
       "ratings": {}
     },
     {
@@ -497,11 +546,22 @@
       "runtimeSeconds": 5774,
       "runtimeExact": "01:36:14",
       "version": "Special Edition",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/moon-2009.webp",
+      "description": "Near the end of a three-year solo contract mining helium on the far side of the Moon, Sam Bell begins suffering strange lapses and an accident outside the base. What he discovers afterward makes his employer's tidy version of his assignment increasingly difficult to believe.",
+      "actors": [
+        "Sam Rockwell",
+        "Kevin Spacey",
+        "Dominique McElligott",
+        "Rosie Shaw",
+        "Adrienne Shaw"
+      ],
+      "genres": [
+        "Science Fiction",
+        "Drama",
+        "Mystery"
+      ],
+      "ratings": {},
+      "tmdbId": 17431
     },
     {
       "id": "much-ado-about-christmas-2021",
@@ -511,11 +571,22 @@
       "runtimeSeconds": 5077,
       "runtimeExact": "01:24:37",
       "version": "Television Movie",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/much-ado-about-christmas-2021.webp",
+      "description": "Kind-hearted heiress Haley meets romantic ad man Claud and lets him believe she comes from an ordinary background. The deception becomes awkward when Claud's biggest professional opportunity brings him directly to Haley's formidable mother just before Christmas.",
+      "actors": [
+        "Torrance Coombs",
+        "Susie Abromeit",
+        "Jacinta Mulcahy",
+        "James Rottger",
+        "Jimmy Townsend"
+      ],
+      "genres": [
+        "Christmas",
+        "Romance",
+        "Comedy"
+      ],
+      "ratings": {},
+      "tmdbId": 878410
     },
     {
       "id": "national-treasure-2004",
@@ -525,11 +596,22 @@
       "runtimeSeconds": 7864,
       "runtimeExact": "02:11:04",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/national-treasure-2004.webp",
+      "description": "Treasure hunter Benjamin Franklin Gates believes a trail left by America's founders points to a vast hidden fortune. When he learns that the next clue is concealed on the Declaration of Independence, he decides stealing the document may be the only way to keep it from a rival.",
+      "actors": [
+        "Nicolas Cage",
+        "Diane Kruger",
+        "Justin Bartha",
+        "Sean Bean",
+        "Jon Voight"
+      ],
+      "genres": [
+        "Adventure",
+        "Mystery",
+        "Action"
+      ],
+      "ratings": {},
+      "tmdbId": 2059
     },
     {
       "id": "next-stop-christmas-2021",
@@ -539,11 +621,23 @@
       "runtimeSeconds": 5067,
       "runtimeExact": "01:24:27",
       "version": "Television Movie",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/next-stop-christmas-2021.webp",
+      "description": "Successful surgeon Angie boards her usual commuter train before Christmas and unexpectedly arrives ten years in her own past. With a mysterious conductor controlling the route, she gets another look at the choices that shaped her career, her family and the relationships she left behind.",
+      "actors": [
+        "Lyndsy Fonseca",
+        "Chandler Massey",
+        "Erika Slezak",
+        "Eric Freeman",
+        "Paige Herschell"
+      ],
+      "genres": [
+        "Christmas",
+        "Romance",
+        "Fantasy",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 877004
     },
     {
       "id": "nick-and-norahs-infinite-playlist-2008",
@@ -553,11 +647,22 @@
       "runtimeSeconds": 5373,
       "runtimeExact": "01:29:33",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/nick-and-norahs-infinite-playlist-2008.webp",
+      "description": "Recently dumped musician Nick and sharp-tongued Norah pretend to be a couple for a few minutes at a New York club, then spend the night searching for a secret concert and a missing friend. Their improvised partnership gradually becomes the real point of the evening.",
+      "actors": [
+        "Michael Cera",
+        "Kat Dennings",
+        "Aaron Yoo",
+        "Rafi Gavron",
+        "Ari Graynor"
+      ],
+      "genres": [
+        "Romance",
+        "Comedy",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 12182
     },
     {
       "id": "oblivion-2013",
@@ -567,11 +672,23 @@
       "runtimeSeconds": 7482,
       "runtimeExact": "02:04:42",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/oblivion-2013.webp",
+      "description": "Repair technician Jack Harper patrols an abandoned Earth, maintaining drones that protect the machines extracting the planet's remaining resources. A crashed spacecraft and the woman he rescues from it expose contradictions in his memories and in the mission he has been told is nearly complete.",
+      "actors": [
+        "Tom Cruise",
+        "Morgan Freeman",
+        "Olga Kurylenko",
+        "Andrea Riseborough",
+        "Nikolaj Coster-Waldau"
+      ],
+      "genres": [
+        "Science Fiction",
+        "Action",
+        "Mystery",
+        "Adventure"
+      ],
+      "ratings": {},
+      "tmdbId": 75612
     },
     {
       "id": "peter-pan-2003",
@@ -581,11 +698,22 @@
       "runtimeSeconds": 6801,
       "runtimeExact": "01:53:21",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/peter-pan-2003.webp",
+      "description": "Peter Pan carries Wendy Darling and her brothers from London to Neverland, where children can fly and growing up seems optional. Their adventure among the Lost Boys, mermaids and Captain Hook becomes more complicated as Wendy and Peter discover they want very different things from childhood.",
+      "actors": [
+        "Jeremy Sumpter",
+        "Jason Isaacs",
+        "Rachel Hurd-Wood",
+        "Ludivine Sagnier",
+        "Olivia Williams"
+      ],
+      "genres": [
+        "Adventure",
+        "Fantasy",
+        "Romance"
+      ],
+      "ratings": {},
+      "tmdbId": 10601
     },
     {
       "id": "pirates-of-the-caribbean-2003",
@@ -595,11 +723,23 @@
       "runtimeSeconds": 8595,
       "runtimeExact": "02:23:15",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/pirates-of-the-caribbean-2003.webp",
+      "description": "Blacksmith Will Turner joins unpredictable pirate Jack Sparrow after Elizabeth Swann is taken aboard the Black Pearl. The rescue becomes entangled with a stolen piece of Aztec gold and a curse that has left Captain Barbossa's crew unable to enjoy the treasure they fought to possess.",
+      "actors": [
+        "Johnny Depp",
+        "Geoffrey Rush",
+        "Orlando Bloom",
+        "Keira Knightley",
+        "Jack Davenport"
+      ],
+      "genres": [
+        "Adventure",
+        "Action",
+        "Fantasy",
+        "Comedy"
+      ],
+      "ratings": {},
+      "tmdbId": 22
     },
     {
       "id": "premonition-2007",
@@ -609,11 +749,23 @@
       "runtimeSeconds": 5787,
       "runtimeExact": "01:36:27",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/premonition-2007.webp",
+      "description": "Linda Hanson is told that her husband Jim has died in a car crash, only to wake the next morning and find him alive beside her. As the days of the same week begin arriving out of order, Linda tries to understand the pattern and determine whether the coming tragedy can be changed.",
+      "actors": [
+        "Sandra Bullock",
+        "Julian McMahon",
+        "Courtney Taylor Burness",
+        "Shyann McClure",
+        "Nia Long"
+      ],
+      "genres": [
+        "Mystery",
+        "Thriller",
+        "Drama",
+        "Fantasy"
+      ],
+      "ratings": {},
+      "tmdbId": 9963
     },
     {
       "id": "ratatouille-2007",
@@ -623,11 +775,22 @@
       "runtimeSeconds": 6663,
       "runtimeExact": "01:51:03",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/ratatouille-2007.webp",
+      "description": "Remy is a rat with an unusually refined sense of taste and a determination to cook, a disastrous ambition for an animal living above a Paris restaurant. He secretly partners with kitchen novice Linguini, whose career rises as long as nobody discovers who is really guiding the food.",
+      "actors": [
+        "Patton Oswalt",
+        "Ian Holm",
+        "Lou Romano",
+        "Brian Dennehy",
+        "Peter Sohn"
+      ],
+      "genres": [
+        "Comedy",
+        "Drama",
+        "Adventure"
+      ],
+      "ratings": {},
+      "tmdbId": 2062
     },
     {
       "id": "remember-sunday-2013",
@@ -637,11 +800,21 @@
       "runtimeSeconds": 5812,
       "runtimeExact": "01:36:52",
       "version": "Television Movie",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/remember-sunday-2013.webp",
+      "description": "Waitress Molly meets Gus, a gentle jewelry-store employee who seems interested in her but repeatedly forgets details they have already shared. She eventually learns that a brain injury prevents Gus from forming new long-term memories, making every step of their relationship something he must rediscover.",
+      "actors": [
+        "Alexis Bledel",
+        "Zachary Levi",
+        "Merritt Wever",
+        "Barry Shabaka Henley",
+        "Valerie Azlynn"
+      ],
+      "genres": [
+        "Romance",
+        "Drama"
+      ],
+      "ratings": {},
+      "tmdbId": 188538
     },
     {
       "id": "robot-and-frank-2012",
@@ -651,11 +824,22 @@
       "runtimeSeconds": 5340,
       "runtimeExact": "01:29:00",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/robot-and-frank-2012.webp",
+      "description": "Frank, an aging former jewel thief whose memory is beginning to fail, is given a domestic robot by his worried son. Frank discovers that the machine's programming can be bent toward an old profession, and their unlikely partnership gives him both a new accomplice and a reason to stay engaged with life.",
+      "actors": [
+        "Frank Langella",
+        "Liv Tyler",
+        "James Marsden",
+        "Susan Sarandon",
+        "Peter Sarsgaard"
+      ],
+      "genres": [
+        "Drama",
+        "Comedy",
+        "Science Fiction"
+      ],
+      "ratings": {},
+      "tmdbId": 84329
     },
     {
       "id": "say-anything-1989",
@@ -665,11 +849,22 @@
       "runtimeSeconds": 6038,
       "runtimeExact": "01:40:38",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/say-anything-1989.webp",
+      "description": "After graduation, easygoing Lloyd Dobler pursues Diane Court, the brilliant and sheltered class valedictorian everyone assumes is headed for a larger life. Their unexpectedly sincere relationship is tested by Diane's protective father and by the different futures waiting for them after summer.",
+      "actors": [
+        "John Cusack",
+        "Ione Skye",
+        "John Mahoney",
+        "Lili Taylor",
+        "Amy Brooks"
+      ],
+      "genres": [
+        "Romance",
+        "Drama",
+        "Comedy"
+      ],
+      "ratings": {},
+      "tmdbId": 2028
     },
     {
       "id": "scoop-2006",
@@ -679,11 +874,22 @@
       "runtimeSeconds": 5733,
       "runtimeExact": "01:35:33",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/scoop-2006.webp",
+      "description": "American journalism student Sondra Pransky receives a murder tip from the ghost of a dead reporter while visiting London. With anxious magician Sid Waterman pretending to be her father, she investigates charming aristocrat Peter Lyman and becomes inconveniently attracted to the man she is trying to prove is a killer.",
+      "actors": [
+        "Scarlett Johansson",
+        "Woody Allen",
+        "Hugh Jackman",
+        "Ian McShane",
+        "Charles Dance"
+      ],
+      "genres": [
+        "Comedy",
+        "Mystery",
+        "Romance"
+      ],
+      "ratings": {},
+      "tmdbId": 512
     },
     {
       "id": "secondhand-lions-2003",
@@ -693,11 +899,22 @@
       "runtimeSeconds": 6549,
       "runtimeExact": "01:49:09",
       "version": "Theatrical Cut",
-      "poster": "",
-      "description": "",
-      "actors": [],
-      "genres": [],
-      "ratings": {}
+      "poster": "assets/posters/secondhand-lions-2003.webp",
+      "description": "Shy teenager Walter is left for the summer with his eccentric great-uncles Hub and Garth, whose rumored fortune has attracted every grasping relative in sight. Their wild stories of travel, war and lost love gradually give Walter a model of adulthood far sturdier than the one he arrived with.",
+      "actors": [
+        "Michael Caine",
+        "Robert Duvall",
+        "Haley Joel Osment",
+        "Josh Lucas",
+        "Kyra Sedgwick"
+      ],
+      "genres": [
+        "Drama",
+        "Adventure",
+        "Comedy"
+      ],
+      "ratings": {},
+      "tmdbId": 13156
     },
     {
       "id": "shades-of-ray-2008",
