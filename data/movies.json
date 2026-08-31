@@ -576,16 +576,16 @@
         "character": {
           "characterDepth": 5,
           "drive": 3,
-          "consistency": 4,
+          "consistency": 3,
           "practicalIntelligence": 3,
           "maturity": 3
         },
         "realism": {
           "humanRealism": 5,
           "realityGrounding": 5,
-          "practicalRealism": 4,
+          "practicalRealism": 3,
           "technicalRealism": 4,
-          "physicalRealism": 4
+          "physicalRealism": 3
         },
         "casting": {
           "functionalFit": 5,
@@ -596,7 +596,7 @@
         },
         "performance": {
           "characterization": 4,
-          "emotionalLife": 4,
+          "emotionalLife": 5,
           "delivery": 4,
           "physicalPerformance": 5,
           "performanceControl": 4
@@ -606,31 +606,31 @@
           "flow": 3,
           "relationshipDepth": 4,
           "relationshipGrowth": 4,
-          "relationshipCharge": 4
+          "relationshipCharge": 3
         },
         "direction": {
-          "staging": 5,
-          "actorDirection": 4,
-          "tone": 4,
+          "staging": 4,
+          "actorDirection": 3,
+          "tone": 3,
           "action": 3,
           "directorialControl": 5
         },
         "editing": {
           "pacing": 4,
           "rhythm": 5,
-          "cutting": 5,
+          "cutting": 4,
           "clarity": 4,
           "restraint": 5
         },
         "visuals": {
           "photography": 4,
-          "imageDesign": 5,
-          "imageQuality": 5,
+          "imageDesign": 4,
+          "imageQuality": 4,
           "visualEffects": 4,
-          "visualBeauty": 4
+          "visualBeauty": 3
         },
         "world": {
-          "worldDepth": 5,
+          "worldDepth": 4,
           "place": 4,
           "productionDesign": 4,
           "effectsRealization": 3,
@@ -640,7 +640,7 @@
           "soundQuality": 3,
           "dialogue": 4,
           "soundscape": 3,
-          "spatialSound": 3,
+          "spatialSound": 2,
           "mixing": 3
         },
         "music": {
@@ -652,10 +652,10 @@
         },
         "creativity": {
           "originality": 5,
-          "ingenuity": 5,
+          "ingenuity": 4,
           "ideaGrowth": 3,
           "filmicInvention": 4,
-          "resourcefulness": 4
+          "resourcefulness": 3
         },
         "morality": {
           "humanValues": 5,
