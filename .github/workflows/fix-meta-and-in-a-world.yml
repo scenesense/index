@@ -1,0 +1,68 @@
+name: Fix metadata and In a World poster
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-meta-and-in-a-world.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "SceneSense Fix Bot"
+          git config user.email "actions@users.noreply.github.com"
+
+      - name: Fix metadata typography and poster record
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+
+          index_path = Path('index.html')
+          text = index_path.read_text(encoding='utf-8')
+          old = '.movieSummary .eyebrow{margin-top:12px;margin-bottom:3px;color:#aab4c2!important}'
+          new = '.movieSummary .eyebrow{margin-top:10px;margin-bottom:0;color:#aab4c2!important;font-size:14px!important;line-height:1.25!important;padding-bottom:1px}'
+          if old not in text:
+              raise SystemExit('Expected detail metadata style not found; refusing blind edit')
+          text = text.replace(old, new, 1)
+          index_path.write_text(text, encoding='utf-8')
+
+          data_path = Path('data/movies-additions-20260830.json')
+          payload = json.loads(data_path.read_text(encoding='utf-8'))
+          target = next((m for m in payload.get('movies', []) if m.get('id') == 'in-a-world-2013'), None)
+          if not target:
+              raise SystemExit('In a World record not found')
+          target['poster'] = 'assets/posters/in-a-world-2013.jpg'
+          data_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          PY
+
+      - name: Store supplied In a World artwork locally
+        run: |
+          mkdir -p assets/posters
+          curl -L --fail --retry 3 -A 'Mozilla/5.0' \
+            'https://m.media-amazon.com/images/M/MV5BMTU0NzE0Mzg3M15BMl5BanBnXkFtZTcwNzY2MDY3OQ%40%40._V1_.jpg' \
+            -o assets/posters/in-a-world-2013.jpg
+          test "$(stat -c%s assets/posters/in-a-world-2013.jpg)" -gt 50000
+
+      - name: Commit fixes
+        run: |
+          git add index.html data/movies-additions-20260830.json assets/posters/in-a-world-2013.jpg
+          git commit -m 'Fix detail metadata rendering and update In a World poster'
+          git push origin main
+
+      - name: Remove temporary workflow
+        run: |
+          git pull --rebase origin main
+          git rm .github/workflows/fix-meta-and-in-a-world.yml
+          git commit -m 'Remove metadata and poster fix workflow'
+          git push origin main
