@@ -1562,23 +1562,23 @@
         "character": {
           "characterDepth": 5,
           "drive": 5,
-          "consistency": 3,
+          "consistency": 4,
           "practicalIntelligence": 4,
           "maturity": 4
         },
         "realism": {
           "humanRealism": 5,
           "realityGrounding": 5,
-          "practicalRealism": 2,
-          "technicalRealism": 2,
+          "practicalRealism": 3,
+          "technicalRealism": 4,
           "physicalRealism": 2
         },
         "casting": {
           "functionalFit": 5,
-          "roleFit": 4,
-          "aesthetics": 2,
-          "magnetism": 3,
-          "ensembleFit": 4
+          "roleFit": 5,
+          "aesthetics": 3,
+          "magnetism": 4,
+          "ensembleFit": 5
         },
         "performance": {
           "characterization": 4,
@@ -1596,7 +1596,7 @@
         },
         "direction": {
           "staging": 4,
-          "actorDirection": 3,
+          "actorDirection": 4,
           "tone": 5,
           "action": 5,
           "directorialControl": 5
@@ -1610,13 +1610,13 @@
         },
         "visuals": {
           "photography": 4,
-          "imageDesign": 2,
+          "imageDesign": 4,
           "imageQuality": 1,
           "visualEffects": 5,
           "visualBeauty": 2
         },
         "world": {
-          "worldDepth": 3,
+          "worldDepth": 5,
           "place": 5,
           "productionDesign": 5,
           "effectsRealization": 5,
@@ -1645,8 +1645,8 @@
         },
         "morality": {
           "humanValues": 4,
-          "relationshipEthics": 2,
-          "responsibility": 3,
+          "relationshipEthics": 4,
+          "responsibility": 4,
           "moralOpposition": 5,
           "ethicalFraming": 5
         },
