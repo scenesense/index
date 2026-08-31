@@ -1,0 +1,179 @@
+name: Add remaining SceneSense library
+
+on:
+  push:
+    paths:
+      - '.github/workflows/add-remaining-library-20260831.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  add-library:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "SceneSense Library Bot"
+          git config user.email "actions@users.noreply.github.com"
+
+      - name: Add all remaining films in safe batches
+        shell: bash
+        run: |
+          cat > /tmp/add_remaining.py <<'PY'
+          import json
+          import re
+          import sys
+          import unicodedata
+          from pathlib import Path
+
+          FILMS = json.loads(r'''[{"title":"Master and Commander","year":2003,"version":"Theatrical Cut","runtimeExact":"02:18:21"},{"title":"Me Before You","year":2016,"version":"Theatrical Cut","runtimeExact":"01:50:14"},{"title":"Minuscule","year":2013,"version":"Theatrical Cut","runtimeExact":"01:28:27"},{"title":"Miracle","year":2004,"version":"Theatrical Cut","runtimeExact":"02:15:55"},{"title":"Monsoon","year":2018,"version":"Theatrical Cut","runtimeExact":"01:42:10"},{"title":"Moon","year":2009,"version":"Special Edition","runtimeExact":"01:36:14"},{"title":"Much Ado About Christmas","year":2021,"version":"Television Movie","runtimeExact":"01:24:37"},{"title":"National Treasure","year":2004,"version":"Theatrical Cut","runtimeExact":"02:11:04"},{"title":"Next Stop Christmas","year":2021,"version":"Television Movie","runtimeExact":"01:24:27"},{"title":"Nick and Norah’s Infinite Playlist","year":2008,"version":"Theatrical Cut","runtimeExact":"01:29:33"},{"title":"Oblivion","year":2013,"version":"Theatrical Cut","runtimeExact":"02:04:42"},{"title":"Peter Pan","year":2003,"version":"Theatrical Cut","runtimeExact":"01:53:21"},{"title":"Pirates of the Caribbean","year":2003,"version":"Theatrical Cut","runtimeExact":"02:23:15"},{"title":"Premonition","year":2007,"version":"Theatrical Cut","runtimeExact":"01:36:27"},{"title":"Ratatouille","year":2007,"version":"Theatrical Cut","runtimeExact":"01:51:03"},{"title":"Remember Sunday","year":2013,"version":"Television Movie","runtimeExact":"01:36:52"},{"title":"Robot and Frank","year":2012,"version":"Theatrical Cut","runtimeExact":"01:29:00"},{"title":"Say Anything","year":1989,"version":"Theatrical Cut","runtimeExact":"01:40:38"},{"title":"Scoop","year":2006,"version":"Theatrical Cut","runtimeExact":"01:35:33"},{"title":"Secondhand Lions","year":2003,"version":"Theatrical Cut","runtimeExact":"01:49:09"},{"title":"Shades of Ray","year":2008,"version":"Theatrical Cut","runtimeExact":"01:26:16"},{"title":"Signs","year":2002,"version":"Theatrical Cut","runtimeExact":"01:46:29"},{"title":"Six Days Seven Nights","year":1998,"version":"Theatrical Cut","runtimeExact":"01:41:55"},{"title":"Snow Bride","year":2013,"version":"Television Movie","runtimeExact":"01:25:19"},{"title":"Some Kind of Wonderful","year":1987,"version":"Theatrical Cut","runtimeExact":"01:34:38"},{"title":"Source Code","year":2011,"version":"Theatrical Cut","runtimeExact":"01:33:15"},{"title":"Spider-Man I","year":2002,"version":"Theatrical Cut","runtimeExact":"02:01:12"},{"title":"Spider-Man II","year":2004,"version":"Theatrical Cut","runtimeExact":"02:07:27"},{"title":"Spirit: Stallion of the Cimarron","year":2002,"version":"Theatrical Cut","runtimeExact":"01:23:28"},{"title":"Star Trek: First Contact","year":1996,"version":"Theatrical Cut","runtimeExact":"01:50:43"},{"title":"Star Trek Generations","year":1994,"version":"Theatrical Cut","runtimeExact":"01:57:57"},{"title":"Star Trek: Insurrection","year":1998,"version":"Theatrical Cut","runtimeExact":"01:42:58"},{"title":"Star Trek: The Cage","year":1965,"version":"Television Movie","runtimeExact":"01:03:33"},{"title":"Star Trek: The Motion Picture","year":1979,"version":"Director's Cut","runtimeExact":"02:16:43"},{"title":"Star Trek III: The Search for Spock","year":1984,"version":"Theatrical Cut","runtimeExact":"01:45:14"},{"title":"Star Trek VI: The Undiscovered Country","year":1991,"version":"Director's Cut","runtimeExact":"01:53:21"},{"title":"Star Trek IV: The Voyage Home","year":1986,"version":"Theatrical Cut","runtimeExact":"01:58:51"},{"title":"Star Trek II: The Wrath of Khan","year":1982,"version":"Director's Cut","runtimeExact":"01:56:31"},{"title":"Star Wars: A New Hope","year":1977,"version":"Streamlined Edition","runtimeExact":"01:52:49"},{"title":"Star Wars: Return of the Jedi","year":1983,"version":"Streamlined Edition","runtimeExact":"02:01:34"},{"title":"Star Wars: The Empire Strikes Back","year":1980,"version":"Streamlined Edition","runtimeExact":"02:04:38"},{"title":"Stargate","year":1994,"version":"Director's Cut","runtimeExact":"02:09:58"},{"title":"Stealing Christmas","year":2003,"version":"Television Movie","runtimeExact":"01:28:44"},{"title":"Superman Returns","year":2006,"version":"Theatrical Cut","runtimeExact":"02:34:21"},{"title":"Surprised by Love","year":2015,"version":"Television Movie","runtimeExact":"01:24:02"},{"title":"Tangled","year":2010,"version":"Bonus Edition","runtimeExact":"01:46:45"},{"title":"Team Bride","year":2023,"version":"Television Movie","runtimeExact":"01:31:25"},{"title":"The Abyss","year":1989,"version":"Special Edition","runtimeExact":"02:51:01"},{"title":"The Adjustment Bureau","year":2011,"version":"Theatrical Cut","runtimeExact":"01:45:50"},{"title":"The Age of Adaline","year":2015,"version":"Theatrical Cut","runtimeExact":"01:52:44"},{"title":"The Blue Lagoon","year":1980,"version":"Theatrical Cut","runtimeExact":"01:44:43"},{"title":"The Children’s Hour","year":1961,"version":"Theatrical Cut","runtimeExact":"01:48:28"},{"title":"The Day the Earth Stood Still","year":1951,"version":"Theatrical Cut","runtimeExact":"01:32:11"},{"title":"The Englishman Who Went Up a Hill","year":1995,"version":"Theatrical Cut","runtimeExact":"01:35:48"},{"title":"The First Time","year":2012,"version":"Theatrical Cut","runtimeExact":"01:34:58"},{"title":"The Forty Four Hundred","year":2004,"version":"Special Edition","runtimeExact":"02:56:18"},{"title":"The Ghost and Mrs. Muir","year":1947,"version":"Theatrical Cut","runtimeExact":"01:44:24"},{"title":"The Greatest Game Ever Played","year":2005,"version":"Theatrical Cut","runtimeExact":"02:00:32"},{"title":"The Imitation Game","year":2014,"version":"Theatrical Cut","runtimeExact":"01:53:52"},{"title":"The Iron Giant","year":1999,"version":"Director's Cut","runtimeExact":"01:29:58"},{"title":"The Island","year":2005,"version":"Theatrical Cut","runtimeExact":"02:16:04"},{"title":"The Lake House","year":2006,"version":"Theatrical Cut","runtimeExact":"01:38:33"},{"title":"The Last Letter from Your Lover","year":2021,"version":"Theatrical Cut","runtimeExact":"01:49:17"},{"title":"The Man from Earth","year":2007,"version":"Theatrical Cut","runtimeExact":"01:27:12"},{"title":"The Most Colorful Time of the Year","year":2022,"version":"Television Movie","runtimeExact":"01:23:28"},{"title":"The Notebook","year":2004,"version":"Theatrical Cut","runtimeExact":"02:03:06"},{"title":"The Phantom of the Opera","year":2004,"version":"Theatrical Cut","runtimeExact":"02:21:04"},{"title":"The Princess and the Marine","year":2001,"version":"Television Movie","runtimeExact":"01:28:38"},{"title":"The Soulmate Search","year":2023,"version":"Television Movie","runtimeExact":"01:29:04"},{"title":"The Sure Thing","year":1985,"version":"Theatrical Cut","runtimeExact":"01:35:02"},{"title":"The Terminator","year":1984,"version":"Theatrical Cut","runtimeExact":"01:47:21"},{"title":"The Time Traveler’s Wife","year":2009,"version":"Theatrical Cut","runtimeExact":"01:47:25"},{"title":"The Vow","year":2012,"version":"Theatrical Cut","runtimeExact":"01:43:54"},{"title":"The X-Files","year":1998,"version":"Director's Cut","runtimeExact":"02:02:41"},{"title":"Timeless Love","year":2019,"version":"Television Movie","runtimeExact":"01:25:41"},{"title":"Un Plan Parfait","year":2012,"version":"Theatrical Cut","runtimeExact":"01:45:09"},{"title":"Waiting for Forever","year":2010,"version":"Theatrical Cut","runtimeExact":"01:34:05"},{"title":"WALL-E","year":2008,"version":"Theatrical Cut","runtimeExact":"01:38:12"},{"title":"Wallace and Gromit","year":2005,"version":"Theatrical Cut","runtimeExact":"01:24:59"},{"title":"When Love Springs","year":2023,"version":"Television Movie","runtimeExact":"01:24:03"},{"title":"When We First Met","year":2018,"version":"Online Release","runtimeExact":"01:36:28"},{"title":"White Collar","year":2009,"version":"Television Movie","runtimeExact":"01:00:37"},{"title":"Wicker Park","year":2004,"version":"Theatrical Cut","runtimeExact":"01:54:56"},{"title":"Win a Date with Tad Hamilton","year":2004,"version":"Open Matte","runtimeExact":"01:36:08"},{"title":"Wonder Woman","year":2017,"version":"Theatrical Cut","runtimeExact":"02:21:16"},{"title":"You’ve Got Mail","year":1998,"version":"Theatrical Cut","runtimeExact":"01:59:23"}]''')
+
+          def slugify(value):
+              value = unicodedata.normalize("NFKD", value)
+              value = "".join(ch for ch in value if not unicodedata.combining(ch))
+              value = value.lower().replace("’", "").replace("'", "")
+              value = re.sub(r"[^a-z0-9]+", "-", value).strip("-")
+              return value
+
+          def runtime_seconds(value):
+              h, m, s = [int(part) for part in value.split(":")]
+              return h * 3600 + m * 60 + s
+
+          start = int(sys.argv[1])
+          end = min(int(sys.argv[2]), len(FILMS))
+          batch = FILMS[start:end]
+
+          supplemental_path = Path("data/movies-additions-20260830.json")
+          main_path = Path("data/movies.json")
+          manifest_path = Path("data/exact_runtimes_manifest.json")
+
+          supplemental = json.loads(supplemental_path.read_text(encoding="utf-8"))
+          main_data = json.loads(main_path.read_text(encoding="utf-8"))
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+
+          supplemental.setdefault("movies", [])
+          main_ids = {movie.get("id") for movie in main_data.get("movies", [])}
+          supplemental_by_id = {movie.get("id"): movie for movie in supplemental["movies"]}
+
+          manifest_by_key = {
+              (item.get("title"), item.get("year"), item.get("version")): item
+              for item in manifest
+          }
+
+          for item in batch:
+              title = item["title"]
+              year = int(item["year"])
+              version = item["version"]
+              exact = item["runtimeExact"]
+              seconds = runtime_seconds(exact)
+              movie_id = f"{slugify(title)}-{year}"
+              rounded_minutes = (seconds + 30) // 60
+
+              if movie_id in supplemental_by_id:
+                  movie = supplemental_by_id[movie_id]
+                  movie["title"] = title
+                  movie["year"] = year
+                  movie["runtimeMinutes"] = rounded_minutes
+                  movie["runtimeSeconds"] = seconds
+                  movie["runtimeExact"] = exact
+                  movie["version"] = version
+              elif movie_id not in main_ids:
+                  movie = {
+                      "id": movie_id,
+                      "title": title,
+                      "year": year,
+                      "runtimeMinutes": rounded_minutes,
+                      "runtimeSeconds": seconds,
+                      "runtimeExact": exact,
+                      "version": version,
+                      "poster": "",
+                      "description": "",
+                      "actors": [],
+                      "genres": [],
+                      "ratings": {}
+                  }
+                  supplemental["movies"].append(movie)
+                  supplemental_by_id[movie_id] = movie
+
+              key = (title, year, version)
+              exact_item = {
+                  "title": title,
+                  "year": year,
+                  "version": version,
+                  "runtimeSeconds": seconds,
+                  "runtimeExact": exact
+              }
+              if key in manifest_by_key:
+                  manifest_by_key[key].update(exact_item)
+              else:
+                  manifest.append(exact_item)
+                  manifest_by_key[key] = manifest[-1]
+
+          supplemental_path.write_text(
+              json.dumps(supplemental, ensure_ascii=False, indent=2) + "\n",
+              encoding="utf-8"
+          )
+          manifest_path.write_text(
+              json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+              encoding="utf-8"
+          )
+          PY
+
+          for start in 0 20 40 60 80; do
+            end=$((start + 20))
+            python /tmp/add_remaining.py "$start" "$end"
+
+            if [ "$start" -eq 0 ]; then
+              python - <<'PY'
+          from pathlib import Path
+          path = Path("index.html")
+          text = path.read_text(encoding="utf-8")
+          if "#858f99" not in text or "#4f78bf" not in text:
+              raise SystemExit("Expected current 4K colors were not found; refusing blind replacement.")
+          text = text.replace("#858f99", "#747d86").replace("#4f78bf", "#426aa8")
+          path.write_text(text, encoding="utf-8")
+          PY
+            fi
+
+            git add data/movies-additions-20260830.json data/exact_runtimes_manifest.json
+            if [ "$start" -eq 0 ]; then git add index.html; fi
+
+            if ! git diff --cached --quiet; then
+              batch_no=$((start / 20 + 1))
+              git commit -m "Add remaining library batch $batch_no"
+              git push origin HEAD:main
+            fi
+          done
+
+          python - <<'PY'
+          import json, re, unicodedata
+          from pathlib import Path
+
+          FILMS = json.loads(r'''[{"title":"Master and Commander","year":2003,"version":"Theatrical Cut","runtimeExact":"02:18:21"},{"title":"Me Before You","year":2016,"version":"Theatrical Cut","runtimeExact":"01:50:14"},{"title":"Minuscule","year":2013,"version":"Theatrical Cut","runtimeExact":"01:28:27"},{"title":"Miracle","year":2004,"version":"Theatrical Cut","runtimeExact":"02:15:55"},{"title":"Monsoon","year":2018,"version":"Theatrical Cut","runtimeExact":"01:42:10"},{"title":"Moon","year":2009,"version":"Special Edition","runtimeExact":"01:36:14"},{"title":"Much Ado About Christmas","year":2021,"version":"Television Movie","runtimeExact":"01:24:37"},{"title":"National Treasure","year":2004,"version":"Theatrical Cut","runtimeExact":"02:11:04"},{"title":"Next Stop Christmas","year":2021,"version":"Television Movie","runtimeExact":"01:24:27"},{"title":"Nick and Norah’s Infinite Playlist","year":2008,"version":"Theatrical Cut","runtimeExact":"01:29:33"},{"title":"Oblivion","year":2013,"version":"Theatrical Cut","runtimeExact":"02:04:42"},{"title":"Peter Pan","year":2003,"version":"Theatrical Cut","runtimeExact":"01:53:21"},{"title":"Pirates of the Caribbean","year":2003,"version":"Theatrical Cut","runtimeExact":"02:23:15"},{"title":"Premonition","year":2007,"version":"Theatrical Cut","runtimeExact":"01:36:27"},{"title":"Ratatouille","year":2007,"version":"Theatrical Cut","runtimeExact":"01:51:03"},{"title":"Remember Sunday","year":2013,"version":"Television Movie","runtimeExact":"01:36:52"},{"title":"Robot and Frank","year":2012,"version":"Theatrical Cut","runtimeExact":"01:29:00"},{"title":"Say Anything","year":1989,"version":"Theatrical Cut","runtimeExact":"01:40:38"},{"title":"Scoop","year":2006,"version":"Theatrical Cut","runtimeExact":"01:35:33"},{"title":"Secondhand Lions","year":2003,"version":"Theatrical Cut","runtimeExact":"01:49:09"},{"title":"Shades of Ray","year":2008,"version":"Theatrical Cut","runtimeExact":"01:26:16"},{"title":"Signs","year":2002,"version":"Theatrical Cut","runtimeExact":"01:46:29"},{"title":"Six Days Seven Nights","year":1998,"version":"Theatrical Cut","runtimeExact":"01:41:55"},{"title":"Snow Bride","year":2013,"version":"Television Movie","runtimeExact":"01:25:19"},{"title":"Some Kind of Wonderful","year":1987,"version":"Theatrical Cut","runtimeExact":"01:34:38"},{"title":"Source Code","year":2011,"version":"Theatrical Cut","runtimeExact":"01:33:15"},{"title":"Spider-Man I","year":2002,"version":"Theatrical Cut","runtimeExact":"02:01:12"},{"title":"Spider-Man II","year":2004,"version":"Theatrical Cut","runtimeExact":"02:07:27"},{"title":"Spirit: Stallion of the Cimarron","year":2002,"version":"Theatrical Cut","runtimeExact":"01:23:28"},{"title":"Star Trek: First Contact","year":1996,"version":"Theatrical Cut","runtimeExact":"01:50:43"},{"title":"Star Trek Generations","year":1994,"version":"Theatrical Cut","runtimeExact":"01:57:57"},{"title":"Star Trek: Insurrection","year":1998,"version":"Theatrical Cut","runtimeExact":"01:42:58"},{"title":"Star Trek: The Cage","year":1965,"version":"Television Movie","runtimeExact":"01:03:33"},{"title":"Star Trek: The Motion Picture","year":1979,"version":"Director's Cut","runtimeExact":"02:16:43"},{"title":"Star Trek III: The Search for Spock","year":1984,"version":"Theatrical Cut","runtimeExact":"01:45:14"},{"title":"Star Trek VI: The Undiscovered Country","year":1991,"version":"Director's Cut","runtimeExact":"01:53:21"},{"title":"Star Trek IV: The Voyage Home","year":1986,"version":"Theatrical Cut","runtimeExact":"01:58:51"},{"title":"Star Trek II: The Wrath of Khan","year":1982,"version":"Director's Cut","runtimeExact":"01:56:31"},{"title":"Star Wars: A New Hope","year":1977,"version":"Streamlined Edition","runtimeExact":"01:52:49"},{"title":"Star Wars: Return of the Jedi","year":1983,"version":"Streamlined Edition","runtimeExact":"02:01:34"},{"title":"Star Wars: The Empire Strikes Back","year":1980,"version":"Streamlined Edition","runtimeExact":"02:04:38"},{"title":"Stargate","year":1994,"version":"Director's Cut","runtimeExact":"02:09:58"},{"title":"Stealing Christmas","year":2003,"version":"Television Movie","runtimeExact":"01:28:44"},{"title":"Superman Returns","year":2006,"version":"Theatrical Cut","runtimeExact":"02:34:21"},{"title":"Surprised by Love","year":2015,"version":"Television Movie","runtimeExact":"01:24:02"},{"title":"Tangled","year":2010,"version":"Bonus Edition","runtimeExact":"01:46:45"},{"title":"Team Bride","year":2023,"version":"Television Movie","runtimeExact":"01:31:25"},{"title":"The Abyss","year":1989,"version":"Special Edition","runtimeExact":"02:51:01"},{"title":"The Adjustment Bureau","year":2011,"version":"Theatrical Cut","runtimeExact":"01:45:50"},{"title":"The Age of Adaline","year":2015,"version":"Theatrical Cut","runtimeExact":"01:52:44"},{"title":"The Blue Lagoon","year":1980,"version":"Theatrical Cut","runtimeExact":"01:44:43"},{"title":"The Children’s Hour","year":1961,"version":"Theatrical Cut","runtimeExact":"01:48:28"},{"title":"The Day the Earth Stood Still","year":1951,"version":"Theatrical Cut","runtimeExact":"01:32:11"},{"title":"The Englishman Who Went Up a Hill","year":1995,"version":"Theatrical Cut","runtimeExact":"01:35:48"},{"title":"The First Time","year":2012,"version":"Theatrical Cut","runtimeExact":"01:34:58"},{"title":"The Forty Four Hundred","year":2004,"version":"Special Edition","runtimeExact":"02:56:18"},{"title":"The Ghost and Mrs. Muir","year":1947,"version":"Theatrical Cut","runtimeExact":"01:44:24"},{"title":"The Greatest Game Ever Played","year":2005,"version":"Theatrical Cut","runtimeExact":"02:00:32"},{"title":"The Imitation Game","year":2014,"version":"Theatrical Cut","runtimeExact":"01:53:52"},{"title":"The Iron Giant","year":1999,"version":"Director's Cut","runtimeExact":"01:29:58"},{"title":"The Island","year":2005,"version":"Theatrical Cut","runtimeExact":"02:16:04"},{"title":"The Lake House","year":2006,"version":"Theatrical Cut","runtimeExact":"01:38:33"},{"title":"The Last Letter from Your Lover","year":2021,"version":"Theatrical Cut","runtimeExact":"01:49:17"},{"title":"The Man from Earth","year":2007,"version":"Theatrical Cut","runtimeExact":"01:27:12"},{"title":"The Most Colorful Time of the Year","year":2022,"version":"Television Movie","runtimeExact":"01:23:28"},{"title":"The Notebook","year":2004,"version":"Theatrical Cut","runtimeExact":"02:03:06"},{"title":"The Phantom of the Opera","year":2004,"version":"Theatrical Cut","runtimeExact":"02:21:04"},{"title":"The Princess and the Marine","year":2001,"version":"Television Movie","runtimeExact":"01:28:38"},{"title":"The Soulmate Search","year":2023,"version":"Television Movie","runtimeExact":"01:29:04"},{"title":"The Sure Thing","year":1985,"version":"Theatrical Cut","runtimeExact":"01:35:02"},{"title":"The Terminator","year":1984,"version":"Theatrical Cut","runtimeExact":"01:47:21"},{"title":"The Time Traveler’s Wife","year":2009,"version":"Theatrical Cut","runtimeExact":"01:47:25"},{"title":"The Vow","year":2012,"version":"Theatrical Cut","runtimeExact":"01:43:54"},{"title":"The X-Files","year":1998,"version":"Director's Cut","runtimeExact":"02:02:41"},{"title":"Timeless Love","year":2019,"version":"Television Movie","runtimeExact":"01:25:41"},{"title":"Un Plan Parfait","year":2012,"version":"Theatrical Cut","runtimeExact":"01:45:09"},{"title":"Waiting for Forever","year":2010,"version":"Theatrical Cut","runtimeExact":"01:34:05"},{"title":"WALL-E","year":2008,"version":"Theatrical Cut","runtimeExact":"01:38:12"},{"title":"Wallace and Gromit","year":2005,"version":"Theatrical Cut","runtimeExact":"01:24:59"},{"title":"When Love Springs","year":2023,"version":"Television Movie","runtimeExact":"01:24:03"},{"title":"When We First Met","year":2018,"version":"Online Release","runtimeExact":"01:36:28"},{"title":"White Collar","year":2009,"version":"Television Movie","runtimeExact":"01:00:37"},{"title":"Wicker Park","year":2004,"version":"Theatrical Cut","runtimeExact":"01:54:56"},{"title":"Win a Date with Tad Hamilton","year":2004,"version":"Open Matte","runtimeExact":"01:36:08"},{"title":"Wonder Woman","year":2017,"version":"Theatrical Cut","runtimeExact":"02:21:16"},{"title":"You’ve Got Mail","year":1998,"version":"Theatrical Cut","runtimeExact":"01:59:23"}]''')
+
+          def slugify(value):
+              value = unicodedata.normalize("NFKD", value)
+              value = "".join(ch for ch in value if not unicodedata.combining(ch))
+              value = value.lower().replace("’", "").replace("'", "")
+              return re.sub(r"[^a-z0-9]+", "-", value).strip("-")
+
+          main = json.loads(Path("data/movies.json").read_text(encoding="utf-8"))
+          supplemental = json.loads(Path("data/movies-additions-20260830.json").read_text(encoding="utf-8"))
+          present = {m["id"] for m in main.get("movies", [])} | {m["id"] for m in supplemental.get("movies", [])}
+          expected = {f"{slugify(item['title'])}-{item['year']}" for item in FILMS}
+          missing = sorted(expected - present)
+          if missing:
+              raise SystemExit("Missing films after import: " + ", ".join(missing))
+          print(f"Verified {len(expected)} requested films are present.")
+          PY
+
+          rm .github/workflows/add-remaining-library-20260831.yml
+          git add -u .github/workflows/add-remaining-library-20260831.yml
+          git commit -m "Remove remaining library importer"
+          git push origin HEAD:main
