@@ -1,0 +1,113 @@
+name: Enrich SceneSense library batch 02
+on:
+  push:
+    paths:
+      - '.github/workflows/enrich-library-batch-02.yml'
+permissions:
+  contents: write
+jobs:
+  enrich:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Configure git
+        run: |
+          git config user.name "SceneSense Library Bot"
+          git config user.email "actions@users.noreply.github.com"
+      - name: Install tools
+        run: python -m pip install --quiet requests beautifulsoup4 pillow
+      - name: Enrich exactly 20 records
+        run: |
+          python - <<'PY'
+          import io, json, re, subprocess, time
+          from pathlib import Path
+          import requests
+          from bs4 import BeautifulSoup
+          from PIL import Image
+          from requests.adapters import HTTPAdapter
+          from urllib3.util.retry import Retry
+
+          DATA=Path('data/movies-additions-20260830.json')
+          META=Path('data/enrichment-remaining-20260831.json')
+          POSTERS=Path('assets/posters'); POSTERS.mkdir(parents=True,exist_ok=True)
+          TARGETS=[
+            'shades-of-ray-2008','signs-2002','six-days-seven-nights-1998','snow-bride-2013',
+            'some-kind-of-wonderful-1987','source-code-2011','spider-man-i-2002','spider-man-ii-2004',
+            'spirit-stallion-of-the-cimarron-2002','star-trek-first-contact-1996','star-trek-generations-1994',
+            'star-trek-insurrection-1998','star-trek-the-cage-1965','star-trek-the-motion-picture-1979',
+            'star-trek-iii-the-search-for-spock-1984','star-trek-vi-the-undiscovered-country-1991',
+            'star-trek-iv-the-voyage-home-1986','star-trek-ii-the-wrath-of-khan-1982',
+            'star-wars-a-new-hope-1977','star-wars-return-of-the-jedi-1983'
+          ]
+          assert len(TARGETS)==20
+          IDS={
+            'shades-of-ray-2008':79519,'signs-2002':2675,'six-days-seven-nights-1998':6068,
+            'snow-bride-2013':235662,'some-kind-of-wonderful-1987':15143,'source-code-2011':45612,
+            'spider-man-i-2002':557,'spider-man-ii-2004':558,'spirit-stallion-of-the-cimarron-2002':9023,
+            'star-trek-first-contact-1996':199,'star-trek-generations-1994':193,'star-trek-insurrection-1998':200,
+            'star-trek-the-motion-picture-1979':152,'star-trek-iii-the-search-for-spock-1984':157,
+            'star-trek-vi-the-undiscovered-country-1991':174,'star-trek-iv-the-voyage-home-1986':168,
+            'star-trek-ii-the-wrath-of-khan-1982':154,'star-wars-a-new-hope-1977':11,
+            'star-wars-return-of-the-jedi-1983':1892
+          }
+          data=json.load(DATA.open(encoding='utf-8')); meta=json.load(META.open(encoding='utf-8'))
+          by={m['id']:m for m in data['movies']}; assert len(by)==len(data['movies'])
+          assert all(x in by and x in meta for x in TARGETS)
+          locked={mid:{k:json.loads(json.dumps(by[mid].get(k))) for k in ('runtimeMinutes','runtimeSeconds','runtimeExact','version','ratings')} for mid in TARGETS}
+          s=requests.Session(); s.headers['User-Agent']='Mozilla/5.0 SceneSenseLibraryBot/1.0'
+          retry=Retry(total=6,connect=4,read=4,status=6,backoff_factor=1.2,status_forcelist=(429,500,502,503,504),allowed_methods=frozenset(['GET']),respect_retry_after_header=True)
+          s.mount('https://',HTTPAdapter(max_retries=retry))
+          def get(u):
+            r=s.get(u,timeout=45); r.raise_for_status(); time.sleep(.12); return r
+          def cast(soup):
+            out=[]
+            for li in soup.select('ol.people.scroller li.card, ol.people li.card'):
+              a=li.select_one('p a')
+              if a:
+                n=a.get_text(' ',strip=True)
+                if n and n not in out: out.append(n)
+              if len(out)==5: break
+            return out
+          def poster(soup):
+            img=soup.select_one('div.poster img, img.poster')
+            if not img:return None
+            for raw in (img.get('src',''),img.get('data-src',''),img.get('srcset',''),img.get('data-srcset','')):
+              for tok in raw.split(','):
+                mm=re.search(r'/([^/?,]+\.(?:jpg|png))(?:\s|\?|$)',tok.strip())
+                if mm:return mm.group(1)
+          def save(raw,dest): Image.open(io.BytesIO(raw)).convert('RGB').save(dest,'WEBP',quality=92,method=6)
+          for mid in TARGETS:
+            m=by[mid]; ov=meta[mid]; print('===',m['title'],'===')
+            if not str(m.get('description') or '').strip(): m['description']=ov['description']
+            if not m.get('genres'): m['genres']=ov['genres']
+            dest=POSTERS/f'{mid}.webp'
+            if ov.get('mode')=='manual':
+              if not m.get('actors'): m['actors']=ov['actors'][:5]
+              if not str(m.get('poster') or '').strip(): save(get(ov['posterUrl']).content,dest); m['poster']=str(dest)
+            else:
+              tid=IDS[mid]; page=BeautifulSoup(get(f'https://www.themoviedb.org/movie/{tid}?language=en-US').text,'html.parser')
+              c=cast(page)
+              if len(c)<3: raise RuntimeError(f'{mid}: insufficient cast {c}')
+              if not m.get('actors'): m['actors']=c[:5]
+              if not m.get('tmdbId'): m['tmdbId']=tid
+              if not str(m.get('poster') or '').strip():
+                p=poster(page)
+                if not p: raise RuntimeError(f'{mid}: no poster')
+                save(get(f'https://image.tmdb.org/t/p/w780/{p}').content,dest); m['poster']=str(dest)
+            for k,v in locked[mid].items():
+              if m.get(k)!=v: raise AssertionError(f'{mid}: locked {k} changed')
+            if not m.get('description') or not m.get('genres') or len(m.get('actors') or [])<3 or not m.get('poster'): raise AssertionError(f'{mid}: incomplete')
+          with DATA.open('w',encoding='utf-8') as f: json.dump(data,f,ensure_ascii=False,indent=2); f.write('\n')
+          subprocess.run(['git','add',str(DATA),'assets/posters'],check=True)
+          subprocess.run(['git','commit','-m','Enrich SceneSense library batch 02'],check=True)
+          subprocess.run(['git','push','origin','main'],check=True)
+          PY
+      - name: Remove temporary batch workflow
+        if: success()
+        run: |
+          git rm .github/workflows/enrich-library-batch-02.yml
+          git commit -m "Remove completed enrichment batch workflow"
+          git push origin main
