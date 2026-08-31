@@ -1528,6 +1528,137 @@
         "Cecil Kellaway"
       ],
       "ratings": {}
+    },
+    {
+      "id": "the-man-from-earth-2007",
+      "title": "The Man from Earth",
+      "year": 2007,
+      "runtimeMinutes": 87,
+      "runtimeSeconds": 5232,
+      "runtimeExact": "01:27:12",
+      "version": "Theatrical Cut",
+      "poster": "assets/posters/the-man-from-earth-2007.webp",
+      "description": "University professor John Oldman abruptly resigns and gathers colleagues at his cabin before leaving town. Pressed to explain himself, he claims he has lived continuously since prehistoric times, turning an informal farewell into an increasingly serious examination of history, belief and whether such a story could be disproved.",
+      "actors": [
+        "David Lee Smith",
+        "Tony Todd",
+        "John Billingsley",
+        "Ellen Crawford",
+        "Annika Peterson"
+      ],
+      "genres": [
+        "Science Fiction",
+        "Drama",
+        "Mystery"
+      ],
+      "ratings": {
+        "writing": {
+          "storyQuality": 5,
+          "storyLogic": 5,
+          "development": 5,
+          "construction": 5,
+          "dialogue": 5
+        },
+        "character": {
+          "characterDepth": 5,
+          "drive": 5,
+          "consistency": 3,
+          "practicalIntelligence": 4,
+          "maturity": 4
+        },
+        "realism": {
+          "humanRealism": 5,
+          "realityGrounding": 5,
+          "practicalRealism": 2,
+          "technicalRealism": 2,
+          "physicalRealism": 2
+        },
+        "casting": {
+          "functionalFit": 5,
+          "roleFit": 4,
+          "aesthetics": 2,
+          "magnetism": 3,
+          "ensembleFit": 4
+        },
+        "performance": {
+          "characterization": 4,
+          "emotionalLife": 5,
+          "delivery": 5,
+          "physicalPerformance": 5,
+          "performanceControl": 5
+        },
+        "chemistry": {
+          "connection": 4,
+          "flow": 3,
+          "relationshipDepth": 5,
+          "relationshipGrowth": 5,
+          "relationshipCharge": 5
+        },
+        "direction": {
+          "staging": 4,
+          "actorDirection": 3,
+          "tone": 5,
+          "action": 5,
+          "directorialControl": 5
+        },
+        "editing": {
+          "pacing": 5,
+          "rhythm": 5,
+          "cutting": 5,
+          "clarity": 5,
+          "restraint": 5
+        },
+        "visuals": {
+          "photography": 4,
+          "imageDesign": 2,
+          "imageQuality": 1,
+          "visualEffects": 5,
+          "visualBeauty": 2
+        },
+        "world": {
+          "worldDepth": 3,
+          "place": 5,
+          "productionDesign": 5,
+          "effectsRealization": 5,
+          "designRestraint": 5
+        },
+        "sound": {
+          "soundQuality": 3,
+          "dialogue": 4,
+          "soundscape": 4,
+          "spatialSound": 2,
+          "mixing": 4
+        },
+        "music": {
+          "musicQuality": 4,
+          "execution": 4,
+          "musicalIdentity": 3,
+          "sceneFit": 4,
+          "scoreControl": 4
+        },
+        "creativity": {
+          "originality": 5,
+          "ingenuity": 5,
+          "ideaGrowth": 5,
+          "filmicInvention": 5,
+          "resourcefulness": 5
+        },
+        "morality": {
+          "humanValues": 4,
+          "relationshipEthics": 2,
+          "responsibility": 3,
+          "moralOpposition": 5,
+          "ethicalFraming": 5
+        },
+        "integrity": {
+          "independence": 5,
+          "viewerRespect": 5,
+          "restraint": 5,
+          "degradation": 5,
+          "cohesion": 5
+        }
+      },
+      "tmdbId": 13363
     }
   ]
 }
