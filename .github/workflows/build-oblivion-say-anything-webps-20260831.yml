@@ -1,0 +1,55 @@
+name: Build requested poster WebPs
+
+on:
+  push:
+    paths:
+      - '.github/workflows/build-oblivion-say-anything-webps-20260831.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download exact supplied poster URLs
+        run: |
+          set -euo pipefail
+          mkdir -p poster-output
+          curl -fL --retry 3 --retry-delay 1 -A 'Mozilla/5.0' -H 'Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8' 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPNz39_wShTMkd1hDLBOBxlSiPBlC5txL1vicPch3jvmMi-4SohoAOU8Bp&s=10' -o /tmp/oblivion-source
+          curl -fL --retry 3 --retry-delay 1 -A 'Mozilla/5.0' -H 'Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8' 'https://lumiere-a.akamaihd.net/v1/images/sayanythg_584x800_us_63daa7f0.jpeg?region=0%2C0%2C584%2C800' -o /tmp/say-anything-source
+
+      - name: Convert to WebP without resizing
+        run: |
+          python3 -m pip install --quiet pillow
+          python3 - <<'PY'
+          from PIL import Image
+          from pathlib import Path
+
+          jobs = [
+              ('/tmp/oblivion-source', 'poster-output/oblivion-2013.webp'),
+              ('/tmp/say-anything-source', 'poster-output/say-anything-1989.webp'),
+          ]
+          lines = []
+          for src, dst in jobs:
+              with Image.open(src) as im:
+                  original = im.size
+                  if im.mode not in ('RGB', 'RGBA'):
+                      im = im.convert('RGB')
+                  im.save(dst, 'WEBP', quality=95, method=6)
+              with Image.open(dst) as check:
+                  if check.size != original:
+                      raise SystemExit(f'Dimension change for {dst}: {original} -> {check.size}')
+                  lines.append(f'{Path(dst).name}: {check.size[0]}x{check.size[1]} WEBP')
+          Path('poster-output/manifest.txt').write_text('\n'.join(lines) + '\n', encoding='utf-8')
+          print('\n'.join(lines))
+          PY
+
+      - name: Upload WebPs
+        uses: actions/upload-artifact@v4
+        with:
+          name: requested-poster-webps
+          path: poster-output/
+          if-no-files-found: error
