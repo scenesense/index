@@ -1077,7 +1077,7 @@
         "character": {
           "characterDepth": 4,
           "drive": 5,
-          "consistency": 2,
+          "consistency": 3,
           "practicalIntelligence": 2,
           "maturity": 2
         },
@@ -1103,10 +1103,10 @@
           "performanceControl": 5
         },
         "chemistry": {
-          "connection": 3,
+          "connection": 4,
           "flow": 3,
-          "relationshipDepth": 2,
-          "relationshipGrowth": 2,
+          "relationshipDepth": 3,
+          "relationshipGrowth": 3,
           "relationshipCharge": 4
         },
         "direction": {
@@ -1141,7 +1141,7 @@
           "soundQuality": 3,
           "dialogue": 4,
           "soundscape": 3,
-          "spatialSound": 2,
+          "spatialSound": 3,
           "mixing": 4
         },
         "music": {
