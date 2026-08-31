@@ -164,3 +164,4 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#dce8ff}
   .saveRow .button,.saveRow .button.primary,.saveStatus{font-size:12px}
 }
 .movieCard[data-movie="king-solomons-mines-ii-2004"] .cardTitle{letter-spacing:0!important}
+.poster[alt="Chaos Theory poster"],.detailPoster[alt="Chaos Theory poster"]{content:url("https://tr.web.img4.acsta.net/pictures/bzp/02/135533.jpg")!important}
