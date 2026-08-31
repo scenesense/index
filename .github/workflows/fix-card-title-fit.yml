@@ -1,0 +1,62 @@
+name: Fix card title fitting
+on:
+  push:
+    paths:
+      - .github/workflows/fix-card-title-fit.yml
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch card title display
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text()
+          old='.cardSubtitle{margin-top:3px;color:#c6d0de;font-family:"Saira",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif!important;font-size:17px;font-weight:500;line-height:1.15;letter-spacing:0!important;white-space:nowrap;overflow:hidden;text-overflow:clip}'
+          new='.cardSubtitle{margin-top:3px;color:#fff;font-family:"Saira",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif!important;font-size:17px;font-weight:500;line-height:1.15;letter-spacing:0!important;white-space:nowrap;overflow:hidden;text-overflow:clip}'
+          assert old in s
+          s=s.replace(old,new,1)
+
+          old='function fitCardSubtitle(row){if(!row)return;row.style.fontSize="";const base=parseFloat(getComputedStyle(row).fontSize)||17;if(row.scrollWidth>row.clientWidth&&row.clientWidth>0){row.style.fontSize=`${Math.max(10,base*(row.clientWidth/row.scrollWidth)*.99)}px`}}function fitAllCardSubtitles(){document.querySelectorAll(".cardSubtitle").forEach(fitCardSubtitle)}'
+          new='function fitCardLine(row,minSize=10){if(!row)return;row.style.fontSize="";const base=parseFloat(getComputedStyle(row).fontSize)||17;if(row.scrollWidth>row.clientWidth&&row.clientWidth>0){row.style.fontSize=`${Math.max(minSize,base*(row.clientWidth/row.scrollWidth)*.99)}px`}}function fitAllCardTitles(){document.querySelectorAll(".cardTitle").forEach(row=>fitCardLine(row,11))}function fitAllCardSubtitles(){document.querySelectorAll(".cardSubtitle").forEach(row=>fitCardLine(row,10))}'
+          assert old in s
+          s=s.replace(old,new,1)
+
+          old='title.textContent=parts.main;let subtitle=info.querySelector(".cardSubtitle")'
+          new='title.textContent=parts.main;requestAnimationFrame(()=>fitCardLine(title,11));let subtitle=info.querySelector(".cardSubtitle")'
+          assert old in s
+          s=s.replace(old,new,1)
+
+          old='subtitle.textContent=parts.subtitle;requestAnimationFrame(()=>fitCardSubtitle(subtitle))'
+          new='subtitle.textContent=parts.subtitle;requestAnimationFrame(()=>fitCardLine(subtitle,10))'
+          assert old in s
+          s=s.replace(old,new,1)
+
+          old='requestAnimationFrame(()=>{fitAllCardGenres();fitAllCardSubtitles()})'
+          new='requestAnimationFrame(()=>{fitAllCardGenres();fitAllCardTitles();fitAllCardSubtitles()})'
+          assert old in s
+          s=s.replace(old,new,1)
+
+          old='genreResizeTimer=setTimeout(()=>{fitAllCardGenres();fitAllCardSubtitles();if(activeMovieId)renderPrincipalCast(movieById(activeMovieId))},80)'
+          new='genreResizeTimer=setTimeout(()=>{fitAllCardGenres();fitAllCardTitles();fitAllCardSubtitles();if(activeMovieId)renderPrincipalCast(movieById(activeMovieId))},80)'
+          assert old in s
+          s=s.replace(old,new,1)
+
+          old='document.fonts?.ready.then(()=>{fitAllCardSubtitles();if(activeMovieId)renderPrincipalCast(movieById(activeMovieId))})'
+          new='document.fonts?.ready.then(()=>{fitAllCardTitles();fitAllCardSubtitles();if(activeMovieId)renderPrincipalCast(movieById(activeMovieId))})'
+          assert old in s
+          s=s.replace(old,new,1)
+
+          p.write_text(s)
+          PY
+      - name: Commit correction
+        run: |
+          git config user.name "SceneSense Library Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          git commit -m "Fit both card title lines and match title color"
+          git push
