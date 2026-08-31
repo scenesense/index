@@ -1,38 +1,28 @@
-name: Deploy SceneSense 51-70
+name: Apply King Solomon II title fit tweak
 on:
   push:
     paths: ['.github/workflows/deploy-batch-51-70.yml']
 permissions:
   contents: write
 jobs:
-  deploy:
+  tweak:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with: {fetch-depth: 0}
-      - name: Add exactly 20 movies
+      - name: Tighten King Solomon II title only
         run: |
           python - <<'PY'
-          import base64,gzip,json,subprocess
           from pathlib import Path
-          src='fa01afc2e554d801b282e69cae6d5fc237158549'
-          data_path=Path('data/movies.json')
-          data=json.loads(data_path.read_text(encoding='utf-8'))
-          batch=json.loads(gzip.decompress(base64.b64decode(Path('data/batch51_70.payload').read_text())).decode())['movies']
-          assert len(data['movies'])==50 and len(batch)==20
-          ids={m['id'] for m in data['movies']}; assert not ids.intersection(m['id'] for m in batch)
-          for m in batch:
-            out=Path(m['poster']); out.parent.mkdir(parents=True,exist_ok=True)
-            out.write_bytes(subprocess.check_output(['git','show',f'{src}:{m["poster"]}']))
-          data['movies'].extend(batch); assert len(data['movies'])==70
-          data_path.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-          for f in ['data/batch51_70.payload','data/movies-batch-51-70.json','BATCH_51_70_BUNDLE.zip','data/batch51chunks/1.json','.github/workflows/deploy-batch-51-70.yml']:
-            p=Path(f)
-            if p.exists(): p.unlink()
+          p=Path('styles.css')
+          s=p.read_text(encoding='utf-8')
+          rule='\n.movieCard[data-movie="king-solomons-mines-ii-2004"] .cardTitle{letter-spacing:0!important}\n'
+          if rule.strip() not in s:
+              p.write_text(s.rstrip()+rule,encoding='utf-8')
+          Path('.github/workflows/deploy-batch-51-70.yml').unlink()
           PY
           git config user.name 'SceneSense Library Bot'
           git config user.email 'actions@users.noreply.github.com'
           git add -A
-          git commit -m 'Add SceneSense movies 51-70 with local posters'
+          git commit -m 'Tighten King Solomon II card title'
           git push origin HEAD:main
-# run4
