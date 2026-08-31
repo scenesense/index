@@ -10,44 +10,55 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Test clean poster selection
+      - name: Resolve all enrichment targets
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq tesseract-ocr >/dev/null
-          python -m pip install --quiet requests beautifulsoup4 pillow pytesseract
+          python -m pip install --quiet requests beautifulsoup4
           python - <<'PY'
-          import requests,re,io
+          import json,re,time,requests
           from bs4 import BeautifulSoup
-          from PIL import Image
-          import pytesseract
-          s=requests.Session(); s.headers['User-Agent']='Mozilla/5.0 SceneSense/1.0'
-          title='Master and Commander: The Far Side of the World'
-          u='https://www.themoviedb.org/movie/8619-master-and-commander-the-far-side-of-the-world/images/posters?image_language=en&language=en-US'
-          soup=BeautifulSoup(s.get(u,timeout=30).text,'html.parser')
-          paths=[]
-          for img in soup.find_all('img'):
-              src=img.get('src') or img.get('data-src') or ''
-              m=re.search(r'/([^/]+\.jpg)(?:\?|$)',src)
-              if m and 'media.themoviedb.org/t/p/' in src:
-                  p=m.group(1)
-                  if p not in paths: paths.append(p)
-          # first path is tiny header duplicate of primary; remove duplicate while preserving order
-          paths=list(dict.fromkeys(paths))
-          stop={'the','and','of','a','an','to','in','for','from','with','at','on'}
-          tt=[w for w in re.findall(r'[a-z0-9]+',title.lower()) if w not in stop and len(w)>2]
-          print('title tokens',tt)
-          scored=[]
-          for p in paths[:12]:
-              url=f'https://image.tmdb.org/t/p/w500/{p}'
-              r=s.get(url,timeout=30); r.raise_for_status()
-              im=Image.open(io.BytesIO(r.content)).convert('RGB')
-              text=pytesseract.image_to_string(im,config='--psm 6')
-              words=re.findall(r'[a-z0-9]+',text.lower())
-              matches=sum(1 for t in set(tt) if any(t==w or (len(t)>=5 and t in w) for w in words))
-              extras=[w for w in words if w not in stop and not any((w==t or (len(t)>=5 and (t in w or w in t))) for t in tt) and not w.isdigit()]
-              # Require distinctive title evidence. Among qualifying posters, prefer least extra OCR clutter.
-              qual=matches>=max(1,min(2,len(set(tt))))
-              score=(0 if qual else 1000)+len(extras)*10+len(words)
-              scored.append((score,p,matches,len(extras),len(words),' '.join(words[:35])))
-          for x in sorted(scored): print(x)
-          print('CHOSEN',min(scored)[1])
+          from urllib.parse import quote,urljoin
+          ov=json.load(open('data/enrichment-remaining-20260831.json',encoding='utf-8'))
+          data=json.load(open('data/movies-additions-20260830.json',encoding='utf-8'))
+          by={m['id']:m for m in data['movies']}
+          direct={'minuscule-2013':140870,'miracle-2004':14292}
+          s=requests.Session(); s.headers['User-Agent']='Mozilla/5.0 SceneSenseResolver/1.0'
+          BASE='https://www.themoviedb.org'
+          def get(u):
+              r=s.get(u,timeout=30); r.raise_for_status(); time.sleep(.03); return r
+          def year(soup):
+              for sel in ('span.release','span.release_date','span.tag.release_date','div.facts'):
+                  e=soup.select_one(sel)
+                  if e:
+                      m=re.search(r'\b(19|20)\d{2}\b',e.get_text(' ',strip=True))
+                      if m:return int(m.group())
+              t=soup.title.get_text(' ',strip=True) if soup.title else ''
+              m=re.search(r'\b(19|20)\d{2}\b',t); return int(m.group()) if m else None
+          bad=[]
+          for i,(mid,x) in enumerate(ov.items(),1):
+              m=by[mid]; mode=x['mode']
+              if mode=='manual':
+                  print(i,mid,'MANUAL'); continue
+              if mid in direct:
+                  href=f'/{mode}/{direct[mid]}?language=en-US'
+                  soup=BeautifulSoup(get(BASE+href).text,'html.parser')
+                  print(i,mid,'DIRECT',direct[mid],year(soup)); continue
+              q=x['query']; u=f'{BASE}/search/{mode}?query={quote(q)}&language=en-US'
+              soup=BeautifulSoup(get(u).text,'html.parser')
+              pat=re.compile(rf'^/{mode}/(\d+)(?:-|\?|$)')
+              c=[]
+              for a in soup.select(f'a[href^="/{mode}/"]'):
+                  h=a.get('href','')
+                  if pat.match(h) and h not in c:c.append(h)
+              found=None; inspected=[]
+              for h in c[:15]:
+                  p=BeautifulSoup(get(urljoin(BASE,h)).text,'html.parser'); y=year(p); inspected.append((h,y))
+                  if y==m['year']:
+                      found=(h,int(pat.match(h).group(1))); break
+              if found: print(i,mid,'OK',found[1],found[0])
+              else:
+                  print(i,mid,'FAIL',m['year'],q,inspected)
+                  bad.append((mid,m['year'],q,inspected))
+          print('UNRESOLVED',len(bad))
+          for b in bad:print('BAD',b)
+          if bad: raise SystemExit(1)
           PY
