@@ -10,22 +10,44 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Inspect public TMDB poster gallery
+      - name: Test clean poster selection
         run: |
-          python -m pip install --quiet requests beautifulsoup4
+          sudo apt-get update -qq && sudo apt-get install -y -qq tesseract-ocr >/dev/null
+          python -m pip install --quiet requests beautifulsoup4 pillow pytesseract
           python - <<'PY'
-          import requests
+          import requests,re,io
           from bs4 import BeautifulSoup
+          from PIL import Image
+          import pytesseract
           s=requests.Session(); s.headers['User-Agent']='Mozilla/5.0 SceneSense/1.0'
+          title='Master and Commander: The Far Side of the World'
           u='https://www.themoviedb.org/movie/8619-master-and-commander-the-far-side-of-the-world/images/posters?image_language=en&language=en-US'
-          r=s.get(u,timeout=30); print(r.status_code,r.url)
-          soup=BeautifulSoup(r.text,'html.parser')
-          seen=[]
+          soup=BeautifulSoup(s.get(u,timeout=30).text,'html.parser')
+          paths=[]
           for img in soup.find_all('img'):
               src=img.get('src') or img.get('data-src') or ''
-              srcset=img.get('srcset') or img.get('data-srcset') or ''
-              if 'media.themoviedb.org/t/p/' in src or 'media.themoviedb.org/t/p/' in srcset:
-                  item=(src,srcset,img.get('alt',''))
-                  if item not in seen: seen.append(item)
-          for i,x in enumerate(seen[:30],1): print(i,x)
+              m=re.search(r'/([^/]+\.jpg)(?:\?|$)',src)
+              if m and 'media.themoviedb.org/t/p/' in src:
+                  p=m.group(1)
+                  if p not in paths: paths.append(p)
+          # first path is tiny header duplicate of primary; remove duplicate while preserving order
+          paths=list(dict.fromkeys(paths))
+          stop={'the','and','of','a','an','to','in','for','from','with','at','on'}
+          tt=[w for w in re.findall(r'[a-z0-9]+',title.lower()) if w not in stop and len(w)>2]
+          print('title tokens',tt)
+          scored=[]
+          for p in paths[:12]:
+              url=f'https://image.tmdb.org/t/p/w500/{p}'
+              r=s.get(url,timeout=30); r.raise_for_status()
+              im=Image.open(io.BytesIO(r.content)).convert('RGB')
+              text=pytesseract.image_to_string(im,config='--psm 6')
+              words=re.findall(r'[a-z0-9]+',text.lower())
+              matches=sum(1 for t in set(tt) if any(t==w or (len(t)>=5 and t in w) for w in words))
+              extras=[w for w in words if w not in stop and not any((w==t or (len(t)>=5 and (t in w or w in t))) for t in tt) and not w.isdigit()]
+              # Require distinctive title evidence. Among qualifying posters, prefer least extra OCR clutter.
+              qual=matches>=max(1,min(2,len(set(tt))))
+              score=(0 if qual else 1000)+len(extras)*10+len(words)
+              scored.append((score,p,matches,len(extras),len(words),' '.join(words[:35])))
+          for x in sorted(scored): print(x)
+          print('CHOSEN',min(scored)[1])
           PY
