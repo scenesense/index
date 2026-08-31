@@ -265,7 +265,113 @@
         "Thomas F. Wilson",
         "Lea Thompson"
       ],
-      "ratings": {}
+      "ratings": {
+        "writing": {
+          "storyQuality": 5,
+          "storyLogic": 5,
+          "development": 5,
+          "construction": 5,
+          "dialogue": 5
+        },
+        "character": {
+          "characterDepth": 5,
+          "drive": 5,
+          "consistency": 4,
+          "practicalIntelligence": 5,
+          "maturity": 4
+        },
+        "realism": {
+          "humanRealism": 5,
+          "realityGrounding": 4,
+          "practicalRealism": 1,
+          "technicalRealism": 2,
+          "physicalRealism": 2
+        },
+        "casting": {
+          "functionalFit": 5,
+          "roleFit": 5,
+          "aesthetics": 4,
+          "magnetism": 5,
+          "ensembleFit": 5
+        },
+        "performance": {
+          "characterization": 5,
+          "emotionalLife": 5,
+          "delivery": 5,
+          "physicalPerformance": 5,
+          "performanceControl": 5
+        },
+        "chemistry": {
+          "connection": 5,
+          "flow": 5,
+          "relationshipDepth": 5,
+          "relationshipGrowth": 5,
+          "relationshipCharge": 4
+        },
+        "direction": {
+          "staging": 5,
+          "actorDirection": 5,
+          "tone": 5,
+          "action": 5,
+          "directorialControl": 5
+        },
+        "editing": {
+          "pacing": 5,
+          "rhythm": 5,
+          "cutting": 5,
+          "clarity": 5,
+          "restraint": 5
+        },
+        "visuals": {
+          "photography": 5,
+          "imageDesign": 5,
+          "imageQuality": 5,
+          "visualEffects": 4,
+          "visualBeauty": 5
+        },
+        "world": {
+          "worldDepth": 4,
+          "place": 4,
+          "productionDesign": 2,
+          "effectsRealization": 5,
+          "designRestraint": 5
+        },
+        "sound": {
+          "soundQuality": 5,
+          "dialogue": 5,
+          "soundscape": 5,
+          "spatialSound": 5,
+          "mixing": 5
+        },
+        "music": {
+          "musicQuality": 5,
+          "execution": 5,
+          "musicalIdentity": 5,
+          "sceneFit": 5,
+          "scoreControl": 5
+        },
+        "creativity": {
+          "originality": 5,
+          "ingenuity": 5,
+          "ideaGrowth": 4,
+          "filmicInvention": 4,
+          "resourcefulness": 4
+        },
+        "morality": {
+          "humanValues": 5,
+          "relationshipEthics": 5,
+          "responsibility": 5,
+          "moralOpposition": 3,
+          "ethicalFraming": 4
+        },
+        "integrity": {
+          "independence": 5,
+          "viewerRespect": 4,
+          "restraint": 4,
+          "degradation": 5,
+          "cohesion": 5
+        }
+      }
     },
     {
       "id": "500-days-of-summer-2009",
