@@ -1090,5 +1090,19 @@
     "version": "Director's Cut",
     "runtimeSeconds": 6991,
     "runtimeExact": "01:56:31"
+  },
+  {
+    "title": "Stargate",
+    "year": 1994,
+    "version": "Director's Cut",
+    "runtimeSeconds": 7798,
+    "runtimeExact": "02:09:58"
+  },
+  {
+    "title": "The Iron Giant",
+    "year": 1999,
+    "version": "Director's Cut",
+    "runtimeSeconds": 5398,
+    "runtimeExact": "01:29:58"
   }
 ]
