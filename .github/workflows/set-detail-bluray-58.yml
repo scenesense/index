@@ -1,0 +1,42 @@
+name: Trim detail Blu-ray visual size
+
+on:
+  push:
+    paths:
+      - '.github/workflows/set-detail-bluray-58.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Trim detail Blu-ray logo only
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          old = '.detailBlurayBadge{position:absolute;left:0;top:86px;display:block;width:150px;height:60px;object-fit:contain;object-position:left center;filter:drop-shadow(0 7px 14px rgba(0,0,0,.48));pointer-events:none}'
+          new = '.detailBlurayBadge{position:absolute;left:0;top:86px;display:block;width:150px;height:58px;object-fit:contain;object-position:left center;filter:drop-shadow(0 7px 14px rgba(0,0,0,.48));pointer-events:none}'
+          if s.count(old) != 1:
+              raise RuntimeError(f'Expected current Blu-ray CSS once, found {s.count(old)}')
+          score_markup = '<div class="scoreLine"><div class="overallScore" id="overallScore">—</div><div><div class="scoreCaption">overall score</div><div class="progressText" id="progressText">0 / 75 rated</div></div><img id="detailBlurayBadge" class="detailBlurayBadge" src="assets/format-logos/BLURAY.webp" alt="UHD Blu-ray" hidden></div>'
+          if s.count(score_markup) != 1:
+              raise RuntimeError('Score markup changed unexpectedly')
+          s = s.replace(old, new, 1)
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit
+        shell: bash
+        run: |
+          git config user.name "SceneSense maintenance"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          git commit -m "Trim detail Blu-ray logo size"
+          git push origin HEAD:main
