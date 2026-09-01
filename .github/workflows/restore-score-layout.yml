@@ -1,0 +1,43 @@
+name: Restore score layout
+
+on:
+  push:
+    paths:
+      - '.github/workflows/restore-score-layout.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore exact score layout
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          old_css='.scorePrimary{display:flex;flex-direction:column;align-items:flex-start;gap:7px}.detailBlurayBadge{display:block;width:118px;height:44px;object-fit:contain;object-position:left center;filter:drop-shadow(0 7px 14px rgba(0,0,0,.48))}.detailBlurayBadge[hidden]{display:none!important}'
+          new_css='.scoreLine{position:relative}.detailBlurayBadge{position:absolute;left:0;top:70px;display:block;width:118px;height:44px;object-fit:contain;object-position:left center;filter:drop-shadow(0 7px 14px rgba(0,0,0,.48));pointer-events:none}.detailBlurayBadge[hidden]{display:none!important}'
+          if s.count(old_css)!=1: raise RuntimeError(f'old CSS count {s.count(old_css)}')
+          s=s.replace(old_css,new_css,1)
+          old_markup='<div class="scoreLine"><div class="scorePrimary"><div class="overallScore" id="overallScore">—</div><img id="detailBlurayBadge" class="detailBlurayBadge" src="assets/format-logos/BLURAY.webp" alt="UHD Blu-ray" hidden></div><div><div class="scoreCaption">overall score</div><div class="progressText" id="progressText">0 / 75 rated</div></div></div>'
+          new_markup='<div class="scoreLine"><div class="overallScore" id="overallScore">—</div><div><div class="scoreCaption">overall score</div><div class="progressText" id="progressText">0 / 75 rated</div></div><img id="detailBlurayBadge" class="detailBlurayBadge" src="assets/format-logos/BLURAY.webp" alt="UHD Blu-ray" hidden></div>'
+          if s.count(old_markup)!=1: raise RuntimeError(f'old markup count {s.count(old_markup)}')
+          s=s.replace(old_markup,new_markup,1)
+          if 'scorePrimary' in s: raise RuntimeError('scorePrimary survived')
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Commit
+        shell: bash
+        run: |
+          git config user.name "SceneSense maintenance"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          git commit -m "Restore original score layout"
+          git push origin HEAD:main
