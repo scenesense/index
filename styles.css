@@ -167,18 +167,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#dce8ff}
 .movieCard[data-movie="king-solomons-mines-ii-2004"] .cardTitle{letter-spacing:0!important}
 .poster[alt="Chaos Theory poster"],.detailPoster[alt="Chaos Theory poster"]{content:url("https://tr.web.img4.acsta.net/pictures/bzp/02/135533.jpg")!important}
 
-/* SceneSense: ST1 title + Man from Earth 4K accent */
-.movieCard[data-movie="star-trek-the-motion-picture-1979"] .cardTitle{font-size:0!important;line-height:1.02!important}
-.movieCard[data-movie="star-trek-the-motion-picture-1979"] .cardTitle::after{content:"Star Trek I";font-size:19.5px;line-height:1.02}
-.movieHeroGrid:has(.detailPoster[alt="Star Trek: The Motion Picture poster"]) #detailTitle{font-size:0!important;line-height:.98!important}
-.movieHeroGrid:has(.detailPoster[alt="Star Trek: The Motion Picture poster"]) #detailTitle::after{content:"Star Trek I";font-size:clamp(34px,5vw,66px);line-height:.98}
+/* SceneSense: Man from Earth 4K accent */
 .movieCard[data-movie="the-man-from-earth-2007"] .format4k,
 .movieHeroGrid:has(.detailPoster[alt="The Man from Earth poster"]) .format4k{color:#a04a4a!important}
-@media(max-width:900px){
-  .movieHeroGrid:has(.detailPoster[alt="Star Trek: The Motion Picture poster"]) #detailTitle::after{font-size:40px}
-}
-@media(max-width:620px){
-  .movieCard[data-movie="star-trek-the-motion-picture-1979"] .cardTitle::after{font-size:16.5px}
-  .movieHeroGrid:has(.detailPoster[alt="Star Trek: The Motion Picture poster"]) #detailTitle::after{font-size:30px}
-}
 
