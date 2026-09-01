@@ -742,7 +742,113 @@
         "Harry Dean Stanton",
         "John Hurt"
       ],
-      "ratings": {}
+      "ratings": {
+        "writing": {
+          "storyQuality": 4,
+          "storyLogic": 5,
+          "development": 3,
+          "construction": 5,
+          "dialogue": 5
+        },
+        "character": {
+          "characterDepth": 5,
+          "drive": 3,
+          "consistency": 5,
+          "practicalIntelligence": 4,
+          "maturity": 5
+        },
+        "realism": {
+          "humanRealism": 4,
+          "realityGrounding": 4,
+          "practicalRealism": 2,
+          "technicalRealism": 2,
+          "physicalRealism": 2
+        },
+        "casting": {
+          "functionalFit": 5,
+          "roleFit": 5,
+          "aesthetics": 4,
+          "magnetism": 4,
+          "ensembleFit": 5
+        },
+        "performance": {
+          "characterization": 5,
+          "emotionalLife": 5,
+          "delivery": 4,
+          "physicalPerformance": 4,
+          "performanceControl": 5
+        },
+        "chemistry": {
+          "connection": 3,
+          "flow": 5,
+          "relationshipDepth": 4,
+          "relationshipGrowth": 3,
+          "relationshipCharge": 5
+        },
+        "direction": {
+          "staging": 5,
+          "actorDirection": 4,
+          "tone": 5,
+          "action": 5,
+          "directorialControl": 3
+        },
+        "editing": {
+          "pacing": 5,
+          "rhythm": 5,
+          "cutting": 3,
+          "clarity": 4,
+          "restraint": 5
+        },
+        "visuals": {
+          "photography": 4,
+          "imageDesign": 5,
+          "imageQuality": 5,
+          "visualEffects": 5,
+          "visualBeauty": 5
+        },
+        "world": {
+          "worldDepth": 5,
+          "place": 5,
+          "productionDesign": 5,
+          "effectsRealization": 5,
+          "designRestraint": 5
+        },
+        "sound": {
+          "soundQuality": 5,
+          "dialogue": 3,
+          "soundscape": 5,
+          "spatialSound": 5,
+          "mixing": 4
+        },
+        "music": {
+          "musicQuality": 5,
+          "execution": 5,
+          "musicalIdentity": 5,
+          "sceneFit": 5,
+          "scoreControl": 5
+        },
+        "creativity": {
+          "originality": 5,
+          "ingenuity": 4,
+          "ideaGrowth": 3,
+          "filmicInvention": 5,
+          "resourcefulness": 5
+        },
+        "morality": {
+          "humanValues": 1,
+          "relationshipEthics": 3,
+          "responsibility": 5,
+          "moralOpposition": 5,
+          "ethicalFraming": 3
+        },
+        "integrity": {
+          "independence": 4,
+          "viewerRespect": 3,
+          "restraint": 3,
+          "degradation": 3,
+          "cohesion": 5
+        }
+      }
     },
     {
       "id": "aliens-1986",
