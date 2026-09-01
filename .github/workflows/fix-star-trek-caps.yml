@@ -1,0 +1,46 @@
+name: Fix Star Trek title caps
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-star-trek-caps.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Match Star Trek I title styling
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          css_path = Path('styles.css')
+          css = css_path.read_text(encoding='utf-8')
+          if css.count('content:"STAR TREK I"') != 2:
+              raise RuntimeError('Expected exactly two STAR TREK I pseudo-content rules')
+          css = css.replace('content:"STAR TREK I"', 'content:"Star Trek I"')
+          css_path.write_text(css, encoding='utf-8')
+
+          index_path = Path('index.html')
+          index = index_path.read_text(encoding='utf-8')
+          old = 'styles.css?v=20260830-14'
+          if index.count(old) != 1:
+              raise RuntimeError('Expected current stylesheet cache key once')
+          index = index.replace(old, 'styles.css?v=20260901-2')
+          index_path.write_text(index, encoding='utf-8')
+          PY
+      - name: Commit
+        shell: bash
+        run: |
+          git config user.name "SceneSense maintenance"
+          git config user.email "actions@users.noreply.github.com"
+          git add styles.css index.html
+          git commit -m "Match Star Trek I title caps"
+          git push origin HEAD:main
