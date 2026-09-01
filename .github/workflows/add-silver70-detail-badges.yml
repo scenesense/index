@@ -1,0 +1,199 @@
+name: Add SiLVER70 detail badges
+
+on:
+  push:
+    paths:
+      - '.github/workflows/add-silver70-detail-badges.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Add SiLVER70 logos to selected detail score rows
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json, re, unicodedata
+
+          targets = [
+              ('500 Days of Summer', 2009, 'Theatrical Cut'),
+              ('A 90s Christmas', 2024, 'Television Movie'),
+              ('A Bird of the Air', 2011, 'Theatrical Cut'),
+              ('A Bride for Christmas', 2012, 'Television Movie'),
+              ('A Picture of Her', 2023, 'Television Movie'),
+              ('An Unfinished Life', 2005, 'Theatrical Cut'),
+              ('Arn I: Tempelriddaren', 2007, 'Theatrical Cut'),
+              ('Arn II: Riket Vid Vägens Slut', 2008, 'Theatrical Cut'),
+              ('Batman Begins', 2005, 'Theatrical Cut'),
+              ('Beauty and the Beast', 1991, 'Special Edition'),
+              ('Before I Fall', 2017, 'Theatrical Cut'),
+              ('Cars', 2006, 'Theatrical Cut'),
+              ('Casanova', 2005, 'Theatrical Cut'),
+              ('Christmas with the Knightlys', 2023, 'Online Release'),
+              ('Crazy, Stupid, Love', 2011, 'Theatrical Cut'),
+              ('Crusoe', 2008, 'Television Movie'),
+              ('Dark Water', 2005, 'Theatrical Cut'),
+              ('Dashing Home for Christmas', 2020, 'Television Movie'),
+              ('Easy A', 2010, 'Theatrical Cut'),
+              ('Farmer Seeking Love', 2022, 'Television Movie'),
+              ('Finding Christmas', 2013, 'Television Movie'),
+              ('Finding Neverland', 2004, 'Theatrical Cut'),
+              ('Flyboys', 2006, 'Theatrical Cut'),
+              ('Holiday Engagement', 2011, 'Television Movie'),
+              ('In a World', 2013, 'Theatrical Cut'),
+              ('In Time', 2011, 'Theatrical Cut'),
+              ('Just in Time for Christmas', 2015, 'Television Movie'),
+              ('Leaving D.C.', 2012, 'Online Release'),
+              ('Love Actually', 2003, 'Bonus Edition'),
+              ('Me Before You', 2016, 'Theatrical Cut'),
+              ('Minuscule', 2013, 'Theatrical Cut'),
+              ('Moon', 2009, 'Special Edition'),
+              ('Much Ado About Christmas', 2021, 'Television Movie'),
+              ('National Treasure', 2004, 'Theatrical Cut'),
+              ('Next Stop Christmas', 2021, 'Television Movie'),
+              ('Oblivion', 2013, 'Theatrical Cut'),
+              ('Peter Pan', 2003, 'Theatrical Cut'),
+              ('Pirates of the Caribbean', 2003, 'Theatrical Cut'),
+              ('Premonition', 2007, 'Theatrical Cut'),
+              ('Ratatouille', 2007, 'Theatrical Cut'),
+              ('Remember Sunday', 2013, 'Television Movie'),
+              ('Robot and Frank', 2012, 'Theatrical Cut'),
+              ('Say Anything', 1989, 'Theatrical Cut'),
+              ('Secondhand Lions', 2003, 'Theatrical Cut'),
+              ('Six Days Seven Nights', 1998, 'Theatrical Cut'),
+              ('Spirit: Stallion of the Cimarron', 2002, 'Theatrical Cut'),
+              ('Star Trek II: The Wrath of Khan', 1982, "Director's Cut"),
+              ('Superman Returns', 2006, 'Theatrical Cut'),
+              ('Surprised by Love', 2015, 'Television Movie'),
+              ('Tangled', 2010, 'Bonus Edition'),
+              ('Team Bride', 2023, 'Television Movie'),
+              ('The Adjustment Bureau', 2011, 'Theatrical Cut'),
+              ('The Age of Adaline', 2015, 'Theatrical Cut'),
+              ('The Day the Earth Stood Still', 1951, 'Theatrical Cut'),
+              ('The Englishman Who Went Up a Hill', 1995, 'Theatrical Cut'),
+              ('The Forty Four Hundred', 2004, 'Special Edition'),
+              ('The Ghost and Mrs. Muir', 1947, 'Theatrical Cut'),
+              ('The Greatest Game Ever Played', 2005, 'Theatrical Cut'),
+              ('The Imitation Game', 2014, 'Theatrical Cut'),
+              ('The Iron Giant', 1999, "Director's Cut"),
+              ('The Lake House', 2006, 'Theatrical Cut'),
+              ('The Last Letter from Your Lover', 2021, 'Theatrical Cut'),
+              ('The Most Colorful Time of the Year', 2022, 'Television Movie'),
+              ('The Phantom of the Opera', 2004, 'Theatrical Cut'),
+              ('The Princess and the Marine', 2001, 'Television Movie'),
+              ('The Soulmate Search', 2023, 'Television Movie'),
+              ("The Time Traveler's Wife", 2009, 'Theatrical Cut'),
+              ('The Vow', 2012, 'Theatrical Cut'),
+              ('The X-Files', 1998, "Director's Cut"),
+              ('Timeless Love', 2019, 'Television Movie'),
+              ('Un Plan Parfait', 2012, 'Theatrical Cut'),
+              ('Waiting for Forever', 2010, 'Theatrical Cut'),
+              ('WALL-E', 2008, 'Theatrical Cut'),
+              ('Wallace and Gromit', 2005, 'Theatrical Cut'),
+              ('When Love Springs', 2023, 'Television Movie'),
+              ('Win a Date with Tad Hamilton', 2004, 'Open Matte'),
+              ('Wonder Woman', 2017, 'Theatrical Cut'),
+          ]
+
+          def norm(value):
+              value = unicodedata.normalize('NFKD', str(value or ''))
+              value = ''.join(c for c in value if not unicodedata.combining(c))
+              value = value.lower().replace('&', ' and ')
+              value = re.sub(r'[^a-z0-9]+', ' ', value)
+              return re.sub(r'\s+', ' ', value).strip()
+
+          # Main data wins, supplement fills only absent IDs, matching the site's load behavior.
+          movies_by_id = {}
+          for path in [Path('data/movies.json'), Path('data/movies-additions-20260830.json')]:
+              payload = json.loads(path.read_text(encoding='utf-8'))
+              for movie in payload.get('movies', []):
+                  movie_id = movie.get('id')
+                  if movie_id and movie_id not in movies_by_id:
+                      movies_by_id[movie_id] = movie
+          movies = list(movies_by_id.values())
+
+          aliases = {
+              norm('The Forty Four Hundred'): {norm('The 4400'), norm('The Forty Four Hundred')},
+          }
+
+          resolved = []
+          problems = []
+          for title, year, version in targets:
+              nt, nv = norm(title), norm(version)
+              title_forms = {nt} | aliases.get(nt, set())
+              exact = [m for m in movies if int(m.get('year', -1)) == year and norm(m.get('version')) == nv and norm(m.get('title')) in title_forms]
+              if len(exact) != 1:
+                  fuzzy = [m for m in movies if int(m.get('year', -1)) == year and norm(m.get('version')) == nv and any(tf in norm(m.get('title')) or norm(m.get('title')) in tf for tf in title_forms)]
+                  candidates = fuzzy if len(fuzzy) == 1 else exact
+              else:
+                  candidates = exact
+              if len(candidates) != 1:
+                  nearby = [(m.get('id'), m.get('title'), m.get('version')) for m in movies if int(m.get('year', -1)) == year]
+                  problems.append((title, year, version, nearby))
+              else:
+                  resolved.append(candidates[0]['id'])
+
+          if problems:
+              raise RuntimeError('Could not uniquely resolve targets: ' + repr(problems))
+          if len(resolved) != 77 or len(set(resolved)) != 77:
+              raise RuntimeError(f'Expected 77 unique IDs, got {len(resolved)} resolved / {len(set(resolved))} unique')
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          # Refuse accidental double-format badges.
+          def extract_set(name):
+              m = re.search(rf'const {name}=new Set\(\[(.*?)\]\);', s)
+              if not m:
+                  raise RuntimeError(f'Could not find {name}')
+              return set(re.findall(r'"([^"]+)"', m.group(1)))
+          existing = extract_set('BLURAY_IDS') | extract_set('SILVER55_IDS') | {'the-man-from-earth-2007'}
+          overlap = sorted(existing & set(resolved))
+          if overlap:
+              raise RuntimeError(f'SiLVER70 targets overlap existing format badges: {overlap}')
+
+          old_css = '.detailBlurayBadge,.detailPrismBadge,.detailSilver55Badge{position:static;display:block;width:auto;height:64px;object-fit:contain;object-position:left center;margin-left:28px;flex:0 0 auto;filter:drop-shadow(0 7px 14px rgba(0,0,0,.48));pointer-events:none}.detailBlurayBadge[hidden],.detailPrismBadge[hidden],.detailSilver55Badge[hidden]{display:none!important}'
+          new_css = '.detailBlurayBadge,.detailPrismBadge,.detailSilver55Badge,.detailSilver70Badge{position:static;display:block;width:auto;height:64px;object-fit:contain;object-position:left center;margin-left:28px;flex:0 0 auto;filter:drop-shadow(0 7px 14px rgba(0,0,0,.48));pointer-events:none}.detailBlurayBadge[hidden],.detailPrismBadge[hidden],.detailSilver55Badge[hidden],.detailSilver70Badge[hidden]{display:none!important}'
+          if s.count(old_css) != 1:
+              raise RuntimeError(f'Expected current detail badge CSS once, found {s.count(old_css)}')
+          s = s.replace(old_css, new_css, 1)
+
+          silver55_match = re.search(r'const SILVER55_IDS=new Set\(\[(.*?)\]\);', s)
+          if not silver55_match:
+              raise RuntimeError('Expected SILVER55_IDS set')
+          insert_at = silver55_match.end()
+          ids_js = ','.join(json.dumps(movie_id, ensure_ascii=False) for movie_id in resolved)
+          s = s[:insert_at] + f'const SILVER70_IDS=new Set([{ids_js}]);' + s[insert_at:]
+
+          old_markup = '<img id="detailBlurayBadge" class="detailBlurayBadge" src="assets/format-logos/BLURAY.webp" alt="UHD Blu-ray" hidden><img id="detailPrismBadge" class="detailPrismBadge" src="assets/format-logos/PRiSM.webp" alt="PRiSM" hidden><img id="detailSilver55Badge" class="detailSilver55Badge" src="assets/format-logos/SiLVER55.webp" alt="SiLVER55" hidden></div>'
+          new_markup = '<img id="detailBlurayBadge" class="detailBlurayBadge" src="assets/format-logos/BLURAY.webp" alt="UHD Blu-ray" hidden><img id="detailPrismBadge" class="detailPrismBadge" src="assets/format-logos/PRiSM.webp" alt="PRiSM" hidden><img id="detailSilver55Badge" class="detailSilver55Badge" src="assets/format-logos/SiLVER55.webp" alt="SiLVER55" hidden><img id="detailSilver70Badge" class="detailSilver70Badge" src="assets/format-logos/SiLVER70.webp" alt="SiLVER70" hidden></div>'
+          if s.count(old_markup) != 1:
+              raise RuntimeError(f'Expected current detail badge markup once, found {s.count(old_markup)}')
+          s = s.replace(old_markup, new_markup, 1)
+
+          old_logic = 'const bluray=$("detailBlurayBadge");if(bluray)bluray.hidden=!BLURAY_IDS.has(movie?.id);const prism=$("detailPrismBadge");if(prism)prism.hidden=movie?.id!=="the-man-from-earth-2007";const silver55=$("detailSilver55Badge");if(silver55)silver55.hidden=!SILVER55_IDS.has(movie?.id);requestAnimationFrame(fitDetailMeta);'
+          new_logic = 'const bluray=$("detailBlurayBadge");if(bluray)bluray.hidden=!BLURAY_IDS.has(movie?.id);const prism=$("detailPrismBadge");if(prism)prism.hidden=movie?.id!=="the-man-from-earth-2007";const silver55=$("detailSilver55Badge");if(silver55)silver55.hidden=!SILVER55_IDS.has(movie?.id);const silver70=$("detailSilver70Badge");if(silver70)silver70.hidden=!SILVER70_IDS.has(movie?.id);requestAnimationFrame(fitDetailMeta);'
+          if s.count(old_logic) != 1:
+              raise RuntimeError(f'Expected current detail badge render logic once, found {s.count(old_logic)}')
+          s = s.replace(old_logic, new_logic, 1)
+
+          p.write_text(s, encoding='utf-8')
+          print('Resolved SiLVER70 IDs:')
+          for (title, year, version), movie_id in zip(targets, resolved):
+              print(f'{movie_id}\t{title} ({year})\t{version}')
+          PY
+      - name: Commit
+        shell: bash
+        run: |
+          git config user.name "SceneSense maintenance"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          git commit -m "Add SiLVER70 detail badges"
+          git push origin HEAD:main
