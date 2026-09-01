@@ -169,9 +169,9 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#dce8ff}
 
 /* SceneSense: ST1 title + Man from Earth 4K accent */
 .movieCard[data-movie="star-trek-the-motion-picture-1979"] .cardTitle{font-size:0!important;line-height:1.02!important}
-.movieCard[data-movie="star-trek-the-motion-picture-1979"] .cardTitle::after{content:"STAR TREK I";font-size:19.5px;line-height:1.02}
+.movieCard[data-movie="star-trek-the-motion-picture-1979"] .cardTitle::after{content:"Star Trek I";font-size:19.5px;line-height:1.02}
 .movieHeroGrid:has(.detailPoster[alt="Star Trek: The Motion Picture poster"]) #detailTitle{font-size:0!important;line-height:.98!important}
-.movieHeroGrid:has(.detailPoster[alt="Star Trek: The Motion Picture poster"]) #detailTitle::after{content:"STAR TREK I";font-size:clamp(34px,5vw,66px);line-height:.98}
+.movieHeroGrid:has(.detailPoster[alt="Star Trek: The Motion Picture poster"]) #detailTitle::after{content:"Star Trek I";font-size:clamp(34px,5vw,66px);line-height:.98}
 .movieCard[data-movie="the-man-from-earth-2007"] .format4k,
 .movieHeroGrid:has(.detailPoster[alt="The Man from Earth poster"]) .format4k{color:#a04a4a!important}
 @media(max-width:900px){
