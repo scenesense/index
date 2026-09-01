@@ -1,0 +1,45 @@
+name: Cache-bust Source Code poster
+
+on:
+  push:
+    paths:
+      - '.github/workflows/cache-bust-source-code.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Cache-bust Source Code poster
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('data/movies-additions-20260830.json')
+          text = path.read_text(encoding='utf-8')
+          old = '"poster": "assets/posters/source-code-2011.webp"'
+          new = '"poster": "assets/posters/source-code-2011.webp?v=20260901-1"'
+          if text.count(old) != 1:
+              raise RuntimeError(f'Expected Source Code poster path exactly once, found {text.count(old)}')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+      - name: Commit
+        shell: bash
+        run: |
+          git config user.name "SceneSense maintenance"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/movies-additions-20260830.json
+          git commit -m "Cache-bust Source Code poster"
+          git push origin HEAD:main
+      - name: Remove temporary upload branches
+        shell: bash
+        run: |
+          for b in tmp-noop tmp-source-code-upload tmp-source-code-upload2 tmp-source-code-upload3 tmp-source-code-upload4 tmp-source-code-upload5 tmp-source-code-upload6 tmp-source-code-upload7 tmp-source-code-upload8 tmp-source-code-upload9; do
+            git push origin --delete "$b" || true
+          done
