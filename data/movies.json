@@ -1896,6 +1896,138 @@
         }
       },
       "tmdbId": 293863
+    },
+    {
+      "id": "oblivion-2013",
+      "title": "Oblivion",
+      "year": 2013,
+      "runtimeMinutes": 125,
+      "runtimeSeconds": 7482,
+      "runtimeExact": "02:04:42",
+      "version": "Theatrical Cut",
+      "poster": "assets/posters/oblivion-2013.webp",
+      "description": "Repair technician Jack Harper patrols an abandoned Earth, maintaining drones that protect the machines extracting the planet's remaining resources. A crashed spacecraft and the woman he rescues from it expose contradictions in his memories and in the mission he has been told is nearly complete.",
+      "actors": [
+        "Tom Cruise",
+        "Morgan Freeman",
+        "Olga Kurylenko",
+        "Andrea Riseborough",
+        "Nikolaj Coster-Waldau"
+      ],
+      "genres": [
+        "Science Fiction",
+        "Action",
+        "Mystery",
+        "Adventure"
+      ],
+      "ratings": {
+        "writing": {
+          "storyQuality": 5,
+          "storyLogic": 5,
+          "development": 5,
+          "construction": 5,
+          "dialogue": 5
+        },
+        "character": {
+          "characterDepth": 5,
+          "drive": 5,
+          "consistency": 5,
+          "practicalIntelligence": 5,
+          "maturity": 5
+        },
+        "realism": {
+          "humanRealism": 4,
+          "realityGrounding": 4,
+          "practicalRealism": 2,
+          "technicalRealism": 2,
+          "physicalRealism": 2
+        },
+        "casting": {
+          "functionalFit": 5,
+          "roleFit": 5,
+          "aesthetics": 5,
+          "magnetism": 4,
+          "ensembleFit": 5
+        },
+        "performance": {
+          "characterization": 5,
+          "emotionalLife": 5,
+          "delivery": 5,
+          "physicalPerformance": 5,
+          "performanceControl": 5
+        },
+        "chemistry": {
+          "connection": 5,
+          "flow": 5,
+          "relationshipDepth": 5,
+          "relationshipGrowth": 5,
+          "relationshipCharge": 5
+        },
+        "direction": {
+          "staging": 5,
+          "actorDirection": 4,
+          "tone": 5,
+          "action": 4,
+          "directorialControl": 4
+        },
+        "editing": {
+          "pacing": 4,
+          "rhythm": 5,
+          "cutting": 5,
+          "clarity": 5,
+          "restraint": 5
+        },
+        "visuals": {
+          "photography": 5,
+          "imageDesign": 5,
+          "imageQuality": 4,
+          "visualEffects": 5,
+          "visualBeauty": 5
+        },
+        "world": {
+          "worldDepth": 5,
+          "place": 5,
+          "productionDesign": 5,
+          "effectsRealization": 5,
+          "designRestraint": 4
+        },
+        "sound": {
+          "soundQuality": 5,
+          "dialogue": 5,
+          "soundscape": 5,
+          "spatialSound": 5,
+          "mixing": 5
+        },
+        "music": {
+          "musicQuality": 5,
+          "execution": 4,
+          "musicalIdentity": 3,
+          "sceneFit": 4,
+          "scoreControl": 4
+        },
+        "creativity": {
+          "originality": 5,
+          "ingenuity": 5,
+          "ideaGrowth": 5,
+          "filmicInvention": 5,
+          "resourcefulness": 5
+        },
+        "morality": {
+          "humanValues": 4,
+          "relationshipEthics": 5,
+          "responsibility": 5,
+          "moralOpposition": 5,
+          "ethicalFraming": 4
+        },
+        "integrity": {
+          "independence": 5,
+          "viewerRespect": 4,
+          "restraint": 4,
+          "degradation": 5,
+          "cohesion": 5
+        }
+      },
+      "tmdbId": 75612
     }
   ]
 }
