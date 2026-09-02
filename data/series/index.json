@@ -19,7 +19,20 @@
       "poster": "",
       "score": null,
       "questionsVersion": "tv-v1",
-      "runtimeSeconds": 578830
+      "runtimeSeconds": 578830,
+      "seasons": [
+        {"number":1,"episodeCount":22,"scoringEntryCount":21},
+        {"number":2,"episodeCount":22,"scoringEntryCount":22},
+        {"number":3,"episodeCount":22,"scoringEntryCount":22},
+        {"number":4,"episodeCount":22,"scoringEntryCount":22},
+        {"number":5,"episodeCount":22,"scoringEntryCount":22},
+        {"number":6,"episodeCount":22,"scoringEntryCount":22},
+        {"number":7,"episodeCount":22,"scoringEntryCount":21},
+        {"number":8,"episodeCount":20,"scoringEntryCount":20},
+        {"number":9,"episodeCount":20,"scoringEntryCount":20},
+        {"number":10,"episodeCount":20,"scoringEntryCount":20},
+        {"number":11,"episodeCount":4,"scoringEntryCount":2}
+      ]
     }
   ]
 }
