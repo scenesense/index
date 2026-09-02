@@ -38,6 +38,17 @@
       const enhancements=document.createElement("script");
       enhancements.src=`series-tv-enhancements.js?v=${Date.now()}`;
       enhancements.dataset.scenesenseSeriesEnhancements="1";
+      enhancements.onload=()=>{
+        if(typeof tvFormatBadge==="function"){
+          tvFormatBadge=function(format){
+            if(format==="PRiSM") return '<img class="detailPrismBadge" src="assets/format-logos/PRiSM.webp" alt="PRiSM">';
+            if(format==="SiLVER70") return '<img class="detailSilver70Badge" src="assets/format-logos/SiLVER70.webp" alt="SiLVER70">';
+            if(format==="SiLVER35") return '<img class="detailSilver35Badge" src="assets/format-logos/SiLVER35.webp" alt="SiLVER35">';
+            return "";
+          };
+          if(activeSeriesId) renderActiveTvView();
+        }
+      };
       document.body.appendChild(enhancements);
     }
   }catch(error){
