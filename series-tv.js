@@ -115,15 +115,6 @@ function injectTvStyles(){
   document.head.appendChild(style);
 }
 
-function filteredSeries(){
-  const terms=query.trim().toLowerCase().split(/\s+/).filter(Boolean);
-  if(!terms.length) return [...seriesCatalog];
-  return seriesCatalog.filter(series=>{
-    const haystack=seriesSearchText(series);
-    return terms.every(term=>haystack.includes(term));
-  });
-}
-
 function tvSetBackButton(label,handler){
   const old=document.getElementById("seriesBackBtn");
   if(!old) return;
