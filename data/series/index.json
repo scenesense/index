@@ -10,19 +10,8 @@
       "seasonCount": 11,
       "episodeCount": 218,
       "scoringEntryCount": 214,
-      "genres": [
-        "Science Fiction",
-        "Adventure",
-        "Drama",
-        "Action"
-      ],
-      "actors": [
-        "Richard Dean Anderson",
-        "Amanda Tapping",
-        "Christopher Judge",
-        "Michael Shanks",
-        "Don S. Davis"
-      ],
+      "genres": ["Science Fiction","Adventure","Drama","Action"],
+      "actors": ["Richard Dean Anderson","Amanda Tapping","Christopher Judge","Michael Shanks","Don S. Davis"],
       "description": "After Earth’s buried Stargate is reactivated, Colonel Jack O’Neill leads SG-1 through the ancient portal network to worlds across the galaxy. Alongside Samantha Carter, Daniel Jackson and Teal’c, the team searches for allies and technology while fighting the parasitic Goa’uld who enslave human civilizations as gods. Their missions gradually draw Earth into a much larger conflict involving the Tok’ra, Asgard, Replicators, Ancients and, ultimately, the Ori.",
       "poster": "assets/posters/stargate-sg-1-1997.webp",
       "score": null,
@@ -40,6 +29,27 @@
         {"number":9,"yearStart":2005,"yearEnd":2006,"episodeCount":20,"scoringEntryCount":20},
         {"number":10,"yearStart":2006,"yearEnd":2007,"episodeCount":20,"scoringEntryCount":20},
         {"number":11,"yearStart":2008,"yearEnd":2008,"episodeCount":4,"scoringEntryCount":2}
+      ]
+    },
+    {
+      "id": "agent-carter-2015",
+      "type": "series",
+      "title": "Agent Carter",
+      "yearStart": 2015,
+      "yearEnd": 2016,
+      "seasonCount": 2,
+      "episodeCount": 18,
+      "scoringEntryCount": 18,
+      "genres": ["Action","Adventure","Drama","Spy"],
+      "actors": ["Hayley Atwell","James D'Arcy","Chad Michael Murray","Enver Gjokaj","Shea Whigham"],
+      "description": "In 1946, Strategic Scientific Reserve agent Peggy Carter is sidelined to routine office work after the war while secretly helping fugitive inventor Howard Stark recover stolen weapons with his butler Edwin Jarvis. After clearing Stark’s name, Peggy is sent to Los Angeles, where a frozen-body case exposes Zero Matter, the Council of Nine and scientist-turned-actress Whitney Frost.",
+      "poster": "assets/posters/agent-carter-2015.webp",
+      "score": null,
+      "questionsVersion": "tv-v1",
+      "runtimeSeconds": 45745,
+      "seasons": [
+        {"number":1,"yearStart":2015,"yearEnd":2015,"episodeCount":8,"scoringEntryCount":8},
+        {"number":2,"yearStart":2016,"yearEnd":2016,"episodeCount":10,"scoringEntryCount":10}
       ]
     }
   ]
