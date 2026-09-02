@@ -53,6 +53,7 @@ function injectSeriesStyles(){
   const style=document.createElement("style");
   style.id="seriesStyles";
   style.textContent=`
+    .cardMeta{padding-bottom:1px;margin-bottom:-1px}
     .mediaFilter{display:flex;align-items:center;gap:3px;padding:3px;border:1px solid rgba(255,255,255,.085);border-radius:13px;background:rgba(255,255,255,.025)}
     .mediaFilter button{height:34px;padding:0 13px;border:0;border-radius:9px;background:transparent;color:#9cabc1;cursor:pointer;font-size:13px;font-weight:600;letter-spacing:.035em}
     .mediaFilter button:hover{color:#edf3fb;background:rgba(255,255,255,.04)}
