@@ -37,9 +37,21 @@ function tvFormatAirDate(value){
   return tvFormatDateOne(value);
 }
 
+function tvDisplayEpisodeTitle(title){
+  return String(title||"")
+    .replace(/\s+UNCUT\b/gi," (Uncut)")
+    .replace(/\s+Part\s+(One|Two|Three|Four)\b/gi,(_,part)=>` (Part ${part.charAt(0).toUpperCase()+part.slice(1).toLowerCase()})`);
+}
+
 function tvPresentationRuntime(meta, episode){
   const exact = Number(episode?.runtimeSeconds ?? meta?.runtimeSeconds) || 0;
-  if(exact) return tvRuntimeText(exact);
+  if(exact){
+    const total=Math.max(0,Math.round(exact));
+    const h=Math.floor(total/3600);
+    const m=Math.floor((total%3600)/60);
+    const s=total%60;
+    return h ? `${h}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}` : `${m}:${String(s).padStart(2,"0")}`;
+  }
   const approx = Number(meta?.runtimeApproxMinutes) || 0;
   return approx ? `~${approx} MIN` : "";
 }
@@ -127,6 +139,8 @@ renderTvSeason = function(series, seasonData){
     const episodeMeta = episodeMap[card.dataset.episode];
     if(!episode) return;
     const detail = card.children[1];
+    const title = detail?.querySelector(".episodeTitle");
+    if(title) title.textContent = tvDisplayEpisodeTitle(episode.title);
     detail?.querySelector(".episodeRuntime")?.remove();
     const facts = [tvPresentationRuntime(episodeMeta,episode), tvFormatAirDate(episode.airDate || episodeMeta?.airDate)].filter(Boolean);
     if(detail && facts.length){
@@ -150,6 +164,9 @@ renderTvEpisode = function(series, seasonData, episode){
   const seasonPresentation = tvPresentation(series.id, seasonData.season);
   const hero = document.getElementById("seriesHero");
   if(!hero) return;
+
+  const title = hero.querySelector("h1");
+  if(title) title.textContent = tvDisplayEpisodeTitle(episode.title);
 
   const meta = hero.querySelector(".tvSubMeta");
   const facts = [
