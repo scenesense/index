@@ -1,0 +1,63 @@
+name: Remove Premonition fantasy genre
+
+on:
+  push:
+    paths:
+      - '.github/workflows/remove-premonition-fantasy.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  remove-fantasy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Remove Fantasy from Premonition
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          p = Path('data/movies-additions-20260830.json')
+          s = p.read_text(encoding='utf-8')
+          marker = '"id": "premonition-2007"'
+          start = s.find(marker)
+          if start < 0:
+              raise SystemExit('Premonition record not found')
+          next_record = s.find('\n    },\n    {', start)
+          end = len(s) if next_record < 0 else next_record + len('\n    }')
+          block = s[start:end]
+          if block.count('"Fantasy"') != 1:
+              raise SystemExit(f'Expected exactly one Fantasy in Premonition block, found {block.count(chr(34)+"Fantasy"+chr(34))}')
+
+          lines = block.splitlines()
+          idx = next((i for i, line in enumerate(lines) if '"Fantasy"' in line), None)
+          if idx is None:
+              raise SystemExit('Fantasy genre line not found')
+          had_comma = lines[idx].rstrip().endswith(',')
+          del lines[idx]
+          if not had_comma:
+              # Fantasy was the final array item, so remove the comma from the prior genre line.
+              j = idx - 1
+              while j >= 0 and not lines[j].strip():
+                  j -= 1
+              lines[j] = lines[j].rstrip().rstrip(',')
+          new_block = '\n'.join(lines)
+          out = s[:start] + new_block + s[end:]
+          json.loads(out)
+          p.write_text(out, encoding='utf-8')
+          PY
+      - name: Commit change
+        run: |
+          if git diff --quiet; then
+            echo "No change required"
+            exit 0
+          fi
+          git config user.name "SceneSense maintenance"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/movies-additions-20260830.json
+          git commit -m "Remove Fantasy genre from Premonition"
+          git push origin HEAD:main
