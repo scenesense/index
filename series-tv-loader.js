@@ -1,5 +1,10 @@
 (async function loadSeriesTvScoring(){
   try{
+    const casting=TV_SEASON_CATEGORIES.find(cat=>cat.key==="casting");
+    if(casting?.items?.[0]){
+      casting.items[0][2]="Do the actors feel naturally right for their characters?";
+    }
+
     const performanceIndex=TV_EPISODE_CATEGORIES.findIndex(cat=>cat.key==="performance");
     const alreadySeasonLevel=TV_SEASON_CATEGORIES.some(cat=>cat.key==="performance");
     if(performanceIndex>=0&&!alreadySeasonLevel){
@@ -28,6 +33,13 @@
     script.textContent=source;
     script.dataset.scenesenseSeriesScoring="1";
     document.body.appendChild(script);
+
+    if(!document.querySelector('script[data-scenesense-series-enhancements]')){
+      const enhancements=document.createElement("script");
+      enhancements.src=`series-tv-enhancements.js?v=${Date.now()}`;
+      enhancements.dataset.scenesenseSeriesEnhancements="1";
+      document.body.appendChild(enhancements);
+    }
   }catch(error){
     console.error(error);
   }
