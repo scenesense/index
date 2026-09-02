@@ -171,3 +171,5 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#dce8ff}
 .movieCard[data-movie="the-man-from-earth-2007"] .format4k,
 .movieHeroGrid:has(.detailPoster[alt="The Man from Earth poster"]) .format4k{color:#a04a4a!important}
 
+/* Keep card metadata glyphs from being vertically clipped; fitting JS already constrains width. */
+body .movieCard .cardMeta{overflow:visible!important}
