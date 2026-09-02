@@ -4,7 +4,7 @@ let activeSeriesId = null;
 
 function seriesById(id){ return seriesCatalog.find(series => series.id === id); }
 function seriesYearText(series){ return `${series.yearStart}\u2013${series.yearEnd}`; }
-function seriesMetaText(series){ return `${seriesYearText(series)} · ${series.seasonCount} ${series.seasonCount===1?"season":"seasons"} · ${series.episodeCount} ${series.episodeCount===1?"ep":"eps"}`; }
+function seriesMetaText(series){ return `${seriesYearText(series)} · ${series.seasonCount} ${series.seasonCount===1?"season":"seasons"} · ${series.episodeCount} ${series.episodeCount===1?"episode":"episodes"}`; }
 function seriesGenres(series){ return series?.genres || []; }
 function seriesSearchText(series){ return [series.title, series.yearStart, series.yearEnd, ...seriesGenres(series)].join(" ").toLowerCase(); }
 function seriesScore(series){ if(series?.score == null) return null; const value=Number(series.score); return Number.isFinite(value) ? value : null; }
@@ -59,7 +59,8 @@ function injectSeriesStyles(){
     .mediaFilter button.active{color:#edf3fb;background:rgba(255,255,255,.085)}
     .seriesCard{cursor:pointer}
     .seriesCard .cardTitle{color:#c59b45!important}
-    .seriesCard .cardMeta{font-size:13px!important}
+    .seriesCard .cardMeta{font-size:13px!important;white-space:nowrap;overflow:visible}
+    .seriesCardMetaText{display:inline-block;white-space:nowrap;transform-origin:left center}
     .seriesHeroGrid{display:grid;grid-template-columns:minmax(190px,300px) 1fr;gap:32px;align-items:start}
     .seriesPosterPanel{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--stroke);box-shadow:var(--shadow);background:radial-gradient(70% 55% at 50% 25%,rgba(121,169,255,.18),transparent 70%),linear-gradient(145deg,#101927,#070b12);aspect-ratio:2/3}
     .seriesPosterPanel img{width:100%;height:100%;display:block;object-fit:cover;object-position:center}
@@ -97,7 +98,7 @@ function renderSeriesCard(series){
     </div>
     <div class="cardInfo">
       <div class="cardTitle">${escapeHtml(series.title)}</div>
-      <div class="cardMeta">${escapeHtml(seriesMetaText(series))}</div>
+      <div class="cardMeta"><span class="seriesCardMetaText">${escapeHtml(seriesMetaText(series))}</span></div>
       <div class="cardGenres"></div>
     </div>
   </button>`;
@@ -115,15 +116,25 @@ function fitSeriesCardGenres(card,series){
   }
 }
 
+function fitSeriesCardMeta(card){
+  const meta=card?.querySelector(".cardMeta");
+  const text=meta?.querySelector(".seriesCardMetaText");
+  if(!meta || !text) return;
+  text.style.transform="none";
+  const natural=text.scrollWidth;
+  const available=meta.clientWidth;
+  const scale=natural>available && available>0 ? available/natural : 1;
+  text.style.transform=scale<1 ? `scaleX(${scale})` : "none";
+}
+
 function decorateSeriesCards(){
   document.querySelectorAll(".seriesCard[data-series]").forEach(card=>{
     const series=seriesById(card.dataset.series);
     if(!series) return;
     fitSeriesCardGenres(card,series);
     const title=card.querySelector(".cardTitle");
-    const meta=card.querySelector(".cardMeta");
     if(title) fitCardLine(title,11);
-    if(meta) meta.style.removeProperty("font-size");
+    fitSeriesCardMeta(card);
   });
 }
 
