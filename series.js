@@ -5,7 +5,7 @@ let activeSeriesId = null;
 function seriesById(id){ return seriesCatalog.find(series => series.id === id); }
 function seriesYearText(series){ return `${series.yearStart}\u2013${series.yearEnd}`; }
 function seriesMetaText(series){ return `${seriesYearText(series)} · ${series.seasonCount} ${series.seasonCount===1?"season":"seasons"} · ${series.episodeCount} ${series.episodeCount===1?"episode":"episodes"}`; }
-function seriesRuntimeText(series){ const total=Math.max(0,Math.round(Number(series?.runtimeSeconds)||0)); if(!total) return ""; const hours=Math.floor(total/3600); const minutes=Math.floor((total%3600)/60); return `${hours} h ${minutes} min`; }
+function seriesRuntimeText(series){ const total=Math.max(0,Math.round(Number(series?.runtimeSeconds)||0)); if(!total) return ""; const hours=Math.floor(total/3600); const minutes=Math.floor((total%3600)/60); const seconds=total%60; return `${String(hours).padStart(2,"0")}:${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`; }
 function seriesDetailMetaText(series){ return [seriesYearText(series),seriesRuntimeText(series),`${series.seasonCount} ${series.seasonCount===1?"season":"seasons"}`,`${series.episodeCount} ${series.episodeCount===1?"episode":"episodes"}`].filter(Boolean).join(" · "); }
 function seriesGenres(series){ return series?.genres || []; }
 function seriesSearchText(series){ return [series.title,series.yearStart,series.yearEnd,...seriesGenres(series),...(series.actors||[])].join(" ").toLowerCase(); }
