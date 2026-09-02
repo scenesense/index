@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "series": [
+    {
+      "id": "stargate-sg-1-1997",
+      "type": "series",
+      "title": "Stargate SG-1",
+      "yearStart": 1997,
+      "yearEnd": 2008,
+      "seasonCount": 11,
+      "episodeCount": 218,
+      "scoringEntryCount": 214,
+      "genres": [
+        "Science Fiction",
+        "Adventure",
+        "Drama",
+        "Action"
+      ],
+      "poster": "",
+      "score": null,
+      "questionsVersion": "tv-v1",
+      "runtimeSeconds": 578830,
+      "seasonFiles": [
+        "data/series/stargate-sg-1-1997/season-01.json",
+        "data/series/stargate-sg-1-1997/season-02.json",
+        "data/series/stargate-sg-1-1997/season-03.json",
+        "data/series/stargate-sg-1-1997/season-04.json",
+        "data/series/stargate-sg-1-1997/season-05.json",
+        "data/series/stargate-sg-1-1997/season-06.json",
+        "data/series/stargate-sg-1-1997/season-07.json",
+        "data/series/stargate-sg-1-1997/season-08.json",
+        "data/series/stargate-sg-1-1997/season-09.json",
+        "data/series/stargate-sg-1-1997/season-10.json",
+        "data/series/stargate-sg-1-1997/season-11.json"
+      ]
+    }
+  ]
+}
