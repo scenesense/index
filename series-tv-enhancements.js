@@ -65,7 +65,6 @@ function injectTvEnhancementStyles(){
     .episodeCard{min-height:48px!important;padding:7px 11px!important;border-radius:9px!important}
     .tvPlotDescription{margin:17px 0 18px!important;max-width:980px!important}
     .tvEpisodePlot{max-width:900px!important}
-    .tvSeasonHeroBadge,.tvEpisodeHeroBadge{height:64px!important}
     @media(max-width:620px){
       button.seasonBanner{min-height:47px!important}
       .seasonBannerContent{padding:7px 10px!important}
@@ -170,3 +169,4 @@ renderTvEpisode = function(series, seasonData, episode){
 };
 
 injectTvEnhancementStyles();
+if(activeSeriesId) renderActiveTvView();
