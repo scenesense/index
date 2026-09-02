@@ -46,7 +46,7 @@ function injectSeriesStyles(){
     .mediaFilter button:hover{color:#edf3fb;background:rgba(255,255,255,.04)}
     .mediaFilter button.active{color:#edf3fb;background:rgba(255,255,255,.085)}
     .seriesCard{cursor:default}
-    .seriesCard .cardTitle{color:#d8bf74!important}
+    .seriesCard .cardTitle{color:#c59b45!important}
     @media(max-width:620px){.libraryHeading{align-items:flex-end;gap:12px}.mediaFilter button{padding:0 9px;font-size:11px}}
   `;
   document.head.appendChild(style);
