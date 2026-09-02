@@ -38,7 +38,7 @@ function tvFormatAirDate(value){
 }
 
 function tvPresentationRuntime(meta, episode){
-  const exact = Number(meta?.runtimeSeconds ?? episode?.runtimeSeconds) || 0;
+  const exact = Number(episode?.runtimeSeconds ?? meta?.runtimeSeconds) || 0;
   if(exact) return tvRuntimeText(exact);
   const approx = Number(meta?.runtimeApproxMinutes) || 0;
   return approx ? `~${approx} MIN` : "";
@@ -125,10 +125,10 @@ renderTvSeason = function(series, seasonData){
   body.querySelectorAll(".episodeCard[data-episode]").forEach(card=>{
     const episode = tvEpisodeById(seasonData, card.dataset.episode);
     const episodeMeta = episodeMap[card.dataset.episode];
-    if(!episode || !episodeMeta) return;
+    if(!episode) return;
     const detail = card.children[1];
     detail?.querySelector(".episodeRuntime")?.remove();
-    const facts = [tvPresentationRuntime(episodeMeta,episode), tvFormatAirDate(episodeMeta.airDate)].filter(Boolean);
+    const facts = [tvPresentationRuntime(episodeMeta,episode), tvFormatAirDate(episode.airDate || episodeMeta?.airDate)].filter(Boolean);
     if(detail && facts.length){
       detail.insertAdjacentHTML("beforeend", `<div class="episodeRuntime">${escapeHtml(facts.join(" · "))}</div>`);
     }
@@ -154,7 +154,7 @@ renderTvEpisode = function(series, seasonData, episode){
   const meta = hero.querySelector(".tvSubMeta");
   const facts = [
     `S${String(seasonData.season).padStart(2,"0")} E${tvDisplayEpisodeNumber(episode.number)}`,
-    tvFormatAirDate(presentation?.airDate),
+    tvFormatAirDate(episode.airDate || presentation?.airDate),
     tvPresentationRuntime(presentation,episode)
   ].filter(Boolean);
   if(meta) meta.textContent = facts.join(" · ");
