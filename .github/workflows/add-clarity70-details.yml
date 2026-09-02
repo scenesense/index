@@ -1,0 +1,94 @@
+name: Add CLARiTY70 detail badges
+
+on:
+  push:
+    paths:
+      - '.github/workflows/add-clarity70-details.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  add-badges:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Add CLARiTY70 badge support
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          targets = {
+              'star-wars-a-new-hope-1977',
+              'star-wars-the-empire-strikes-back-1980',
+              'star-wars-return-of-the-jedi-1983',
+              'when-we-first-met-2018',
+          }
+
+          if not Path('assets/format-logos/CLARiTY70.webp').is_file():
+              raise SystemExit('Missing assets/format-logos/CLARiTY70.webp')
+
+          found = set()
+          for path in [Path('data/movies.json'), Path('data/movies-additions-20260830.json')]:
+              data = json.loads(path.read_text(encoding='utf-8'))
+              found.update(m.get('id') for m in data.get('movies', []) if m.get('id') in targets)
+          if found != targets:
+              raise SystemExit(f'Target ID validation failed. Found={sorted(found)}, expected={sorted(targets)}')
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          def replace_once(old, new, label):
+              global s
+              count = s.count(old)
+              if count != 1:
+                  raise SystemExit(f'{label}: expected exactly one match, found {count}')
+              s = s.replace(old, new, 1)
+
+          replace_once(
+              '.detailBlurayBadge,.detailPrismBadge,.detailSilver55Badge,.detailSilver70Badge{',
+              '.detailBlurayBadge,.detailPrismBadge,.detailSilver55Badge,.detailSilver70Badge,.detailClarity70Badge{',
+              'badge style selector'
+          )
+          replace_once(
+              '.detailBlurayBadge[hidden],.detailPrismBadge[hidden],.detailSilver55Badge[hidden],.detailSilver70Badge[hidden]{',
+              '.detailBlurayBadge[hidden],.detailPrismBadge[hidden],.detailSilver55Badge[hidden],.detailSilver70Badge[hidden],.detailClarity70Badge[hidden]{',
+              'badge hidden selector'
+          )
+          replace_once(
+              '<img id="detailSilver70Badge" class="detailSilver70Badge" src="assets/format-logos/SiLVER70.webp" alt="SiLVER70" hidden></div>',
+              '<img id="detailSilver70Badge" class="detailSilver70Badge" src="assets/format-logos/SiLVER70.webp" alt="SiLVER70" hidden><img id="detailClarity70Badge" class="detailClarity70Badge" src="assets/format-logos/CLARiTY70.webp" alt="CLARiTY70" hidden></div>',
+              'score row markup'
+          )
+          replace_once(
+              '"wonder-woman-2017"]);function cardMetaMarkup',
+              '"wonder-woman-2017"]);const CLARITY70_IDS=new Set(["star-wars-a-new-hope-1977","star-wars-the-empire-strikes-back-1980","star-wars-return-of-the-jedi-1983","when-we-first-met-2018"]);function cardMetaMarkup',
+              'CLARITY70 ID set insertion'
+          )
+          replace_once(
+              'const silver70=$("detailSilver70Badge");if(silver70)silver70.hidden=!SILVER70_IDS.has(movie?.id);requestAnimationFrame(fitDetailMeta);',
+              'const silver70=$("detailSilver70Badge");if(silver70)silver70.hidden=!SILVER70_IDS.has(movie?.id);const clarity70=$("detailClarity70Badge");if(clarity70)clarity70.hidden=!CLARITY70_IDS.has(movie?.id);requestAnimationFrame(fitDetailMeta);',
+              'render toggle'
+          )
+
+          for required in [
+              'detailClarity70Badge',
+              'assets/format-logos/CLARiTY70.webp',
+              'const CLARITY70_IDS=new Set(["star-wars-a-new-hope-1977","star-wars-the-empire-strikes-back-1980","star-wars-return-of-the-jedi-1983","when-we-first-met-2018"])',
+              'clarity70.hidden=!CLARITY70_IDS.has(movie?.id)',
+          ]:
+              if required not in s:
+                  raise SystemExit(f'Post-edit validation failed: {required}')
+
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit change
+        run: |
+          git config user.name "SceneSense maintenance"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          git commit -m "Add CLARiTY70 badges to Star Wars and When We First Met"
+          git push origin HEAD:main
