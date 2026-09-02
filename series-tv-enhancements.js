@@ -85,6 +85,7 @@ function injectTvEnhancementStyles(){
     .episodeSeasonCode{display:flex!important;align-items:center!important;justify-content:flex-start!important;min-width:30px!important}
     .episodeNumberStack{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;gap:1px!important;min-width:38px!important;margin-left:-2px!important}
     .episodeNumberLine{display:block!important}
+    .tvBottomBack{display:inline-flex!important;margin:4px 0 28px!important}
     .tvPlotDescription{margin:17px 0 18px!important;max-width:980px!important}
     .tvEpisodePlot{max-width:900px!important}
     @media(max-width:620px){
@@ -161,6 +162,17 @@ renderTvSeason = function(series, seasonData){
       detail.insertAdjacentHTML("beforeend", `<div class="episodeRuntime">${escapeHtml(facts.join(" · "))}</div>`);
     }
   });
+
+  const episodeGrid=body.querySelector(".episodeGrid");
+  if(episodeGrid && !body.querySelector(".tvBottomBack")){
+    const topBack=document.getElementById("seriesBackBtn");
+    const bottomBack=document.createElement("button");
+    bottomBack.type="button";
+    bottomBack.className="backBtn tvBottomBack";
+    bottomBack.textContent=topBack?.textContent || `← ${series.title}`;
+    bottomBack.addEventListener("click",()=>document.getElementById("seriesBackBtn")?.click());
+    episodeGrid.insertAdjacentElement("afterend",bottomBack);
+  }
 
   const progress = hero.querySelector(".progressText");
   if(progress){
