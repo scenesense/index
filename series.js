@@ -1,5 +1,6 @@
 let seriesCatalog = [];
 let libraryMediaMode = "all";
+let activeSeriesId = null;
 
 function seriesById(id){ return seriesCatalog.find(series => series.id === id); }
 function seriesYearText(series){ return `${series.yearStart}\u2013${series.yearEnd}`; }
@@ -36,6 +37,17 @@ function updateMediaFilter(){
   if(heading) heading.textContent=libraryMediaMode==="movies"?"Films":libraryMediaMode==="series"?"Series":"Library";
 }
 
+function ensureSeriesView(){
+  if(document.getElementById("seriesView")) return;
+  const section=document.createElement("section");
+  section.id="seriesView";
+  section.className="seriesView hidden";
+  section.setAttribute("aria-live","polite");
+  section.innerHTML=`<div class="movieHero wrap"><button id="seriesBackBtn" class="backBtn" type="button">← Library</button><div id="seriesHero"></div><div id="seriesSeasons"></div></div>`;
+  document.querySelector("main")?.appendChild(section);
+  $("seriesBackBtn")?.addEventListener("click",()=>closeSeries());
+}
+
 function injectSeriesStyles(){
   if(document.getElementById("seriesStyles")) return;
   const style=document.createElement("style");
@@ -45,9 +57,24 @@ function injectSeriesStyles(){
     .mediaFilter button{height:34px;padding:0 13px;border:0;border-radius:9px;background:transparent;color:#9cabc1;cursor:pointer;font-size:13px;font-weight:600;letter-spacing:.035em}
     .mediaFilter button:hover{color:#edf3fb;background:rgba(255,255,255,.04)}
     .mediaFilter button.active{color:#edf3fb;background:rgba(255,255,255,.085)}
-    .seriesCard{cursor:default}
+    .seriesCard{cursor:pointer}
     .seriesCard .cardTitle{color:#c59b45!important}
-    @media(max-width:620px){.libraryHeading{align-items:flex-end;gap:12px}.mediaFilter button{padding:0 9px;font-size:11px}}
+    .seriesHeroGrid{display:grid;grid-template-columns:minmax(190px,300px) 1fr;gap:32px;align-items:start}
+    .seriesPosterPanel{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--stroke);box-shadow:var(--shadow);background:radial-gradient(70% 55% at 50% 25%,rgba(121,169,255,.18),transparent 70%),linear-gradient(145deg,#101927,#070b12);aspect-ratio:2/3}
+    .seriesPosterPanel img{width:100%;height:100%;display:block;object-fit:cover;object-position:center}
+    .seriesPosterPanel.missing img{visibility:hidden}
+    .seriesPosterPanel.missing::before{content:attr(data-label);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:28px;text-align:center;color:rgba(237,243,251,.72);font-size:clamp(18px,2vw,28px);font-weight:600;line-height:1.12;letter-spacing:.05em}
+    .seriesSummary{padding-top:10px}
+    .seriesTitle{margin:8px 0 0;font-size:clamp(34px,5vw,66px);line-height:.98;color:#c59b45}
+    .seriesMeta{margin-top:10px;color:#aab4c2;font-size:14px;line-height:1.25}
+    .seriesGenres{margin:4px 0 0;color:#91abc1;font-size:14px;font-weight:500;line-height:1.25}
+    .seriesSeasonHeading{margin:38px 0 14px;font-size:22px;font-weight:650}
+    .seasonGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;padding-bottom:80px}
+    .seasonTile{padding:15px 16px;border:1px solid rgba(255,255,255,.085);border-radius:14px;background:rgba(255,255,255,.028);text-align:left}
+    .seasonTileTitle{font-size:17px;font-weight:650;color:#edf3fb}
+    .seasonTileMeta{margin-top:3px;color:#9cabc1;font-size:12px}
+    @media(max-width:760px){.seriesHeroGrid{grid-template-columns:1fr}.seriesPosterPanel{max-width:300px}.seasonGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:620px){.libraryHeading{align-items:flex-end;gap:12px}.mediaFilter button{padding:0 9px;font-size:11px}.seasonGrid{grid-template-columns:1fr}}
   `;
   document.head.appendChild(style);
 }
@@ -62,7 +89,7 @@ function filteredSeries(){
 }
 
 function renderSeriesCard(series){
-  return `<article class="movieCard seriesCard" data-series="${escapeAttr(series.id)}">
+  return `<button class="movieCard seriesCard" type="button" data-series="${escapeAttr(series.id)}">
     <div class="posterWrap${series.poster?"":" missingPoster"}"${series.poster?"":` data-label="${escapeAttr(series.title)}"`}>
       <img class="poster" ${series.poster?`src="${escapeAttr(series.poster)}"`:""} alt="${escapeAttr(series.title)} poster" loading="lazy">
       <div class="cardScore">${scoreText(seriesScore(series))}</div>
@@ -72,7 +99,7 @@ function renderSeriesCard(series){
       <div class="cardMeta seriesMeta">${escapeHtml(seriesMetaText(series))}</div>
       <div class="cardGenres"></div>
     </div>
-  </article>`;
+  </button>`;
 }
 
 function fitSeriesCardGenres(card,series){
@@ -97,6 +124,48 @@ function decorateSeriesCards(){
     if(title) fitCardLine(title,11);
     if(meta) fitCardLine(meta,9);
   });
+}
+
+function bindSeriesCards(){
+  document.querySelectorAll(".seriesCard[data-series]").forEach(card=>{
+    card.addEventListener("click",()=>openSeries(card.dataset.series));
+  });
+}
+
+function renderSeriesDetail(series){
+  ensureSeriesView();
+  const hero=$("seriesHero");
+  const seasons=$("seriesSeasons");
+  if(!hero || !seasons) return;
+  hero.innerHTML=`<div class="seriesHeroGrid"><div class="seriesPosterPanel ${series.poster?"":"missing"}" ${series.poster?"":`data-label="${escapeAttr(series.title)}"`}><img ${series.poster?`src="${escapeAttr(series.poster)}"`:""} alt="${escapeAttr(series.title)} poster"></div><div class="seriesSummary"><h1 class="seriesTitle">${escapeHtml(series.title)}</h1><div class="seriesMeta">${escapeHtml(seriesMetaText(series))}</div><div class="seriesGenres">${escapeHtml(seriesGenres(series).join(" · "))}</div></div></div>`;
+  const list=(series.seasons||Array.from({length:series.seasonCount},(_,i)=>({number:i+1}))).map(season=>{
+    const ep=season.episodeCount==null?"":`${season.episodeCount} ${season.episodeCount===1?"episode":"episodes"}`;
+    return `<div class="seasonTile"><div class="seasonTileTitle">Season ${String(season.number).padStart(2,"0")}</div><div class="seasonTileMeta">${escapeHtml(ep)}</div></div>`;
+  }).join("");
+  seasons.innerHTML=`<h2 class="seriesSeasonHeading">Seasons</h2><div class="seasonGrid">${list}</div>`;
+}
+
+function openSeries(id,updateHash=true){
+  const series=seriesById(id);
+  if(!series) return;
+  activeSeriesId=id;
+  activeMovieId=null;
+  if(updateHash) history.pushState(null,"",`#series=${encodeURIComponent(id)}`);
+  $("libraryView")?.classList.add("hidden");
+  $("movieView")?.classList.add("hidden");
+  $("seriesView")?.classList.remove("hidden");
+  renderSeriesDetail(series);
+  scrollTo({top:0,behavior:"instant"});
+}
+
+function closeSeries(updateHash=true){
+  activeSeriesId=null;
+  if(updateHash) history.pushState(null,"",location.pathname+location.search);
+  $("seriesView")?.classList.add("hidden");
+  $("movieView")?.classList.add("hidden");
+  $("libraryView")?.classList.remove("hidden");
+  renderLibrary();
+  scrollTo({top:0,behavior:"instant"});
 }
 
 function mixedLibraryItem(card){
@@ -163,6 +232,7 @@ async function loadSeriesCatalog(){
 (async function initSeriesLibrary(){
   injectSeriesStyles();
   ensureMediaFilter();
+  ensureSeriesView();
   try{
     await loadSeriesCatalog();
   }catch(error){
@@ -182,6 +252,7 @@ async function loadSeriesCatalog(){
       grid.innerHTML=ordered.map(renderSeriesCard).join("");
       decorateSeriesCards();
       applyPosterFallbacks();
+      bindSeriesCards();
       setLibraryStatus(0,ordered.length);
       requestAnimationFrame(()=>{fitAllCardTitles();fitAllCardMeta();decorateSeriesCards()});
       return;
@@ -200,12 +271,27 @@ async function loadSeriesCatalog(){
       decorateSeriesCards();
       applyPosterFallbacks();
       reorderMixedLibrary();
+      bindSeriesCards();
     }
     setLibraryStatus(movieCount,series.length);
     requestAnimationFrame(()=>{fitAllCardTitles();fitAllCardSubtitles();fitAllCardMeta();decorateSeriesCards()});
   };
 
-  const existingResize=()=>decorateSeriesCards();
-  window.addEventListener("resize",existingResize);
+  window.addEventListener("resize",()=>decorateSeriesCards());
+  window.addEventListener("popstate",()=>{
+    const hash=location.hash;
+    if(hash.startsWith("#series=")){
+      const id=decodeURIComponent(hash.replace(/^#series=/,""));
+      if(seriesById(id)) openSeries(id,false);
+    }else if(activeSeriesId){
+      closeSeries(false);
+    }
+  });
+  $("homeBtn")?.addEventListener("click",()=>{ if(activeSeriesId) closeSeries(); });
+
   renderLibrary();
+  if(location.hash.startsWith("#series=")){
+    const id=decodeURIComponent(location.hash.replace(/^#series=/,""));
+    if(seriesById(id)) openSeries(id,false);
+  }
 })();
