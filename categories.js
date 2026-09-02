@@ -154,3 +154,77 @@ const CATEGORIES = [
     ]
   }
 ];
+
+const TV_SEASON_CATEGORIES = [
+  {key:"casting", title:"CASTING", weight:12, items:[
+    ["characterBelief","Character Belief","Do you believe the actors as their characters?"],
+    ["ensemble","Ensemble","Does the cast click as an ensemble?"]
+  ]},
+  {key:"visuals", title:"CINEMATOGRAPHY", weight:5, items:[
+    ["inviting","Visual Appeal","Do the visuals make the show inviting to watch?"],
+    ["naturalImage","Natural Image","Do they avoid looking artificial, filtered or overly polished?"]
+  ]},
+  {key:"world", title:"WORLD", weight:5, items:[
+    ["locations","Locations","Do the locations feel convincing rather than like sets?"],
+    ["beyondCamera","World Depth","Does the world feel like it exists beyond the camera?"]
+  ]},
+  {key:"sound", title:"SOUND", weight:5, items:[
+    ["voices","Voices","Do voices sound clean, believable and easy to understand?"],
+    ["space","Spatial Sound","Does the sound make you feel physically inside the scene?"]
+  ]},
+  {key:"music", title:"MUSIC", weight:6, items:[
+    ["identity","Musical Identity","Does the music give the show a sound of its own?"],
+    ["emotion","Musical Restraint","Does the music enhance emotions without forcing them?"]
+  ]}
+];
+
+const TV_EPISODE_CATEGORIES = [
+  {key:"writing", title:"WRITING", weight:9, items:[
+    ["worthTelling","Worth Telling","Did this episode have a story worth telling?"],
+    ["plotHonesty","Plot Honesty","Did events follow naturally without the plot cheating?"]
+  ]},
+  {key:"character", title:"CHARACTER", weight:7, items:[
+    ["characterConsistency","Character Consistency","Did everyone stay true to their character instead of changing just to serve the story?"],
+    ["choices","Choices","Did the characters' choices make sense?"]
+  ]},
+  {key:"realism", title:"REALISM", weight:6, items:[
+    ["premiseBelief","Believability","Once you accept the show's premise, did what happened feel believable?"],
+    ["consequences","Consequences","Did actions have believable consequences?"]
+  ]},
+  {key:"performance", title:"PERFORMANCE", weight:6, items:[
+    ["embodiment","Embodiment","Did the actors disappear convincingly into their roles?"],
+    ["emotion","Emotion","Did the emotions feel genuine rather than performed?"]
+  ]},
+  {key:"chemistry", title:"CHEMISTRY", weight:6, items:[
+    ["connection","Connection","Did you believe these people actually mattered to one another?"],
+    ["relationshipValue","Relationship Value","Did the episode add something meaningful to a relationship?"]
+  ]},
+  {key:"direction", title:"DIRECTION", weight:5, items:[
+    ["staging","Staging","Did scenes feel like they were happening rather than being arranged for us?"],
+    ["tone","Tone","Did the episode know how seriously to take itself?"]
+  ]},
+  {key:"editing", title:"PACING", weight:7, items:[
+    ["timeUse","Time Use","Did the episode use its time well?"],
+    ["landing","Moment Timing","Did important moments get enough time to land?"]
+  ]},
+  {key:"creativity", title:"ORIGINALITY", weight:6, items:[
+    ["freshness","Freshness","Did this episode bring something fresh to the series?"],
+    ["ideaUse","Idea Use","Did the episode use its central idea in an interesting way?"]
+  ]},
+  {key:"morality", title:"MORALITY", weight:7, items:[
+    ["characterRespect","Character Respect","Did the episode respect its characters as human beings?"],
+    ["moralSense","Moral Sense","Did the episode have a sound sense of right and wrong?"]
+  ]},
+  {key:"integrity", title:"INTEGRITY", weight:8, items:[
+    ["earnedReaction","Earned Reaction","Did it earn your reaction instead of trying to manufacture one?"],
+    ["groundwork","Groundwork","Did the episode do the groundwork for its payoffs?"]
+  ]}
+];
+
+window.addEventListener("DOMContentLoaded",()=>{
+  if(document.querySelector('script[data-scenesense-series]')) return;
+  const script=document.createElement("script");
+  script.src="series.js?v=20260902-1";
+  script.dataset.scenesenseSeries="1";
+  document.body.appendChild(script);
+});
