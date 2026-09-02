@@ -5,6 +5,8 @@ let activeSeriesId = null;
 function seriesById(id){ return seriesCatalog.find(series => series.id === id); }
 function seriesYearText(series){ return `${series.yearStart}\u2013${series.yearEnd}`; }
 function seriesMetaText(series){ return `${seriesYearText(series)} · ${series.seasonCount} ${series.seasonCount===1?"season":"seasons"} · ${series.episodeCount} ${series.episodeCount===1?"episode":"episodes"}`; }
+function seriesRuntimeText(series){ const total=Math.max(0,Math.round(Number(series?.runtimeSeconds)||0)); if(!total) return ""; const hours=Math.floor(total/3600); const minutes=Math.floor((total%3600)/60); return `${hours} h ${minutes} min`; }
+function seriesDetailMetaText(series){ return [seriesYearText(series),seriesRuntimeText(series),`${series.seasonCount} ${series.seasonCount===1?"season":"seasons"}`,`${series.episodeCount} ${series.episodeCount===1?"episode":"episodes"}`].filter(Boolean).join(" · "); }
 function seriesGenres(series){ return series?.genres || []; }
 function seriesSearchText(series){ return [series.title,series.yearStart,series.yearEnd,...seriesGenres(series),...(series.actors||[])].join(" ").toLowerCase(); }
 function seriesScore(series){ if(series?.score == null) return null; const value=Number(series.score); return Number.isFinite(value)?value:null; }
@@ -159,7 +161,7 @@ function renderSeriesDetail(series){
       </div>
       <div class="movieSummary">
         <h1>${escapeHtml(series.title)}</h1>
-        <div class="eyebrow">${escapeHtml(seriesMetaText(series))}</div>
+        <div class="eyebrow">${escapeHtml(seriesDetailMetaText(series))}</div>
         <div class="detailGenres">${escapeHtml(seriesGenres(series).join(" · "))}</div>
         <div class="actorChips" aria-label="Principal cast">${cast}</div>
         <div class="detailDescription">${escapeHtml(series.description||"")}</div>
