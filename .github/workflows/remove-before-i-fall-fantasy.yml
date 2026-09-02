@@ -1,0 +1,36 @@
+name: Remove Before I Fall fantasy genre
+
+on:
+  push:
+    paths:
+      - '.github/workflows/remove-before-i-fall-fantasy.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Remove Fantasy from Before I Fall
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text()
+          old = '"before-i-fall-2017":["Drama","Mystery","Fantasy","Thriller"]'
+          new = '"before-i-fall-2017":["Drama","Mystery","Thriller"]'
+          if s.count(old) != 1:
+              raise SystemExit(f'Expected exactly one target, found {s.count(old)}')
+          p.write_text(s.replace(old, new, 1))
+          PY
+      - name: Commit
+        run: |
+          git config user.name "SceneSense maintenance"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          git commit -m "Remove Fantasy from Before I Fall genres"
+          git push origin main
