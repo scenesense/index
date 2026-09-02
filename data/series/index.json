@@ -16,22 +16,30 @@
         "Drama",
         "Action"
       ],
+      "actors": [
+        "Richard Dean Anderson",
+        "Amanda Tapping",
+        "Christopher Judge",
+        "Michael Shanks",
+        "Don S. Davis"
+      ],
+      "description": "A military-scientific team steps through an ancient alien gateway to explore other worlds, build alliances and repeatedly prevent Earth from being conquered by civilizations with considerably larger fleets. The premise is enormous, but the series works because most weeks still feel like four recognizable people walking into the unknown and solving the problem in front of them.",
       "poster": "assets/posters/stargate-sg-1-1997.webp",
       "score": null,
       "questionsVersion": "tv-v1",
       "runtimeSeconds": 578830,
       "seasons": [
-        {"number":1,"episodeCount":22,"scoringEntryCount":21},
-        {"number":2,"episodeCount":22,"scoringEntryCount":22},
-        {"number":3,"episodeCount":22,"scoringEntryCount":22},
-        {"number":4,"episodeCount":22,"scoringEntryCount":22},
-        {"number":5,"episodeCount":22,"scoringEntryCount":22},
-        {"number":6,"episodeCount":22,"scoringEntryCount":22},
-        {"number":7,"episodeCount":22,"scoringEntryCount":21},
-        {"number":8,"episodeCount":20,"scoringEntryCount":20},
-        {"number":9,"episodeCount":20,"scoringEntryCount":20},
-        {"number":10,"episodeCount":20,"scoringEntryCount":20},
-        {"number":11,"episodeCount":4,"scoringEntryCount":2}
+        {"number":1,"yearStart":1997,"yearEnd":1998,"episodeCount":22,"scoringEntryCount":21},
+        {"number":2,"yearStart":1998,"yearEnd":1999,"episodeCount":22,"scoringEntryCount":22},
+        {"number":3,"yearStart":1999,"yearEnd":2000,"episodeCount":22,"scoringEntryCount":22},
+        {"number":4,"yearStart":2000,"yearEnd":2001,"episodeCount":22,"scoringEntryCount":22},
+        {"number":5,"yearStart":2001,"yearEnd":2002,"episodeCount":22,"scoringEntryCount":22},
+        {"number":6,"yearStart":2002,"yearEnd":2003,"episodeCount":22,"scoringEntryCount":22},
+        {"number":7,"yearStart":2003,"yearEnd":2004,"episodeCount":22,"scoringEntryCount":21},
+        {"number":8,"yearStart":2004,"yearEnd":2005,"episodeCount":20,"scoringEntryCount":20},
+        {"number":9,"yearStart":2005,"yearEnd":2006,"episodeCount":20,"scoringEntryCount":20},
+        {"number":10,"yearStart":2006,"yearEnd":2007,"episodeCount":20,"scoringEntryCount":20},
+        {"number":11,"yearStart":2008,"yearEnd":2008,"episodeCount":4,"scoringEntryCount":2}
       ]
     }
   ]
