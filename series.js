@@ -53,14 +53,13 @@ function injectSeriesStyles(){
   const style=document.createElement("style");
   style.id="seriesStyles";
   style.textContent=`
-    .cardMeta{padding-bottom:1px;margin-bottom:-1px}
     .mediaFilter{display:flex;align-items:center;gap:3px;padding:3px;border:1px solid rgba(255,255,255,.085);border-radius:13px;background:rgba(255,255,255,.025)}
     .mediaFilter button{height:34px;padding:0 13px;border:0;border-radius:9px;background:transparent;color:#9cabc1;cursor:pointer;font-size:13px;font-weight:600;letter-spacing:.035em}
     .mediaFilter button:hover{color:#edf3fb;background:rgba(255,255,255,.04)}
     .mediaFilter button.active{color:#edf3fb;background:rgba(255,255,255,.085)}
     .seriesCard{cursor:pointer}
     .seriesCard .cardTitle{color:#c59b45!important}
-    .seriesCard .cardMeta{font-size:13px!important;white-space:nowrap;overflow:visible}
+    .seriesCard .cardMeta{font-size:13px!important;white-space:nowrap;overflow:visible;width:calc(100% + 7px);max-width:none}
     .seriesCardMetaText{display:inline-block;white-space:nowrap;transform-origin:left center}
     .seriesHeroGrid{display:grid;grid-template-columns:minmax(190px,300px) 1fr;gap:32px;align-items:start}
     .seriesPosterPanel{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--stroke);box-shadow:var(--shadow);background:radial-gradient(70% 55% at 50% 25%,rgba(121,169,255,.18),transparent 70%),linear-gradient(145deg,#101927,#070b12);aspect-ratio:2/3}
@@ -77,7 +76,7 @@ function injectSeriesStyles(){
     .seasonTileTitle{font-size:17px;font-weight:650;color:#edf3fb}
     .seasonTileMeta{margin-top:3px;color:#9cabc1;font-size:12px}
     @media(max-width:760px){.seriesHeroGrid{grid-template-columns:1fr}.seriesPosterPanel{max-width:300px}.seasonGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-    @media(max-width:620px){.libraryHeading{align-items:flex-end;gap:12px}.mediaFilter button{padding:0 9px;font-size:11px}.seasonGrid{grid-template-columns:1fr}}
+    @media(max-width:620px){.libraryHeading{align-items:flex-end;gap:12px}.mediaFilter button{padding:0 9px;font-size:11px}.seriesCard .cardMeta{width:calc(100% + 5px)}.seasonGrid{grid-template-columns:1fr}}
   `;
   document.head.appendChild(style);
 }
