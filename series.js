@@ -47,7 +47,6 @@ function injectSeriesStyles(){
     .mediaFilter button.active{color:#edf3fb;background:rgba(255,255,255,.085)}
     .seriesCard{cursor:default}
     .seriesCard .cardMeta{color:#a9bccb!important}
-    .seriesCard .posterWrap.missingPoster::after{content:"SERIES";position:absolute;left:12px;top:12px;padding:5px 8px;border:1px solid rgba(169,188,203,.32);border-radius:8px;background:rgba(7,11,18,.58);color:#a9bccb;font-size:10px;font-weight:700;letter-spacing:.12em}
     @media(max-width:620px){.libraryHeading{align-items:flex-end;gap:12px}.mediaFilter button{padding:0 9px;font-size:11px}}
   `;
   document.head.appendChild(style);
