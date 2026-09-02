@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "seriesId": "stargate-sg-1-1997",
+  "season": 2,
+  "yearStart": 1998,
+  "yearEnd": 1999,
+  "seasonRatings": {},
+  "episodes": [
+    {"id":"s02e01","number":"01","title":"The Serpent's Lair","ratings":{}},
+    {"id":"s02e02","number":"02","title":"In the Line of Duty","ratings":{}},
+    {"id":"s02e03","number":"03","title":"Prisoners","ratings":{}},
+    {"id":"s02e04","number":"04","title":"The Gamekeeper","ratings":{}},
+    {"id":"s02e05","number":"05","title":"Need","ratings":{}},
+    {"id":"s02e06","number":"06","title":"Thor's Chariot","ratings":{}},
+    {"id":"s02e07","number":"07","title":"Message in a Bottle","ratings":{}},
+    {"id":"s02e08","number":"08","title":"Family","ratings":{}},
+    {"id":"s02e09","number":"09","title":"Secrets","ratings":{}},
+    {"id":"s02e10","number":"10","title":"Bane","ratings":{}},
+    {"id":"s02e11","number":"11","title":"The Tok'ra","ratings":{}},
+    {"id":"s02e12","number":"12","title":"The Tok'ra (Part Two)","ratings":{}},
+    {"id":"s02e13","number":"13","title":"Spirits","ratings":{}},
+    {"id":"s02e14","number":"14","title":"Touchstone","ratings":{}},
+    {"id":"s02e15","number":"15","title":"The Fifth Race","ratings":{}},
+    {"id":"s02e16","number":"16","title":"A Matter of Time","ratings":{}},
+    {"id":"s02e17","number":"17","title":"Holiday","ratings":{}},
+    {"id":"s02e18","number":"18","title":"Serpent's Song","ratings":{}},
+    {"id":"s02e19","number":"19","title":"One False Step","ratings":{}},
+    {"id":"s02e20","number":"20","title":"Show and Tell","ratings":{}},
+    {"id":"s02e21","number":"21","title":"1969","ratings":{}},
+    {"id":"s02e22","number":"22","title":"Out of Mind","ratings":{}}
+  ]
+}
