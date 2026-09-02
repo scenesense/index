@@ -66,7 +66,7 @@ function injectSeriesStyles(){
     .seriesPosterPanel.missing::before{content:attr(data-label);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:28px;text-align:center;color:rgba(237,243,251,.72);font-size:clamp(18px,2vw,28px);font-weight:600;line-height:1.12;letter-spacing:.05em}
     .seriesSummary{padding-top:10px}
     .seriesTitle{margin:8px 0 0;font-size:clamp(34px,5vw,66px);line-height:.98;color:#c59b45}
-    .seriesMeta{margin-top:10px;color:#aab4c2;font-size:14px;line-height:1.25}
+    .seriesDetailMeta{margin-top:10px;color:#aab4c2;font-size:14px;line-height:1.25}
     .seriesGenres{margin:4px 0 0;color:#91abc1;font-size:14px;font-weight:500;line-height:1.25}
     .seriesSeasonHeading{margin:38px 0 14px;font-size:22px;font-weight:650}
     .seasonGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;padding-bottom:80px}
@@ -96,7 +96,7 @@ function renderSeriesCard(series){
     </div>
     <div class="cardInfo">
       <div class="cardTitle">${escapeHtml(series.title)}</div>
-      <div class="cardMeta seriesMeta">${escapeHtml(seriesMetaText(series))}</div>
+      <div class="cardMeta">${escapeHtml(seriesMetaText(series))}</div>
       <div class="cardGenres"></div>
     </div>
   </button>`;
@@ -137,7 +137,7 @@ function renderSeriesDetail(series){
   const hero=$("seriesHero");
   const seasons=$("seriesSeasons");
   if(!hero || !seasons) return;
-  hero.innerHTML=`<div class="seriesHeroGrid"><div class="seriesPosterPanel ${series.poster?"":"missing"}" ${series.poster?"":`data-label="${escapeAttr(series.title)}"`}><img ${series.poster?`src="${escapeAttr(series.poster)}"`:""} alt="${escapeAttr(series.title)} poster"></div><div class="seriesSummary"><h1 class="seriesTitle">${escapeHtml(series.title)}</h1><div class="seriesMeta">${escapeHtml(seriesMetaText(series))}</div><div class="seriesGenres">${escapeHtml(seriesGenres(series).join(" · "))}</div></div></div>`;
+  hero.innerHTML=`<div class="seriesHeroGrid"><div class="seriesPosterPanel ${series.poster?"":"missing"}" ${series.poster?"":`data-label="${escapeAttr(series.title)}"`}><img ${series.poster?`src="${escapeAttr(series.poster)}"`:""} alt="${escapeAttr(series.title)} poster"></div><div class="seriesSummary"><h1 class="seriesTitle">${escapeHtml(series.title)}</h1><div class="seriesDetailMeta">${escapeHtml(seriesMetaText(series))}</div><div class="seriesGenres">${escapeHtml(seriesGenres(series).join(" · "))}</div></div></div>`;
   const list=(series.seasons||Array.from({length:series.seasonCount},(_,i)=>({number:i+1}))).map(season=>{
     const ep=season.episodeCount==null?"":`${season.episodeCount} ${season.episodeCount===1?"episode":"episodes"}`;
     return `<div class="seasonTile"><div class="seasonTileTitle">Season ${String(season.number).padStart(2,"0")}</div><div class="seasonTileMeta">${escapeHtml(ep)}</div></div>`;
