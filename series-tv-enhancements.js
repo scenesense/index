@@ -81,7 +81,7 @@ function injectTvEnhancementStyles(){
     .seasonBannerScore{font-size:21px!important}
     .episodeGrid{grid-template-columns:1fr!important;gap:6px!important}
     .episodeCard{grid-template-columns:78px minmax(0,1fr) auto!important;min-height:48px!important;padding:7px 11px!important;border-radius:9px!important}
-    .episodeCode{width:78px!important;display:grid!important;grid-template-columns:32px 38px!important;column-gap:6px!important;align-items:stretch!important;line-height:1.03!important;white-space:nowrap!important}
+    .episodeCode{width:78px!important;display:grid!important;grid-template-columns:32px 38px!important;column-gap:2px!important;align-items:stretch!important;line-height:1.03!important;white-space:nowrap!important}
     .episodeSeasonCode{display:flex!important;align-items:center!important;justify-content:flex-start!important;min-width:32px!important}
     .episodeNumberStack{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;gap:1px!important;min-width:38px!important}
     .episodeNumberLine{display:block!important}
@@ -91,7 +91,7 @@ function injectTvEnhancementStyles(){
       button.seasonBanner{min-height:47px!important}
       .seasonBannerContent{padding:7px 10px!important}
       .episodeCard{grid-template-columns:74px minmax(0,1fr) auto!important;min-height:46px!important;padding:7px 9px!important}
-      .episodeCode{width:74px!important;grid-template-columns:30px 38px!important;column-gap:6px!important}
+      .episodeCode{width:74px!important;grid-template-columns:30px 38px!important;column-gap:2px!important}
       .episodeSeasonCode{min-width:30px!important}
     }
   `;
