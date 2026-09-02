@@ -2028,6 +2028,138 @@
         }
       },
       "tmdbId": 75612
+    },
+    {
+      "id": "source-code-2011",
+      "title": "Source Code",
+      "year": 2011,
+      "runtimeMinutes": 93,
+      "runtimeSeconds": 5595,
+      "runtimeExact": "01:33:15",
+      "version": "Theatrical Cut",
+      "poster": "assets/posters/source-code-2011.webp?v=20260901-1",
+      "description": "Army pilot Colter Stevens repeatedly wakes inside the final eight minutes of a commuter train that has already been destroyed by a bomb. Each reset gives him another chance to identify the attacker, while fragments outside the simulation raise a more disturbing question about Colter's own condition.",
+      "actors": [
+        "Jake Gyllenhaal",
+        "Michelle Monaghan",
+        "Vera Farmiga",
+        "Jeffrey Wright",
+        "Michael Arden"
+      ],
+      "genres": [
+        "Science Fiction",
+        "Thriller",
+        "Mystery",
+        "Action"
+      ],
+      "ratings": {
+        "writing": {
+          "storyQuality": 5,
+          "storyLogic": 5,
+          "development": 5,
+          "construction": 5,
+          "dialogue": 5
+        },
+        "character": {
+          "characterDepth": 5,
+          "drive": 5,
+          "consistency": 5,
+          "practicalIntelligence": 4,
+          "maturity": 4
+        },
+        "realism": {
+          "humanRealism": 4,
+          "realityGrounding": 5,
+          "practicalRealism": 4,
+          "technicalRealism": 2,
+          "physicalRealism": 4
+        },
+        "casting": {
+          "functionalFit": 5,
+          "roleFit": 5,
+          "aesthetics": 5,
+          "magnetism": 5,
+          "ensembleFit": 5
+        },
+        "performance": {
+          "characterization": 5,
+          "emotionalLife": 5,
+          "delivery": 5,
+          "physicalPerformance": 5,
+          "performanceControl": 5
+        },
+        "chemistry": {
+          "connection": 5,
+          "flow": 5,
+          "relationshipDepth": 5,
+          "relationshipGrowth": 5,
+          "relationshipCharge": 5
+        },
+        "direction": {
+          "staging": 3,
+          "actorDirection": 5,
+          "tone": 5,
+          "action": 5,
+          "directorialControl": 5
+        },
+        "editing": {
+          "pacing": 5,
+          "rhythm": 5,
+          "cutting": 5,
+          "clarity": 4,
+          "restraint": 5
+        },
+        "visuals": {
+          "photography": 5,
+          "imageDesign": 5,
+          "imageQuality": 5,
+          "visualEffects": 4,
+          "visualBeauty": 5
+        },
+        "world": {
+          "worldDepth": 5,
+          "place": 5,
+          "productionDesign": 5,
+          "effectsRealization": 5,
+          "designRestraint": 5
+        },
+        "sound": {
+          "soundQuality": 5,
+          "dialogue": 5,
+          "soundscape": 5,
+          "spatialSound": 5,
+          "mixing": 5
+        },
+        "music": {
+          "musicQuality": 4,
+          "execution": 4,
+          "musicalIdentity": 3,
+          "sceneFit": 5,
+          "scoreControl": 5
+        },
+        "creativity": {
+          "originality": 5,
+          "ingenuity": 5,
+          "ideaGrowth": 5,
+          "filmicInvention": 5,
+          "resourcefulness": 5
+        },
+        "morality": {
+          "humanValues": 4,
+          "relationshipEthics": 5,
+          "responsibility": 5,
+          "moralOpposition": 5,
+          "ethicalFraming": 3
+        },
+        "integrity": {
+          "independence": 5,
+          "viewerRespect": 4,
+          "restraint": 5,
+          "degradation": 5,
+          "cohesion": 5
+        }
+      },
+      "tmdbId": 45612
     }
   ]
 }
