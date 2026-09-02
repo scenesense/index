@@ -59,6 +59,7 @@ function injectSeriesStyles(){
     .mediaFilter button.active{color:#edf3fb;background:rgba(255,255,255,.085)}
     .seriesCard{cursor:pointer}
     .seriesCard .cardTitle{color:#c59b45!important}
+    .seriesCard .cardMeta{font-size:13px!important}
     .seriesHeroGrid{display:grid;grid-template-columns:minmax(190px,300px) 1fr;gap:32px;align-items:start}
     .seriesPosterPanel{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--stroke);box-shadow:var(--shadow);background:radial-gradient(70% 55% at 50% 25%,rgba(121,169,255,.18),transparent 70%),linear-gradient(145deg,#101927,#070b12);aspect-ratio:2/3}
     .seriesPosterPanel img{width:100%;height:100%;display:block;object-fit:cover;object-position:center}
@@ -122,7 +123,7 @@ function decorateSeriesCards(){
     const title=card.querySelector(".cardTitle");
     const meta=card.querySelector(".cardMeta");
     if(title) fitCardLine(title,11);
-    if(meta) fitCardLine(meta,9);
+    if(meta) meta.style.removeProperty("font-size");
   });
 }
 
