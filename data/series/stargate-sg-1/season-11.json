@@ -1,0 +1,7 @@
+{
+  "version":1,"seriesId":"stargate-sg-1-1997","season":11,"yearStart":2008,"yearEnd":2008,"seasonRatings":{},
+  "episodes":[
+    {"id":"s11e01-02","number":"01-02","title":"The Ark of Truth","runtimeSeconds":6109,"ratings":{}},
+    {"id":"s11e03-04","number":"03-04","title":"Continuum","runtimeSeconds":5914,"ratings":{}}
+  ]
+}
