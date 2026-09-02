@@ -135,6 +135,9 @@ renderTvSeason = function(series, seasonData){
   const body = document.getElementById("seriesSeasons");
   if(!hero || !body) return;
 
+  const topBack=document.getElementById("seriesBackBtn");
+  if(topBack) topBack.textContent="← Overview";
+
   const meta = hero.querySelector(".tvSubMeta");
   if(meta) meta.textContent = meta.textContent.replace(/\s*·\s*\d+\s+scoring entries\b/gi, "");
 
@@ -165,11 +168,10 @@ renderTvSeason = function(series, seasonData){
 
   const episodeGrid=body.querySelector(".episodeGrid");
   if(episodeGrid && !body.querySelector(".tvBottomBack")){
-    const topBack=document.getElementById("seriesBackBtn");
     const bottomBack=document.createElement("button");
     bottomBack.type="button";
     bottomBack.className="backBtn tvBottomBack";
-    bottomBack.textContent=topBack?.textContent || `← ${series.title}`;
+    bottomBack.textContent="← Overview";
     bottomBack.addEventListener("click",()=>document.getElementById("seriesBackBtn")?.click());
     episodeGrid.insertAdjacentElement("afterend",bottomBack);
   }
