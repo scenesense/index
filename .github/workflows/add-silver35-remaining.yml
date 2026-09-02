@@ -1,0 +1,117 @@
+name: Add SiLVER35 remaining detail badges
+
+on:
+  push:
+    paths:
+      - '.github/workflows/add-silver35-remaining.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  add-badges:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Add SiLVER35 to all remaining films
+        run: |
+          python - <<'PY'
+          import json
+          import re
+          from pathlib import Path
+
+          asset = Path('assets/format-logos/SiLVER35.webp')
+          if not asset.is_file():
+              raise SystemExit('Missing assets/format-logos/SiLVER35.webp')
+
+          all_ids = set()
+          for path in [Path('data/movies.json'), Path('data/movies-additions-20260830.json')]:
+              data = json.loads(path.read_text(encoding='utf-8'))
+              all_ids.update(m['id'] for m in data.get('movies', []) if m.get('id'))
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          def parse_set(name):
+              m = re.search(rf'const {name}=new Set\((\[[^\]]*\])\)', s)
+              if not m:
+                  raise SystemExit(f'Could not locate {name}')
+              return set(json.loads(m.group(1)))
+
+          already_badged = set()
+          for name in ['BLURAY_IDS', 'SILVER55_IDS', 'SILVER70_IDS', 'CLARITY70_IDS']:
+              already_badged |= parse_set(name)
+          already_badged.add('the-man-from-earth-2007')  # PRiSM
+
+          remaining = sorted(all_ids - already_badged)
+          if len(remaining) != 39:
+              raise SystemExit(f'Expected exactly 39 remaining unbadged films, found {len(remaining)}: {remaining}')
+
+          def replace_once(old, new, label):
+              global s
+              count = s.count(old)
+              if count != 1:
+                  raise SystemExit(f'{label}: expected exactly one match, found {count}')
+              s = s.replace(old, new, 1)
+
+          replace_once(
+              '.detailBlurayBadge,.detailPrismBadge,.detailSilver55Badge,.detailSilver70Badge,.detailClarity70Badge{',
+              '.detailBlurayBadge,.detailPrismBadge,.detailSilver55Badge,.detailSilver70Badge,.detailSilver35Badge,.detailClarity70Badge{',
+              'badge style selector'
+          )
+          replace_once(
+              '.detailBlurayBadge[hidden],.detailPrismBadge[hidden],.detailSilver55Badge[hidden],.detailSilver70Badge[hidden],.detailClarity70Badge[hidden]{',
+              '.detailBlurayBadge[hidden],.detailPrismBadge[hidden],.detailSilver55Badge[hidden],.detailSilver70Badge[hidden],.detailSilver35Badge[hidden],.detailClarity70Badge[hidden]{',
+              'badge hidden selector'
+          )
+          replace_once(
+              '<img id="detailSilver70Badge" class="detailSilver70Badge" src="assets/format-logos/SiLVER70.webp" alt="SiLVER70" hidden><img id="detailClarity70Badge" class="detailClarity70Badge" src="assets/format-logos/CLARiTY70.webp" alt="CLARiTY70" hidden>',
+              '<img id="detailSilver70Badge" class="detailSilver70Badge" src="assets/format-logos/SiLVER70.webp" alt="SiLVER70" hidden><img id="detailSilver35Badge" class="detailSilver35Badge" src="assets/format-logos/SiLVER35.webp" alt="SiLVER35" hidden><img id="detailClarity70Badge" class="detailClarity70Badge" src="assets/format-logos/CLARiTY70.webp" alt="CLARiTY70" hidden>',
+              'score row markup'
+          )
+
+          silver35_js = json.dumps(remaining, ensure_ascii=False, separators=(',', ':'))
+          s, n = re.subn(
+              r'(const SILVER70_IDS=new Set\(\[[^;]*\]\);)(const CLARITY70_IDS=)',
+              rf'\1const SILVER35_IDS=new Set({silver35_js});\2',
+              s,
+              count=1
+          )
+          if n != 1:
+              raise SystemExit(f'SiLVER35 set insertion: expected one match, found {n}')
+
+          replace_once(
+              'const silver70=$("detailSilver70Badge");if(silver70)silver70.hidden=!SILVER70_IDS.has(movie?.id);const clarity70=$("detailClarity70Badge");',
+              'const silver70=$("detailSilver70Badge");if(silver70)silver70.hidden=!SILVER70_IDS.has(movie?.id);const silver35=$("detailSilver35Badge");if(silver35)silver35.hidden=!SILVER35_IDS.has(movie?.id);const clarity70=$("detailClarity70Badge");',
+              'render toggle'
+          )
+
+          required = [
+              'detailSilver35Badge',
+              'assets/format-logos/SiLVER35.webp',
+              'const SILVER35_IDS=new Set(',
+              'silver35.hidden=!SILVER35_IDS.has(movie?.id)',
+          ]
+          for token in required:
+              if token not in s:
+                  raise SystemExit(f'Post-edit validation failed: {token}')
+
+          # Validate the inserted set is exactly the 39 films computed above.
+          m = re.search(r'const SILVER35_IDS=new Set\((\[[^\]]*\])\)', s)
+          inserted = set(json.loads(m.group(1))) if m else set()
+          if inserted != set(remaining):
+              raise SystemExit('Inserted SiLVER35 set does not match computed remaining films')
+
+          p.write_text(s, encoding='utf-8')
+          print(f'Assigned SiLVER35 to {len(remaining)} films')
+          print('\n'.join(remaining))
+          PY
+      - name: Commit change
+        run: |
+          git config user.name "SceneSense maintenance"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          git commit -m "Add SiLVER35 badges to remaining 39 films"
+          git push origin HEAD:main
