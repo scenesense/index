@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "seriesId": "stargate-sg-1-1997",
+  "season": 1,
+  "yearStart": 1997,
+  "yearEnd": 1998,
+  "seasonRatings": {},
+  "episodes": [
+    {"id":"s01e01-02","number":"01-02","title":"Children of the Gods","runtimeSeconds":5817,"ratings":{}},
+    {"id":"s01e03","number":"03","title":"The Enemy Within","ratings":{}},
+    {"id":"s01e04","number":"04","title":"Emancipation","ratings":{}},
+    {"id":"s01e05","number":"05","title":"The Broca Divide","ratings":{}},
+    {"id":"s01e06","number":"06","title":"The First Commandment","ratings":{}},
+    {"id":"s01e07","number":"07","title":"Cold Lazarus","ratings":{}},
+    {"id":"s01e08","number":"08","title":"The Nox","ratings":{}},
+    {"id":"s01e09","number":"09","title":"Brief Candle","ratings":{}},
+    {"id":"s01e10","number":"10","title":"Thor's Hammer","ratings":{}},
+    {"id":"s01e11","number":"11","title":"The Torment of Tantalus","ratings":{}},
+    {"id":"s01e12","number":"12","title":"Bloodlines","ratings":{}},
+    {"id":"s01e13","number":"13","title":"Fire and Water","ratings":{}},
+    {"id":"s01e14","number":"14","title":"Hathor","ratings":{}},
+    {"id":"s01e15","number":"15","title":"Singularity","ratings":{}},
+    {"id":"s01e16","number":"16","title":"Cor-Ai","ratings":{}},
+    {"id":"s01e17","number":"17","title":"Enigma","ratings":{}},
+    {"id":"s01e18","number":"18","title":"Solitudes","ratings":{}},
+    {"id":"s01e19","number":"19","title":"Tin Man","ratings":{}},
+    {"id":"s01e20","number":"20","title":"There But for the Grace of God","ratings":{}},
+    {"id":"s01e21","number":"21","title":"Politics","ratings":{}},
+    {"id":"s01e22","number":"22","title":"Within the Serpent's Grasp","ratings":{}}
+  ]
+}
