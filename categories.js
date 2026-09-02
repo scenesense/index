@@ -224,7 +224,14 @@ const TV_EPISODE_CATEGORIES = [
 window.addEventListener("DOMContentLoaded",()=>{
   if(document.querySelector('script[data-scenesense-series]')) return;
   const script=document.createElement("script");
-  script.src="series.js?v=20260902-1";
+  script.src="series.js?v=20260902-2";
   script.dataset.scenesenseSeries="1";
+  script.onload=()=>{
+    if(document.querySelector('script[data-scenesense-series-tv-loader]')) return;
+    const tv=document.createElement("script");
+    tv.src="series-tv-loader.js?v=20260902-1";
+    tv.dataset.scenesenseSeriesTvLoader="1";
+    document.body.appendChild(tv);
+  };
   document.body.appendChild(script);
 });
