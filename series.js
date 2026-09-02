@@ -6,8 +6,9 @@ function seriesById(id){ return seriesCatalog.find(series => series.id === id); 
 function seriesYearText(series){ return `${series.yearStart}\u2013${series.yearEnd}`; }
 function seriesMetaText(series){ return `${seriesYearText(series)} · ${series.seasonCount} ${series.seasonCount===1?"season":"seasons"} · ${series.episodeCount} ${series.episodeCount===1?"episode":"episodes"}`; }
 function seriesGenres(series){ return series?.genres || []; }
-function seriesSearchText(series){ return [series.title, series.yearStart, series.yearEnd, ...seriesGenres(series)].join(" ").toLowerCase(); }
-function seriesScore(series){ if(series?.score == null) return null; const value=Number(series.score); return Number.isFinite(value) ? value : null; }
+function seriesSearchText(series){ return [series.title,series.yearStart,series.yearEnd,...seriesGenres(series),...(series.actors||[])].join(" ").toLowerCase(); }
+function seriesScore(series){ if(series?.score == null) return null; const value=Number(series.score); return Number.isFinite(value)?value:null; }
+function seasonYearText(season){ return season.yearStart===season.yearEnd?String(season.yearStart||""):`${season.yearStart}\u2013${season.yearEnd}`; }
 
 function ensureMediaFilter(){
   const heading=document.querySelector(".libraryHeading");
@@ -41,9 +42,14 @@ function ensureSeriesView(){
   if(document.getElementById("seriesView")) return;
   const section=document.createElement("section");
   section.id="seriesView";
-  section.className="seriesView hidden";
+  section.className="movieView seriesView hidden";
   section.setAttribute("aria-live","polite");
-  section.innerHTML=`<div class="movieHero wrap"><button id="seriesBackBtn" class="backBtn" type="button">← Library</button><div id="seriesHero"></div><div id="seriesSeasons"></div></div>`;
+  section.innerHTML=`
+    <div class="movieHero wrap">
+      <button id="seriesBackBtn" class="backBtn" type="button">← Library</button>
+      <div id="seriesHero"></div>
+    </div>
+    <div class="seriesSeasonsWrap wrap"><div id="seriesSeasons"></div></div>`;
   document.querySelector("main")?.appendChild(section);
   $("seriesBackBtn")?.addEventListener("click",()=>closeSeries());
 }
@@ -61,22 +67,16 @@ function injectSeriesStyles(){
     .seriesCard .cardTitle{color:#c59b45!important}
     .seriesCard .cardMeta{font-size:13px!important;white-space:nowrap;overflow:visible;width:calc(100% + 7px);max-width:none}
     .seriesCardMetaText{display:inline-block;white-space:nowrap;transform-origin:left center}
-    .seriesHeroGrid{display:grid;grid-template-columns:minmax(190px,300px) 1fr;gap:32px;align-items:start}
-    .seriesPosterPanel{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--stroke);box-shadow:var(--shadow);background:radial-gradient(70% 55% at 50% 25%,rgba(121,169,255,.18),transparent 70%),linear-gradient(145deg,#101927,#070b12);aspect-ratio:2/3}
-    .seriesPosterPanel img{width:100%;height:100%;display:block;object-fit:cover;object-position:center}
-    .seriesPosterPanel.missing img{visibility:hidden}
-    .seriesPosterPanel.missing::before{content:attr(data-label);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:28px;text-align:center;color:rgba(237,243,251,.72);font-size:clamp(18px,2vw,28px);font-weight:600;line-height:1.12;letter-spacing:.05em}
-    .seriesSummary{padding-top:10px}
-    .seriesTitle{margin:8px 0 0;font-size:clamp(34px,5vw,66px);line-height:.98;color:#c59b45}
-    .seriesDetailMeta{margin-top:10px;color:#aab4c2;font-size:14px;line-height:1.25}
-    .seriesGenres{margin:4px 0 0;color:#91abc1;font-size:14px;font-weight:500;line-height:1.25}
-    .seriesSeasonHeading{margin:38px 0 14px;font-size:22px;font-weight:650}
-    .seasonGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;padding-bottom:80px}
-    .seasonTile{padding:15px 16px;border:1px solid rgba(255,255,255,.085);border-radius:14px;background:rgba(255,255,255,.028);text-align:left}
-    .seasonTileTitle{font-size:17px;font-weight:650;color:#edf3fb}
-    .seasonTileMeta{margin-top:3px;color:#9cabc1;font-size:12px}
-    @media(max-width:760px){.seriesHeroGrid{grid-template-columns:1fr}.seriesPosterPanel{max-width:300px}.seasonGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-    @media(max-width:620px){.libraryHeading{align-items:flex-end;gap:12px}.mediaFilter button{padding:0 9px;font-size:11px}.seriesCard .cardMeta{width:calc(100% + 5px)}.seasonGrid{grid-template-columns:1fr}}
+    .seriesSeasonsWrap{margin-top:34px;padding-bottom:80px}
+    .seriesSeasonHeading{margin:0 0 16px;font-size:22px;font-weight:650}
+    .seasonBannerGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .seasonBanner{position:relative;min-height:150px;aspect-ratio:16/5;overflow:hidden;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:radial-gradient(85% 150% at 12% 20%,rgba(197,155,69,.18),transparent 58%),radial-gradient(100% 130% at 88% 75%,rgba(121,169,255,.14),transparent 62%),linear-gradient(135deg,#111a27,#090e16);box-shadow:0 12px 32px rgba(0,0,0,.22)}
+    .seasonBanner::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,11,18,.16),rgba(7,11,18,.48))}
+    .seasonBannerContent{position:absolute;z-index:1;left:20px;right:20px;bottom:17px}
+    .seasonBannerTitle{font-size:22px;font-weight:700;line-height:1;color:#edf3fb}
+    .seasonBannerMeta{margin-top:7px;color:#aab4c2;font-size:13px;font-weight:400;line-height:1.15}
+    @media(max-width:760px){.seasonBannerGrid{grid-template-columns:1fr}.seasonBanner{min-height:125px}}
+    @media(max-width:620px){.libraryHeading{align-items:flex-end;gap:12px}.mediaFilter button{padding:0 9px;font-size:11px}.seriesCard .cardMeta{width:calc(100% + 5px)}.seasonBannerContent{left:15px;right:15px;bottom:14px}.seasonBannerTitle{font-size:19px}}
   `;
   document.head.appendChild(style);
 }
@@ -124,7 +124,7 @@ function fitSeriesCardMeta(card){
   const natural=text.scrollWidth;
   const available=meta.clientWidth;
   const scale=natural>available && available>0 ? available/natural : 1;
-  text.style.transform=scale<1 ? `scaleX(${scale})` : "none";
+  text.style.transform=scale<1?`scaleX(${scale})`:"none";
 }
 
 function decorateSeriesCards(){
@@ -149,12 +149,37 @@ function renderSeriesDetail(series){
   const hero=$("seriesHero");
   const seasons=$("seriesSeasons");
   if(!hero || !seasons) return;
-  hero.innerHTML=`<div class="seriesHeroGrid"><div class="seriesPosterPanel ${series.poster?"":"missing"}" ${series.poster?"":`data-label="${escapeAttr(series.title)}"`}><img ${series.poster?`src="${escapeAttr(series.poster)}"`:""} alt="${escapeAttr(series.title)} poster"></div><div class="seriesSummary"><h1 class="seriesTitle">${escapeHtml(series.title)}</h1><div class="seriesDetailMeta">${escapeHtml(seriesMetaText(series))}</div><div class="seriesGenres">${escapeHtml(seriesGenres(series).join(" · "))}</div></div></div>`;
+
+  const cast=(series.actors||[]).slice(0,5).map(name=>`<span class="actorChip">${escapeHtml(name)}</span>`).join("");
+  const progress=Number(series.ratedEntryCount)||0;
+  hero.innerHTML=`
+    <div class="movieHeroGrid">
+      <div class="posterPanel${series.poster?"":" missingPoster"}"${series.poster?"":` data-label="${escapeAttr(series.title)}"`}>
+        <img class="detailPoster" ${series.poster?`src="${escapeAttr(series.poster)}"`:""} alt="${escapeAttr(series.title)} poster">
+      </div>
+      <div class="movieSummary">
+        <h1>${escapeHtml(series.title)}</h1>
+        <div class="eyebrow">${escapeHtml(seriesMetaText(series))}</div>
+        <div class="detailGenres">${escapeHtml(seriesGenres(series).join(" · "))}</div>
+        <div class="actorChips" aria-label="Principal cast">${cast}</div>
+        <div class="detailDescription">${escapeHtml(series.description||"")}</div>
+        <div class="scoreLine">
+          <div class="overallScore">${scoreText(seriesScore(series))}</div>
+          <div><div class="scoreCaption">overall score</div><div class="progressText">${progress} / ${series.scoringEntryCount||series.episodeCount} entries rated</div></div>
+        </div>
+      </div>
+    </div>`;
+
   const list=(series.seasons||Array.from({length:series.seasonCount},(_,i)=>({number:i+1}))).map(season=>{
-    const ep=season.episodeCount==null?"":`${season.episodeCount} ${season.episodeCount===1?"episode":"episodes"}`;
-    return `<div class="seasonTile"><div class="seasonTileTitle">Season ${String(season.number).padStart(2,"0")}</div><div class="seasonTileMeta">${escapeHtml(ep)}</div></div>`;
+    const year=season.yearStart?seasonYearText(season):"";
+    const episodes=season.episodeCount==null?"":`${season.episodeCount} ${season.episodeCount===1?"episode":"episodes"}`;
+    const meta=[year,episodes].filter(Boolean).join(" · ");
+    return `<article class="seasonBanner" data-season="${season.number}"><div class="seasonBannerContent"><div class="seasonBannerTitle">Season ${String(season.number).padStart(2,"0")}</div><div class="seasonBannerMeta">${escapeHtml(meta)}</div></div></article>`;
   }).join("");
-  seasons.innerHTML=`<h2 class="seriesSeasonHeading">Seasons</h2><div class="seasonGrid">${list}</div>`;
+  seasons.innerHTML=`<h2 class="seriesSeasonHeading">Seasons</h2><div class="seasonBannerGrid">${list}</div>`;
+
+  const holder=hero.querySelector(".actorChips");
+  if(typeof fitPrincipalCast==="function") requestAnimationFrame(()=>fitPrincipalCast(holder));
 }
 
 function openSeries(id,updateHash=true){
@@ -188,26 +213,24 @@ function mixedLibraryItem(card){
   const movie=movieById(card.dataset.movie);
   return movie?{kind:"movie",item:movie}:null;
 }
-
 function mixedTitle(item){ return item.kind==="movie"?titleSortKey(item.item):String(item.item.title||""); }
 function mixedYear(item){ return item.kind==="movie"?Number(item.item.year)||0:Number(item.item.yearStart)||0; }
 function mixedRuntime(item){ return item.kind==="movie"?runtimeSortValue(item.item):Number(item.item.runtimeSeconds)||0; }
 function mixedScore(item){ return item.kind==="movie"?(overallScore(item.item)??0):(seriesScore(item.item)??0); }
 
 function compareMixedItems(a,b){
-  if(a.kind==="movie" && b.kind==="movie") return compareLibraryMovies(a.item,b.item);
+  if(a.kind==="movie"&&b.kind==="movie") return compareLibraryMovies(a.item,b.item);
   const ta=mixedTitle(a),tb=mixedTitle(b);
   const titleAsc=ta.localeCompare(tb)||String(a.item.title||"").localeCompare(String(b.item.title||""));
   switch(sortMode){
-    case "score-asc": { const sa=mixedScore(a),sb=mixedScore(b); return sa!==sb?sa-sb:titleAsc; }
-    case "title": return titleAsc;
-    case "title-desc": return -titleAsc;
-    case "year": { const ya=mixedYear(a),yb=mixedYear(b); return ya!==yb?ya-yb:titleAsc; }
-    case "year-desc": { const ya=mixedYear(a),yb=mixedYear(b); return ya!==yb?yb-ya:titleAsc; }
-    case "runtime": { const ra=mixedRuntime(a),rb=mixedRuntime(b); return ra!==rb?ra-rb:titleAsc; }
-    case "runtime-desc": { const ra=mixedRuntime(a),rb=mixedRuntime(b); return ra!==rb?rb-ra:titleAsc; }
-    case "score":
-    default: { const sa=mixedScore(a),sb=mixedScore(b); return sa!==sb?sb-sa:titleAsc; }
+    case "score-asc":{const sa=mixedScore(a),sb=mixedScore(b);return sa!==sb?sa-sb:titleAsc;}
+    case "title":return titleAsc;
+    case "title-desc":return -titleAsc;
+    case "year":{const ya=mixedYear(a),yb=mixedYear(b);return ya!==yb?ya-yb:titleAsc;}
+    case "year-desc":{const ya=mixedYear(a),yb=mixedYear(b);return ya!==yb?yb-ya:titleAsc;}
+    case "runtime":{const ra=mixedRuntime(a),rb=mixedRuntime(b);return ra!==rb?ra-rb:titleAsc;}
+    case "runtime-desc":{const ra=mixedRuntime(a),rb=mixedRuntime(b);return ra!==rb?rb-ra:titleAsc;}
+    case "score":default:{const sa=mixedScore(a),sb=mixedScore(b);return sa!==sb?sb-sa:titleAsc;}
   }
 }
 
@@ -225,32 +248,28 @@ function setLibraryStatus(movieCount,seriesCount){
     return;
   }
   if(libraryMediaMode==="series"){
-    $("libraryStatus").textContent=`${seriesCount} ${seriesCount===1?"series":"series"}`;
+    $("libraryStatus").textContent=`${seriesCount} series`;
     return;
   }
   const parts=[];
   if(movieCount) parts.push(`${movieCount} ${movieCount===1?"film":"films"}`);
-  if(seriesCount) parts.push(`${seriesCount} ${seriesCount===1?"series":"series"}`);
-  $("libraryStatus").textContent=parts.join(" · ") || "No titles";
+  if(seriesCount) parts.push(`${seriesCount} series`);
+  $("libraryStatus").textContent=parts.join(" · ")||"No titles";
 }
 
 async function loadSeriesCatalog(){
   const response=await fetch(`data/series/index.json?v=${Date.now()}`,{cache:"no-store"});
   if(!response.ok) throw new Error(`Could not load series data (${response.status})`);
   const payload=await response.json();
-  seriesCatalog=payload.series || [];
+  seriesCatalog=payload.series||[];
 }
 
 (async function initSeriesLibrary(){
   injectSeriesStyles();
   ensureMediaFilter();
   ensureSeriesView();
-  try{
-    await loadSeriesCatalog();
-  }catch(error){
-    console.error(error);
-    seriesCatalog=[];
-  }
+  try{ await loadSeriesCatalog(); }
+  catch(error){ console.error(error); seriesCatalog=[]; }
 
   const movieRenderLibrary=renderLibrary;
   renderLibrary=function(){
@@ -266,19 +285,19 @@ async function loadSeriesCatalog(){
       applyPosterFallbacks();
       bindSeriesCards();
       setLibraryStatus(0,ordered.length);
-      requestAnimationFrame(()=>{fitAllCardTitles();fitAllCardMeta();decorateSeriesCards()});
+      requestAnimationFrame(()=>decorateSeriesCards());
       return;
     }
 
     movieRenderLibrary();
-    const movieCount=$("movieGrid")?.children.length || 0;
+    const movieCount=$("movieGrid")?.children.length||0;
     if(libraryMediaMode==="movies"){
       setLibraryStatus(movieCount,0);
       return;
     }
 
     const grid=$("movieGrid");
-    if(grid && series.length){
+    if(grid&&series.length){
       grid.insertAdjacentHTML("beforeend",series.map(renderSeriesCard).join(""));
       decorateSeriesCards();
       applyPosterFallbacks();
@@ -286,10 +305,13 @@ async function loadSeriesCatalog(){
       bindSeriesCards();
     }
     setLibraryStatus(movieCount,series.length);
-    requestAnimationFrame(()=>{fitAllCardTitles();fitAllCardSubtitles();fitAllCardMeta();decorateSeriesCards()});
+    requestAnimationFrame(()=>{fitAllCardTitles();fitAllCardSubtitles();fitAllCardMeta();decorateSeriesCards();requestAnimationFrame(decorateSeriesCards);});
   };
 
-  window.addEventListener("resize",()=>decorateSeriesCards());
+  window.addEventListener("resize",()=>{
+    decorateSeriesCards();
+    if(activeSeriesId&&typeof fitPrincipalCast==="function") fitPrincipalCast(document.querySelector("#seriesHero .actorChips"));
+  });
   window.addEventListener("popstate",()=>{
     const hash=location.hash;
     if(hash.startsWith("#series=")){
@@ -299,7 +321,7 @@ async function loadSeriesCatalog(){
       closeSeries(false);
     }
   });
-  $("homeBtn")?.addEventListener("click",()=>{ if(activeSeriesId) closeSeries(); });
+  $("homeBtn")?.addEventListener("click",()=>{if(activeSeriesId) closeSeries();});
 
   renderLibrary();
   if(location.hash.startsWith("#series=")){
