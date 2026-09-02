@@ -83,7 +83,7 @@ function injectTvEnhancementStyles(){
     .episodeCard{grid-template-columns:68px minmax(0,1fr) auto!important;column-gap:20px!important;min-height:48px!important;padding:7px 11px!important;border-radius:9px!important}
     .episodeCode{width:68px!important;display:grid!important;grid-template-columns:30px 38px!important;column-gap:0!important;align-items:stretch!important;line-height:1.03!important;white-space:nowrap!important}
     .episodeSeasonCode{display:flex!important;align-items:center!important;justify-content:flex-start!important;min-width:30px!important}
-    .episodeNumberStack{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;gap:1px!important;min-width:38px!important}
+    .episodeNumberStack{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;gap:1px!important;min-width:38px!important;margin-left:-2px!important}
     .episodeNumberLine{display:block!important}
     .tvPlotDescription{margin:17px 0 18px!important;max-width:980px!important}
     .tvEpisodePlot{max-width:900px!important}
