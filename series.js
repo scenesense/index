@@ -4,7 +4,7 @@ let activeSeriesId = null;
 
 function seriesById(id){ return seriesCatalog.find(series => series.id === id); }
 function seriesYearText(series){ return `${series.yearStart}\u2013${series.yearEnd}`; }
-function seriesMetaText(series){ return `${seriesYearText(series)} · ${series.seasonCount} ${series.seasonCount===1?"season":"seasons"} · ${series.episodeCount} ${series.episodeCount===1?"episode":"episodes"}`; }
+function seriesMetaText(series){ return `${seriesYearText(series)} · ${series.seasonCount} ${series.seasonCount===1?"season":"seasons"} · ${series.episodeCount} ${series.episodeCount===1?"ep":"eps"}`; }
 function seriesGenres(series){ return series?.genres || []; }
 function seriesSearchText(series){ return [series.title, series.yearStart, series.yearEnd, ...seriesGenres(series)].join(" ").toLowerCase(); }
 function seriesScore(series){ if(series?.score == null) return null; const value=Number(series.score); return Number.isFinite(value) ? value : null; }
