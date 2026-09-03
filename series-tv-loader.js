@@ -122,7 +122,7 @@
               border-radius:.22cap;
               font-size:.42em;
               vertical-align:baseline;
-              transform:translateY(-8%);
+              transform:translateY(-15%);
             }
           `;
           document.head.appendChild(flagStyle);
