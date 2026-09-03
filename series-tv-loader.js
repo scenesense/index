@@ -79,6 +79,20 @@
           target.appendChild(badge);
         }
 
+        function reorderSeasonContent(){
+          const body=document.getElementById("seriesSeasons");
+          if(!body) return;
+          const scoringIntro=body.querySelector(".tvScoringIntro");
+          const episodeGrid=body.querySelector(".episodeGrid");
+          const episodeHeading=episodeGrid?.previousElementSibling;
+          if(scoringIntro && episodeGrid && episodeHeading?.classList.contains("tvSectionHeading")){
+            body.insertBefore(episodeHeading,scoringIntro);
+            body.insertBefore(episodeGrid,scoringIntro);
+          }
+          const bottomBack=body.querySelector(".tvBottomBack");
+          if(bottomBack) body.appendChild(bottomBack);
+        }
+
         if(!document.getElementById("tvEpisodeFlagStyles")){
           const flagStyle=document.createElement("style");
           flagStyle.id="tvEpisodeFlagStyles";
@@ -120,6 +134,7 @@
             if(!mythology.has(card.dataset.episode)) return;
             appendMythologyBadge(card.querySelector(".episodeTitle"));
           });
+          reorderSeasonContent();
         };
 
         const flagRenderEpisode=renderTvEpisode;
