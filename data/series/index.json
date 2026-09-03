@@ -51,6 +51,29 @@
         {"number":1,"yearStart":2015,"yearEnd":2015,"episodeCount":8,"scoringEntryCount":8},
         {"number":2,"yearStart":2016,"yearEnd":2016,"episodeCount":10,"scoringEntryCount":10}
       ]
+    },
+    {
+      "id": "alf-1986",
+      "type": "series",
+      "title": "ALF",
+      "yearStart": 1986,
+      "yearEnd": 1990,
+      "seasonCount": 4,
+      "episodeCount": 102,
+      "scoringEntryCount": 100,
+      "genres": ["Comedy","Science Fiction"],
+      "actors": ["Paul Fusco","Max Wright","Anne Schedeen","Andrea Elson","Benji Gregory"],
+      "description": "After his home planet Melmac is destroyed, Gordon Shumway crash-lands in the suburban garage of the Tanner family, who nickname him ALF and hide him from the government’s Alien Task Force. While Willie, Kate, Lynn and Brian try to keep their impossible houseguest secret, ALF adapts to Earth through television, food, family life and a relentless stream of schemes that repeatedly endanger the very household protecting him.",
+      "poster": "assets/posters/alf-1986.webp",
+      "score": null,
+      "questionsVersion": "tv-v1",
+      "runtimeSeconds": 146800,
+      "seasons": [
+        {"number":1,"yearStart":1986,"yearEnd":1987,"episodeCount":26,"scoringEntryCount":25},
+        {"number":2,"yearStart":1987,"yearEnd":1988,"episodeCount":26,"scoringEntryCount":25},
+        {"number":3,"yearStart":1988,"yearEnd":1989,"episodeCount":26,"scoringEntryCount":26},
+        {"number":4,"yearStart":1989,"yearEnd":1990,"episodeCount":24,"scoringEntryCount":24}
+      ]
     }
   ]
 }
