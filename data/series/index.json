@@ -74,6 +74,28 @@
         {"number":3,"yearStart":1988,"yearEnd":1989,"episodeCount":26,"scoringEntryCount":26},
         {"number":4,"yearStart":1989,"yearEnd":1990,"episodeCount":24,"scoringEntryCount":24}
       ]
+    },
+    {
+      "id": "alias-smith-and-jones-1971",
+      "type": "series",
+      "title": "Alias Smith and Jones",
+      "yearStart": 1971,
+      "yearEnd": 1972,
+      "seasonCount": 2,
+      "episodeCount": 33,
+      "scoringEntryCount": 33,
+      "genres": ["Comedy","Western"],
+      "actors": ["Pete Duel","Ben Murphy"],
+      "description": "Successful outlaws Hannibal Heyes and Kid Curry accept a secret conditional-amnesty deal and try to go straight under the aliases Joshua Smith and Thaddeus Jones. Because their pardon cannot yet be made public, they remain wanted men and must cross the West taking legitimate work, avoiding bounty hunters and resisting the criminal shortcuts they know far too well.",
+      "collectionScope": "Pete Duel as Hannibal Heyes only; later episodes with a different actor playing Heyes are intentionally excluded.",
+      "poster": "assets/posters/alias-smith-and-jones-1971.webp",
+      "score": null,
+      "questionsVersion": "tv-v1",
+      "runtimeSeconds": 101998,
+      "seasons": [
+        {"number":1,"yearStart":1971,"yearEnd":1971,"episodeCount":15,"scoringEntryCount":15},
+        {"number":2,"yearStart":1971,"yearEnd":1972,"episodeCount":18,"scoringEntryCount":18}
+      ]
     }
   ]
 }
