@@ -97,8 +97,8 @@ function injectTvEnhancementStyles(){
       gap:0!important;
       margin-top:14px!important;
       padding:7px 1px!important;
-      border-top:1px solid rgba(197,155,69,.18)!important;
-      border-bottom:1px solid rgba(197,155,69,.18)!important;
+      border-top:1px solid rgba(235,241,250,.16)!important;
+      border-bottom:1px solid rgba(235,241,250,.16)!important;
       color:#9eacc0!important;
       font-size:13.5px!important;
       font-weight:600!important;
@@ -107,8 +107,9 @@ function injectTvEnhancementStyles(){
       font-variant-caps:normal!important;
       font-synthesis-small-caps:none!important;
     }
-    .tvEpisodeMetaCode,.tvEpisodeMetaUncut{color:#c59b45!important;font-weight:700!important;letter-spacing:.075em!important}
-    .tvEpisodeMetaSep{padding:0 .48em!important;color:rgba(197,155,69,.72)!important;font-weight:700!important}
+    .tvEpisodeMetaCode{color:#c59b45!important;font-weight:700!important;letter-spacing:.075em!important}
+    .tvEpisodeMetaUncut{color:#9eacc0!important;font-weight:600!important;letter-spacing:.055em!important}
+    .tvEpisodeMetaSep{padding:0 .48em!important;color:rgba(235,241,250,.78)!important;font-weight:700!important}
     @media(max-width:620px){
       button.seasonBanner{min-height:47px!important}
       .seasonBannerContent{padding:7px 10px!important}
