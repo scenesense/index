@@ -115,11 +115,14 @@
               vertical-align:2px;
             }
             #seriesHero h1 .episodeFlagM{
-              width:20px;
-              height:20px;
-              margin-left:10px;
-              font-size:11px;
-              vertical-align:4px;
+              width:2.38cap;
+              height:2.38cap;
+              margin-left:.72em;
+              border-width:2px;
+              border-radius:.22cap;
+              font-size:.42em;
+              vertical-align:baseline;
+              transform:translateY(-8%);
             }
           `;
           document.head.appendChild(flagStyle);
