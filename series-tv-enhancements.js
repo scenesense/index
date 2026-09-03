@@ -103,7 +103,8 @@ seriesDetailMetaText = function(series){
   return [
     seriesYearText(series),
     `${series.seasonCount} ${series.seasonCount===1?"season":"seasons"}`,
-    `${series.episodeCount} ${series.episodeCount===1?"episode":"episodes"}`
+    `${series.episodeCount} ${series.episodeCount===1?"episode":"episodes"}`,
+    series?.uncut ? "UNCUT" : ""
   ].filter(Boolean).join(" · ");
 };
 
