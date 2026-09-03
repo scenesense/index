@@ -127,7 +127,7 @@
     // Library cards deliberately stay compact. Audio belongs on the movie detail view only.
     if(typeof detailMetaMarkup==="function"){
       detailMetaMarkup=function(movie){
-        return [String(movie.year),runtimeText(movie),audioText(movie.audio),movie.version]
+        return [String(movie.year),runtimeText(movie),movie.version,audioText(movie.audio)]
           .filter(Boolean).map(value=>escapeHtml(value)).join(" · ");
       };
     }
