@@ -126,6 +126,28 @@
         {"number":4,"yearStart":2003,"yearEnd":2004,"episodeCount":22,"scoringEntryCount":22,"audio":{"layouts":["Stereo"],"lossless":false}},
         {"number":5,"yearStart":2004,"yearEnd":2005,"episodeCount":22,"scoringEntryCount":22,"audio":{"layouts":["Stereo"],"lossless":false}}
       ]
+    },
+    {
+      "id": "atlantis-2013",
+      "type": "series",
+      "title": "Atlantis",
+      "yearStart": 2013,
+      "yearEnd": 2015,
+      "seasonCount": 2,
+      "episodeCount": 26,
+      "scoringEntryCount": 26,
+      "genres": ["Fantasy","Adventure","Drama","Romance"],
+      "actors": ["Jack Donnelly","Mark Addy","Robert Emms","Aiysha Hart","Sarah Parish","Juliet Stevenson","Jemima Rooper","Amy Manson"],
+      "audio": {"layouts":["Stereo","5.1"],"lossless":true},
+      "description": "After searching for answers about his missing father, modern-day Jason is swept into the legendary city of Atlantis, where he joins Pythagoras and Hercules and becomes entangled with monsters, prophecies and the royal court. His growing bond with Ariadne and conflict with Pasiphae gradually expose the truth about his own origins, turning a succession of mythic adventures into a struggle over the future of Atlantis itself.",
+      "poster": "assets/posters/atlantis-2013.webp",
+      "score": null,
+      "questionsVersion": "tv-v1",
+      "runtimeSeconds": 66384,
+      "seasons": [
+        {"number":1,"yearStart":2013,"yearEnd":2013,"episodeCount":13,"scoringEntryCount":13,"audio":{"layouts":["Stereo"],"lossless":true}},
+        {"number":2,"yearStart":2014,"yearEnd":2015,"episodeCount":13,"scoringEntryCount":13,"audio":{"layouts":["5.1"],"lossless":true}}
+      ]
     }
   ]
 }
