@@ -12,8 +12,8 @@ async function loadTvPresentation(seriesId, seasonNumber){
     tvPresentationCache.set(key, null);
     return null;
   }
-  const data = await response.json();
-  tvPresentationCache.set(key, data);
+  const data=await response.json();
+  tvPresentationCache.set(key,data);
   return data;
 }
 
@@ -89,7 +89,10 @@ function injectTvEnhancementStyles(){
     .tvBottomBack{display:inline-flex!important;margin:4px 0 28px!important}
     .tvPlotDescription{margin:17px 0 18px!important;max-width:980px!important}
     .tvEpisodePlot{max-width:900px!important}
-    .tvEpisodeMetaRail{
+
+    #detailMeta,
+    #seriesHero .tvDetailMetaRail,
+    #seriesHero .tvEpisodeMetaRail{
       display:flex!important;
       width:max-content!important;
       max-width:100%!important;
@@ -97,6 +100,7 @@ function injectTvEnhancementStyles(){
       flex-wrap:wrap!important;
       gap:0!important;
       margin-top:14px!important;
+      margin-bottom:12px!important;
       padding:7px 1px!important;
       border-top:1px solid rgba(235,241,250,.16)!important;
       border-bottom:1px solid rgba(235,241,250,.16)!important;
@@ -107,44 +111,85 @@ function injectTvEnhancementStyles(){
       letter-spacing:.055em!important;
       font-variant-caps:normal!important;
       font-synthesis-small-caps:none!important;
+      text-transform:none!important;
     }
     .tvEpisodeMetaCode{color:#c59b45!important;font-weight:700!important;letter-spacing:.075em!important}
     .tvEpisodeMetaUncut{color:#c9cdd3!important;font-weight:600!important;letter-spacing:.055em!important}
     .tvEpisodeMetaSep{padding:0 .48em!important;color:rgba(235,241,250,.78)!important;font-weight:700!important}
-    .tvScoreLine .scoreCaption{
-      color:rgba(201,205,211,.42)!important;
+
+    .cardMeta,.seasonBannerMeta,.episodeRuntime{
+      color:#aeb4bd!important;
+      font-weight:500!important;
+      letter-spacing:.04em!important;
+    }
+
+    .scoreCaption,
+    .progressText,
+    .categoryWeight,
+    .tvSectionNote,
+    .modeNotice,
+    .saveStatus{
+      color:rgba(201,205,211,.38)!important;
+      font-weight:400!important;
+      font-variant-caps:small-caps!important;
+      font-synthesis-small-caps:auto!important;
+      text-transform:none!important;
+      letter-spacing:.055em!important;
+    }
+    .scoreCaption{
       font-size:9px!important;
-      font-weight:650!important;
+      font-weight:600!important;
       letter-spacing:.11em!important;
     }
-    .tvScoreLine .progressText{
-      color:rgba(201,205,211,.40)!important;
+    .progressText{
       margin-top:2px!important;
-      font-size:12.5px!important;
-      font-weight:400!important;
+      font-size:11.5px!important;
       line-height:1.15!important;
     }
-    .tvScoreLine .detailPrismBadge,
-    .tvScoreLine .detailSilver70Badge,
-    .tvScoreLine .detailSilver35Badge{
+    .categoryWeight{
+      margin-top:10px!important;
+      font-size:10.5px!important;
+      line-height:1!important;
+    }
+    .tvSectionNote{
+      font-size:11px!important;
+      line-height:1.2!important;
+    }
+    .modeNotice,.saveStatus{
+      font-size:11px!important;
+      line-height:1.2!important;
+    }
+
+    .scoreLine .detailBlurayBadge,
+    .scoreLine .detailPrismBadge,
+    .scoreLine .detailSilver55Badge,
+    .scoreLine .detailSilver70Badge,
+    .scoreLine .detailSilver35Badge,
+    .scoreLine .detailClarity70Badge{
       width:auto!important;
       height:auto!important;
-      max-width:220px!important;
-      max-height:74px!important;
+      max-width:200px!important;
+      max-height:60px!important;
+      margin-left:24px!important;
       object-fit:contain!important;
     }
+
     @media(max-width:620px){
       button.seasonBanner{min-height:47px!important}
       .seasonBannerContent{padding:7px 10px!important}
       .episodeCard{grid-template-columns:68px minmax(0,1fr) auto!important;column-gap:18px!important;min-height:46px!important;padding:7px 9px!important}
       .episodeCode{width:68px!important;grid-template-columns:30px 38px!important;column-gap:0!important}
       .episodeSeasonCode{min-width:30px!important}
-      .tvEpisodeMetaRail{font-size:12.5px!important;letter-spacing:.045em!important}
-      .tvScoreLine .scoreCaption{font-size:8.5px!important}
-      .tvScoreLine .progressText{font-size:11.5px!important}
-      .tvScoreLine .detailPrismBadge,
-      .tvScoreLine .detailSilver70Badge,
-      .tvScoreLine .detailSilver35Badge{max-width:185px!important;max-height:62px!important}
+      #detailMeta,#seriesHero .tvDetailMetaRail,#seriesHero .tvEpisodeMetaRail{font-size:12.5px!important;letter-spacing:.045em!important}
+      .scoreCaption{font-size:8.5px!important}
+      .progressText{font-size:10.8px!important}
+      .categoryWeight,.tvSectionNote,.modeNotice,.saveStatus{font-size:10px!important}
+      .scoreLine .detailBlurayBadge,
+      .scoreLine .detailPrismBadge,
+      .scoreLine .detailSilver55Badge,
+      .scoreLine .detailSilver70Badge,
+      .scoreLine .detailSilver35Badge,
+      .scoreLine .detailClarity70Badge{max-width:170px!important;max-height:52px!important;margin-left:18px!important}
     }
   `;
   document.head.appendChild(style);
@@ -162,6 +207,8 @@ seriesDetailMetaText = function(series){
 const baseEnhancedSeriesDetail = renderSeriesDetail;
 renderSeriesDetail = function(series){
   baseEnhancedSeriesDetail(series);
+  const overviewMeta=document.querySelector("#seriesHero .movieSummary .eyebrow");
+  if(overviewMeta) overviewMeta.classList.add("tvDetailMetaRail");
   document.querySelectorAll("#seriesSeasons .seasonBannerMeta").forEach(meta=>{
     meta.textContent = meta.textContent.replace(/\s*·\s*\d+\s+entries\b/gi, "");
   });
@@ -191,7 +238,10 @@ renderTvSeason = function(series, seasonData){
   if(topBack) topBack.textContent="← Overview";
 
   const meta = hero.querySelector(".tvSubMeta");
-  if(meta) meta.textContent = meta.textContent.replace(/\s*·\s*\d+\s+scoring entries\b/gi, "");
+  if(meta){
+    meta.textContent = meta.textContent.replace(/\s*·\s*\d+\s+scoring entries\b/gi, "");
+    meta.classList.add("tvDetailMetaRail");
+  }
 
   const scoreLine = hero.querySelector(".scoreLine");
   if(presentation?.description && scoreLine && !hero.querySelector(".tvPlotDescription")){
@@ -262,6 +312,7 @@ renderTvEpisode = function(series, seasonData, episode){
     [episodeIsUncut ? "UNCUT" : "","tvEpisodeMetaUncut"]
   ].filter(([value])=>Boolean(value));
   if(meta){
+    meta.classList.remove("tvDetailMetaRail");
     meta.classList.add("tvEpisodeMetaRail");
     meta.innerHTML=facts.map(([value,className],index)=>`${index?'<span class="tvEpisodeMetaSep">·</span>':''}<span class="${className}">${escapeHtml(value)}</span>`).join("");
   }
