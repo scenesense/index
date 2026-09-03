@@ -1,5 +1,12 @@
 (async function loadSeriesTvScoring(){
   try{
+    if(!document.querySelector('script[data-scenesense-poster-warmth]')){
+      const warmth=document.createElement("script");
+      warmth.src=`poster-warmth.js?v=${Date.now()}`;
+      warmth.dataset.scenesensePosterWarmth="1";
+      document.body.appendChild(warmth);
+    }
+
     const casting=TV_SEASON_CATEGORIES.find(cat=>cat.key==="casting");
     if(casting?.items?.[0]){
       casting.items[0][2]="Do the actors feel naturally right for their characters?";
