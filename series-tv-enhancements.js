@@ -39,7 +39,8 @@ function tvFormatAirDate(value){
 
 function tvDisplayEpisodeTitle(title){
   return String(title||"")
-    .replace(/\s+UNCUT\b/gi," (Uncut)")
+    .replace(/\s+\(Uncut\)\s*$/gi,"")
+    .replace(/\s+UNCUT\b/gi,"")
     .replace(/\s+Part\s+(One|Two|Three|Four)\b/gi,(_,part)=>` (Part ${part.charAt(0).toUpperCase()+part.slice(1).toLowerCase()})`);
 }
 
@@ -99,7 +100,7 @@ function injectTvEnhancementStyles(){
       padding:7px 1px!important;
       border-top:1px solid rgba(235,241,250,.16)!important;
       border-bottom:1px solid rgba(235,241,250,.16)!important;
-      color:#9eacc0!important;
+      color:#c9cdd3!important;
       font-size:13.5px!important;
       font-weight:600!important;
       line-height:1.15!important;
@@ -108,7 +109,7 @@ function injectTvEnhancementStyles(){
       font-synthesis-small-caps:none!important;
     }
     .tvEpisodeMetaCode{color:#c59b45!important;font-weight:700!important;letter-spacing:.075em!important}
-    .tvEpisodeMetaUncut{color:#9eacc0!important;font-weight:600!important;letter-spacing:.055em!important}
+    .tvEpisodeMetaUncut{color:#c9cdd3!important;font-weight:600!important;letter-spacing:.055em!important}
     .tvEpisodeMetaSep{padding:0 .48em!important;color:rgba(235,241,250,.78)!important;font-weight:700!important}
     @media(max-width:620px){
       button.seasonBanner{min-height:47px!important}
@@ -185,6 +186,7 @@ renderTvSeason = function(series, seasonData){
     if(title) title.textContent = tvDisplayEpisodeTitle(episode.title);
     detail?.querySelector(".episodeRuntime")?.remove();
     const facts = [tvPresentationRuntime(episodeMeta,episode), tvFormatAirDate(episode.airDate || episodeMeta?.airDate)].filter(Boolean);
+    if(episode?.uncut) facts.push("UNCUT");
     if(detail && facts.length){
       detail.insertAdjacentHTML("beforeend", `<div class="episodeRuntime">${escapeHtml(facts.join(" · "))}</div>`);
     }
@@ -224,11 +226,13 @@ renderTvEpisode = function(series, seasonData, episode){
   const episodeCode=`S${String(seasonData.season).padStart(2,"0")} E${tvDisplayEpisodeNumber(episode.number)}`;
   const date=tvFormatAirDate(episode.airDate || presentation?.airDate);
   const runtime=tvPresentationRuntime(presentation,episode);
+  const legacyUncut=/\bUNCUT\b|\(Uncut\)/i.test(String(episode?.title||""));
+  const episodeIsUncut=Boolean(series?.uncut || episode?.uncut || legacyUncut);
   const facts=[
     [episodeCode,"tvEpisodeMetaCode"],
     [date,"tvEpisodeMetaDate"],
     [runtime,"tvEpisodeMetaRuntime"],
-    [series?.uncut ? "UNCUT" : "","tvEpisodeMetaUncut"]
+    [episodeIsUncut ? "UNCUT" : "","tvEpisodeMetaUncut"]
   ].filter(([value])=>Boolean(value));
   if(meta){
     meta.classList.add("tvEpisodeMetaRail");
