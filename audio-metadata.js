@@ -2,27 +2,34 @@
   if(window.__sceneAudioMetadataInstalled) return;
   window.__sceneAudioMetadataInstalled=true;
 
+  function compactLosslessQuality(value){
+    const quality=String(value||"").trim();
+    if(!quality) return "";
+    if(/^24-bit$/i.test(quality)) return "24-bit";
+    const hiRes=quality.match(/^24-bit\/(\d+(?:\.\d+)?)kHz$/i);
+    if(hiRes) return `24/${hiRes[1]}`;
+    return quality;
+  }
+
   function audioText(audio){
     if(!audio) return "";
     const layouts=Array.isArray(audio.layouts)?audio.layouts.filter(Boolean):[];
     const parts=[];
     if(layouts.length) parts.push(layouts.join("/"));
-    if(audio.lossless) parts.push("Lossless");
-    if(audio.lossless && audio.quality) parts.push(String(audio.quality));
+    if(audio.lossless){
+      const quality=compactLosslessQuality(audio.quality);
+      parts.push(quality ? `Lossless ${quality}` : "Lossless");
+    }
     return parts.join(" · ");
   }
   window.sceneAudioText=audioText;
 
-  function appendTextAudio(target,audio){
-    const text=audioText(audio);
-    if(!target || !text) return;
-    if(target.dataset.sceneAudio===text) return;
-    target.textContent=`${target.textContent} · ${text}`;
-    target.dataset.sceneAudio=text;
+  function catalogSeason(series,seasonNumber){
+    return series?.seasons?.find(season=>Number(season.number)===Number(seasonNumber)) || null;
   }
 
   function catalogSeasonAudio(series,seasonNumber){
-    return series?.seasons?.find(season=>Number(season.number)===Number(seasonNumber))?.audio || null;
+    return catalogSeason(series,seasonNumber)?.audio || null;
   }
 
   function tvAudioFor(series,seasonData,episode){
@@ -35,11 +42,64 @@
     return episode?.audio || presentation?.audio || seasonData?.audio || catalogSeasonAudio(series,seasonData?.season) || series?.audio || null;
   }
 
+  function seasonYearTextLocal(season){
+    const start=season?.yearStart;
+    const end=season?.yearEnd;
+    if(!start) return "";
+    return !end || Number(start)===Number(end) ? String(start) : `${start}–${end}`;
+  }
+
+  function seasonEditionText(series,seasonData,presentation){
+    const catalog=catalogSeason(series,seasonData?.season ?? presentation?.season);
+    return String(
+      presentation?.edition || presentation?.cutLabel || presentation?.version ||
+      seasonData?.edition || seasonData?.cutLabel || seasonData?.version ||
+      catalog?.edition || catalog?.cutLabel || catalog?.version ||
+      (series?.uncut ? "UNCUT" : "")
+    ).trim();
+  }
+
+  function seasonOverviewText(series,season){
+    const year=seasonYearTextLocal(season);
+    const episodes=season?.episodeCount==null ? "" : `${season.episodeCount} ${season.episodeCount===1?"episode":"episodes"}`;
+    const edition=seasonEditionText(series,season,null);
+    return [year,episodes,audioText(season?.audio),edition].filter(Boolean).join(" · ");
+  }
+
+  function seasonDetailText(series,seasonData){
+    const catalog=catalogSeason(series,seasonData?.season);
+    const presentation=typeof tvPresentation==="function" ? tvPresentation(series.id,seasonData.season) : null;
+    const season=catalog || seasonData;
+    const year=seasonYearTextLocal(season);
+    const episodeCount=catalog?.episodeCount ?? seasonData?.episodes?.length;
+    const episodes=episodeCount==null ? "" : `${episodeCount} ${episodeCount===1?"episode":"episodes"}`;
+    const audio=seasonData?.audio || catalog?.audio || series?.audio || null;
+    const edition=seasonEditionText(series,seasonData,presentation);
+    return [year,episodes,audioText(audio),edition].filter(Boolean).join(" · ");
+  }
+
+  function rebuildEpisodeDetailMeta(meta,audio){
+    const text=audioText(audio);
+    if(!meta || !text || !meta.classList.contains("tvEpisodeMetaRail")) return;
+    const facts=[
+      [meta.querySelector(".tvEpisodeMetaCode")?.textContent||"","tvEpisodeMetaCode"],
+      [meta.querySelector(".tvEpisodeMetaDate")?.textContent||"","tvEpisodeMetaDate"],
+      [meta.querySelector(".tvEpisodeMetaRuntime")?.textContent||"","tvEpisodeMetaRuntime"],
+      [text,"tvEpisodeMetaAudio"],
+      [meta.querySelector(".tvEpisodeMetaUncut")?.textContent||"","tvEpisodeMetaUncut"]
+    ].filter(([value])=>Boolean(String(value).trim()));
+    meta.innerHTML=facts.map(([value,className],index)=>`${index?'<span class="tvEpisodeMetaSep">·</span>':''}<span class="${className}">${escapeHtml(value)}</span>`).join("");
+    meta.dataset.sceneAudio=text;
+  }
+
   try{
     const response=await fetch(`data/audio_manifest.json?v=${Date.now()}`,{cache:"no-store"});
     if(!response.ok) throw new Error(`Could not load movie audio metadata (${response.status}).`);
     const payload=await response.json();
     const movieAudio=new Map((payload.movies||[]).map(entry=>[entry.id,entry.audio]));
+
+    // The media filename is authoritative here: the scan incorrectly reported Source Code as 7.1.
+    movieAudio.set("source-code-2011",{layouts:["15.1"],lossless:true,quality:"24-bit"});
 
     const applyAudioToMovies=target=>{
       if(!target?.movies?.length) return 0;
@@ -64,39 +124,24 @@
       return true;
     };
 
-    if(typeof cardMetaMarkup==="function"){
-      cardMetaMarkup=function(movie){
-        return [String(movie.year),`${movie.runtimeMinutes} min`,movie.version,audioText(movie.audio)]
-          .filter(Boolean).map(value=>escapeHtml(value)).join(" · ");
-      };
-    }
+    // Library cards deliberately stay compact. Audio belongs on the movie detail view only.
     if(typeof detailMetaMarkup==="function"){
       detailMetaMarkup=function(movie){
-        return [String(movie.year),runtimeText(movie),movie.version,audioText(movie.audio)]
+        return [String(movie.year),runtimeText(movie),audioText(movie.audio),movie.version]
           .filter(Boolean).map(value=>escapeHtml(value)).join(" · ");
       };
     }
 
-    if(typeof seriesMetaText==="function"){
-      const baseSeriesMetaText=seriesMetaText;
-      seriesMetaText=function(series){
-        return [baseSeriesMetaText(series),audioText(series?.audio)].filter(Boolean).join(" · ");
-      };
-    }
-    if(typeof seriesDetailMetaText==="function"){
-      const baseSeriesDetailMetaText=seriesDetailMetaText;
-      seriesDetailMetaText=function(series){
-        return [baseSeriesDetailMetaText(series),audioText(series?.audio)].filter(Boolean).join(" · ");
-      };
-    }
-
+    // Series-level metadata deliberately remains editorial/catalogue metadata only.
+    // Season rows carry audio and edition/cut information instead.
     if(typeof renderSeriesDetail==="function"){
       const baseRenderSeriesDetail=renderSeriesDetail;
       renderSeriesDetail=function(series){
         baseRenderSeriesDetail(series);
         document.querySelectorAll("#seriesSeasons .seasonBanner[data-season]").forEach(banner=>{
-          const season=(series.seasons||[]).find(item=>Number(item.number)===Number(banner.dataset.season));
-          appendTextAudio(banner.querySelector(".seasonBannerMeta"),season?.audio);
+          const season=catalogSeason(series,banner.dataset.season);
+          const meta=banner.querySelector(".seasonBannerMeta");
+          if(meta && season) meta.textContent=seasonOverviewText(series,season);
         });
       };
     }
@@ -105,22 +150,12 @@
       const baseRenderTvSeason=renderTvSeason;
       renderTvSeason=function(series,seasonData){
         baseRenderTvSeason(series,seasonData);
-        appendTextAudio(document.querySelector("#seriesHero .tvSubMeta"),catalogSeasonAudio(series,seasonData.season));
-        document.querySelectorAll("#seriesSeasons .episodeCard[data-episode]").forEach(card=>{
-          const episode=typeof tvEpisodeById==="function"?tvEpisodeById(seasonData,card.dataset.episode):null;
-          if(!episode) return;
-          const detail=card.children[1];
-          let meta=detail?.querySelector(".episodeRuntime");
-          const audio=tvAudioFor(series,seasonData,episode);
-          const text=audioText(audio);
-          if(!detail || !text) return;
-          if(!meta){
-            meta=document.createElement("div");
-            meta.className="episodeRuntime";
-            detail.appendChild(meta);
-          }
-          appendTextAudio(meta,audio);
-        });
+        const meta=document.querySelector("#seriesHero .tvSubMeta");
+        if(meta){
+          meta.textContent=seasonDetailText(series,seasonData);
+          meta.dataset.sceneAudio=audioText(seasonData?.audio || catalogSeasonAudio(series,seasonData.season) || series?.audio);
+        }
+        // Episode-list rows intentionally omit audio. Runtime/date/cut status remain enough here.
       };
     }
 
@@ -128,16 +163,7 @@
       const baseRenderTvEpisode=renderTvEpisode;
       renderTvEpisode=function(series,seasonData,episode){
         baseRenderTvEpisode(series,seasonData,episode);
-        const meta=document.querySelector("#seriesHero .tvSubMeta");
-        const audio=tvAudioFor(series,seasonData,episode);
-        const text=audioText(audio);
-        if(!meta || !text || meta.dataset.sceneAudio===text) return;
-        if(meta.classList.contains("tvEpisodeMetaRail")){
-          meta.insertAdjacentHTML("beforeend",`<span class="tvEpisodeMetaSep">·</span><span class="tvEpisodeMetaAudio">${escapeHtml(text)}</span>`);
-          meta.dataset.sceneAudio=text;
-        }else{
-          appendTextAudio(meta,audio);
-        }
+        rebuildEpisodeDetailMeta(document.querySelector("#seriesHero .tvSubMeta"),tvAudioFor(series,seasonData,episode));
       };
     }
 
