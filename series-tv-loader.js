@@ -93,6 +93,61 @@
           if(bottomBack) body.appendChild(bottomBack);
         }
 
+        function episodeCutLabel(series,episode){
+          const explicit=String(episode?.cutLabel || "").trim();
+          if(explicit) return explicit;
+          const legacyUncut=/\bUNCUT\b|\(Uncut\)/i.test(String(episode?.title||""));
+          return (series?.uncut || episode?.uncut || legacyUncut) ? "UNCUT" : "";
+        }
+
+        function refreshEpisodeListMetadata(series,seasonData){
+          document.querySelectorAll("#seriesSeasons .episodeCard[data-episode]").forEach(card=>{
+            const episode=tvEpisodeById(seasonData,card.dataset.episode);
+            if(!episode) return;
+            const presentation=tvEpisodePresentation(series.id,seasonData.season,episode.id);
+            const facts=[
+              tvPresentationRuntime(presentation,episode),
+              tvFormatAirDate(episode.airDate || presentation?.airDate),
+              episodeCutLabel(series,episode)
+            ].filter(Boolean);
+            const detail=card.children[1];
+            let meta=detail?.querySelector(".episodeRuntime");
+            if(!detail || !facts.length) return;
+            if(!meta){
+              meta=document.createElement("div");
+              meta.className="episodeRuntime";
+              detail.appendChild(meta);
+            }
+            meta.textContent=facts.join(" · ");
+          });
+        }
+
+        function refreshEpisodeDetailMetadata(series,seasonData,episode){
+          const meta=document.querySelector("#seriesHero .tvSubMeta");
+          if(!meta) return;
+          const presentation=tvEpisodePresentation(series.id,seasonData.season,episode.id);
+          const facts=[
+            [`S${String(seasonData.season).padStart(2,"0")} E${tvDisplayEpisodeNumber(episode.number)}`,"tvEpisodeMetaCode"],
+            [tvFormatAirDate(episode.airDate || presentation?.airDate),"tvEpisodeMetaDate"],
+            [tvPresentationRuntime(presentation,episode),"tvEpisodeMetaRuntime"],
+            [episodeCutLabel(series,episode),"tvEpisodeMetaUncut"]
+          ].filter(([value])=>Boolean(value));
+          meta.classList.remove("tvDetailMetaRail");
+          meta.classList.add("tvEpisodeMetaRail");
+          meta.innerHTML=facts.map(([value,className],index)=>`${index?'<span class="tvEpisodeMetaSep">·</span>':''}<span class="${className}">${escapeHtml(value)}</span>`).join("");
+        }
+
+        function dedupeTvFormatBadges(){
+          document.querySelectorAll("#seriesHero .scoreLine").forEach(scoreLine=>{
+            const seen=new Set();
+            scoreLine.querySelectorAll(".detailPrismBadge,.detailSilver70Badge,.detailSilver35Badge").forEach(badge=>{
+              const key=badge.className;
+              if(seen.has(key)) badge.remove();
+              else seen.add(key);
+            });
+          });
+        }
+
         if(!document.getElementById("tvEpisodeFlagStyles")){
           const flagStyle=document.createElement("style");
           flagStyle.id="tvEpisodeFlagStyles";
@@ -131,6 +186,8 @@
         const flagRenderSeason=renderTvSeason;
         renderTvSeason=function(series,seasonData){
           flagRenderSeason(series,seasonData);
+          refreshEpisodeListMetadata(series,seasonData);
+          dedupeTvFormatBadges();
           const flagData=tvEpisodeFlagCache.get(series.id);
           const mythology=new Set(flagData?.flags?.M || []);
           document.querySelectorAll("#seriesSeasons .episodeCard[data-episode]").forEach(card=>{
@@ -143,6 +200,8 @@
         const flagRenderEpisode=renderTvEpisode;
         renderTvEpisode=function(series,seasonData,episode){
           flagRenderEpisode(series,seasonData,episode);
+          refreshEpisodeDetailMetadata(series,seasonData,episode);
+          dedupeTvFormatBadges();
           const flagData=tvEpisodeFlagCache.get(series.id);
           const mythology=new Set(flagData?.flags?.M || []);
           if(mythology.has(episode.id)) appendMythologyBadge(document.querySelector("#seriesHero h1"));
