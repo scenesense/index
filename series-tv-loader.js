@@ -223,6 +223,13 @@
           await loadTvEpisodeFlags(activeSeriesId);
           renderActiveTvView();
         }
+
+        if(!document.querySelector('script[data-scenesense-audio-metadata]')){
+          const audio=document.createElement("script");
+          audio.src=`audio-metadata.js?v=${Date.now()}`;
+          audio.dataset.scenesenseAudioMetadata="1";
+          document.body.appendChild(audio);
+        }
       };
       document.body.appendChild(enhancements);
     }
