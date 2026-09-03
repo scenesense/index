@@ -96,6 +96,30 @@
         {"number":1,"yearStart":1971,"yearEnd":1971,"episodeCount":15,"scoringEntryCount":15},
         {"number":2,"yearStart":1971,"yearEnd":1972,"episodeCount":18,"scoringEntryCount":18}
       ]
+    },
+    {
+      "id": "andromeda-2000",
+      "type": "series",
+      "title": "Andromeda",
+      "yearStart": 2000,
+      "yearEnd": 2005,
+      "seasonCount": 5,
+      "episodeCount": 110,
+      "scoringEntryCount": 110,
+      "genres": ["Science Fiction","Adventure","Drama","Action"],
+      "actors": ["Kevin Sorbo","Lisa Ryder","Lexa Doig","Keith Hamilton Cobb","Laura Bertram","Gordon Michael Woolvett","Brent Stait"],
+      "description": "Captain Dylan Hunt and the sentient warship Andromeda Ascendant are trapped near a black hole as the Systems Commonwealth collapses. Freed three centuries later by a salvage crew, Dylan recruits its survivors and begins rebuilding the Commonwealth world by world while confronting Nietzschean powers, the Magog World Ship, the Abyss and the deeper mystery of his own survival.",
+      "poster": "assets/posters/andromeda-2000.webp",
+      "score": null,
+      "questionsVersion": "tv-v1",
+      "runtimeSeconds": 283223,
+      "seasons": [
+        {"number":1,"yearStart":2000,"yearEnd":2001,"episodeCount":22,"scoringEntryCount":22},
+        {"number":2,"yearStart":2001,"yearEnd":2002,"episodeCount":22,"scoringEntryCount":22},
+        {"number":3,"yearStart":2002,"yearEnd":2003,"episodeCount":22,"scoringEntryCount":22},
+        {"number":4,"yearStart":2003,"yearEnd":2004,"episodeCount":22,"scoringEntryCount":22},
+        {"number":5,"yearStart":2004,"yearEnd":2005,"episodeCount":22,"scoringEntryCount":22}
+      ]
     }
   ]
 }
