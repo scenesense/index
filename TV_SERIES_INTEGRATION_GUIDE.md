@@ -1,6 +1,6 @@
 # SceneSense TV Series Integration Guide
 
-**Purpose:** canonical handoff document for adding a new TV series to SceneSense without having to reconstruct the architecture, data rules, UI conventions, or preservation metadata in a later chat.
+**Purpose:** canonical handoff document for adding a new TV series to SceneSense without reconstructing the architecture, collection rules, scoring model, preservation metadata, or UI conventions in a later chat.
 
 **Repository:** `scenesense/index`  
 **Branch:** `main`  
@@ -10,26 +10,26 @@
 
 ---
 
-## 1. Non-negotiable workflow rules
+# 1. Non-negotiable repository workflow
 
-Before editing anything in the repository:
-
-1. **Fetch the current target file immediately before updating it and use its current SHA.**
-2. **Never overwrite a current JSON file from stale local state.** If modifying an existing file, merge only the intended changes into the freshly fetched remote version.
+1. **Fetch every target file immediately before editing it and use its current SHA.**
+2. **Never overwrite JSON from stale local state.** Merge only the intended change into the freshly fetched remote file.
 3. **Write directly to `main`.**
-4. **Never perform concurrent writes to the same path.**
-5. **TV work must not modify `data/movies.json`.** Movies and TV are separate data systems.
-6. **Preserve user-supplied ordering, exact runtimes, cut/version information, and collection scope.** Do not silently replace them with generic database conventions.
-7. **Do not claim a change is live until the latest GitHub Pages workflow for the new head commit has completed successfully.**
-8. When a user supplies an authoritative title/order/runtime source, **that source beats generic web metadata** unless the user explicitly asks to replace it.
+4. **Never run concurrent writes to the same path.**
+5. **TV work must never modify `data/movies.json`.** Movies and TV are separate systems.
+6. Preserve user-supplied **ordering, exact runtimes, versions/cuts, media formats, audio data and collection scope**. Do not silently replace them with generic database conventions.
+7. User media scans and explicit collection instructions are authoritative for the user's collection unless explicitly superseded.
+8. A generic TV database is reference material, not the source of truth for a curated collection.
+9. **Do not claim deployment/live success until the latest GitHub Pages workflow for the final head commit has completed successfully.**
+10. After a multi-file integration, fetch the final files again and audit counts, titles, runtimes, formats, poster paths, metadata order and special cases.
 
-The most common failure mode is not complicated programming. It is the ancient human tradition of updating the right field in the wrong stale copy.
+The dangerous part is rarely JSON syntax. It is confidently saving yesterday's truth over today's file.
 
 ---
 
-## 2. TV data architecture
+# 2. TV architecture
 
-A series normally consists of:
+Normal structure:
 
 ```text
 data/series/index.json
@@ -42,46 +42,34 @@ data/series/<series-folder>/
   ...
   episode-flags.json        # optional
 
-assets/posters/<series-id>.webp
+assets/posters/<actual-poster-filename>.webp
 ```
 
-Relevant renderer/runtime files:
+Relevant runtime/rendering files:
 
 ```text
 series.js
 series-tv.js
 series-tv-loader.js
 series-tv-enhancements.js
+audio-metadata.js
 ```
 
-### Current responsibility split
+Responsibilities:
 
-- `series.js`
-  - loads the series catalogue
-  - mixes series into the library
-  - renders series cards and the series overview
-  - provides search/sorting/basic season navigation
-- `series-tv.js`
-  - base TV season/episode scoring implementation
-- `series-tv-enhancements.js`
-  - loads season presentation metadata
-  - descriptions, dates, exact runtimes, format badges, metadata rails
-- `series-tv-loader.js`
-  - currently patches/extends the TV renderer
-  - current 6-season / 9-episode scoring split
-  - format support including `SiLVER70`
-  - episode `M` flags
-  - episode-list-before-scoring ordering
-  - unified cut/version labels
-  - duplicate format-badge protection
+- `series.js`: catalogue loading, library cards, series overview, search/sort, navigation.
+- `series-tv.js`: base season/episode scoring implementation.
+- `series-tv-loader.js`: current scoring split patches, M flags, cut labels, ordering and format support.
+- `series-tv-enhancements.js`: season/episode presentation, exact runtimes, descriptions, metadata rails and base format badges.
+- `audio-metadata.js`: current audio presentation, edition inheritance, mixed-format badges, episode-level format overrides and TV metadata ordering.
 
-**Do not rewrite the renderer merely to add a new series.** A normal integration should be data-driven. Renderer changes are needed only for a genuinely new feature or a new unsupported format.
+A normal new-series integration should be **data-driven**. Change renderer code only when the new series exposes a real unsupported feature.
 
 ---
 
-## 3. Series ID and folder naming
+# 3. Series IDs, folders and visible naming
 
-Use a stable series ID in this form:
+Use a stable internal ID:
 
 ```text
 <slug>-<first-year>
@@ -97,29 +85,60 @@ alias-smith-and-jones-1971
 andromeda-2000
 ```
 
-The series folder is the series ID with the trailing `-YYYY` removed:
+The folder removes the trailing year:
 
 ```text
-alf-1986                         -> data/series/alf/
-agent-carter-2015                -> data/series/agent-carter/
-alias-smith-and-jones-1971       -> data/series/alias-smith-and-jones/
+alf-1986                   -> data/series/alf/
+agent-carter-2015          -> data/series/agent-carter/
 ```
 
-The current helper effectively follows:
+Internal IDs do **not** need to be renamed merely because display punctuation later changes. Stable IDs matter once ratings exist.
 
-```js
-String(seriesId || "").replace(/-\d{4}$/, "")
+## Canonical visible title
+
+`title` is the canonical title used on the library card, search and ordinary UI surfaces.
+
+If a long canonical title needs a shorter detail-page rendering, use:
+
+```json
+"title": "Around the World in Eighty Days",
+"detailTitle": "Around the World in 80 Days"
 ```
 
-Do not invent a different folder convention for one show.
+`detailTitle` is a **layout exception only**. Do not let the shortened form leak back into cards or general naming.
+
+## Hard naming rule
+
+Before committing a new series, compare:
+
+- canonical title
+- internal ID
+- folder name
+- **actual poster filename already present in the repo**
+
+Do not assume the poster follows the ID mechanically. Existing filenames may use different punctuation or underscores.
+
+Examples of real poster filenames:
+
+```text
+assets/posters/around-the-world-in-eighty-days-2021.webp
+assets/posters/breaking_in-2011.webp
+assets/posters/buck-rogers-1979.webp
+```
+
+**Always list/check `assets/posters/` before finalizing the catalogue path.** A plausible filename that does not exist is still broken.
 
 ---
 
-## 4. Required catalogue entry: `data/series/index.json`
+# 4. Top-level catalogue entry
 
-A new series must be added to the top-level `series` array.
+Every series needs an entry in:
 
-### Template
+```text
+data/series/index.json
+```
+
+Template:
 
 ```json
 {
@@ -139,7 +158,8 @@ A new series must be added to the top-level `series` array.
     "Actor Four",
     "Actor Five"
   ],
-  "description": "A concise overarching description of the actual series premise and continuing story.",
+  "audio": {"layouts":["5.1"],"lossless":false},
+  "description": "A concise description of the series itself.",
   "poster": "assets/posters/example-series-2001.webp",
   "score": null,
   "questionsVersion": "tv-v1",
@@ -150,81 +170,85 @@ A new series must be added to the top-level `series` array.
       "yearStart": 2001,
       "yearEnd": 2002,
       "episodeCount": 22,
-      "scoringEntryCount": 22
+      "scoringEntryCount": 22,
+      "audio": {"layouts":["5.1"],"lossless":false}
     }
   ]
 }
 ```
 
-### Meaning of the important fields
+## Counts
 
-- `episodeCount`
-  - count of the **numbered episodes represented by the collection**
-  - may be larger than the number of scoring rows when multipart material is intentionally combined
-- `scoringEntryCount`
-  - count of actual scoreable episode entries
-- `runtimeSeconds`
-  - exact total runtime of the included collection, in seconds
-  - should equal the sum of the actual included media/scoring entries
-- `score`
-  - initially `null`
-- `questionsVersion`
-  - currently `tv-v1`
-- `seasons`
-  - summary data used by the overview
+`episodeCount` and `scoringEntryCount` are deliberately different concepts.
 
-### Episode count vs scoring-entry count
+- `episodeCount`: numbered episodes represented by the collection.
+- `scoringEntryCount`: actual media/scoring rows.
 
-These are deliberately separate.
+Examples:
 
-Examples already in the database:
+```text
+ALF:                 102 numbered / 100 scoring
+Stargate SG-1:       218 numbered / 214 scoring
+Buck Rogers:          17 numbered / 15 scoring
+```
 
-- ALF: **102 numbered episodes / 100 scoring entries**
-- Stargate SG-1 custom collection: **218 numbered episodes / 214 scoring entries**
+If a file combines E01–02, it can represent two numbered episodes but one scoring entry.
 
-A combined entry can represent two numbered episodes while remaining one scoring/media entry.
+Never force these values to match because an external database does.
 
-Do **not** force `episodeCount === scoringEntryCount` simply because a generic TV database does.
+## Curated collections
+
+If the user retains only selected episodes, **model only those selected episodes**.
+
+Do not:
+
+1. add every broadcast episode,
+2. then use M flags to distinguish the ones actually wanted.
+
+Buck Rogers is the reference case. The collection directly contains the selected episodes only.
+
+Store collection bookkeeping separately if useful:
+
+```json
+"collectionScope": "Curated preferred-episode collection from the first-season era only."
+```
+
+Collection-scope text is archival metadata. It does **not** belong in plot descriptions.
 
 ---
 
-## 5. Optional series-level catalogue fields
+# 5. Year handling
 
-### Entire collection is uncut
-
-For a collection in which the normal rule is that every episode is uncut:
+The data schema may use both `yearStart` and `yearEnd`, including equal values:
 
 ```json
-"uncut": true
+"yearStart": 2014,
+"yearEnd": 2014
 ```
 
-This currently causes:
+The UI rule is absolute:
 
-- `UNCUT` to appear in the series overview metadata
-- `UNCUT` to be inherited by episode metadata
-- explicit episode-level cut labels to override that inheritance
-
-ALF uses this model.
-
-### Collection scope
-
-When the collection deliberately excludes part of the conventional series run, store the reason:
-
-```json
-"collectionScope": "Pete Duel as Hannibal Heyes only; later episodes with a different actor playing Heyes are intentionally excluded."
+```text
+2014
 ```
 
-Use this when the user's collection definition is more precise than a generic broadcast-season definition.
+never:
 
-Do not silently expand a curated collection because Wikipedia says more episodes exist.
+```text
+2014–2014
+```
+
+Only use an en-dash range when start and end differ.
+
+This applies to series and seasons.
 
 ---
 
-## 6. Genres: locked SceneSense vocabulary
+# 6. Genres: editorial assessment, not scraped order
 
-Never invent a new genre label during integration.
+Genre choice must describe the **actual viewing character of the work**, not whichever tags a generic site happened to print first.
 
-The current allowed vocabulary is:
+Core SceneSense vocabulary:
 
 ```text
 Action
@@ -243,114 +267,136 @@ Christmas
 Fantasy
 ```
 
-Not allowed unless the vocabulary is deliberately changed site-wide:
+`Documentary` is currently used as a deliberate nonfiction exception for the Brian Cox collection. Do not casually invent additional labels.
+
+## Hard ordering rules
+
+- **Fantasy may never be the first genre.**
+- **Crime may never be the first genre.**
+- Genre order is a hierarchy, not an alphabetical list.
+- Assess the actual series yourself. Do not inherit IMDb/TMDb/Wikipedia ordering without thought.
+
+Examples:
 
 ```text
-Spy
-Family
-Historical
-Superhero
-Procedural
-etc.
+Atlantis:     Adventure · Fantasy · Drama · Romance
+BeastMaster:  Adventure · Fantasy · Action · Drama
+Breaking In:  Comedy · Crime
 ```
 
-Genre selection should describe the **actual character of the series**, not blindly copy the first tags from IMDb/TMDb/Wikipedia.
-
-Genre **order matters**. Put the most defining genres first.
-
-Example:
-
-```json
-"genres": ["Adventure", "Western", "Drama", "Comedy"]
-```
-
-was deliberately preferred for *Alias Smith and Jones* over a shallow `Comedy / Western` classification.
+A setting/device genre can be present without being allowed to define the work's first impression.
 
 ---
 
-## 7. Principal cast rules
+# 7. Cast ordering
 
-The catalogue stores cast in the `actors` array.
+The `actors` array is searchable, but the series overview displays the **first five** names.
+
+Therefore order is deliberate.
 
 ```json
 "actors": [
-  "Actor One",
-  "Actor Two",
-  "Actor Three",
-  "Actor Four",
-  "Actor Five"
+  "Lead One",
+  "Lead Two",
+  "Lead Three",
+  "Lead Four",
+  "Preferred Fifth",
+  "Additional Search Actor"
 ]
 ```
 
-Important current UI behavior:
+If the user says “replace the last actor” on the visible page, that means the fifth visible slot. A displaced actor may remain later in the array for search if still useful.
 
-- series search uses the actor array
-- the series overview displays **the first five actor names**
-- actor order therefore matters
-- keep the five most useful/representative names first
-
-If more than five are stored, later names can still help search but are not normally shown as principal cast chips.
+Do not treat cast order as an arbitrary database dump.
 
 ---
 
-## 8. Series description
+# 8. Series and season descriptions
 
-The top-level `description` is the overarching series premise, not an episode synopsis and not generic publicity sludge.
+Descriptions are about **what the programme is about**, not how the local collection was assembled.
 
-It should:
+## Series description
 
-- identify the principal setup
-- explain the continuing conflict or journey
-- be concise enough for the overview page
-- remain grounded in the actual series
-- avoid spoilers far beyond the basic series premise unless the collection itself requires them
+Should describe:
 
-Do not put technical provenance such as `UNCUT`, disc source, PAL/NTSC, restoration type, etc. into the plot paragraph. Those belong in metadata.
+- premise
+- principal people
+- continuing conflict/journey
+- actual nature of the programme
 
----
-
-## 9. Poster integration
-
-Preferred path:
+It must not say things such as:
 
 ```text
-assets/posters/<series-id>.webp
+This SceneSense collection combines...
+This curated selection contains...
+The omitted episodes are...
+The retained episodes are...
 ```
 
-Example:
+Put those facts in `collectionScope`, `editionNote`, `source` or another metadata field.
 
-```text
-assets/posters/alf-1986.webp
-assets/posters/agent-carter-2015.webp
-```
+## Season description
 
-The catalogue should reference the same path:
+Same rule. Describe the season's story, subject or major arc.
 
-```json
-"poster": "assets/posters/alf-1986.webp"
-```
+For documentary/science material, “plot” means the substantive subject progression. Describe what is investigated/explained, not the archival grouping process.
 
-Current preferred poster ratio is vertical **2:3**.
+## Episode description
 
-A missing poster has a UI fallback, so data integration does not have to be blocked by artwork, but the catalogue path should be correct from the start.
+A concise synopsis of that episode's actual content.
 
-When replacing a poster binary, preserve the exact previous SHA/commit so the prior version is recoverable.
+Technical provenance never belongs in the plot paragraph.
 
 ---
 
-# PART II — SEASON DATA
+# 9. Every episode requires a real title
 
-## 10. Core season file: `season-NN.json`
+**Hard rule: generic placeholders are forbidden in final data.**
 
-Each season has one core scoring/data file.
+Do not leave:
+
+```text
+Episode 1
+Episode 2
+Episode #1.1
+Untitled
+```
+
+If the broadcaster never supplied useful titles, derive concise, meaningful titles from the episode itself using:
+
+1. subtitles/transcript if available,
+2. detailed episode synopsis,
+3. central location/conflict/theme,
+4. direct viewing if necessary.
+
+The derived title should be specific enough to distinguish the episode and sound like a plausible archival episode title, not a sentence-length plot summary.
+
+Example derived titles for *Around the World in Eighty Days*:
+
+```text
+The Wager
+The Broken Bridge
+The Empty Quarter
+A Wedding in India
+The White Jade Dragon
+Castaways
+The Lawman and the Outlaw
+The Final Day
+```
+
+If titles are derived rather than official, preserve that fact in working notes if needed, but **the UI still gets proper titles**.
+
+---
+
+# 10. Core season file
 
 Path:
 
 ```text
-data/series/<folder>/season-01.json
+data/series/<folder>/season-NN.json
 ```
 
-### Template
+Template:
 
 ```json
 {
@@ -373,363 +419,347 @@ data/series/<folder>/season-01.json
 }
 ```
 
-### Required conventions
+Required conventions:
 
-- `season` is numeric
-- `number` is a string and normally zero-padded
-- `airDate` is ISO `YYYY-MM-DD`
-- `runtimeSeconds` is numeric and exact when exact runtime is known
-- `seasonRatings` starts as `{}`
-- episode `ratings` starts as `{}`
+- `season`: numeric
+- `number`: string, normally zero-padded
+- `airDate`: ISO `YYYY-MM-DD`
+- exact `runtimeSeconds` whenever supplied
+- `seasonRatings: {}` initially
+- episode `ratings: {}` initially
+- preserve user/source order exactly
 
-Do not pre-fill invented scores.
+Do not sort by air date unless that is explicitly the chosen order.
 
 ---
 
-## 11. Episode IDs
+# 11. Episode IDs and combined entries
 
-Normal episode:
+Normal:
 
 ```json
 "id": "s01e07",
 "number": "07"
 ```
 
-Combined entry:
+Combined:
 
 ```json
-"id": "s01e24-25",
-"number": "24-25"
+"id": "s01e01-02",
+"number": "01-02"
 ```
 
-The UI understands hyphenated episode numbers and stacks them visually.
+IDs must remain stable once ratings exist.
 
-Examples already in use:
-
-```text
-s01e01-02
-s01e24-25
-```
-
-IDs must be unique within the series and remain stable once ratings are attached.
+The UI understands combined numbering and can stack the E numbers visually.
 
 ---
 
-## 12. Custom episode order is allowed and important
+# 12. Multipart title convention
 
-The array order in `episodes` is the collection order.
-
-If the user supplies:
-
-- production order
-- DVD order
-- chronological order
-- manually corrected order
-- a specific archival source order
-
-then preserve it.
-
-Do not reorder episodes merely because their `airDate` values appear out of sequence.
-
-A valid collection can therefore contain:
-
-```text
-Episode 17 -> Jan 27
-Episode 18 -> Jan 20
-```
-
-if that is the authoritative title/order source supplied by the user.
-
----
-
-## 13. Multipart title convention
-
-Store ordinary multipart titles in this form:
+Store:
 
 ```text
 The Tok'ra Part One
 The Tok'ra Part Two
 ```
 
-The presentation layer converts them to:
+Presentation converts to:
 
 ```text
 The Tok'ra (Part One)
 The Tok'ra (Part Two)
 ```
 
-House convention is therefore to keep `Part One`, `Part Two`, etc. in the source title rather than manually baking presentation parentheses into every JSON file.
+Do not bake display punctuation inconsistently into source data.
 
 ---
 
-# PART III — PRESENTATION / PROVENANCE METADATA
+# 13. Season presentation metadata
 
-## 14. Season metadata file: `season-NN-meta.json`
-
-Every season should have a matching presentation metadata file.
-
-Path:
+Every season should have:
 
 ```text
-data/series/<folder>/season-01-meta.json
+data/series/<folder>/season-NN-meta.json
 ```
 
-### Template
+Template:
 
 ```json
 {
   "version": 1,
   "seriesId": "example-series-2001",
   "season": 1,
-  "format": "PRiSM",
-  "source": "US NTSC DVD LSMR",
-  "description": "A concise season-level description of the major setup and arc.",
+  "format": "SiLVER70",
+  "source": "UK BLURAY REMUX · 1080p25 · SiLVER70",
+  "description": "Season story or subject description.",
   "episodes": {
     "s01e01": {
       "airDate": "2001-09-12",
-      "description": "A concise episode synopsis.",
+      "description": "Episode synopsis.",
       "runtimeSeconds": 2617
     }
   }
 }
 ```
 
-### Why this file matters
-
-The metadata file supplies presentation information used by the season and episode detail UI:
+This file carries presentation/provenance data including:
 
 - season description
 - episode descriptions
-- exact/fallback runtimes
-- dates
-- **format badge**
-- source/provenance storage
-
-A series can technically have core season data while still looking incomplete if its season metadata is missing.
+- dates/runtimes
+- restoration/video badge
+- source provenance
+- optional edition/cut metadata
+- optional episode-level format/audio overrides
 
 ---
 
-## 15. Format badge is a per-season metadata field
+# 14. Restoration format is NOT source medium
 
-This is easy to forget and causes a very visible failure.
+This distinction is critical.
 
-Every season that should show a format logo needs:
+`format` controls the **video/restoration badge shown by SceneSense**.
+
+`source` records where the material came from.
+
+A Blu-ray remux can therefore correctly be:
 
 ```json
-"format": "PRiSM"
+"format": "SiLVER70",
+"source": "UK BLURAY REMUX · 1080p25 · SiLVER70"
 ```
 
-or another currently supported format.
+Do **not** show a Blu-ray badge merely because `BLURAY` appears in the source filename.
 
-Current TV renderer support includes:
+Likewise, do not infer `format` by scraping the `source` string. Store it explicitly.
+
+Current format map supports at least:
 
 ```text
+BLURAY
 PRiSM
-SiLVER70
+SiLVER8
+SiLVER16
 SiLVER35
+SiLVER55
+SiLVER70
+BRAZiER35
+BRAZiER70
+CLARiTY35
+CLARiTY70
 ```
 
-Examples:
-
-- Stargate SG-1 -> `PRiSM`
-- ALF -> `PRiSM`
-- Alias Smith and Jones -> `PRiSM`
-- Andromeda -> `PRiSM`
-- Agent Carter -> `SiLVER70`
-
-**Do not assume that putting a source string such as `... PRiSM ...` in `source` will create the badge. It will not.** The explicit `format` property is required.
-
-If a new format is introduced, add its logo asset and renderer mapping deliberately.
+Use only formats for which the corresponding logo exists and renderer mapping is present.
 
 ---
 
-## 16. Source / provenance field
+# 15. Mixed video formats within one season
 
-Use `source` for the media origin when useful:
-
-```json
-"source": "US NTSC DVD LSMR"
-```
-
-or:
+If most episodes use one restoration format but some use another, use ordered `formats`:
 
 ```json
-"source": "US NTSC WS DVD · 480p23 · PRiSM · LSMR"
+"formats": ["SiLVER70", "SiLVER35"]
 ```
 
-This is descriptive provenance. It is not a substitute for structured fields such as `format` or `runtimeSeconds`.
+The **primary/majority format goes first**.
 
----
-
-## 17. Exact runtimes
-
-When exact runtimes are supplied, preserve them in **seconds**.
+At episode level, specify the actual format where needed:
 
 ```json
-"runtimeSeconds": 2996
-```
-
-User-supplied exact collection runtimes are authoritative unless explicitly superseded.
-
-Do not replace exact local-media runtimes with approximate web runtimes.
-
-### Display convention
-
-Under one hour:
-
-```text
-44:13
-```
-
-One hour or longer:
-
-```text
-01:36:57
-```
-
-The hour is always two digits when present.
-
-### Approximate fallback
-
-If an exact runtime genuinely is not available in metadata, the presentation layer can use:
-
-```json
-"runtimeApproxMinutes": 44
-```
-
-which displays approximately.
-
-Prefer exact `runtimeSeconds` whenever the collection source provides it.
-
----
-
-## 18. Total runtime
-
-Top-level series `runtimeSeconds` must reflect the actual included collection.
-
-It is used for sorting even though runtime is not displayed on the series library card.
-
-Calculate it from the included media/scoring entries rather than a generic published total.
-
-This matters for:
-
-- combined episodes
-- uncut episodes
-- alternate versions
-- excluded episodes
-- film-length specials treated as TV scoring entries
-
----
-
-## 19. Date format
-
-Store:
-
-```text
-YYYY-MM-DD
-```
-
-Example:
-
-```json
-"airDate": "1987-02-09"
-```
-
-Presentation automatically renders this in the current site style, e.g.:
-
-```text
-Feb 9, 1987
-```
-
-Do not store presentation-formatted dates directly in the core JSON.
-
----
-
-# PART IV — CUT / VERSION METADATA
-
-## 20. Keep version labels out of episode titles when they are metadata
-
-Current convention:
-
-**Title:**
-
-```text
-Children of the Gods
-```
-
-**Metadata:**
-
-```text
-UNCUT
-```
-
-rather than:
-
-```text
-Children of the Gods (Uncut)
-```
-
-Likewise:
-
-**Title:**
-
-```text
-Consider Me Gone
-```
-
-**Metadata:**
-
-```text
-ALTERNATE ENDING
-```
-
-This keeps episode titles clean and puts edition/provenance information where it belongs.
-
----
-
-## 21. Cut-status precedence
-
-Current renderer logic is effectively:
-
-1. if episode has explicit `cutLabel`, use that
-2. otherwise if the series is globally `uncut`, show `UNCUT`
-3. otherwise if the episode has `uncut: true`, show `UNCUT`
-4. otherwise legacy title text containing `UNCUT` / `(Uncut)` can still be recognized
-5. otherwise show no cut label
-
-### Explicit special variant
-
-```json
-{
-  "id": "s04e24",
-  "number": "24",
-  "title": "Consider Me Gone",
-  "cutLabel": "ALTERNATE ENDING",
-  "airDate": "1990-03-24",
-  "runtimeSeconds": 1364,
-  "ratings": {}
+"s01e06": {
+  "format": "SiLVER35"
 }
 ```
 
-Because explicit `cutLabel` wins, a globally uncut series can still have a special episode that displays `ALTERNATE ENDING` rather than `UNCUT`.
+Rules:
 
-### One-off uncut episode in an otherwise normal series
+- season detail shows all season formats side by side
+- primary format is on the left
+- episode detail shows the episode's own format when explicitly supplied
+- otherwise episode detail inherits the season format
+- all side-by-side format badges must have the **same visual height**, regardless of the source image's intrinsic dimensions
+
+Breaking In S1 is the reference case:
+
+```text
+SiLVER70 | SiLVER35
+```
+
+with SiLVER70 primary.
+
+---
+
+# 16. Audio metadata
+
+Valid channel-layout labels:
+
+```text
+Mono
+Stereo
+5.1
+6.1
+7.1
+11.1
+13.1
+15.1
+```
+
+Do not invent alternate spelling such as `2.0` in the UI. Normalize perceptual 2.0 to `Stereo`, 1.0 to `Mono`.
+
+Structured examples:
+
+```json
+{"layouts":["Stereo"],"lossless":false}
+```
+
+```json
+{"layouts":["5.1"],"lossless":true}
+```
+
+```json
+{"layouts":["5.1"],"lossless":true,"quality":"24-bit"}
+```
+
+Aggregate multiple layouts with **no spaces around `/`**:
+
+```text
+Stereo/5.1
+```
+
+UI rendering:
+
+```text
+Stereo
+5.1 · Lossless
+5.1 · Lossless 24-bit
+5.1 · Lossless 24/96
+```
+
+Rules:
+
+- perceptual audio: channel layout only
+- lossless: append `Lossless`
+- genuine 24-bit at normal sample rate: `Lossless 24-bit`
+- 24-bit above 48 kHz: compact to `Lossless 24/96`, `Lossless 24/192`, etc.
+- 16-bit lossless remains simply `Lossless` unless a future UI rule explicitly changes it
+
+When a season has uniform audio, store it once at season/catalogue level and let episodes inherit it. Add episode-level audio only for exceptions.
+
+---
+
+# 17. Current metadata placement and order
+
+## Library cards
+
+No audio metadata.
+
+## Series detail header
+
+No audio metadata.
+
+Normal catalogue metadata only:
+
+```text
+year · seasons · episodes · optional collection-wide edition
+```
+
+## Season overview row
+
+```text
+year · episodes · audio · edition/cut
+```
+
+Edition/cut is always last.
+
+## Season detail
+
+```text
+year · episodes · audio · edition/cut
+```
+
+Edition/cut is always last.
+
+## Episode list
+
+No audio. Keep it compact:
+
+```text
+runtime · date · cut/edition when relevant
+```
+
+## Episode detail
+
+```text
+episode code · date · runtime · audio · edition/cut
+```
+
+Edition/cut is always last.
+
+---
+
+# 18. Cut and edition metadata
+
+Keep version labels out of titles whenever they are metadata.
+
+Good:
+
+```text
+Title: Children of the Gods
+Metadata: UNCUT
+```
+
+```text
+Title: Consider Me Gone
+Metadata: ALTERNATE ENDING
+```
+
+Not:
+
+```text
+Children of the Gods (Uncut)
+Consider Me Gone (Alternate Ending)
+```
+
+Cut precedence:
+
+1. explicit episode `cutLabel`
+2. explicit episode `edition`
+3. globally uncut series / episode `uncut`
+4. season edition/cut
+5. catalogue season edition/cut
+6. series-wide edition
+
+Explicit episode metadata overrides inherited series metadata.
+
+### Entire series uncut
 
 ```json
 "uncut": true
 ```
 
-on the episode object.
+ALF uses this model.
 
-Examples in Stargate SG-1 include special long versions such as `Children of the Gods` and `Threads`.
+### Special edition
+
+```json
+"edition": "SPECIAL EDITION",
+"editionNote": "Twiki uses the alternate voice in this edition."
+```
+
+Buck Rogers uses this model.
+
+`editionNote` is archival explanation and is not part of the plot description.
 
 ---
 
-# PART V — OPTIONAL EPISODE FLAGS
+# 19. Optional M flags
 
-## 22. `episode-flags.json`
+Path:
 
-Optional reusable flags live separately from season scoring data.
+```text
+data/series/<folder>/episode-flags.json
+```
 
 Current supported flag:
 
@@ -744,664 +774,283 @@ Example:
   "version": 1,
   "seriesId": "alf-1986",
   "flags": {
-    "M": [
-      "s01e01",
-      "s01e07",
-      "s01e24-25"
-    ]
+    "M": ["s01e01", "s01e07", "s01e24-25"]
   }
 }
 ```
 
-Path:
+Use M when the episodes exist in the collection and deserve a mythology/memorable marker.
 
-```text
-data/series/<folder>/episode-flags.json
-```
-
-The current renderer shows the `M` badge:
-
-- immediately after the episode title in the season episode list
-- beside the episode title on the episode detail page
-- tooltip / accessibility text: `Mythology / memorable`
-
-Do not hard-code flagged titles into JavaScript. Keep the list data-driven.
+**Never use M as a substitute for curation/exclusion.** If unwanted episodes are not part of the collection, do not add them merely to distinguish the retained episodes with M.
 
 ---
 
-# PART VI — TV SCORING MODEL
+# 20. Runtime rules
 
-## 23. Overall architecture
+Exact user media runtime is authoritative.
 
-A TV episode's complete SceneSense score contains the same 15 conceptual categories as a movie, but they are split between season-level production qualities and episode-level qualities.
+Store seconds:
 
-### Season-level categories
-
-6 categories / 12 ratings:
-
-```text
-CASTING          12%
-PERFORMANCE       6%
-CINEMATOGRAPHY    5%
-WORLD             5%
-SOUND             5%
-MUSIC             6%
+```json
+"runtimeSeconds": 2996
 ```
 
-These are inherited by every episode in the season.
-
-### Episode-level categories
-
-9 categories / 18 ratings:
+Display:
 
 ```text
-WRITING           9%
-CHARACTER         7%
-REALISM           6%
-CHEMISTRY         6%
-DIRECTION         5%
-PACING            7%
-ORIGINALITY       6%
-MORALITY          7%
-INTEGRITY         8%
+44:13
+01:36:57
 ```
 
-Together, all 15 categories sum to 100%.
+One hour or more always gets two-digit hours.
+
+Top-level `runtimeSeconds` must equal the actual included media/scoring collection, including:
+
+- combined episodes
+- specials
+- uncut variants
+- alternate cuts
+- intentionally omitted episodes
+
+Do not substitute a generic published series runtime.
 
 ---
 
-## 24. Exact season-level questions
+# 21. Dates and ordering
 
-### CASTING
+Store dates as ISO:
 
+```text
+YYYY-MM-DD
+```
+
+Display formatting is handled by the UI.
+
+Episode array order is the chosen collection order. Do not reorder by date merely because dates look non-sequential.
+
+User-supplied DVD/production/chronological/custom order beats generic broadcast sorting.
+
+---
+
+# 22. TV scoring model
+
+A complete TV score still represents the 15 SceneSense conceptual categories, split between season production qualities and episode-specific qualities.
+
+## Season-level: 6 categories / 12 ratings
+
+### CASTING — 12%
 1. Do the actors feel naturally right for their characters?
 2. Does the cast click as an ensemble?
 
-### PERFORMANCE
-
+### PERFORMANCE — 6%
 3. Do the actors disappear convincingly into their roles?
 4. Do the emotions feel genuine rather than performed?
 
-### CINEMATOGRAPHY
-
+### CINEMATOGRAPHY — 5%
 5. Do the visuals make the show inviting to watch?
 6. Do they avoid looking artificial, filtered or overly polished?
 
-### WORLD
-
+### WORLD — 5%
 7. Do the locations feel convincing rather than like sets?
 8. Does the world feel like it exists beyond the camera?
 
-### SOUND
-
+### SOUND — 5%
 9. Do voices sound clean, believable and easy to understand?
 10. Does the sound make you feel physically inside the scene?
 
-### MUSIC
-
+### MUSIC — 6%
 11. Does the music give the show a sound of its own?
 12. Does the music enhance emotions without forcing them?
 
----
+## Episode-level: 9 categories / 18 ratings
 
-## 25. Exact episode-level questions
-
-### WRITING
-
+### WRITING — 9%
 1. Did this episode have a story worth telling?
 2. Did events follow naturally without the plot cheating?
 
-### CHARACTER
-
+### CHARACTER — 7%
 3. Did everyone stay true to their character instead of changing just to serve the story?
 4. Did the characters' choices make sense?
 
-### REALISM
-
+### REALISM — 6%
 5. Once you accept the show's premise, did what happened feel believable?
 6. Did actions have believable consequences?
 
-### CHEMISTRY
-
+### CHEMISTRY — 6%
 7. Did you believe these people actually mattered to one another?
 8. Did the episode add something meaningful to a relationship?
 
-### DIRECTION
-
+### DIRECTION — 5%
 9. Did scenes feel like they were happening rather than being arranged for us?
 10. Did the episode know how seriously to take itself?
 
-### PACING
-
+### PACING — 7%
 11. Did the episode use its time well?
 12. Did important moments get enough time to land?
 
-### ORIGINALITY
-
+### ORIGINALITY — 6%
 13. Did this episode bring something fresh to the series?
 14. Did the episode use its central idea in an interesting way?
 
-### MORALITY
-
+### MORALITY — 7%
 15. Did the episode respect its characters as human beings?
 16. Did the episode have a sound sense of right and wrong?
 
-### INTEGRITY
-
+### INTEGRITY — 8%
 17. Did it earn your reaction instead of trying to manufacture one?
 18. Did the episode do the groundwork for its payoffs?
 
----
+Season-level weight total: 39%.  
+Episode-level weight total: 61%.  
+Combined: 100%.
 
-## 26. Score aggregation
+Category scoring uses the same 1–5 star control mapped onto 0–10 category values.
 
-Category scoring uses the site's star-to-points mapping and converts the two ratings in a TV category to a 0–10 category score.
-
-The current category calculation is conceptually:
-
-```js
-values.reduce((sum, stars) => sum + ratingPoints(stars), 0)
-  / values.length
-  * 5
-```
-
-A full episode score combines:
-
-- the 6 inherited season categories
-- the 9 episode-specific categories
-
-A season score is based on its fully scored episodes.
-
-A series score is based on fully scored episodes across its seasons.
-
-Do not invent initial season/episode scores during integration. Ratings objects start empty.
+Season score = average of fully scored episode results.  
+Series score = average of fully scored episode results across loaded seasons.
 
 ---
 
-# PART VII — CURRENT PRESENTATION CONVENTIONS
+# 23. Poster checklist
 
-## 27. Series library card
+Before catalogue commit:
 
-Current series card display:
+1. list/check `assets/posters/`
+2. copy the exact filename, including underscores/hyphens/case
+3. verify 2:3 poster presence if available
+4. point catalogue `poster` to that exact path
+5. do not rename an existing poster merely to make the filename prettier unless explicitly intended
+
+A poster can be missing temporarily, but a catalogue must never knowingly point at a fictional filename.
+
+---
+
+# 24. Description vs archival metadata checklist
+
+Before committing any `description`, ask:
+
+> If a viewer knew nothing about our file collection, would this still read like a sensible description of the programme itself?
+
+If the answer is no, move the archival information elsewhere.
+
+Use:
 
 ```text
-SERIES TITLE
-1997–2008 · 11 SEASONS · 218 EPISODES
-SCIENCE FICTION · ADVENTURE · DRAMA ...
-```
-
-Rules:
-
-- series title is gold (`#C59B45`)
-- movie title is white
-- full word `EPISODES`, never `EPS`
-- no `TV SERIES` badge
-- year range uses an en dash
-- singular/plural is automatic
-- long metadata is horizontally compressed with `scaleX`, not vertically shrunk
-- runtime is not shown on the card
-
----
-
-## 28. Series overview metadata
-
-Current overview metadata is intentionally compact:
-
-```text
-1986–1990 · 4 SEASONS · 102 EPISODES · UNCUT
-```
-
-where relevant.
-
-Do not reintroduce runtime or scoring-entry counts into the visible overview metadata unless the design is deliberately changed.
-
----
-
-## 29. Season page order
-
-Current intended season-page hierarchy:
-
-1. `← Overview`
-2. series/season identity
-3. season metadata
-4. season description
-5. score + format badge
-6. **Episodes**
-7. six season-level scoring categories
-8. Save / Revert controls
-9. `← Overview`
-
-Episodes appear **before** the repeated scoring guide because browsing the actual content is more important than repeatedly admiring the questionnaire.
-
----
-
-## 30. Episode list metadata
-
-Each episode row can show:
-
-```text
-runtime · date · cut/version label
-```
-
-Example:
-
-```text
-49:56 · Feb 9, 1987 · UNCUT
-```
-
-The same cut/version logic must be used on both the season list and episode detail page.
-
-Do not make one view infer `UNCUT` differently from the other.
-
----
-
-## 31. Episode detail metadata
-
-Typical detail rail:
-
-```text
-S01 E24–25 · Feb 9, 1987 · 49:56 · UNCUT
-```
-
-Current visual hierarchy:
-
-- episode code in gold
-- remaining metadata in soft silver/white
-- subtle neutral separators/hairlines
-- synthesized small-cap typography
-
-This is presentation styling, not something that should be encoded into data strings.
-
----
-
-## 32. Guide text styling
-
-Repeated scoring-guide/status text is intentionally visually subordinate:
-
-- smaller
-- dark grey
-- synthesized small caps
-- lower contrast than actual metadata and content
-
-Examples include:
-
-```text
-OVERALL SCORE
-0 / 18 episode ratings
-category weight / rated counts
-read-only / save status
-```
-
-When adding a series, do not create custom guide-text styles for that one show.
-
----
-
-# PART VIII — INTEGRATION PROCEDURE
-
-## 33. Recommended end-to-end procedure
-
-### Step 1 — Lock the collection definition
-
-Before creating files, establish:
-
-- exact series title
-- start/end years
-- included seasons
-- included/excluded episodes
-- custom episode order if any
-- whether multipart episodes are separate or combined scoring entries
-- exact cut/version rules
-- exact runtime source
-- format per season
-- poster status
-
-If the user defines a curated collection, treat that as canonical.
-
-### Step 2 — Determine IDs and counts
-
-Calculate:
-
-- series ID
-- folder slug
-- `seasonCount`
-- `episodeCount`
-- `scoringEntryCount`
-- season episode/scoring-entry counts
-
-Do this **before** writing the catalogue entry.
-
-### Step 3 — Build core season JSON files
-
-For every season:
-
-```text
-season-01.json
-season-02.json
-...
-```
-
-Populate:
-
-- exact collection order
-- stable IDs
-- title
-- ISO date
-- exact runtime seconds
-- empty ratings
-- explicit `uncut` / `cutLabel` only where needed
-
-### Step 4 — Build matching season metadata files
-
-For every season:
-
-```text
-season-01-meta.json
-season-02-meta.json
-...
-```
-
-Include:
-
-- `format` **for every season**
-- source/provenance if known
-- season description
-- episode descriptions
-- runtime/date metadata as needed
-
-### Step 5 — Optional episode flags
-
-Create `episode-flags.json` only when the collection has meaningful flags such as `M`.
-
-### Step 6 — Upload/wire the poster
-
-Preferred:
-
-```text
-assets/posters/<series-id>.webp
-```
-
-### Step 7 — Add the catalogue entry
-
-Fetch the latest `data/series/index.json` immediately before editing.
-
-Merge the new series into the existing `series` array. Do not recreate the file from an older local copy.
-
-### Step 8 — Validate totals
-
-Check all of the following:
-
-- season counts sum correctly
-- numbered episode counts sum to top-level `episodeCount`
-- scoring entries sum to top-level `scoringEntryCount`
-- exact runtimes sum to top-level `runtimeSeconds`
-- all episode IDs are unique
-- every season has a matching meta file
-- every season meta file has the intended `format`
-- poster path matches the actual asset path
-- genres use only locked vocabulary
-- actor ordering is deliberate
-- special cut labels are metadata, not cluttering titles
-
-### Step 9 — Validate UI behavior
-
-Check at least:
-
-- series appears in `All` and `Series`
-- search finds title, genres and actors
-- series card metadata is correct
-- poster loads
-- series overview opens
-- all seasons open
-- episode rows are in the intended order
-- exact runtimes display correctly
-- dates display correctly
-- cut/version labels display in both episode list and detail
-- format badge appears on every season/episode where expected
-- `M` flags appear in both list and detail when configured
-- season scoring has 6 categories / 12 ratings
-- episode scoring has 9 categories / 18 ratings
-- Save/Revert behavior remains intact
-
-### Step 10 — Check deployment
-
-After the final commit, inspect the latest GitHub Pages workflow for `main`.
-
-Only report the integration as live after the workflow is:
-
-```text
-status: completed
-conclusion: success
+description     -> story/content
+collectionScope -> what is included/excluded
+source          -> media provenance
+edition         -> version label
+editionNote     -> explanation of unusual edition
+format/formats  -> restoration/video badge
+audio           -> audio structure
+cutLabel        -> episode-specific cut/version
 ```
 
 ---
 
-# PART IX — COMMON FAILURES TO AVOID
+# 25. Final integration audit
 
-## 34. Missing format badge
+Before declaring a series complete, verify all of the following:
 
-**Symptom:** season/episode has no PRiSM/SiLVER logo.
+### Catalogue
+- canonical title correct
+- optional `detailTitle` only where genuinely needed
+- single-year display does not produce fake `YYYY–YYYY`
+- genres thoughtfully assessed
+- Fantasy is not first
+- Crime is not first
+- first five actors are the intended visible cast
+- poster path exactly matches a real repo file
+- total runtime correct
+- episode/scoring counts correct
+- collection scope stored separately from descriptions
 
-**Likely cause:** `season-NN-meta.json` contains a source description but no explicit:
+### Every season
+- `season-NN.json` exists
+- `season-NN-meta.json` exists
+- year(s) correct
+- exact episode order preserved
+- every episode has a meaningful title
+- exact runtimes preserved
+- air dates preserved where known
+- meaningful season description
+- meaningful episode descriptions
+- `format` or `formats` correct
+- source medium not confused with restoration badge
+- audio correct
+- edition/cut correct
 
-```json
-"format": "PRiSM"
-```
+### Mixed formats
+- primary badge first
+- secondary badge second
+- badges equal visual height
+- episode-specific badge overrides work
 
-Fix the data. Do not hard-code a badge for the one series.
+### UI metadata
+- no audio on library card
+- no audio on series detail header
+- season audio before edition
+- episode list omits audio
+- episode detail audio before edition
+- edition/cut always last where specified
 
----
+### Special cases
+- combined episodes use stable combined IDs
+- globally uncut series inherit `UNCUT`
+- explicit alternate cut overrides inherited `UNCUT`
+- curated collections contain only retained episodes
+- M flags are not used to represent exclusion
 
-## 35. Series-level `UNCUT` visible on detail but missing from episode list
-
-The season list and detail page must use the same cut-label resolver.
-
-Current intended rule:
-
-```text
-cutLabel > series uncut / episode uncut > none
-```
-
-Do not implement cut status separately in two render paths.
-
----
-
-## 36. Special version incorrectly inherits global `UNCUT`
-
-Use an explicit override:
-
-```json
-"cutLabel": "ALTERNATE ENDING"
-```
-
-This deliberately replaces the inherited `UNCUT` label.
-
----
-
-## 37. Variant text left in title
-
-Avoid:
-
-```text
-Try to Remember (Uncut)
-Consider Me Gone (Alternate Ending)
-```
-
-Prefer clean title + metadata:
-
-```text
-Try to Remember
-... · UNCUT
-
-Consider Me Gone
-... · ALTERNATE ENDING
-```
+### Deployment
+- fetch final changed files again
+- inspect final catalogue entry
+- check latest Pages run corresponds to final head commit
+- only call it deployed when that run succeeds
 
 ---
 
-## 38. Generic database order overwrites curated order
+# 26. Reference special cases
 
-Never assume broadcast order is automatically the desired collection order.
-
-The core `episodes` array is the collection order.
-
----
-
-## 39. Exact runtimes replaced by rounded minutes
-
-Do not throw away seconds.
-
-If exact runtimes exist, use `runtimeSeconds` everywhere and calculate totals from them.
-
----
-
-## 40. Wrong genre vocabulary
-
-Do not introduce labels such as `Spy` because they sound convenient.
-
-Use the locked SceneSense vocabulary and choose the best existing categories thoughtfully.
-
----
-
-## 41. Actor changes do not appear
-
-Remember that the series overview displays only the first five names.
-
-If a specific actor must visibly appear, place them within the first five in `actors`.
-
----
-
-## 42. Title/order/count arithmetic not reconciled
-
-Before declaring integration complete, independently verify:
-
-```text
-sum(season episodeCount)      == series episodeCount
-sum(season scoringEntryCount) == series scoringEntryCount
-sum(included runtimeSeconds)  == series runtimeSeconds
-```
-
-Combined entries are the usual reason the first two totals differ from each other.
-
----
-
-# PART X — CURRENT REFERENCE EXAMPLES
-
-## 43. ALF
-
-Key model:
-
-- series-level `"uncut": true`
-- custom S1/S3 order
+## ALF
+- globally `uncut: true`
 - 102 numbered episodes / 100 scoring entries
-- `Try to Remember` is one combined entry (`s01e24-25`)
-- final `Consider Me Gone` has:
+- explicit `ALTERNATE ENDING` overrides inherited uncut on finale
+- M flags used for mythology/memorable episodes
 
-```json
-"cutLabel": "ALTERNATE ENDING"
-```
-
-- format: `PRiSM`
-- optional `episode-flags.json` with `M` flags
-
-ALF is the best reference for:
-
-- global uncut inheritance
-- explicit variant override
-- combined episode IDs
-- M flags
-- custom ordering
-
----
-
-## 44. Stargate SG-1
-
-Key model:
-
-- custom collection rather than generic database season arithmetic
+## Stargate SG-1
+- custom 11-season collection
 - 218 numbered episodes / 214 scoring entries
-- combined long-form entries
-- individual uncut episodes (`uncut: true`)
-- format: `PRiSM`
+- combined long entries retained
+- special uncut episode variants use metadata
 
-Useful reference for:
+## Alias Smith and Jones
+- collection scope excludes later non-Pete-Duel Heyes episodes
+- omission belongs in `collectionScope`, not story description
 
-- one-off uncut versions
-- combined two-part scoring entries
-- nonstandard season 11 collection structure
+## Breaking In
+- S1 uses `formats:["SiLVER70","SiLVER35"]`
+- SiLVER70 is primary
+- E06–E07 override to SiLVER35
+- both badges display at equal visual height
 
----
+## Around the World in Eighty Days
+- canonical title spells **Eighty**
+- detail-only compact title may use **80**
+- episode titles are meaningful derived titles rather than `Episode 1` placeholders
+- Blu-ray is source provenance; SceneSense restoration badge is SiLVER70
 
-## 45. Agent Carter
+## Buck Rogers in the 25th Century
+- curated preferred-episode collection, not a full-season-with-M model
+- 17 numbered episodes / 15 scoring entries
+- `SPECIAL EDITION` metadata
+- Twiki alternate voice stored in `editionNote`
+- collection omissions never appear in plot/season descriptions
 
-Key model:
-
-- conventional episode-per-scoring-entry structure
-- format: `SiLVER70`
-- 18 episodes / 18 scoring entries
-
-Useful reference for a compact conventional two-season integration.
-
----
-
-## 46. Alias Smith and Jones
-
-Key model:
-
-- deliberately curated collection scope
-- custom source/order authority
-- format must be explicitly present in **both** season metadata files
-- 33 included episodes / 33 scoring entries
-
-Useful reference for a collection that intentionally excludes conventionally recognized later material.
+## Brian Cox's Wonders
+- custom nonfiction grouping
+- `Documentary` is a deliberate vocabulary exception
+- descriptions explain the scientific subjects, not how SceneSense grouped the programmes
 
 ---
 
-## 47. Andromeda
-
-Key model:
-
-- straightforward 5-season / 110-episode integration
-- exact user-source runtime total
-- per-season `PRiSM` metadata
-- full descriptions and dates
-
-Useful reference for a larger conventional series where every numbered episode is its own scoring entry.
-
----
-
-# FINAL CHECKLIST
-
-Before calling a new TV integration complete, confirm every item:
-
-- [ ] Current remote files were fetched before modifying existing paths
-- [ ] Series ID follows `<slug>-<year>`
-- [ ] Folder follows ID without trailing year
-- [ ] Catalogue entry added to fresh `data/series/index.json`
-- [ ] Locked genre vocabulary used
-- [ ] Actor order is deliberate; visible actors are within first five
-- [ ] Series description written
-- [ ] Poster path wired
-- [ ] Every season has `season-NN.json`
-- [ ] Every season has `season-NN-meta.json`
-- [ ] Every season meta has the intended `format`
-- [ ] Exact order preserved
-- [ ] Exact runtimes preserved in seconds
-- [ ] ISO dates used
-- [ ] Stable episode IDs used
-- [ ] Multipart/combined episodes represented intentionally
-- [ ] `episodeCount` arithmetic verified
-- [ ] `scoringEntryCount` arithmetic verified
-- [ ] total `runtimeSeconds` verified
-- [ ] `uncut` / `cutLabel` rules applied correctly
-- [ ] variant labels kept in metadata rather than titles
-- [ ] optional `episode-flags.json` added when needed
-- [ ] season descriptions present
-- [ ] episode descriptions present
-- [ ] format badge visually verified
-- [ ] episode cut label verified in both list and detail
-- [ ] season scoring shows 6 categories / 12 ratings
-- [ ] episode scoring shows 9 categories / 18 ratings
-- [ ] library search/sort still works
-- [ ] latest GitHub Pages deployment completed successfully
-
-This document should be treated as the starting context for any future chat asked to integrate another TV series into SceneSense.
+This document is the integration contract. When a new show exposes a genuinely new requirement, update the contract at the same time as the site so the next chat inherits the rule instead of rediscovering the mistake.
