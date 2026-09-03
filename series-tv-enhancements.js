@@ -111,6 +111,28 @@ function injectTvEnhancementStyles(){
     .tvEpisodeMetaCode{color:#c59b45!important;font-weight:700!important;letter-spacing:.075em!important}
     .tvEpisodeMetaUncut{color:#c9cdd3!important;font-weight:600!important;letter-spacing:.055em!important}
     .tvEpisodeMetaSep{padding:0 .48em!important;color:rgba(235,241,250,.78)!important;font-weight:700!important}
+    .tvScoreLine .scoreCaption{
+      color:rgba(201,205,211,.42)!important;
+      font-size:9px!important;
+      font-weight:650!important;
+      letter-spacing:.11em!important;
+    }
+    .tvScoreLine .progressText{
+      color:rgba(201,205,211,.40)!important;
+      margin-top:2px!important;
+      font-size:12.5px!important;
+      font-weight:400!important;
+      line-height:1.15!important;
+    }
+    .tvScoreLine .detailPrismBadge,
+    .tvScoreLine .detailSilver70Badge,
+    .tvScoreLine .detailSilver35Badge{
+      width:auto!important;
+      height:auto!important;
+      max-width:220px!important;
+      max-height:74px!important;
+      object-fit:contain!important;
+    }
     @media(max-width:620px){
       button.seasonBanner{min-height:47px!important}
       .seasonBannerContent{padding:7px 10px!important}
@@ -118,6 +140,11 @@ function injectTvEnhancementStyles(){
       .episodeCode{width:68px!important;grid-template-columns:30px 38px!important;column-gap:0!important}
       .episodeSeasonCode{min-width:30px!important}
       .tvEpisodeMetaRail{font-size:12.5px!important;letter-spacing:.045em!important}
+      .tvScoreLine .scoreCaption{font-size:8.5px!important}
+      .tvScoreLine .progressText{font-size:11.5px!important}
+      .tvScoreLine .detailPrismBadge,
+      .tvScoreLine .detailSilver70Badge,
+      .tvScoreLine .detailSilver35Badge{max-width:185px!important;max-height:62px!important}
     }
   `;
   document.head.appendChild(style);
