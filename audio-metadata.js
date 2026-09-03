@@ -52,9 +52,9 @@
   function seasonEditionText(series,seasonData,presentation){
     const catalog=catalogSeason(series,seasonData?.season ?? presentation?.season);
     return String(
-      presentation?.edition || presentation?.cutLabel || presentation?.version ||
-      seasonData?.edition || seasonData?.cutLabel || seasonData?.version ||
-      catalog?.edition || catalog?.cutLabel || catalog?.version ||
+      presentation?.edition || presentation?.cutLabel ||
+      seasonData?.edition || seasonData?.cutLabel ||
+      catalog?.edition || catalog?.cutLabel ||
       (series?.uncut ? "UNCUT" : "")
     ).trim();
   }
