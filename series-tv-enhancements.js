@@ -109,8 +109,8 @@ function injectTvEnhancementStyles(){
       font-weight:600!important;
       line-height:1.15!important;
       letter-spacing:.055em!important;
-      font-variant-caps:normal!important;
-      font-synthesis-small-caps:none!important;
+      font-variant-caps:small-caps!important;
+      font-synthesis-small-caps:auto!important;
       text-transform:none!important;
     }
     .tvEpisodeMetaCode{color:#c59b45!important;font-weight:700!important;letter-spacing:.075em!important}
@@ -121,6 +121,9 @@ function injectTvEnhancementStyles(){
       color:#aeb4bd!important;
       font-weight:500!important;
       letter-spacing:.04em!important;
+      font-variant-caps:small-caps!important;
+      font-synthesis-small-caps:auto!important;
+      text-transform:none!important;
     }
 
     .scoreCaption,
