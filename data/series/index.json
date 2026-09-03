@@ -61,6 +61,7 @@
       "seasonCount": 4,
       "episodeCount": 102,
       "scoringEntryCount": 100,
+      "uncut": true,
       "genres": ["Comedy","Science Fiction"],
       "actors": ["Paul Fusco","Max Wright","Anne Schedeen","Andrea Elson","Benji Gregory"],
       "description": "After his home planet Melmac is destroyed, Gordon Shumway crash-lands in the suburban garage of the Tanner family, who nickname him ALF and hide him from the government’s Alien Task Force. While Willie, Kate, Lynn and Brian try to keep their impossible houseguest secret, ALF adapts to Earth through television, food, family life and a relentless stream of schemes that repeatedly endanger the very household protecting him.",
