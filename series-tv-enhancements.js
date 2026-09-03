@@ -88,12 +88,34 @@ function injectTvEnhancementStyles(){
     .tvBottomBack{display:inline-flex!important;margin:4px 0 28px!important}
     .tvPlotDescription{margin:17px 0 18px!important;max-width:980px!important}
     .tvEpisodePlot{max-width:900px!important}
+    .tvEpisodeMetaRail{
+      display:flex!important;
+      width:max-content!important;
+      max-width:100%!important;
+      align-items:center!important;
+      flex-wrap:wrap!important;
+      gap:0!important;
+      margin-top:14px!important;
+      padding:7px 1px!important;
+      border-top:1px solid rgba(197,155,69,.18)!important;
+      border-bottom:1px solid rgba(197,155,69,.18)!important;
+      color:#9eacc0!important;
+      font-size:13.5px!important;
+      font-weight:600!important;
+      line-height:1.15!important;
+      letter-spacing:.055em!important;
+      font-variant-caps:normal!important;
+      font-synthesis-small-caps:none!important;
+    }
+    .tvEpisodeMetaCode,.tvEpisodeMetaUncut{color:#c59b45!important;font-weight:700!important;letter-spacing:.075em!important}
+    .tvEpisodeMetaSep{padding:0 .48em!important;color:rgba(197,155,69,.72)!important;font-weight:700!important}
     @media(max-width:620px){
       button.seasonBanner{min-height:47px!important}
       .seasonBannerContent{padding:7px 10px!important}
       .episodeCard{grid-template-columns:68px minmax(0,1fr) auto!important;column-gap:18px!important;min-height:46px!important;padding:7px 9px!important}
       .episodeCode{width:68px!important;grid-template-columns:30px 38px!important;column-gap:0!important}
       .episodeSeasonCode{min-width:30px!important}
+      .tvEpisodeMetaRail{font-size:12.5px!important;letter-spacing:.045em!important}
     }
   `;
   document.head.appendChild(style);
@@ -198,12 +220,19 @@ renderTvEpisode = function(series, seasonData, episode){
   if(title) title.textContent = tvDisplayEpisodeTitle(episode.title);
 
   const meta = hero.querySelector(".tvSubMeta");
-  const facts = [
-    `S${String(seasonData.season).padStart(2,"0")} E${tvDisplayEpisodeNumber(episode.number)}`,
-    tvFormatAirDate(episode.airDate || presentation?.airDate),
-    tvPresentationRuntime(presentation,episode)
-  ].filter(Boolean);
-  if(meta) meta.textContent = facts.join(" · ");
+  const episodeCode=`S${String(seasonData.season).padStart(2,"0")} E${tvDisplayEpisodeNumber(episode.number)}`;
+  const date=tvFormatAirDate(episode.airDate || presentation?.airDate);
+  const runtime=tvPresentationRuntime(presentation,episode);
+  const facts=[
+    [episodeCode,"tvEpisodeMetaCode"],
+    [date,"tvEpisodeMetaDate"],
+    [runtime,"tvEpisodeMetaRuntime"],
+    [series?.uncut ? "UNCUT" : "","tvEpisodeMetaUncut"]
+  ].filter(([value])=>Boolean(value));
+  if(meta){
+    meta.classList.add("tvEpisodeMetaRail");
+    meta.innerHTML=facts.map(([value,className],index)=>`${index?'<span class="tvEpisodeMetaSep">·</span>':''}<span class="${className}">${escapeHtml(value)}</span>`).join("");
+  }
 
   const scoreLine = hero.querySelector(".scoreLine");
   if(presentation?.description && scoreLine && !hero.querySelector(".tvPlotDescription")){
