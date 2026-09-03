@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "movies": [
+    {
+      "id": "500-days-of-summer-2009",
+      "sourceTitle": "500 Days Of Summer",
+      "year": 2009,
+      "version": "Theatrical Cut",
+      "audio": {"layouts":["5.1"],"lossless":true,"quality":"24-bit"}
+    }
+  ]
+}
