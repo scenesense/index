@@ -41,15 +41,23 @@
     const payload=await response.json();
     const movieAudio=new Map((payload.movies||[]).map(entry=>[entry.id,entry.audio]));
 
-    const applyMovieAudio=()=>{
-      if(typeof data==="undefined" || !data?.movies?.length) return false;
+    const applyAudioToMovies=target=>{
+      if(!target?.movies?.length) return 0;
       let covered=0;
-      data.movies.forEach(movie=>{
+      target.movies.forEach(movie=>{
         const audio=movieAudio.get(movie.id);
         if(!audio) return;
         movie.audio=audio;
         covered+=1;
       });
+      return covered;
+    };
+
+    const applyMovieAudio=()=>{
+      if(typeof data==="undefined" || !data?.movies?.length) return false;
+      if(typeof savedData==="undefined" || !savedData?.movies?.length) return false;
+      const covered=applyAudioToMovies(data);
+      applyAudioToMovies(savedData);
       if(covered!==data.movies.length){
         console.warn(`Audio metadata available for ${covered}/${data.movies.length} movies.`);
       }
@@ -103,14 +111,15 @@
           if(!episode) return;
           const detail=card.children[1];
           let meta=detail?.querySelector(".episodeRuntime");
-          const text=audioText(tvAudioFor(series,seasonData,episode));
+          const audio=tvAudioFor(series,seasonData,episode);
+          const text=audioText(audio);
           if(!detail || !text) return;
           if(!meta){
             meta=document.createElement("div");
             meta.className="episodeRuntime";
             detail.appendChild(meta);
           }
-          appendTextAudio(meta,tvAudioFor(series,seasonData,episode));
+          appendTextAudio(meta,audio);
         });
       };
     }
@@ -120,13 +129,14 @@
       renderTvEpisode=function(series,seasonData,episode){
         baseRenderTvEpisode(series,seasonData,episode);
         const meta=document.querySelector("#seriesHero .tvSubMeta");
-        const text=audioText(tvAudioFor(series,seasonData,episode));
+        const audio=tvAudioFor(series,seasonData,episode);
+        const text=audioText(audio);
         if(!meta || !text || meta.dataset.sceneAudio===text) return;
         if(meta.classList.contains("tvEpisodeMetaRail")){
           meta.insertAdjacentHTML("beforeend",`<span class="tvEpisodeMetaSep">·</span><span class="tvEpisodeMetaAudio">${escapeHtml(text)}</span>`);
           meta.dataset.sceneAudio=text;
         }else{
-          appendTextAudio(meta,tvAudioFor(series,seasonData,episode));
+          appendTextAudio(meta,audio);
         }
       };
     }
