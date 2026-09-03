@@ -1,5 +1,8 @@
 (async function loadSeriesTvScoring(){
   try{
+    const movieBack=document.getElementById("backBtn");
+    if(movieBack) movieBack.textContent="← Library";
+
     const casting=TV_SEASON_CATEGORIES.find(cat=>cat.key==="casting");
     if(casting?.items?.[0]){
       casting.items[0][2]="Do the actors feel naturally right for their characters?";
@@ -66,6 +69,16 @@
           }
         }
 
+        function appendMythologyBadge(target){
+          if(!target || target.querySelector(".episodeFlagM")) return;
+          const badge=document.createElement("span");
+          badge.className="episodeFlagM";
+          badge.textContent="M";
+          badge.title="Mythology / memorable";
+          badge.setAttribute("aria-label","Mythology / memorable");
+          target.appendChild(badge);
+        }
+
         if(!document.getElementById("tvEpisodeFlagStyles")){
           const flagStyle=document.createElement("style");
           flagStyle.id="tvEpisodeFlagStyles";
@@ -87,6 +100,13 @@
               letter-spacing:0;
               vertical-align:2px;
             }
+            #seriesHero h1 .episodeFlagM{
+              width:20px;
+              height:20px;
+              margin-left:10px;
+              font-size:11px;
+              vertical-align:4px;
+            }
           `;
           document.head.appendChild(flagStyle);
         }
@@ -98,21 +118,28 @@
           const mythology=new Set(flagData?.flags?.M || []);
           document.querySelectorAll("#seriesSeasons .episodeCard[data-episode]").forEach(card=>{
             if(!mythology.has(card.dataset.episode)) return;
-            const title=card.querySelector(".episodeTitle");
-            if(!title || title.querySelector(".episodeFlagM")) return;
-            const badge=document.createElement("span");
-            badge.className="episodeFlagM";
-            badge.textContent="M";
-            badge.title="Mythology / memorable";
-            badge.setAttribute("aria-label","Mythology / memorable");
-            title.appendChild(badge);
+            appendMythologyBadge(card.querySelector(".episodeTitle"));
           });
+        };
+
+        const flagRenderEpisode=renderTvEpisode;
+        renderTvEpisode=function(series,seasonData,episode){
+          flagRenderEpisode(series,seasonData,episode);
+          const flagData=tvEpisodeFlagCache.get(series.id);
+          const mythology=new Set(flagData?.flags?.M || []);
+          if(mythology.has(episode.id)) appendMythologyBadge(document.querySelector("#seriesHero h1"));
         };
 
         const flagOpenSeason=openTvSeason;
         openTvSeason=async function(seriesId,seasonNumber){
           await loadTvEpisodeFlags(seriesId);
           return flagOpenSeason(seriesId,seasonNumber);
+        };
+
+        const flagOpenEpisode=openTvEpisode;
+        openTvEpisode=async function(seriesId,seasonNumber,episodeId){
+          await loadTvEpisodeFlags(seriesId);
+          return flagOpenEpisode(seriesId,seasonNumber,episodeId);
         };
 
         if(activeSeriesId){
