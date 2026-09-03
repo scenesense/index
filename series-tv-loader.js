@@ -38,7 +38,7 @@
       const enhancements=document.createElement("script");
       enhancements.src=`series-tv-enhancements.js?v=${Date.now()}`;
       enhancements.dataset.scenesenseSeriesEnhancements="1";
-      enhancements.onload=()=>{
+      enhancements.onload=async()=>{
         if(typeof tvFormatBadge==="function"){
           tvFormatBadge=function(format){
             if(format==="PRiSM") return '<img class="detailPrismBadge" src="assets/format-logos/PRiSM.webp" alt="PRiSM">';
@@ -46,7 +46,78 @@
             if(format==="SiLVER35") return '<img class="detailSilver35Badge" src="assets/format-logos/SiLVER35.webp" alt="SiLVER35">';
             return "";
           };
-          if(activeSeriesId) renderActiveTvView();
+        }
+
+        const tvEpisodeFlagCache=new Map();
+        async function loadTvEpisodeFlags(seriesId){
+          if(tvEpisodeFlagCache.has(seriesId)) return tvEpisodeFlagCache.get(seriesId);
+          try{
+            const response=await fetch(`data/series/${tvSeriesFolder(seriesId)}/episode-flags.json?v=${Date.now()}`,{cache:"no-store"});
+            if(!response.ok){
+              tvEpisodeFlagCache.set(seriesId,null);
+              return null;
+            }
+            const data=await response.json();
+            tvEpisodeFlagCache.set(seriesId,data);
+            return data;
+          }catch(error){
+            tvEpisodeFlagCache.set(seriesId,null);
+            return null;
+          }
+        }
+
+        if(!document.getElementById("tvEpisodeFlagStyles")){
+          const flagStyle=document.createElement("style");
+          flagStyle.id="tvEpisodeFlagStyles";
+          flagStyle.textContent=`
+            .episodeFlagM{
+              display:inline-flex;
+              width:16px;
+              height:16px;
+              margin-left:7px;
+              align-items:center;
+              justify-content:center;
+              box-sizing:border-box;
+              border:1px solid #C59B45;
+              border-radius:3px;
+              color:#C59B45;
+              font-size:9px;
+              font-weight:800;
+              line-height:1;
+              letter-spacing:0;
+              vertical-align:2px;
+            }
+          `;
+          document.head.appendChild(flagStyle);
+        }
+
+        const flagRenderSeason=renderTvSeason;
+        renderTvSeason=function(series,seasonData){
+          flagRenderSeason(series,seasonData);
+          const flagData=tvEpisodeFlagCache.get(series.id);
+          const mythology=new Set(flagData?.flags?.M || []);
+          document.querySelectorAll("#seriesSeasons .episodeCard[data-episode]").forEach(card=>{
+            if(!mythology.has(card.dataset.episode)) return;
+            const title=card.querySelector(".episodeTitle");
+            if(!title || title.querySelector(".episodeFlagM")) return;
+            const badge=document.createElement("span");
+            badge.className="episodeFlagM";
+            badge.textContent="M";
+            badge.title="Mythology / memorable";
+            badge.setAttribute("aria-label","Mythology / memorable");
+            title.appendChild(badge);
+          });
+        };
+
+        const flagOpenSeason=openTvSeason;
+        openTvSeason=async function(seriesId,seasonNumber){
+          await loadTvEpisodeFlags(seriesId);
+          return flagOpenSeason(seriesId,seasonNumber);
+        };
+
+        if(activeSeriesId){
+          await loadTvEpisodeFlags(activeSeriesId);
+          renderActiveTvView();
         }
       };
       document.body.appendChild(enhancements);
