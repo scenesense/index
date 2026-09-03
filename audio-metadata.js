@@ -24,6 +24,15 @@
   }
   window.sceneAudioText=audioText;
 
+  if(typeof seriesYearText==="function"){
+    seriesYearText=function(series){
+      const start=series?.yearStart;
+      const end=series?.yearEnd;
+      if(!start) return "";
+      return !end || Number(start)===Number(end) ? String(start) : `${start}–${end}`;
+    };
+  }
+
   function catalogSeason(series,seasonNumber){
     return series?.seasons?.find(season=>Number(season.number)===Number(seasonNumber)) || null;
   }
@@ -163,8 +172,18 @@
     const style=document.createElement("style");
     style.id="tvMixedFormatBadgeStyles";
     style.textContent=`
+      #seriesHero .scoreLine .tvFormatBadge{
+        width:auto!important;
+        height:44px!important;
+        max-width:200px!important;
+        max-height:44px!important;
+        object-fit:contain!important;
+      }
       #seriesHero .scoreLine .tvFormatBadge + .tvFormatBadge{margin-left:10px!important}
-      @media(max-width:620px){#seriesHero .scoreLine .tvFormatBadge + .tvFormatBadge{margin-left:8px!important}}
+      @media(max-width:620px){
+        #seriesHero .scoreLine .tvFormatBadge{height:38px!important;max-height:38px!important}
+        #seriesHero .scoreLine .tvFormatBadge + .tvFormatBadge{margin-left:8px!important}
+      }
     `;
     document.head.appendChild(style);
   }
@@ -214,6 +233,8 @@
       const baseRenderSeriesDetail=renderSeriesDetail;
       renderSeriesDetail=function(series){
         baseRenderSeriesDetail(series);
+        const detailTitle=document.querySelector("#seriesHero h1");
+        if(detailTitle) detailTitle.textContent=series.detailTitle || series.title;
         const overviewMeta=document.querySelector("#seriesHero .movieSummary .eyebrow");
         if(overviewMeta) overviewMeta.textContent=seriesDetailTextLocal(series);
         document.querySelectorAll("#seriesSeasons .seasonBanner[data-season]").forEach(banner=>{
