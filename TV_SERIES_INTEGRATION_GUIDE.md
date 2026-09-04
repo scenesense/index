@@ -6,12 +6,13 @@
 **Branch:** `main`  
 **Site:** `https://scenesense.github.io/index/`  
 **TV questions version:** `tv-v1`  
-**Last updated:** 2026-09-03
+**Last updated:** 2026-09-04
 
 ---
 
 # 1. Non-negotiable repository workflow
 
+0. **Before parsing or editing any TV series, fetch and read the current `TV_SERIES_INTEGRATION_GUIDE.md` from `main`. This document is the controlling contract, not optional background reading.**
 1. **Fetch every target file immediately before editing it and use its current SHA.**
 2. **Never overwrite JSON from stale local state.** Merge only the intended change into the freshly fetched remote file.
 3. **Write directly to `main`.**
@@ -24,6 +25,19 @@
 10. After a multi-file integration, fetch the final files again and audit counts, titles, runtimes, formats, poster paths, metadata order and special cases.
 
 The dangerous part is rarely JSON syntax. It is confidently saving yesterday's truth over today's file.
+
+## Authority and precedence
+
+When sources disagree, use this order. **Never silently let a lower layer override a higher one.**
+
+1. **The user's explicit instruction for the current collection.**
+2. **SceneSense hard rules in this guide**, including naming, metadata, scoring and UI conventions.
+3. **The user's media scan/files** for exact runtimes, source/restoration labels, audio facts, included files and collection order.
+4. **External TV databases** for verification of factual programme metadata only.
+
+External databases may help verify spelling, punctuation, air dates and episode identity, but they do not get to override curated numbering, local title authority, multipart house style, selected cuts, restoration labels, audio schema or collection scope.
+
+If a new show appears to require a new data model or renderer feature, **do not invent one during upload**. First determine whether the existing model can represent the collection. Add new architecture only when the user explicitly wants that behavior and the guide is amended at the same time.
 
 ---
 
@@ -386,6 +400,19 @@ The Final Day
 
 If titles are derived rather than official, preserve that fact in working notes if needed, but **the UI still gets proper titles**.
 
+## External title audit rules
+
+When checking episode titles against TVMaze, IMDb, TMDb, Wikipedia or another database:
+
+- match the **actual episode identity** first; do not pick a replacement title by fuzzy string similarity alone
+- when the user says local titles are authoritative, preserve the wording, word boundaries, numbers and chosen translation; only apply the specific punctuation/capitalization correction requested
+- never change collection numbering/order merely because the database uses broadcast numbering
+- never convert SceneSense multipart suffixes away from `(Part One)`, `(Part Two)`, etc.
+- do not replace a deliberately shortened/local collection title with a database's longer broadcast-title formula unless explicitly requested
+- after an automated title audit, inspect and report every changed title before declaring the integration complete
+
+A database is a verifier. It is not permission for approximate nearest-title replacement.
+
 ---
 
 # 10. Core season file
@@ -457,21 +484,31 @@ The UI understands combined numbering and can stack the E numbers visually.
 
 # 12. Multipart title convention
 
-Store:
-
-```text
-The Tok'ra Part One
-The Tok'ra Part Two
-```
-
-Presentation converts to:
+This is a **hard site-wide house rule**. Store the canonical episode title itself as:
 
 ```text
 The Tok'ra (Part One)
 The Tok'ra (Part Two)
 ```
 
-Do not bake display punctuation inconsistently into source data.
+Likewise:
+
+```text
+Title (Part Three)
+Title (Part Four)
+```
+
+Do **not** store or import database variants such as:
+
+```text
+Part I / Part II
+Part 1 / Part 2
+Pt. 1 / Pt. 2
+Title: Part I
+Title - Part 1
+```
+
+The parentheses and the words `One`, `Two`, `Three`, `Four` are part of the canonical SceneSense title data, not a renderer transformation. External database punctuation never overrides this convention.
 
 ---
 
@@ -654,6 +691,18 @@ Rules:
 - 24-bit above 48 kHz: compact to `Lossless 24/96`, `Lossless 24/192`, etc.
 - 16-bit lossless remains simply `Lossless` unless a future UI rule explicitly changes it
 
+### Strict audio schema rule
+
+Raw scan fields are not automatically SceneSense display fields. **Never invent or populate a structured audio key merely because the scan contains a value.**
+
+For lossless audio:
+
+- `lossless:true` is sufficient for ordinary 16-bit lossless audio
+- `quality` is permitted only for supported elevated values such as `24-bit` or `24-bit/96kHz`
+- **never write `quality:"16-bit"`, `quality:"16-bit/48kHz"`, or display `Lossless 16-bit`**
+- do not add codec, bit-depth or sample-rate fields unless the current SceneSense schema/guide explicitly supports them
+- a scan value such as `16-bit/48kHz` may confirm ordinary lossless provenance, but it does not become a UI label
+
 When a season has uniform audio, store it once at season/catalogue level and let episodes inherit it. Add episode-level audio only for exceptions.
 
 ---
@@ -760,6 +809,20 @@ ALF uses this model.
 Buck Rogers uses this model.
 
 `editionNote` is archival explanation and is not part of the plot description.
+
+## Multiple physical presentations of the same episode
+
+The default SceneSense model remains **one canonical scoring row per chosen episode/file presentation**. Do not create `editions`, `editionGroups`, edition-view toggles or show-specific renderer code merely because two encodes of the same episode exist.
+
+If the user chooses one canonical presentation rule, collapse the collection to that rule. For example, if instructed to use the longer available cut and mark the collection uncut:
+
+- keep one episode/scoring row
+- use the chosen/longer runtime
+- use `uncut:true` or the appropriate cut metadata
+- if the chosen physical file combines two numbered episodes, represent it as one combined scoring entry such as `s01e16-17` / `16-17`
+- preserve the conceptual `episodeCount` separately from `scoringEntryCount`
+
+Only build a parallel-edition data model/UI after the user explicitly requests simultaneous edition browsing and the integration contract is updated to define that feature.
 
 ---
 
@@ -981,6 +1044,9 @@ Before declaring a series complete, verify all of the following:
 - year(s) correct
 - exact episode order preserved
 - every episode has a meaningful title
+- every multipart title uses exactly `(Part One)`, `(Part Two)`, `(Part Three)` or `(Part Four)`
+- no `Part I`, `Part II`, `Part 1`, `Part 2`, `Pt. 1`, `Pt. 2`, colon or hyphen multipart variants remain
+- title-database corrections were matched by episode identity, not fuzzy nearest-title replacement
 - exact runtimes preserved
 - air dates preserved where known
 - meaningful season description
@@ -988,7 +1054,10 @@ Before declaring a series complete, verify all of the following:
 - `format` or `formats` correct
 - source medium not confused with restoration badge
 - audio correct
+- no unsupported audio fields or `quality:"16-bit"` values
+- 5.0/5.1/6.1/7.1 render as `Surround`; 11.1/13.1/15.1 render as `Atmos` while exact layouts remain stored
 - edition/cut correct
+- no bespoke/show-specific renderer architecture was added unless explicitly required by the user
 
 ### Mixed formats
 - primary badge first
@@ -1061,20 +1130,24 @@ Before declaring a series complete, verify all of the following:
 - `Documentary` is a deliberate vocabulary exception
 - descriptions explain the scientific subjects, not how SceneSense grouped the programmes
 
+## Farscape
+- all seasons use `SiLVER8`
+- 92 numbered episodes / 90 scoring entries
+- *The Peacekeeper Wars* is represented as two combined scoring entries covering four numbered episodes
+- audio is stored as 5.1 lossless; raw 16-bit/48kHz scan information does **not** become `quality:"16-bit"`
+- official punctuation/spelling may be database-verified, but SceneSense multipart house style still wins
+
+## Friends
+- one canonical series/collection, not parallel edition browsing
+- 236 numbered episodes / 226 scoring entries
+- globally `uncut:true`
+- `PRiSM` is the canonical retained presentation
+- where regular and uncut copies existed separately, use the chosen longer runtime
+- where the UNCUT physical file combines two numbered episodes, use one combined scoring row
+- no `editions`, `editionGroups`, HIGH RES/UNCUT toggle, runtime-delta UI or Friends-specific edition renderer
+
 ---
 
 This document is the integration contract. When a new show exposes a genuinely new requirement, update the contract at the same time as the site so the next chat inherits the rule instead of rediscovering the mistake.
 
-### Multipart episode title convention
-
-SceneSense has a hard, site-wide title-style rule for multipart episode names:
-
-```text
-Title (Part One)
-Title (Part Two)
-Title (Part Three)
-Title (Part Four)
-```
-
-Do not replace this house style with database variants such as `Part I`, `Part II`, `Part 1`, `Part 2`, `Pt. 1`, `Pt. 2`, colon-separated forms, or hyphen-separated forms. External databases may verify the underlying title wording and punctuation, but this multipart suffix convention always wins.
 
