@@ -99,7 +99,7 @@ function renderSeriesCard(series){
       <div class="cardScore">${scoreText(seriesScore(series))}</div>
     </div>
     <div class="cardInfo">
-      <div class="cardTitle">${escapeHtml(series.id==="he-man-and-the-masters-of-the-universe-1983"?"He-Man & the Masters of the Universe":series.title)}</div>
+      <div class="cardTitle">${escapeHtml(series.id==="he-man-and-the-masters-of-the-universe-1983"?"He-Man: The Masters of the Universe":series.title)}</div>
       <div class="cardMeta"><span class="seriesCardMetaText">${escapeHtml(seriesMetaText(series))}</span></div>
       <div class="cardGenres"></div>
     </div>
