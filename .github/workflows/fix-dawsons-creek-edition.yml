@@ -1,0 +1,43 @@
+name: Fix Dawson's Creek edition metadata
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-dawsons-creek-edition.yml'
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Add SPECIAL EDITION metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          git pull --ff-only origin main
+          python - <<'PY'
+          import json
+          path='data/series/index-additions.json'
+          with open(path,encoding='utf-8') as f:
+              data=json.load(f)
+          hits=[x for x in data.get('series',[]) if x.get('id')=='dawsons-creek-1998']
+          if len(hits)!=1:
+              raise SystemExit(f'Expected one dawsons-creek-1998 entry, found {len(hits)}')
+          entry=hits[0]
+          entry['edition']='SPECIAL EDITION'
+          for season in entry.get('seasons',[]):
+              season['edition']='SPECIAL EDITION'
+          with open(path,'w',encoding='utf-8',newline='\n') as f:
+              json.dump(data,f,ensure_ascii=False,separators=(',',':'))
+              f.write('\n')
+          print('Dawson\'s Creek edition metadata set to SPECIAL EDITION at series and season levels.')
+          PY
+          rm -f .github/workflows/fix-dawsons-creek-edition.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/series/index-additions.json .github/workflows/fix-dawsons-creek-edition.yml
+          test "$(git diff --cached --name-only | sort | tr '\n' ' ')" = ".github/workflows/fix-dawsons-creek-edition.yml data/series/index-additions.json "
+          git commit -m "Add Dawson's Creek SPECIAL EDITION metadata"
+          git push origin main
