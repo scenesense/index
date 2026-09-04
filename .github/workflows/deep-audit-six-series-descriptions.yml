@@ -1,0 +1,41 @@
+name: Deep audit six-series descriptions
+on:
+  push:
+    paths:
+      - '.github/workflows/deep-audit-six-series-descriptions.yml'
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Flag teaser and vague plot copy
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, glob, re
+          dirs=['kevin-from-work','the-law-according-to-lidia-poet','eva-lasting','last-resort','legend-of-the-seeker','lois-and-clark']
+          patterns={
+            'question': re.compile(r'\?'),
+            'marketing': re.compile(r'\b(exciting|unforgettable|shocking|jaw-dropping|must-see|game-changing|life-changing)\b',re.I),
+            'teaser': re.compile(r'\b(will .*\?|what happens|what will|can .*\?|how far will|before it(?:’|\')s too late|the unthinkable|things (?:go|turn)|turn(?:s|ed)? (?:bad|deadly|dangerous)|greater threat|ominous demand|true reason .* revealed|mysterious (?:events|visit)|dangerous situation|unexpected turn|new reality|secrets? (?:are|is) revealed)\b',re.I),
+            'meta': re.compile(r'\b(season finale|episode|this season|series finale|viewers?|audience)\b',re.I),
+            'vague_open': re.compile(r'^(A visit|An unexpected|Things|Something|Trouble|A situation)\b',re.I),
+          }
+          flags=[]; total=0
+          for d in dirs:
+            for path in sorted(glob.glob(f'data/series/{d}/season-*-meta.json')):
+              meta=json.load(open(path,encoding='utf-8'))
+              for eid,m in meta.get('episodes',{}).items():
+                total+=1; desc=str(m.get('description','')).strip()
+                hits=[name for name,rx in patterns.items() if rx.search(desc)]
+                if hits: flags.append((path,eid,hits,desc))
+          print('TOTAL',total)
+          print('FLAGS',len(flags))
+          for row in flags:
+            print('\n',row[0],row[1],row[2])
+            print(row[3])
+          if total!=216: raise SystemExit('count mismatch')
+          PY
