@@ -1,0 +1,39 @@
+name: Fix Iain season title
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/fix-iain-season-title.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Replace season title
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('data/series/index-additions.json')
+          s = p.read_text()
+          old = '"title":"Earth: The Power of the Planet"'
+          new = '"title":"The Power of the Planet"'
+          n = s.count(old)
+          if n != 1:
+              raise SystemExit(f'Expected exactly one occurrence, found {n}')
+          p.write_text(s.replace(old, new))
+          PY
+          rm .github/workflows/fix-iain-season-title.yml
+      - name: Verify and commit
+        run: |
+          grep -q '"title":"The Power of the Planet"' data/series/index-additions.json
+          if grep -q '"title":"Earth: The Power of the Planet"' data/series/index-additions.json; then exit 1; fi
+          git config user.name 'soap2'
+          git config user.email '46655904+soap2@users.noreply.github.com'
+          git add data/series/index-additions.json .github/workflows/fix-iain-season-title.yml
+          git commit -m 'Shorten Iain Stewart season title'
+          git push origin main
