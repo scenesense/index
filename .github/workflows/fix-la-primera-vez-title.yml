@@ -1,0 +1,44 @@
+name: Fix La Primera Vez title
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-la-primera-vez-title.yml'
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Correct authoritative series title only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git pull --ff-only origin main
+          python - <<'PY'
+          import json
+          path='data/series/index-additions.json'
+          with open(path,encoding='utf-8') as f:
+              data=json.load(f)
+          hits=[x for x in data.get('series',[]) if x.get('id')=='eva-lasting-2023']
+          if len(hits)!=1:
+              raise SystemExit(f'Expected exactly one eva-lasting-2023 catalogue entry, found {len(hits)}')
+          old=hits[0].get('title')
+          if old!='Eva Lasting':
+              raise SystemExit(f'Refusing unexpected current title: {old!r}')
+          hits[0]['title']='La Primera Vez'
+          with open(path,'w',encoding='utf-8',newline='\n') as f:
+              json.dump(data,f,ensure_ascii=False,separators=(',',':'))
+              f.write('\n')
+          print('Corrected title:', old, '->', hits[0]['title'])
+          PY
+          rm -f .github/workflows/fix-la-primera-vez-title.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/series/index-additions.json .github/workflows/fix-la-primera-vez-title.yml
+          git diff --cached --name-only
+          test "$(git diff --cached --name-only | sort | tr '\n' ' ')" = ".github/workflows/fix-la-primera-vez-title.yml data/series/index-additions.json "
+          git commit -m 'Restore La Primera Vez series title'
+          git push origin main
