@@ -1,0 +1,31 @@
+name: Audit mixed TV formats
+on:
+  push:
+    branches: [tmp-audit-mixed-tv-formats]
+    paths:
+      - '.github/workflows/audit-mixed-tv-formats.yml'
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: tmp-audit-mixed-tv-formats
+      - name: Audit
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          for p in sorted(Path('data/series').glob('*/season-??-meta.json')):
+              try: d=json.loads(p.read_text())
+              except: continue
+              fs=d.get('formats')
+              if isinstance(fs,list) and len(fs)>1:
+                  eps=d.get('episodes') or {}
+                  missing=[k for k,v in eps.items() if not v.get('format') and not v.get('formats')]
+                  explicit={k:(v.get('format') or v.get('formats')) for k,v in eps.items() if v.get('format') or v.get('formats')}
+                  print(p)
+                  print('  formats=',fs,'default=',d.get('format'),'missing=',len(missing),'of',len(eps))
+                  print('  explicit=',explicit)
+                  print('  source=',d.get('source'))
+          PY
