@@ -6,9 +6,8 @@
     const quality=String(value||"").trim();
     if(!quality) return "";
     if(/^24-bit$/i.test(quality)) return "24-bit";
-    const hiRes=quality.match(/^24-bit\/(\d+(?:\.\d+)?)kHz$/i);
-    if(hiRes) return `24/${hiRes[1]}`;
-    return quality;
+    if(/^(?:24-bit\/96kHz|96\/24)$/i.test(quality)) return "96/24";
+    return "";
   }
 
   function audioText(audio){

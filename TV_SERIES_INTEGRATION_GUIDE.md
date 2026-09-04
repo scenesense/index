@@ -648,11 +648,13 @@ Do not invent alternate spelling such as `2.0` in the UI. Normalize perceptual 2
 Global display grouping is deliberately simpler than stored channel metadata:
 
 ```text
+1.0 / Mono              -> Mono
+2.0 / Stereo            -> Stereo
 5.0 / 5.1 / 6.1 / 7.1  -> Surround
 11.1 / 13.1 / 15.1     -> Atmos
 ```
 
-Keep the exact channel layout in structured data; apply `Surround` / `Atmos` only at display time.
+**Visible channel labels are restricted to exactly `Mono`, `Stereo`, `Surround`, and `Atmos`. Numeric channel layouts are storage-only and must never appear in the UI.** Keep the exact numeric layout in structured data where applicable, but always collapse it to one of those four visible labels.
 
 Structured examples:
 
@@ -668,28 +670,53 @@ Structured examples:
 {"layouts":["5.1"],"lossless":true,"quality":"24-bit"}
 ```
 
-Aggregate multiple layouts with **no spaces around `/`**:
+Aggregate multiple visible layout classes with **no spaces around `/`** and collapse duplicates after mapping:
 
 ```text
-Stereo/5.1
+Stereo/Surround
+Surround/Atmos
 ```
 
-UI rendering:
+## Strict visible audio labels
+
+The visible channel portion may be only:
+
+```text
+Mono
+Stereo
+Surround
+Atmos
+```
+
+The visible lossless portion has **exactly three allowed states**:
+
+```text
+Lossless
+Lossless 24-bit
+Lossless 96/24
+```
+
+Therefore valid rendered examples include:
 
 ```text
 Stereo
-5.1 · Lossless
-5.1 · Lossless 24-bit
-5.1 · Lossless 24/96
+Surround
+Surround · Lossless
+Surround · Lossless 24-bit
+Surround · Lossless 96/24
+Atmos · Lossless
+Atmos · Lossless 24-bit
+Atmos · Lossless 96/24
 ```
 
 Rules:
 
-- perceptual audio: channel layout only
-- lossless: append `Lossless`
-- genuine 24-bit at normal sample rate: `Lossless 24-bit`
-- 24-bit above 48 kHz: compact to `Lossless 24/96`, `Lossless 24/192`, etc.
-- 16-bit lossless remains simply `Lossless` unless a future UI rule explicitly changes it
+- perceptual audio: visible channel class only; never show the numeric layout
+- ordinary lossless, including 16-bit/48 kHz: append exactly `Lossless`
+- genuine 24-bit at normal sample rate: append exactly `Lossless 24-bit`
+- genuine 96 kHz / 24-bit lossless: append exactly `Lossless 96/24`
+- **no other `Lossless ...` display label is allowed** unless this guide is explicitly amended first
+- do not display `5.1`, `7.1`, `15.1`, `24/96`, `24/192`, `16-bit`, sample-rate text, or codec names in the visible audio rail
 
 ### Strict audio schema rule
 
@@ -697,9 +724,12 @@ Raw scan fields are not automatically SceneSense display fields. **Never invent 
 
 For lossless audio:
 
-- `lossless:true` is sufficient for ordinary 16-bit lossless audio
-- `quality` is permitted only for supported elevated values such as `24-bit` or `24-bit/96kHz`
+- `lossless:true` with no `quality` is the ordinary lossless state and renders exactly `Lossless`
+- `quality:"24-bit"` is the only normal elevated bit-depth state and renders exactly `Lossless 24-bit`
+- `quality:"24-bit/96kHz"` is the only high-resolution state and renders exactly `Lossless 96/24`
+- these are the **only three permitted visible lossless states**: `Lossless`, `Lossless 24-bit`, `Lossless 96/24`
 - **never write `quality:"16-bit"`, `quality:"16-bit/48kHz"`, or display `Lossless 16-bit`**
+- unsupported `quality` values must not create a new visible label; they fall back to ordinary `Lossless` until the contract is explicitly amended
 - do not add codec, bit-depth or sample-rate fields unless the current SceneSense schema/guide explicitly supports them
 - a scan value such as `16-bit/48kHz` may confirm ordinary lossless provenance, but it does not become a UI label
 
@@ -1055,7 +1085,8 @@ Before declaring a series complete, verify all of the following:
 - source medium not confused with restoration badge
 - audio correct
 - no unsupported audio fields or `quality:"16-bit"` values
-- 5.0/5.1/6.1/7.1 render as `Surround`; 11.1/13.1/15.1 render as `Atmos` while exact layouts remain stored
+- visible channel labels are only `Mono`, `Stereo`, `Surround`, `Atmos`; numeric layouts never render
+- visible lossless labels are only `Lossless`, `Lossless 24-bit`, `Lossless 96/24`; no fourth lossless label exists
 - edition/cut correct
 - no bespoke/show-specific renderer architecture was added unless explicitly required by the user
 
