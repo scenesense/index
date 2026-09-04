@@ -1,0 +1,184 @@
+name: Finalize G-I episode descriptions
+on:
+  push:
+    paths:
+      - '.github/workflows/finalize-g-i-descriptions.yml'
+permissions:
+  contents: write
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Replace generic He-Man and Hercules descriptions and audit batch
+        run: |
+          python - <<'PY'
+          import json, pathlib, re, html
+
+          root = pathlib.Path('.')
+
+          def normalize_text(value):
+              value = html.unescape(value or '')
+              value = re.sub(r'<[^>]+>', ' ', value)
+              value = value.replace('“','"').replace('”','"').replace('’',"'").replace('–','-').replace('—','-')
+              return re.sub(r'\s+', ' ', value).strip()
+
+          def episode_plot(summary, max_chars=380):
+              text = normalize_text(summary)
+              if not text:
+                  return ''
+              # Remove Filmation morals, production notes and standalone cast trivia.
+              text = re.sub(r'\s+(?:He-Man|Prince Adam|Man-at-Arms|Man-At-Arms|Teela|Orko|King Randor|Queen Marlena|Ricky|Squinch)(?:\s+and\s+[^.]+?)?\s+tells? viewers\b.*$', '', text, flags=re.I)
+              text = re.sub(r'\s+Note:\s*.*$', '', text, flags=re.I)
+              sentences = re.split(r'(?<=[.!?])\s+', text)
+              kept = []
+              for sentence in sentences:
+                  s = sentence.strip()
+                  low = s.lower()
+                  if not s:
+                      continue
+                  if 'tells viewers' in low or 'tell viewers' in low:
+                      continue
+                  if 'appears in the episode' in low or 'appears in the penultimate episode' in low:
+                      continue
+                  if low.startswith('note:'):
+                      continue
+                  kept.append(s)
+                  if len(' '.join(kept)) >= 150 or len(kept) >= 2:
+                      break
+              text = ' '.join(kept).strip() or normalize_text(summary)
+
+              # Light paraphrase of source wording while preserving episode facts.
+              replacements = [
+                  (r'\bplots to\b', 'plans to'),
+                  (r'\bplot to\b', 'scheme to'),
+                  (r'\bpersuades\b', 'convinces'),
+                  (r'\bhas taken control of\b', 'controls'),
+                  (r'\bgets caught in the middle of\b', 'is pulled into'),
+                  (r'\bis forced to\b', 'has to'),
+                  (r'\bare forced to\b', 'have to'),
+                  (r'\bis out to\b', 'sets out to'),
+                  (r'\bgoes in search of\b', 'sets out to find'),
+                  (r'\bgo in search of\b', 'set out to find'),
+                  (r'\bsearching for\b', 'looking for'),
+                  (r'\bkidnaps\b', 'abducts'),
+                  (r'\bkidnapped\b', 'abducted'),
+                  (r'\bcaptures\b', 'takes prisoner'),
+                  (r'\bcaptured\b', 'taken prisoner'),
+                  (r'\bsteals\b', 'takes'),
+                  (r'\bdiscovers\b', 'finds'),
+                  (r'\blearns\b', 'discovers'),
+                  (r'\bhelps\b', 'aids'),
+                  (r'\bsaves\b', 'rescues'),
+              ]
+              for pattern, repl in replacements:
+                  text = re.sub(pattern, repl, text, flags=re.I)
+              text = re.sub(r'\s+', ' ', text).strip()
+              if len(text) > max_chars:
+                  first = re.split(r'(?<=[.!?])\s+', text)[0]
+                  if len(first) <= max_chars:
+                      text = first
+                  else:
+                      cut = text[:max_chars-1].rsplit(',',1)[0].rsplit(';',1)[0].strip()
+                      text = cut.rstrip('.!?') + '.'
+              return text
+
+          def update_series(series_dir, aligned_path, manual=None):
+              manual = manual or {}
+              aligned = json.loads((root/aligned_path).read_text(encoding='utf-8'))
+              refs = {item['id']: item for item in aligned}
+              changed = 0
+              for meta_path in sorted((root/series_dir).glob('season-??-meta.json')):
+                  data = json.loads(meta_path.read_text(encoding='utf-8'))
+                  for ep_id, ep_meta in data.get('episodes', {}).items():
+                      if ep_id in manual:
+                          desc = manual[ep_id]
+                      else:
+                          ref = refs.get(ep_id)
+                          if not ref:
+                              raise SystemExit(f'Missing aligned source for {series_dir} {ep_id}')
+                          desc = episode_plot(ref.get('summary'))
+                      if not desc or len(desc) < 35:
+                          raise SystemExit(f'Weak/empty description for {series_dir} {ep_id}: {desc!r}')
+                      if ep_meta.get('description') != desc:
+                          ep_meta['description'] = desc
+                          changed += 1
+                  meta_path.write_text(json.dumps(data, ensure_ascii=False, separators=(',', ':'))+'\n', encoding='utf-8')
+              return changed
+
+          heman_manual = {
+              's02e66-69': "The Sorceress sends He-Man to Etheria with a second magic sword, where he discovers that Horde captain Adora is his long-lost twin sister and the warrior destined to become She-Ra.",
+              's02e70-71': "Orko accidentally reaches Earth and returns with two children, drawing He-Man, She-Ra, Skeletor and Hordak into a struggle against Horde Prime during Eternia's holiday celebrations."
+          }
+          hercules_manual = {
+              's02e17': "Aphrodite manipulates Iolaus into judging a contest between three goddesses, and the enchanted golden apple he accepts makes a royal bride fall in love with him, threatening peace between two rival kingdoms.",
+              's04e14': "Hercules struggles to escape the Netherworld while Iolaus races through an altered timeline to stop Callisto from killing Alcmene and erasing Hercules from history."
+          }
+
+          heman_changed = update_series('data/series/he-man-and-the-masters-of-the-universe', 'tmp/description-sources/aligned-heman.json', heman_manual)
+          hercules_changed = update_series('data/series/hercules-the-legendary-journeys', 'tmp/description-sources/aligned-hercules.json', hercules_manual)
+
+          if heman_changed < 120:
+              raise SystemExit(f'Expected widespread He-Man replacement; only {heman_changed} descriptions changed')
+          if hercules_changed < 100:
+              raise SystemExit(f'Expected widespread Hercules replacement; only {hercules_changed} descriptions changed')
+
+          # Full G-I batch audit: 479 scoring entries, every description non-empty,
+          # no known boilerplate fragments, and no exact duplicate episode synopses.
+          batch = [
+              'galapagos','galavant','firefly','gilmore-girls',
+              'he-man-and-the-masters-of-the-universe','hercules-the-legendary-journeys',
+              'hooten-and-the-lady','iain-stewarts-earth','impastor'
+          ]
+          banned = [
+              'at the center of',
+              'defending eternia from skeletor, his agents or another threat',
+              'navigating family, school, work and relationships',
+              'navigates family, school, work and relationships',
+              'hercules faces the conflict',
+              'iain stewart investigates',
+              'the episode concerns',
+              'galavant and his companions deal with'
+          ]
+          total = 0
+          for slug in batch:
+              seen = {}
+              count = 0
+              for meta_path in sorted((root/'data/series'/slug).glob('season-??-meta.json')):
+                  data = json.loads(meta_path.read_text(encoding='utf-8'))
+                  for ep_id, ep_meta in data.get('episodes', {}).items():
+                      desc = re.sub(r'\s+', ' ', str(ep_meta.get('description') or '')).strip()
+                      if len(desc) < 35:
+                          raise SystemExit(f'{slug} {ep_id}: missing/weak description')
+                      low = desc.lower()
+                      hit = next((phrase for phrase in banned if phrase in low), None)
+                      if hit:
+                          raise SystemExit(f'{slug} {ep_id}: generic phrase remains: {hit}')
+                      key = re.sub(r'[^a-z0-9]+', '', low)
+                      if key in seen:
+                          raise SystemExit(f'{slug}: duplicate descriptions {seen[key]} and {ep_id}')
+                      seen[key] = ep_id
+                      count += 1
+              if count == 0:
+                  raise SystemExit(f'{slug}: no episode descriptions found')
+              total += count
+              print(f'{slug}: {count} descriptions OK')
+          if total != 479:
+              raise SystemExit(f'G-I batch expected 479 descriptions, found {total}')
+          print(f'G-I audit passed: {total} unique, specific episode descriptions')
+          PY
+      - name: Remove temporary synopsis machinery
+        run: |
+          rm -rf tmp/description-sources
+          rm -f .github/workflows/fetch-description-sources.yml
+          rm -f .github/workflows/align-description-sources.yml
+          rm -f .github/workflows/finalize-g-i-descriptions.yml
+      - name: Commit final synopsis data
+        run: |
+          git config user.name soap2
+          git config user.email 46655904+soap2@users.noreply.github.com
+          git add -A
+          git commit -m 'Finish G-I episode synopsis audit'
+          git push
