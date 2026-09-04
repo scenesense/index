@@ -1,0 +1,213 @@
+{
+  "show": {
+    "id": 1323,
+    "name": "Lois & Clark: The New Adventures of Superman",
+    "premiered": "1993-09-12",
+    "ended": "1997-06-14",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Science-Fiction"
+    ],
+    "summary": "<p>A sleek, sexy, Emmy-nominated 1990s take on the enduring superhero, culled from DC Comics, which has spawned numerous successful film and TV versions of him as boy and man. All of which further demonstrated that while Kryptonite can kill the Man of Steel, changing times can't. Here, leads Dean Cain and Teri Hatcher have the looks and the chemistry, and the timeless question (seriously, how can Lois NOT know Clark is Superman?) plays itself out until they find true love.</p>",
+    "cast": [
+      {
+        "person": "Dean Cain",
+        "character": "Clark Kent / Superman"
+      },
+      {
+        "person": "Teri Hatcher",
+        "character": "Lois Lane"
+      },
+      {
+        "person": "Lane Smith",
+        "character": "Perry White"
+      },
+      {
+        "person": "Michael Landes",
+        "character": "Jimmy Olsen"
+      },
+      {
+        "person": "Justin Whalin",
+        "character": "Jimmy Olsen"
+      },
+      {
+        "person": "Eddie Jones",
+        "character": "Jonathan Kent"
+      },
+      {
+        "person": "K Callan",
+        "character": "Martha Kent"
+      },
+      {
+        "person": "Tracy Scoggins",
+        "character": "Catherine \"Cat\" Grant"
+      },
+      {
+        "person": "John Shea",
+        "character": "Lex Luthor"
+      },
+      {
+        "person": "Elizabeth Barondes",
+        "character": "Lucy Lane"
+      }
+    ]
+  },
+  "season": 2,
+  "episodes": [
+    {
+      "season": 2,
+      "number": 1,
+      "name": "Madame Ex",
+      "airdate": "1994-09-18",
+      "summary": "<p>Luthor's ex-wife hires a Lois look-alike to discredit Lois and destroy Superman.</p>"
+    },
+    {
+      "season": 2,
+      "number": 2,
+      "name": "Wall of Sound",
+      "airdate": "1994-09-25",
+      "summary": "<p>An award nomination creates a rift between Clark and Lois; strange sounds cripple the city and Superman.</p>"
+    },
+    {
+      "season": 2,
+      "number": 3,
+      "name": "The Source",
+      "airdate": "1994-10-02",
+      "summary": "<p>While trying to get Lois reinstated in her job, Lois and Clark uncover political and corporate corruption.</p>"
+    },
+    {
+      "season": 2,
+      "number": 4,
+      "name": "The Prankster",
+      "airdate": "1994-10-09",
+      "summary": "<p>When Lois receives mysterious gifts, she and Clark link them to the creation of a nuclear weapon.</p>"
+    },
+    {
+      "season": 2,
+      "number": 5,
+      "name": "Church of Metropolis",
+      "airdate": "1994-10-23",
+      "summary": "<p>An international crime group targets Lois and her uncle; a prosecutor lusts for Clark but despises Superman.</p>"
+    },
+    {
+      "season": 2,
+      "number": 6,
+      "name": "Operation Blackout",
+      "airdate": "1994-10-30",
+      "summary": "<p>A blackout is linked to a computer genius and a colonel set to hijack a satellite that can destroy the world.</p>"
+    },
+    {
+      "season": 2,
+      "number": 7,
+      "name": "That Old Gang of Mine",
+      "airdate": "1994-11-13",
+      "summary": "<p>Clark is mortally injured when a genetic experiment regenerates three infamous mobsters and a lethal gun moll.</p>"
+    },
+    {
+      "season": 2,
+      "number": 8,
+      "name": "A Bolt from the Blue",
+      "airdate": "1994-11-20",
+      "summary": "<p>A misfit gains powers equal to Superman's; a deranged scientist wants to transform them to a Superman foe.</p>"
+    },
+    {
+      "season": 2,
+      "number": 9,
+      "name": "Season's Greedings",
+      "airdate": "1994-12-04",
+      "summary": "<p>A bitter inventor's new toy brings out the worst in the shoppers of Metropolis during the holiday season.</p>"
+    },
+    {
+      "season": 2,
+      "number": 10,
+      "name": "Metallo",
+      "airdate": "1995-01-01",
+      "summary": "<p>Superman must fight a cyborg powered by kryptonite.</p>"
+    },
+    {
+      "season": 2,
+      "number": 11,
+      "name": "Chi of Steel",
+      "airdate": "1995-01-08",
+      "summary": "<p>Superman copes with Far East mysticism when Chinatown robberies are linked to a Ninja master.</p>"
+    },
+    {
+      "season": 2,
+      "number": 12,
+      "name": "The Eyes Have It",
+      "airdate": "1995-01-22",
+      "summary": "<p>After acquiring a device that carries information on a beam of light, Lois is kidnapped by an evil ophthalmologist.</p>"
+    },
+    {
+      "season": 2,
+      "number": 13,
+      "name": "The Phoenix",
+      "airdate": "1995-02-12",
+      "summary": "<p>Lex Luthor returns from the grave to win back Lois and exact revenge on Superman.</p>"
+    },
+    {
+      "season": 2,
+      "number": 14,
+      "name": "Top Copy",
+      "airdate": "1995-02-19",
+      "summary": "<p>An assassin posing as a TV journalist attempts to reveal Superman's identity and kill him.</p>"
+    },
+    {
+      "season": 2,
+      "number": 15,
+      "name": "Return of the Prankster",
+      "airdate": "1995-02-26",
+      "summary": "<p>The Prankster jeopardizes Lois' interview with the president.</p>"
+    },
+    {
+      "season": 2,
+      "number": 16,
+      "name": "Lucky Leon",
+      "airdate": "1995-03-12",
+      "summary": "<p>Superman unwittingly aids the hijacking of a shipment of nuclear warheads; Clark and Lois ready for their first date.</p>"
+    },
+    {
+      "season": 2,
+      "number": 17,
+      "name": "Resurrection",
+      "airdate": "1995-03-19",
+      "summary": "<p>A deranged scientist plots to release a deadly virus in Metropolis; Lois' attraction to a government agent irks Clark.</p>"
+    },
+    {
+      "season": 2,
+      "number": 18,
+      "name": "Tempus Fugitive",
+      "airdate": "1995-03-26",
+      "summary": "<p>H.G. Wells' time machine carries Lois and Clark to 1966 Smallville to prevent a futuristic villain from killing the infant Superman.</p>"
+    },
+    {
+      "season": 2,
+      "number": 19,
+      "name": "Target: Jimmy Olsen!",
+      "airdate": "1995-04-02",
+      "summary": "<p>Jimmy falls under the influence of a mind-controlling serum that turns its victims into assassins who kill on command.</p>"
+    },
+    {
+      "season": 2,
+      "number": 20,
+      "name": "Individual Responsibility",
+      "airdate": "1995-04-16",
+      "summary": "<p>After exposure to red kryptonite, a depressed Superman doesn't respond when Intergang kidnaps Perry.</p>"
+    },
+    {
+      "season": 2,
+      "number": 21,
+      "name": "Whine, Whine, Whine",
+      "airdate": "1995-05-14",
+      "summary": "<p>Lois must choose Clark, Superman or Dan Scardino; a lawsuit threatens Superman's future.</p>"
+    },
+    {
+      "season": 2,
+      "number": 22,
+      "name": "And the Answer Is...",
+      "airdate": "1995-05-21",
+      "summary": "<p>A blackmailer threatens to reveal Clark's secret; Clark proposes to Lois.</p>"
+    }
+  ]
+}
