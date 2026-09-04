@@ -1,0 +1,42 @@
+name: Stage episode synopsis sources
+on:
+  push:
+    paths:
+      - '.github/workflows/fetch-description-sources.yml'
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fetch factual episode synopsis references
+        run: |
+          python - <<'PY'
+          import json, urllib.request, urllib.parse, pathlib
+          out=pathlib.Path('tmp/description-sources'); out.mkdir(parents=True,exist_ok=True)
+          headers={'User-Agent':'SceneSense catalogue maintenance/1.0'}
+          def get_json(url):
+              req=urllib.request.Request(url,headers=headers)
+              with urllib.request.urlopen(req,timeout=60) as r: return json.load(r)
+          for slug,show_id in {'gilmore-girls':525,'hercules':905}.items():
+              data=get_json(f'https://api.tvmaze.com/shows/{show_id}/episodes?specials=1')
+              slim=[{'season':e.get('season'),'number':e.get('number'),'name':e.get('name'),'airdate':e.get('airdate'),'summary':e.get('summary')} for e in data]
+              (out/f'{slug}-tvmaze.json').write_text(json.dumps(slim,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          for slug,page in {
+              'he-man':'List of He-Man and the Masters of the Universe episodes',
+              'hercules-wikipedia':'List of Hercules: The Legendary Journeys episodes'
+          }.items():
+              q=urllib.parse.urlencode({'action':'parse','page':page,'prop':'wikitext','format':'json','formatversion':'2'})
+              data=get_json('https://en.wikipedia.org/w/api.php?'+q)
+              (out/f'{slug}.wikitext').write_text(data['parse']['wikitext'],encoding='utf-8')
+          PY
+      - name: Commit source staging
+        run: |
+          git config user.name soap2
+          git config user.email 46655904+soap2@users.noreply.github.com
+          git add tmp/description-sources
+          git commit -m 'Stage episode synopsis references for rewrite'
+          git push
