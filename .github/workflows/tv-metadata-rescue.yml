@@ -1,0 +1,232 @@
+name: TV metadata rescue
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/tv-metadata-rescue.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  rescue:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Simplify Friends, normalize audio labels, and audit TV titles
+        run: |
+          python3 - <<'PY'
+          import json, re, urllib.parse, urllib.request
+          from pathlib import Path
+          from difflib import SequenceMatcher
+
+          ROOT=Path('.')
+
+          def load(path):
+              return json.loads(Path(path).read_text(encoding='utf-8'))
+          def save(path,obj):
+              Path(path).write_text(json.dumps(obj,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8')
+          def norm(s):
+              return ''.join(ch.lower() for ch in str(s) if ch.isalnum())
+          def tvmaze(show):
+              url='https://api.tvmaze.com/singlesearch/shows?q='+urllib.parse.quote(show)+'&embed=episodes'
+              req=urllib.request.Request(url,headers={'User-Agent':'SceneSense-metadata-audit/1.0'})
+              with urllib.request.urlopen(req,timeout=30) as r:
+                  data=json.load(r)
+              return data.get('_embedded',{}).get('episodes',[])
+          def title_candidates(show, official):
+              vals=[official]
+              if ':' in official:
+                  vals.append(official.rsplit(':',1)[-1].strip())
+              if show=='Friends':
+                  for pat in [r'^The One with\s+',r'^The One Where\s+',r'^The One where\s+',r'^The One That\s+',r'^The One that\s+']:
+                      stripped=re.sub(pat,'',official)
+                      if stripped!=official: vals.append(stripped)
+                  m=re.match(r'^The One After\s+(.+)$',official,re.I)
+                  if m: vals.append('After '+m.group(1))
+              out=[]
+              for v in vals:
+                  v=v.strip()
+                  v=re.sub(r'\s+\(Part\s+\d+\)$','',v,flags=re.I)
+                  if v and v not in out: out.append(v)
+              return out
+          def best_title(local, show, official_titles, strict=False):
+              ln=norm(local)
+              if not ln: return local
+              best=(0.0,local)
+              for official in official_titles:
+                  for cand in title_candidates(show,official):
+                      cn=norm(cand)
+                      if not cn: continue
+                      if strict:
+                          score=1.0 if cn==ln else 0.0
+                      else:
+                          score=SequenceMatcher(None,ln,cn).ratio()
+                          if cn==ln: score=1.0
+                      if score>best[0]: best=(score,cand)
+              threshold=1.0 if strict else 0.88
+              return best[1] if best[0]>=threshold else local
+
+          # 1) Friends: collapse the parallel edition model to one canonical UNCUT collection.
+          friends_dir=ROOT/'data/series/friends'
+          total_runtime=0
+          season_counts={}
+          for season in range(1,11):
+              cp=friends_dir/f'season-{season:02d}.json'
+              mp=friends_dir/f'season-{season:02d}-meta.json'
+              core=load(cp); meta=load(mp)
+              old_eps={e['id']:e for e in core.get('episodes',[])}
+              m_eps=meta.get('episodes',{})
+              groups={g['id']:g for g in meta.get('editionGroups',[])}
+              used=set(); new_core=[]; new_meta={}
+              for ep in core.get('episodes',[]):
+                  if ep['id'] in used: continue
+                  em=m_eps.get(ep['id'],{})
+                  gid=em.get('uncutGroupId')
+                  if gid and gid in groups:
+                      g=groups[gid]
+                      members=[m for m in g.get('members',[]) if m in old_eps]
+                      if not members: continue
+                      if ep['id']!=members[0]: continue
+                      used.update(members)
+                      member_eps=[old_eps[m] for m in members]
+                      if any(x.get('ratings') for x in member_eps):
+                          raise RuntimeError(f'Cannot combine rated Friends rows in S{season:02d}: {members}')
+                      regular_total=sum(int(x.get('runtimeSeconds') or 0) for x in member_eps)
+                      runtime=max(int(g.get('runtimeSeconds') or 0),regular_total)
+                      first=member_eps[0]
+                      num=str(g.get('number') or '').strip() or f"{first['number']}-{member_eps[-1]['number']}"
+                      new_id=f"s{season:02d}e{num}"
+                      descriptions=[str(m_eps.get(m,{}).get('description') or '').strip() for m in members]
+                      descriptions=[d for d in descriptions if d]
+                      new_core.append({'id':new_id,'number':num,'title':g.get('title') or first['title'],'airDate':first.get('airDate'),'runtimeSeconds':runtime,'ratings':{}})
+                      new_meta[new_id]={'airDate':first.get('airDate'),'description':' '.join(descriptions),'runtimeSeconds':runtime}
+                      continue
+                  used.add(ep['id'])
+                  candidates=[int(ep.get('runtimeSeconds') or 0),int(em.get('runtimeSeconds') or 0)]
+                  for ed in em.get('editions',[]) or []:
+                      candidates.append(int(ed.get('runtimeSeconds') or 0))
+                  runtime=max(candidates)
+                  new_ep=dict(ep); new_ep['runtimeSeconds']=runtime
+                  new_core.append(new_ep)
+                  mm={'airDate':ep.get('airDate') or em.get('airDate'),'description':str(em.get('description') or '').strip(),'runtimeSeconds':runtime}
+                  new_meta[ep['id']]=mm
+              core['episodes']=new_core
+              save(cp,core)
+              simplified={'version':1,'seriesId':'friends-1994','season':season,'format':'PRiSM','source':'UNCUT 1080p23 AI.PRO · PRiSM','description':meta.get('description',''),'episodes':new_meta}
+              save(mp,simplified)
+              season_counts[season]=len(new_core)
+              total_runtime+=sum(int(e.get('runtimeSeconds') or 0) for e in new_core)
+
+          expected={1:23,2:23,3:25,4:23,5:23,6:23,7:23,8:23,9:23,10:17}
+          if season_counts!=expected:
+              raise RuntimeError(f'Unexpected Friends scoring counts: {season_counts}')
+          if sum(season_counts.values())!=226:
+              raise RuntimeError('Friends must have 226 scoring rows')
+
+          additions_path=ROOT/'data/series/index-additions.json'
+          additions=load(additions_path)
+          friends=next(x for x in additions['series'] if x['id']=='friends-1994')
+          friends['episodeCount']=236
+          friends['scoringEntryCount']=226
+          friends['uncut']=True
+          friends['audio']={'layouts':['5.0'],'lossless':False}
+          friends.pop('collectionScope',None)
+          friends['runtimeSeconds']=total_runtime
+          for s in friends.get('seasons',[]):
+              n=int(s['number']); s['scoringEntryCount']=season_counts[n]; s['audio']={'layouts':['5.0'],'lossless':False}
+          save(additions_path,additions)
+
+          # 2) Remove the Friends-only editions UI entirely.
+          Path('friends-editions.js').unlink(missing_ok=True)
+          Path('audio-metadata.js').write_text('''(function(){\n  const loadExtras=()=>{\n    if(!document.querySelector('script[data-scenesense-series-additions]')){\n      const additions=document.createElement("script");\n      additions.src=`series-catalog-additions.js?v=${Date.now()}`;\n      additions.dataset.scenesenseSeriesAdditions="1";\n      document.body.appendChild(additions);\n    }\n  };\n  const base=document.createElement("script");\n  base.src=`audio-metadata-base.js?v=${Date.now()}`;\n  base.dataset.scenesenseAudioMetadataBase="1";\n  base.onload=loadExtras;\n  document.body.appendChild(base);\n})();\n''',encoding='utf-8')
+
+          # 3) Global display labels: exact stored layouts remain factual; UI groups them.
+          amp=Path('audio-metadata-base.js')
+          src=amp.read_text(encoding='utf-8')
+          old='''    const layouts=Array.isArray(audio.layouts)?audio.layouts.filter(Boolean):[];\n    const parts=[];\n    if(layouts.length) parts.push(layouts.join("/"));'''
+          new='''    const rawLayouts=Array.isArray(audio.layouts)?audio.layouts.filter(Boolean):[];\n    const displayLayout=value=>{\n      const v=String(value||"").trim();\n      if(["5.0","5.1","6.1","7.1"].includes(v)) return "Surround";\n      if(["11.1","13.1","15.1"].includes(v)) return "Atmos";\n      if(v==="2.0") return "Stereo";\n      if(v==="1.0") return "Mono";\n      return v;\n    };\n    const layouts=[...new Set(rawLayouts.map(displayLayout).filter(Boolean))];\n    const parts=[];\n    if(layouts.length) parts.push(layouts.join("/"));'''
+          if old not in src:
+              raise RuntimeError('audioText layout block not found')
+          amp.write_text(src.replace(old,new,1),encoding='utf-8')
+
+          # 4) Invalid series-level 16-bit display quality must not survive anywhere.
+          def scrub16(obj):
+              if isinstance(obj,dict):
+                  if str(obj.get('quality','')).lower() in {'16-bit','16-bit/48khz'}:
+                      obj.pop('quality',None)
+                  for v in obj.values(): scrub16(v)
+              elif isinstance(obj,list):
+                  for v in obj: scrub16(v)
+          for p in (ROOT/'data/series').rglob('*.json'):
+              obj=load(p); before=json.dumps(obj,sort_keys=True,ensure_ascii=False); scrub16(obj); after=json.dumps(obj,sort_keys=True,ensure_ascii=False)
+              if before!=after: save(p,obj)
+
+          # 5) Episode-title audit against TVMaze. Curated translations keep their wording.
+          configs={
+              'emergence':('Emergence',False),
+              'everwood':('Everwood',False),
+              'dawsons-creek':("Dawson's Creek",True),
+              'die-kaiserin':('The Empress',True),
+              'dark-angel':('Dark Angel',False),
+              'el-barco':('El Barco',True),
+              'buffy-the-vampire-slayer':('Buffy the Vampire Slayer',False),
+              'chuck':('Chuck',False),
+              'eureka':('Eureka',False),
+              'farscape':('Farscape',False),
+              'friends':('Friends',False),
+          }
+          title_changes=[]
+          for folder,(show,strict) in configs.items():
+              d=ROOT/'data/series'/folder
+              if not d.exists(): continue
+              try:
+                  db_eps=tvmaze(show)
+              except Exception as exc:
+                  raise RuntimeError(f'TV database lookup failed for {show}: {exc}')
+              official=[str(e.get('name') or '').strip() for e in db_eps if e.get('name')]
+              for cp in sorted(d.glob('season-[0-9][0-9].json')):
+                  core=load(cp); changed=False
+                  for ep in core.get('episodes',[]):
+                      if ep.get('placeholder') or '-' in str(ep.get('number','')): continue
+                      old_title=str(ep.get('title') or '')
+                      new_title=best_title(old_title,show,official,strict=strict)
+                      if new_title!=old_title:
+                          ep['title']=new_title; changed=True
+                          title_changes.append(f'{folder} {ep["id"]}: {old_title} -> {new_title}')
+                  if changed: save(cp,core)
+          print('TITLE CORRECTIONS:')
+          for line in title_changes: print(line)
+
+          # 6) Update the integration guide so the same mistakes are not reintroduced later.
+          gp=Path('TV_SERIES_INTEGRATION_GUIDE.md')
+          guide=gp.read_text(encoding='utf-8')
+          guide=guide.replace('''Mono\nStereo\n5.1\n6.1\n7.1\n11.1\n13.1\n15.1''','''Mono\nStereo\n5.0\n5.1\n6.1\n7.1\n11.1\n13.1\n15.1''')
+          anchor='''Do not invent alternate spelling such as `2.0` in the UI. Normalize perceptual 2.0 to `Stereo`, 1.0 to `Mono`.'''
+          replacement='''Do not invent alternate spelling such as `2.0` in the UI. Normalize perceptual 2.0 to `Stereo`, 1.0 to `Mono`.\n\nGlobal display grouping is deliberately simpler than stored channel metadata:\n\n```text\n5.0 / 5.1 / 6.1 / 7.1  -> Surround\n11.1 / 13.1 / 15.1     -> Atmos\n```\n\nKeep the exact channel layout in structured data; apply `Surround` / `Atmos` only at display time.'''
+          if anchor in guide: guide=guide.replace(anchor,replacement,1)
+          gp.write_text(guide,encoding='utf-8')
+
+          # 7) Assertions against the failure modes this rescue is meant to remove.
+          if Path('friends-editions.js').exists(): raise RuntimeError('friends-editions.js still exists')
+          if 'friends-editions.js' in Path('audio-metadata.js').read_text(encoding='utf-8'): raise RuntimeError('Friends edition loader still present')
+          for p in friends_dir.glob('*-meta.json'):
+              text=p.read_text(encoding='utf-8')
+              for forbidden in ['editionAware','editionGroups','"editions"','HIGH RES']:
+                  if forbidden in text: raise RuntimeError(f'{forbidden} remains in {p}')
+          for p in (ROOT/'data/series').rglob('*.json'):
+              if '"quality":"16-bit"' in p.read_text(encoding='utf-8'):
+                  raise RuntimeError(f'illegal 16-bit quality remains in {p}')
+          print('Friends scoring counts:',season_counts,'total',sum(season_counts.values()),'runtime',total_runtime)
+          PY
+      - name: Commit rescued metadata
+        run: |
+          git config user.name "soap2"
+          git config user.email "46655904+soap2@users.noreply.github.com"
+          git rm -f .github/workflows/tv-metadata-rescue.yml
+          git add -A
+          git commit -m "Simplify Friends and normalize TV metadata"
+          git push origin HEAD:main
