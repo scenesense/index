@@ -1,0 +1,107 @@
+name: Fix Friends formats and episode-code optics
+on:
+  push:
+    branches: [tmp-friends-fix]
+    paths:
+      - '.github/workflows/fix-friends-format-optical-one.yml'
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: tmp-friends-fix
+          fetch-depth: 0
+      - name: Apply fixes
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          # Friends catalogue audio: both physical options exist. The scan-backed
+          # high-res option includes ordinary 16-bit/48 kHz lossless 5.1, so there
+          # is deliberately no quality field.
+          index_path = Path('data/series/index.json')
+          index = json.loads(index_path.read_text(encoding='utf-8'))
+          friends = next(s for s in index['series'] if s['id'] == 'friends-1994')
+          friends['audio'] = {'layouts':['5.0','5.1'],'lossless':True}
+          for season in friends.get('seasons', []):
+              season['audio'] = {'layouts':['5.0','5.1'],'lossless':True}
+          index_path.write_text(json.dumps(index, ensure_ascii=False, separators=(',',':')) + '\n', encoding='utf-8')
+
+          # Both Friends file options are retained: UNCUT PRiSM and high-res SiLVER35.
+          meta_paths = sorted(Path('data/series/friends').glob('season-??-meta.json'))
+          if len(meta_paths) != 10:
+              raise RuntimeError(f'Expected 10 Friends season meta files, found {len(meta_paths)}')
+          for path in meta_paths:
+              data = json.loads(path.read_text(encoding='utf-8'))
+              data['format'] = 'PRiSM'
+              data['formats'] = ['PRiSM','SiLVER35']
+              data['source'] = 'UNCUT 1080p AI.PRO · PRiSM | HIGH RES 2160p AI.ARC · SiLVER35'
+              path.write_text(json.dumps(data, ensure_ascii=False, separators=(',',':')) + '\n', encoding='utf-8')
+
+          # Optical correction: widen only glyph "1" without changing its layout width.
+          js_path = Path('series-tv-enhancements.js')
+          js = js_path.read_text(encoding='utf-8')
+          old = '''function tvEpisodeCodeMarkup(seasonNumber, episodeNumber){
+            const season=`S${String(seasonNumber).padStart(2,"0")}`;
+            const episodes=String(episodeNumber||"").split("-").filter(Boolean);
+            return `<span class="episodeSeasonCode">${escapeHtml(season)}</span><span class="episodeNumberStack">${episodes.map(n=>`<span class="episodeNumberLine">E${escapeHtml(n)}</span>`).join("")}</span>`;
+          }
+          '''
+          new = '''function tvEpisodeDigitsMarkup(number){
+            return [...String(number||"")].map(char=>char==="1" ? `<span class="episodeOpticalOne">1</span>` : escapeHtml(char)).join("");
+          }
+
+          function tvEpisodeCodeMarkup(seasonNumber, episodeNumber){
+            const season=`S${String(seasonNumber).padStart(2,"0")}`;
+            const episodes=String(episodeNumber||"").split("-").filter(Boolean);
+            return `<span class="episodeSeasonCode">${escapeHtml(season)}</span><span class="episodeNumberStack">${episodes.map(n=>`<span class="episodeNumberLine">E${tvEpisodeDigitsMarkup(n)}</span>`).join("")}</span>`;
+          }
+          '''
+          if old not in js:
+              raise RuntimeError('Expected tvEpisodeCodeMarkup block not found')
+          js = js.replace(old, new, 1)
+          css_old = '    .episodeNumberLine{display:block!important}\n'
+          css_new = '    .episodeNumberLine{display:block!important}\n    .episodeOpticalOne{display:inline-block!important;transform:scaleX(1.16)!important;transform-origin:50% 50%!important}\n'
+          if css_old not in js:
+              raise RuntimeError('Expected episodeNumberLine CSS not found')
+          js = js.replace(css_old, css_new, 1)
+          js_path.write_text(js, encoding='utf-8')
+
+          # Keep the integration contract synchronized with the actual Friends model.
+          guide_path = Path('TV_SERIES_INTEGRATION_GUIDE.md')
+          guide = guide_path.read_text(encoding='utf-8')
+          anchor = '- `PRiSM` is the canonical retained presentation\n'
+          addition = ('- `PRiSM` is the canonical retained presentation\n'
+                      '- display both `PRiSM` and `SiLVER35` format badges because both physical file options are retained\n'
+                      '- Friends high-res scan entries that are lossless are ordinary 16-bit/48 kHz 5.1, so they render `Surround · Lossless`; do not mark Friends as 24-bit without new scan evidence\n')
+          if anchor not in guide:
+              raise RuntimeError('Friends guide anchor not found')
+          guide = guide.replace(anchor, addition, 1)
+          guide_path.write_text(guide, encoding='utf-8')
+
+          # Assertions.
+          index2 = json.loads(index_path.read_text(encoding='utf-8'))
+          f2 = next(s for s in index2['series'] if s['id'] == 'friends-1994')
+          assert f2['audio'] == {'layouts':['5.0','5.1'],'lossless':True}
+          assert 'quality' not in f2['audio']
+          for path in meta_paths:
+              m = json.loads(path.read_text(encoding='utf-8'))
+              assert m['format'] == 'PRiSM'
+              assert m['formats'] == ['PRiSM','SiLVER35']
+          js2 = js_path.read_text(encoding='utf-8')
+          assert 'episodeOpticalOne' in js2 and 'scaleX(1.16)' in js2
+          PY
+      - name: Commit fixes
+        shell: bash
+        run: |
+          git config user.name "soap2"
+          git config user.email "46655904+soap2@users.noreply.github.com"
+          git rm -f .github/workflows/fix-friends-format-optical-one.yml
+          git add data/series/index.json data/series/friends/season-??-meta.json series-tv-enhancements.js TV_SERIES_INTEGRATION_GUIDE.md
+          git commit -m "Fix Friends formats audio and episode number optics"
+          git push origin HEAD:tmp-friends-fix
