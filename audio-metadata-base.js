@@ -13,7 +13,16 @@
 
   function audioText(audio){
     if(!audio) return "";
-    const layouts=Array.isArray(audio.layouts)?audio.layouts.filter(Boolean):[];
+    const rawLayouts=Array.isArray(audio.layouts)?audio.layouts.filter(Boolean):[];
+    const displayLayout=value=>{
+      const v=String(value||"").trim();
+      if(["5.0","5.1","6.1","7.1"].includes(v)) return "Surround";
+      if(["11.1","13.1","15.1"].includes(v)) return "Atmos";
+      if(v==="2.0") return "Stereo";
+      if(v==="1.0") return "Mono";
+      return v;
+    };
+    const layouts=[...new Set(rawLayouts.map(displayLayout).filter(Boolean))];
     const parts=[];
     if(layouts.length) parts.push(layouts.join("/"));
     if(audio.lossless){

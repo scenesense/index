@@ -597,6 +597,7 @@ Valid channel-layout labels:
 ```text
 Mono
 Stereo
+5.0
 5.1
 6.1
 7.1
@@ -606,6 +607,15 @@ Stereo
 ```
 
 Do not invent alternate spelling such as `2.0` in the UI. Normalize perceptual 2.0 to `Stereo`, 1.0 to `Mono`.
+
+Global display grouping is deliberately simpler than stored channel metadata:
+
+```text
+5.0 / 5.1 / 6.1 / 7.1  -> Surround
+11.1 / 13.1 / 15.1     -> Atmos
+```
+
+Keep the exact channel layout in structured data; apply `Surround` / `Atmos` only at display time.
 
 Structured examples:
 
