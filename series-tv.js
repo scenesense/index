@@ -226,7 +226,7 @@ function renderSeriesDetail(series){
     const entryText=entries!==season.episodeCount?` · ${entries} entries`:"";
     return `<button class="seasonBanner" type="button" data-season="${season.number}">
       <div class="seasonBannerContent">
-        <div><div class="seasonBannerTitle">Season ${String(season.number).padStart(2,"0")}</div><div class="seasonBannerMeta">${escapeHtml(`${year} · ${episodeText}${entryText}`)}</div></div>
+        <div><div class="seasonBannerTitle">${escapeHtml(`Season ${String(season.number).padStart(2,"0")}${season.title?`: ${season.title}`:""}`)}</div><div class="seasonBannerMeta">${escapeHtml(`${year} · ${episodeText}${entryText}`)}</div></div>
         <div class="seasonBannerScore">${scoreText(score)}</div>
       </div>
     </button>`;
@@ -269,7 +269,7 @@ function renderTvSeason(series,seasonData){
 
   hero.innerHTML=`<div class="tvSubHero">
     <div class="tvKicker">${escapeHtml(series.title)}</div>
-    <h1>Season ${String(seasonData.season).padStart(2,"0")}</h1>
+    <h1>${escapeHtml(`Season ${String(seasonData.season).padStart(2,"0")}${seasonMeta?.title?`: ${seasonMeta.title}`:""}`)}</h1>
     <div class="tvSubMeta">${escapeHtml(`${year} · ${episodes} ${episodes===1?"episode":"episodes"}${entries!==episodes?` · ${entries} scoring entries`:""}`)}</div>
     <div class="scoreLine tvScoreLine">
       <div class="overallScore">${scoreText(seasonScore)}</div>
