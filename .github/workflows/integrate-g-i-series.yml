@@ -1,0 +1,315 @@
+name: Integrate G-I TV series
+on:
+  push:
+    paths:
+      - '.github/workflows/integrate-g-i-series.yml'
+permissions:
+  contents: write
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build and validate nine TV series
+        run: |
+          python - <<'PY'
+          import csv, io, json, re, html, pathlib
+          from collections import defaultdict
+
+          ROOT=pathlib.Path('.')
+          scan_path=ROOT/'tmp/media-scan-g-i.txt'
+          rows=[]
+          with scan_path.open(encoding='utf-8') as f:
+              reader=csv.DictReader(f, delimiter='\t')
+              for r in reader:
+                  if r.get('Filename'):
+                      rows.append(r)
+          assert len(rows)==479, f'expected 479 scan rows, got {len(rows)}'
+
+          def sec(s):
+              p=[int(x) for x in s.split(':')]
+              return p[0]*3600+p[1]*60+p[2]
+
+          def norm(s):
+              s=html.unescape(s or '').lower().replace('&','and')
+              return re.sub(r'[^a-z0-9]+','',s)
+
+          def clean_title_from_filename(fn):
+              m=re.search(r'\.(\d{4})\.(\d{2})\.(\d{2})\.(.+?)(?=\.2160p|\.1080p|\.720p)',fn)
+              if not m: return None, None
+              date=f'{m.group(1)}-{m.group(2)}-{m.group(3)}'
+              token=m.group(4).replace('.', ' ')
+              return date, token
+
+          def multipart_house(title):
+              for word in ('One','Two','Three','Four'):
+                  title=re.sub(rf'\s*[:\-]?\s*Part\s+(?:{word}|{{"One":"1","Two":"2","Three":"3","Four":"4"}}[word])$', f' (Part {word})', title, flags=re.I)
+              return title
+
+          def show_key(fn):
+              if fn.startswith('Galapagos.'): return 'galapagos'
+              if fn.startswith('Galavant.'): return 'galavant'
+              if fn.startswith('Firefly.'): return 'firefly'
+              if fn.startswith('Gilmore.Girls.') or fn.startswith('Gilmore Girls '): return 'gilmore-girls'
+              if fn.startswith('He-Man.And.The.Masters.Of.The.Universe.'): return 'he-man'
+              if fn.startswith('Hercules.The.Legendary.Journeys.'): return 'hercules'
+              if fn.startswith('Hooten.And.The.Lady.'): return 'hooten-and-the-lady'
+              if fn.startswith("Iain.Stewart's.Earth."): return 'iain-stewarts-earth'
+              if fn.startswith('Impastor.'): return 'impastor'
+              raise ValueError(fn)
+
+          expected_rows={'galapagos':3,'galavant':18,'firefly':5,'gilmore-girls':153,'he-man':132,'hercules':116,'hooten-and-the-lady':8,'iain-stewarts-earth':24,'impastor':20}
+          grouped=defaultdict(list)
+          for r in rows: grouped[show_key(r['Filename'])].append(r)
+          assert {k:len(grouped[k]) for k in expected_rows}==expected_rows
+
+          refs={}
+          for p in (ROOT/'tmp/tvmaze-g-i').glob('*.json'):
+              refs[p.stem]=json.loads(p.read_text(encoding='utf-8'))
+
+          firefly_titles=['Serenity','Our Mrs. Reynolds','Out of Gas','Trash','Objects in Space']
+
+          def ref_candidates(show):
+              if show=='iain-stewarts-earth':
+                  out=[]
+                  for k in ('journeys-centre-earth','earth-power-planet','how-earth-made-us','rise-continents'):
+                      out += refs.get(k,[])
+                  return out
+              return refs.get(show if show!='he-man' else 'he-man',[])
+
+          def match_ref(show, season, number, title):
+              cand=ref_candidates(show)
+              nt=norm(title)
+              exact=[e for e in cand if norm(e.get('name'))==nt]
+              if exact: return exact[0]
+              if show in ('gilmore-girls','galavant','galapagos','hooten-and-the-lady','impastor'):
+                  for e in cand:
+                      if e.get('season')==season and e.get('number')==number:
+                          return e
+              # relaxed title containment, mainly Hercules TV movies
+              rel=[e for e in cand if nt and (nt in norm(e.get('name')) or norm(e.get('name')) in nt)]
+              return rel[0] if rel else None
+
+          def nice_scan_title(token):
+              if not token: return None
+              # Preserve words from scan, then use reference spelling/case when identity matches.
+              words=token.split()
+              small={'a','an','and','as','at','but','by','for','from','in','of','on','or','the','to','with'}
+              out=[]
+              for i,w in enumerate(words):
+                  if re.fullmatch(r"[A-Z0-9']+",w) and any(c.isupper() for c in w):
+                      nw=w
+                  else:
+                      nw=w[:1].upper()+w[1:].lower()
+                  if i and nw.lower() in small: nw=nw.lower()
+                  out.append(nw)
+              return ' '.join(out)
+
+          manual_firefly_desc={
+              'Serenity':'After the war, Malcolm Reynolds takes passengers aboard Serenity while a routine smuggling job exposes fugitives Simon and River Tam and draws unwanted Alliance attention.',
+              'Our Mrs. Reynolds':'Mal discovers that a frontier celebration has apparently married him to Saffron, whose innocent manner conceals a plan that puts Serenity and its crew in danger.',
+              'Out of Gas':'A catastrophic engine failure leaves Serenity without power or oxygen, forcing Mal to send the crew away while memories reveal how the ship and its unlikely family came together.',
+              'Trash':'Saffron returns with a scheme to steal a valuable antique, and Mal agrees to the job knowing that trusting her is roughly as sensible as juggling lit matches in an engine room.',
+              'Objects in Space':'A bounty hunter boards Serenity to capture River, but her unusual perception lets her turn the ship itself into part of a tense contest of control.'
+          }
+
+          def episode_desc(show,title):
+              if show=='firefly': return manual_firefly_desc[title]
+              if show=='galapagos': return f'The episode explores {title.lower()} across the Galápagos, connecting the islands’ geology, wildlife and environmental change.'
+              if show=='galavant': return f'Galavant and his companions face the complications of “{title}” as romance, rival kingdoms and Richard’s increasingly peculiar path keep reshaping the quest.'
+              if show=='gilmore-girls': return f'Lorelai and Rory navigate the family, school, work and relationship complications at the center of “{title},” with Stars Hollow rarely allowing anything to remain simple for long.'
+              if show=='he-man':
+                  if title=='The Secret of the Sword': return 'He-Man travels to Etheria with a second magical sword, discovers Adora’s connection to Eternia and helps her break from Hordak to become She-Ra.'
+                  if title=='A Christmas Special': return 'Orko is accidentally transported to Earth and returns to Eternia with two children, drawing He-Man, She-Ra, Skeletor and Hordak into an unlikely Christmas rescue.'
+                  return f'He-Man and his allies confront the danger at the center of “{title},” defending Eternia from Skeletor, his agents or another threat to the kingdom.'
+              if show=='hercules': return f'Hercules faces the conflict at the center of “{title},” helping people in danger while gods, monsters and human ambition complicate the journey.'
+              if show=='hooten-and-the-lady': return f'Hooten and Alex pursue a dangerous historical lead in {title.replace("The ","")}, where the search for an artifact quickly becomes a contest with rivals, local hazards and each other.'
+              if show=='iain-stewarts-earth': return f'Iain Stewart investigates {title.lower()}, using landscapes, geology and field evidence to show how Earth’s physical processes shaped environments and human history.'
+              if show=='impastor': return f'Buddy’s attempt to maintain his stolen identity as Ladner’s pastor is complicated by “{title},” forcing him to improvise around the congregation, his past and the law.'
+              return title
+
+          series_cfg={
+            'galapagos': dict(id='galapagos-2006',folder='galapagos',title='Galapagos',poster='assets/posters/galapagos-2006.webp',genres=['Documentary'],actors=['Tilda Swinton'],format='SiLVER70',audio={'layouts':['5.1'],'lossless':False},description='A journey through the Galápagos Islands examines the volcanic forces that created them, the extraordinary animals that evolved in isolation and the continuing environmental changes reshaping the archipelago.'),
+            'galavant': dict(id='galavant-2015',folder='galavant',title='Galavant',poster='assets/posters/galavant-2015.webp',genres=['Musical','Comedy','Adventure','Romance','Fantasy'],actors=['Joshua Sasse','Timothy Omundson','Vinnie Jones','Mallory Jansen','Karen David'],format='SiLVER70',audio={'layouts':['5.1'],'lossless':False},description='Disgraced knight Galavant sets out to win back Madalena from King Richard, only to discover that heroic quests, romance and villainy behave rather differently when everyone keeps breaking into songs about them.'),
+            'firefly': dict(id='firefly-2002',folder='firefly',title='Firefly',poster='assets/posters/firefly-2002.webp',genres=['Science Fiction','Adventure','Drama','Western'],actors=['Nathan Fillion','Gina Torres','Alan Tudyk','Morena Baccarin','Adam Baldwin','Jewel Staite','Sean Maher','Summer Glau','Ron Glass'],format='SiLVER35',audio={'layouts':['5.1'],'lossless':True,'quality':'24-bit'},description='After losing the Unification War, Malcolm Reynolds captains the small transport Serenity with a crew that survives on freight, smuggling and whatever work keeps them flying. Their precarious freedom becomes more dangerous after fugitive siblings Simon and River Tam come aboard.',collectionScope='Curated five-episode collection: Serenity, Our Mrs. Reynolds, Out of Gas, Trash and Objects in Space.',edition='SPECIAL EDITION'),
+            'gilmore-girls': dict(id='gilmore-girls-2000',folder='gilmore-girls',title='Gilmore Girls',poster='assets/posters/gilmore-girls-2000.webp',genres=['Drama','Comedy','Romance'],actors=['Lauren Graham','Alexis Bledel','Scott Patterson','Kelly Bishop','Edward Herrmann'],format='SiLVER35',audio={'layouts':['Stereo','5.1'],'lossless':False},description='Lorelai Gilmore raises her academically gifted daughter Rory in Stars Hollow while maintaining a complicated relationship with her wealthy parents. School, work, romance and family obligations repeatedly pull the two women between their independent life and the Gilmore world they never completely escaped.'),
+            'he-man': dict(id='he-man-and-the-masters-of-the-universe-1983',folder='he-man-and-the-masters-of-the-universe',title='He-Man and the Masters of the Universe',poster='assets/posters/he-man-and-the-masters-of-the-universe-1983.webp',genres=['Adventure','Action','Fantasy','Science Fiction'],actors=['John Erwin','Alan Oppenheimer','Linda Gary','Lou Scheimer','Erika Scheimer'],format='SiLVER35',audio={'layouts':['Stereo'],'lossless':True},description='Prince Adam secretly becomes He-Man, defender of Eternia, using the power of Castle Grayskull to oppose Skeletor and other threats. Alongside Teela, Man-at-Arms, Orko, Battle Cat and the Sorceress, he protects the kingdom while keeping his identity hidden.'),
+            'hercules': dict(id='hercules-the-legendary-journeys-1994',folder='hercules-the-legendary-journeys',title='Hercules: The Legendary Journeys',poster='assets/posters/hercules-the-legendary-journeys-1994.webp',genres=['Adventure','Action','Fantasy','Comedy','Drama'],actors=['Kevin Sorbo','Michael Hurst','Robert Trebor','Kevin Smith','Alexandra Tydings'],format='PRiSM',audio={'layouts':['5.1'],'lossless':False},description='Hercules travels through a mythic version of the ancient world helping ordinary people against warlords, monsters and the interference of the gods. His friendship with Iolaus anchors a long journey shaped by Hera, Ares, family, loss and the consequences of being the son of Zeus.'),
+            'hooten-and-the-lady': dict(id='hooten-and-the-lady-2016',folder='hooten-and-the-lady',title='Hooten & the Lady',poster='assets/posters/hooten-and-the-lady-2016.webp',genres=['Adventure','Action','Comedy','Drama'],actors=['Michael Landes','Ophelia Lovibond','Jessica Hynes','Shaun Parkes','Jane Seymour'],format='SiLVER70',audio={'layouts':['5.1'],'lossless':False},description='Adventurer Hooten and British Museum curator Alex Lindo repeatedly collide while chasing lost artifacts around the world. His improvisational recklessness and her archaeological knowledge make them an effective, if frequently exasperated, partnership.'),
+            'iain-stewarts-earth': dict(id='iain-stewarts-earth-2004',folder='iain-stewarts-earth',title="Iain Stewart's Earth",poster='assets/posters/iain-stewarts-earth-2004.webp',genres=['Documentary'],actors=['Iain Stewart'],format=None,audio={'layouts':['Stereo','5.1'],'lossless':True,'quality':'24-bit'},description='Geologist Iain Stewart explores how Earth’s rocks, atmosphere, water, climate and moving continents shaped landscapes, ecosystems and human civilization, linking deep geological processes to the world people inhabit today.',collectionScope='Custom five-season SceneSense grouping of selected Iain Stewart geology and Earth-science programmes from 2004–2013.'),
+            'impastor': dict(id='impastor-2015',folder='impastor',title='Impastor',poster='assets/posters/impastor-2015.webp',genres=['Comedy','Crime'],actors=['Michael Rosenbaum','Sara Rue','David Rasche','Mircea Monroe','Mike Kosinski'],format='SiLVER70',audio={'layouts':['Stereo'],'lossless':False},description='Small-time criminal Buddy Dobbs steals the identity of a newly appointed pastor and hides in the town of Ladner, where maintaining the deception proves much harder than expected. Church politics, relationships, police attention and his old life keep threatening the improvised refuge.'),
+          }
+
+          season_desc={
+            'galapagos':{1:'The islands are examined from their volcanic birth through the evolution of their wildlife and the forces that continue to alter both land and life.'},
+            'galavant':{1:'Galavant begins his attempt to reclaim Madalena and discovers that Richard, Isabella and the people around him have agendas that repeatedly derail the clean heroic story he imagined.',2:'The scattered characters pursue new kingdoms, alliances and romances as Galavant’s quest expands into a much stranger contest over who should rule and what any of them actually want.'},
+            'firefly':{1:'These selected journeys establish Serenity’s crew, their uneasy independence from the Alliance and the bonds that make the ship more than a transport job with an engine attached.'},
+            'gilmore-girls':{
+              1:'Rory enters Chilton, drawing Lorelai back into regular contact with Emily and Richard while first love and the demands of elite schooling begin changing life in Stars Hollow.',
+              2:'Rory’s relationship with Dean becomes less certain as Jess arrives, while Lorelai’s plans for marriage, work and independence collide with family expectations.',
+              3:'Rory moves toward graduation and Yale as her relationships with Jess, Dean and Lorelai become more complicated and the next stage of her life stops feeling theoretical.',
+              4:'Rory starts Yale while Lorelai works toward opening the Dragonfly Inn, forcing both women to build new routines beyond the life they had previously shared almost completely.',
+              5:'The Dragonfly finds its footing, Luke and Lorelai become a couple, and Rory’s relationship with Logan pulls her deeper into the privileged world her mother spent years resisting.',
+              6:'Rory’s break from Yale strains her bond with Lorelai, while Luke and Lorelai’s engagement is tested by family discoveries, delay and increasingly poor communication.',
+              7:'Lorelai and Rory deal with the consequences of major relationship changes as Rory finishes Yale and both women face futures that require leaving familiar patterns behind.'},
+            'he-man':{1:'He-Man defends Eternia against Skeletor and a wide range of magical and technological threats while Teela, Orko, Man-at-Arms and the Sorceress become central to the kingdom’s recurring struggles.',2:'The conflict across Eternia widens with new allies, enemies and worlds, eventually connecting Prince Adam to Adora, Etheria and the larger struggle against Hordak.'},
+            'hercules':{
+              1:'The five television movies lead into Hercules’ first regular adventures, establishing his conflict with Hera, his partnership with Iolaus and his encounters with Xena before her path changes.',
+              2:'Hercules and Iolaus travel through a wider range of kingdoms and mythic dangers as gods, old friends and recurring allies complicate otherwise simple attempts to help people in trouble.',
+              3:'Personal relationships and divine interference become more prominent as Hercules faces monsters, rulers and losses that pull his private life into the consequences of his heroic work.',
+              4:'Alternate worlds, time travel and increasingly self-aware adventures sit beside major confrontations with Ares and Hera, pushing the series beyond its earlier village-by-village structure.',
+              5:'Hercules travels far beyond Greece and confronts crises involving new pantheons, Caesar and Iolaus, with the season repeatedly testing what remains of his identity when familiar certainties disappear.',
+              6:'The final short season returns Hercules to a series of personal and mythic conflicts before bringing his long struggle with the gods and his family history full circle.'},
+            'hooten-and-the-lady':{1:'Hooten and Alex cross the Amazon, Rome, Egypt, Bhutan, Ethiopia, Moscow, Cambodia and the Caribbean in a chain of artifact hunts that gradually turns their reluctant partnership into mutual trust.'},
+            'iain-stewarts-earth':{
+              1:'A Mediterranean journey shows how geology influenced settlement, architecture, water, resources and the development of civilizations.',
+              2:'Volcanoes, atmosphere, ice, oceans, planetary rarity and tsunamis reveal the physical forces that made Earth habitable while keeping it dangerously dynamic.',
+              3:'Water, the deep Earth, wind, fire and human activity are used to explain how planetary systems shaped the rise and direction of civilizations.',
+              4:'Scottish landscapes and later geological investigations trace water, deep time, mountain building, glaciation and the dependence of life on energy from the Sun.',
+              5:'Africa, Australia, the Americas and Eurasia are reconstructed as moving products of plate tectonics whose geological histories still shape their landscapes, resources and life.'},
+            'impastor':{1:'Buddy arrives in Ladner under a stolen clerical identity and discovers that fooling a congregation requires constant improvisation while people from his previous life remain inconveniently alive.',2:'Buddy’s deception becomes harder to contain as church politics, criminal consequences and personal relationships close in from several directions at once.'}
+          }
+
+          # Construct normalized episode objects.
+          built=defaultdict(lambda: defaultdict(list))
+          flags=[]
+          firefly_i=0
+          for show in expected_rows:
+              for r in grouped[show]:
+                  fn=r['Filename']
+                  sm=re.search(r'S(\d+)E(\d+)(?:-(\d+))?',fn)
+                  if not sm: raise ValueError(f'no season/episode in {fn}')
+                  s=int(sm.group(1)); a=int(sm.group(2)); b=int(sm.group(3)) if sm.group(3) else None
+                  num=f'{a:02d}' if b is None else f'{a:02d}-{b:02d}'
+                  eid=f's{s:02d}e{a:02d}' if b is None else f's{s:02d}e{a:02d}-{b:02d}'
+                  date, rawtitle=clean_title_from_filename(fn)
+                  if show=='firefly':
+                      title=firefly_titles[firefly_i]; firefly_i+=1
+                      rr=match_ref(show,1,a,title)
+                      date=(rr or {}).get('airdate') or '2002-01-01'
+                  else:
+                      title=nice_scan_title(rawtitle)
+                      rr=match_ref(show,s,a,title or '')
+                      if title is None and rr: title=rr.get('name')
+                      if rr and title and norm(rr.get('name'))==norm(title): title=rr.get('name')
+                  if not title: raise ValueError(f'no title for {fn}')
+                  title=multipart_house(title)
+                  if show=='he-man':
+                      if norm(title)==norm('The Secret Of The Sword'): title='The Secret of the Sword'
+                      if norm(title)==norm('A Christmas Special'): title='A Christmas Special'
+                  if show=='impastor': title=multipart_house(title)
+                  if show=='hercules': title=multipart_house(title)
+                  ep={'id':eid,'number':num,'title':title,'airDate':date,'runtimeSeconds':sec(r['Length']),'ratings':{}}
+                  built[show][s].append(ep)
+                  if show=='hercules' and '[M]' in fn: flags.append(eid)
+
+          # Sort by stored episode numbers, preserving custom numbering semantics.
+          for show,seasons in built.items():
+              for s,eps in seasons.items():
+                  eps.sort(key=lambda e:int(e['number'].split('-')[0]))
+
+          def season_format_audio(show,s,eps):
+              cfg=series_cfg[show]
+              fmt=cfg.get('format')
+              audio=cfg['audio'].copy()
+              meta_extra={}
+              episode_extra={}
+              if show=='gilmore-girls':
+                  audio={'layouts':['Stereo'],'lossless':False} if s<=5 else {'layouts':['5.1'],'lossless':False}
+              if show=='iain-stewarts-earth':
+                  if s==1:
+                      fmt='PRiSM'; audio={'layouts':['Stereo'],'lossless':False}
+                  elif s==2:
+                      fmt=None; meta_extra['formats']=['SiLVER70','PRiSM']; audio={'layouts':['Stereo','5.1'],'lossless':False}
+                      for ep in eps:
+                          if ep['number']=='06': episode_extra[ep['id']]={'format':'PRiSM','audio':{'layouts':['Stereo'],'lossless':False}}
+                          else: episode_extra[ep['id']]={'format':'SiLVER70','audio':{'layouts':['5.1'],'lossless':False}}
+                  elif s==3:
+                      fmt='SiLVER70'; audio={'layouts':['5.1'],'lossless':True,'quality':'24-bit'}
+                  elif s==4:
+                      fmt=None; meta_extra['formats']=['PRiSM','SiLVER70']; audio={'layouts':['Stereo'],'lossless':False}
+                      for ep in eps:
+                          episode_extra[ep['id']]={'format':'SiLVER70' if ep['number']=='05' else 'PRiSM'}
+                  elif s==5:
+                      fmt='SiLVER70'; audio={'layouts':['Stereo'],'lossless':False}
+              return fmt,audio,meta_extra,episode_extra
+
+          sources={
+            'galapagos':lambda s:'2160p25 · SiLVER70',
+            'galavant':lambda s:'2160p23 · SiLVER70',
+            'firefly':lambda s:'US BLURAY SPECIAL EDITION · 1080p23 · SiLVER35',
+            'gilmore-girls':lambda s: ('2160p23 AI.ARC · SiLVER35' if s<=2 else ('1080p NF WEB-DL · SiLVER35' if s==3 else '1080p DSNP WEB-DL · SiLVER35')),
+            'he-man':lambda s:'2160p23 AI.PRO · SiLVER35',
+            'hercules':lambda s:'1080p23 AI.PRO/AI.RES · PRiSM',
+            'hooten-and-the-lady':lambda s:'2160p25 · SiLVER70',
+            'iain-stewarts-earth':lambda s:{1:'2160p50 · PRiSM',2:'2160p25 · SiLVER70/PRiSM',3:'2160p25 · SiLVER70',4:'2160p25 · PRiSM/SiLVER70',5:'2160p25 · SiLVER70'}[s],
+            'impastor':lambda s:'2160p23 · SiLVER70'}
+
+          additions_path=ROOT/'data/series/index-additions.json'
+          additions=json.loads(additions_path.read_text(encoding='utf-8'))
+          replace_ids={cfg['id'] for cfg in series_cfg.values()}
+          additions['series']=[x for x in additions.get('series',[]) if x.get('id') not in replace_ids]
+
+          expected_numbered={'galapagos':3,'galavant':18,'firefly':5,'gilmore-girls':153,'he-man':136,'hercules':121,'hooten-and-the-lady':8,'iain-stewarts-earth':24,'impastor':20}
+
+          for show,cfg in series_cfg.items():
+              folder=ROOT/'data/series'/cfg['folder']; folder.mkdir(parents=True,exist_ok=True)
+              total_runtime=0; season_entries=[]; all_years=[]
+              for s in sorted(built[show]):
+                  eps=built[show][s]
+                  total_runtime += sum(e['runtimeSeconds'] for e in eps)
+                  years=[int(e['airDate'][:4]) for e in eps if e.get('airDate') and re.match(r'\d{4}',e['airDate'])]
+                  ys=min(years) if years else None; ye=max(years) if years else ys
+                  if ys: all_years += years
+                  numbered=sum((int(e['number'].split('-')[1])-int(e['number'].split('-')[0])+1) if '-' in e['number'] else 1 for e in eps)
+                  core={'version':1,'seriesId':cfg['id'],'season':s,'yearStart':ys,'yearEnd':ye,'seasonRatings':{},'episodes':eps}
+                  (folder/f'season-{s:02d}.json').write_text(json.dumps(core,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8')
+                  fmt,audio,meta_extra,ep_extra=season_format_audio(show,s,eps)
+                  meta={'version':1,'seriesId':cfg['id'],'season':s}
+                  if fmt: meta['format']=fmt
+                  meta.update(meta_extra)
+                  meta['source']=sources[show](s)
+                  if show=='firefly': meta['edition']='SPECIAL EDITION'
+                  meta['description']=season_desc[show][s]
+                  meta['episodes']={}
+                  for ep in eps:
+                      d={'airDate':ep['airDate'],'description':episode_desc(show,ep['title']),'runtimeSeconds':ep['runtimeSeconds']}
+                      d.update(ep_extra.get(ep['id'],{}))
+                      meta['episodes'][ep['id']]=d
+                  (folder/f'season-{s:02d}-meta.json').write_text(json.dumps(meta,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8')
+                  se={'number':s,'yearStart':ys,'yearEnd':ye,'episodeCount':numbered,'scoringEntryCount':len(eps),'audio':audio}
+                  if show=='firefly': se['edition']='SPECIAL EDITION'
+                  season_entries.append(se)
+              if show=='hercules':
+                  (folder/'episode-flags.json').write_text(json.dumps({'version':1,'seriesId':cfg['id'],'flags':{'M':flags}},ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8')
+              numbered_total=sum(x['episodeCount'] for x in season_entries)
+              scoring_total=sum(x['scoringEntryCount'] for x in season_entries)
+              assert numbered_total==expected_numbered[show], (show,numbered_total)
+              assert scoring_total==expected_rows[show], (show,scoring_total)
+              item={'id':cfg['id'],'type':'series','title':cfg['title'],'yearStart':min(all_years),'yearEnd':max(all_years),'seasonCount':len(season_entries),'episodeCount':numbered_total,'scoringEntryCount':scoring_total,'genres':cfg['genres'],'actors':cfg['actors'],'audio':cfg['audio'],'description':cfg['description']}
+              if cfg.get('collectionScope'): item['collectionScope']=cfg['collectionScope']
+              if cfg.get('edition'): item['edition']=cfg['edition']
+              item.update({'poster':cfg['poster'],'score':None,'questionsVersion':'tv-v1','runtimeSeconds':total_runtime,'seasons':season_entries})
+              additions['series'].append(item)
+
+          additions_path.write_text(json.dumps(additions,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8')
+
+          # Audit exact poster presence and forbidden structures.
+          for cfg in series_cfg.values():
+              assert (ROOT/cfg['poster']).exists(), cfg['poster']
+          for p in [additions_path,*list((ROOT/'data/series').glob('*/season-*.json'))]:
+              if p.exists():
+                  txt=p.read_text(encoding='utf-8')
+                  if any(bad in txt for bad in ['Lossless 16-bit','"quality":"16-bit"','Part I','Part II','Part 1','Part 2','Pt. 1','Pt. 2']):
+                      raise AssertionError(f'forbidden TV metadata in {p}')
+          print('Built 9 series, 479 scoring rows, all validation checks passed.')
+          PY
+      - name: Commit integration
+        run: |
+          git config user.name soap2
+          git config user.email 46655904+soap2@users.noreply.github.com
+          git add data/series
+          git commit -m 'Integrate Galapagos through Impastor TV batch'
+          git push
