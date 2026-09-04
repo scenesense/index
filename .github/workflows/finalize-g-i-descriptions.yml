@@ -29,7 +29,6 @@ jobs:
               text = normalize_text(summary)
               if not text:
                   return ''
-              # Remove Filmation morals, production notes and standalone cast trivia.
               text = re.sub(r'\s+(?:He-Man|Prince Adam|Man-at-Arms|Man-At-Arms|Teela|Orko|King Randor|Queen Marlena|Ricky|Squinch)(?:\s+and\s+[^.]+?)?\s+tells? viewers\b.*$', '', text, flags=re.I)
               text = re.sub(r'\s+Note:\s*.*$', '', text, flags=re.I)
               sentences = re.split(r'(?<=[.!?])\s+', text)
@@ -49,8 +48,6 @@ jobs:
                   if len(' '.join(kept)) >= 150 or len(kept) >= 2:
                       break
               text = ' '.join(kept).strip() or normalize_text(summary)
-
-              # Light paraphrase of source wording while preserving episode facts.
               replacements = [
                   (r'\bplots to\b', 'plans to'),
                   (r'\bplot to\b', 'scheme to'),
@@ -109,6 +106,8 @@ jobs:
               return changed
 
           heman_manual = {
+              's01e40': "He-Man, Battle Cat, Ram Man and Orko travel into the desert to investigate a newly risen pyramid, where the trail leads them toward the ancient House of Shokoti and the dangers sealed inside it.",
+              's01e41': "Stanlan enters Shokoti's pyramid against orders and is taken prisoner, forcing He-Man and the others inside as the sorceress prepares to awaken the Sleeping Beast and spread darkness across Eternia.",
               's02e66-69': "The Sorceress sends He-Man to Etheria with a second magic sword, where he discovers that Horde captain Adora is his long-lost twin sister and the warrior destined to become She-Ra.",
               's02e70-71': "Orko accidentally reaches Earth and returns with two children, drawing He-Man, She-Ra, Skeletor and Hordak into a struggle against Horde Prime during Eternia's holiday celebrations."
           }
@@ -125,8 +124,6 @@ jobs:
           if hercules_changed < 100:
               raise SystemExit(f'Expected widespread Hercules replacement; only {hercules_changed} descriptions changed')
 
-          # Full G-I batch audit: 479 scoring entries, every description non-empty,
-          # no known boilerplate fragments, and no exact duplicate episode synopses.
           batch = [
               'galapagos','galavant','firefly','gilmore-girls',
               'he-man-and-the-masters-of-the-universe','hercules-the-legendary-journeys',
