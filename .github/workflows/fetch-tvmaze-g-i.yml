@@ -1,0 +1,52 @@
+name: Fetch TVMaze G-I batch
+on:
+  push:
+    paths:
+      - '.github/workflows/fetch-tvmaze-g-i.yml'
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fetch structured episode references
+        run: |
+          python - <<'PY'
+          import json, urllib.request, pathlib
+          shows={
+            'galapagos':27121,
+            'galavant':610,
+            'firefly':180,
+            'gilmore-girls':525,
+            'he-man':4230,
+            'hercules':905,
+            'hooten-and-the-lady':19616,
+            'impastor':2073,
+            'journeys-centre-earth':23124,
+            'earth-power-planet':9682,
+            'how-earth-made-us':4001,
+            'rise-continents':5010,
+          }
+          out=pathlib.Path('tmp/tvmaze-g-i'); out.mkdir(parents=True,exist_ok=True)
+          for slug,show_id in shows.items():
+            url=f'https://api.tvmaze.com/shows/{show_id}/episodes?specials=1'
+            with urllib.request.urlopen(url,timeout=30) as r:
+              data=json.load(r)
+            slim=[]
+            for e in data:
+              slim.append({
+                'id':e.get('id'),'name':e.get('name'),'season':e.get('season'),'number':e.get('number'),
+                'type':e.get('type'),'airdate':e.get('airdate'),'runtime':e.get('runtime'),'summary':e.get('summary')
+              })
+            (out/f'{slug}.json').write_text(json.dumps(slim,ensure_ascii=False,indent=2)+'\n')
+          PY
+      - name: Commit references
+        run: |
+          git config user.name soap2
+          git config user.email 46655904+soap2@users.noreply.github.com
+          git add tmp/tvmaze-g-i
+          git commit -m 'Fetch TVMaze references for G-I TV batch'
+          git push
