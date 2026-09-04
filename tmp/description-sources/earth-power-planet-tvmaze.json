@@ -1,0 +1,37 @@
+[
+  {
+    "season": 1,
+    "number": 1,
+    "name": "Volcano",
+    "airdate": "2007-11-20",
+    "summary": "<p>The first episode discusses volcanoes. Although they appear to be destructive, volcanoes have been crucial to the development of life on this planet. Iain's journey takes him to Ethiopia to discover lava lakes, to Iceland to scuba dive between continents and to New Zealand to sample some hot springs.</p>"
+  },
+  {
+    "season": 1,
+    "number": 2,
+    "name": "Atmosphere",
+    "airdate": "2007-11-27",
+    "summary": "<p>Documentary series. Dr Iain Stewart reveals the crucial natural forces that have shaped the earth's development. A flight in a jet plane, a trip to the Andes and a trip to Shark Bay in Australia are expensive but necessary to discuss atmosphere.</p><p>You can't see it, you can't taste it, you can't smell it and you can't touch it, yet without it almost all life on Earth would die instantly. The atmosphere is Earth's protective layer, warding off damaging cosmic rays and providing the life-giving oxygen which people depend on for life. Air is a fluid which shapes our world, from eroding rocks to building sand dunes. It also controls the world's weather and climate: Iain takes a trip to Argentina to one of the stormiest places on Earth, to watch a storm build up through the day.</p><p>The Earth's atmosphere is completely different to any other planets, and according to the normal laws of chemistry it shouldn't exist. What is extraordinary about our atmosphere is the way that it was created by life. When the planet was first born its atmosphere was made up of noxious volcanic gases - there was no sign of the oxygen humans depend on today.</p><p>Iain visits Shark Bay in Australia, home to some of the most ancient forms of life on the planet: stromatolites. These simple bacteria were responsible for transforming the atmosphere because they were the first organisms on the planet to photosynthesise, and in doing so pump oxygen into the air. It led to a revolution. An ozone layer formed which protected the planet from UV rays. Most crucially of all, it enabled the development of a new type of life, something that could burn oxygen to sustain a far more high-energy lifestyle.</p>"
+  },
+  {
+    "season": 1,
+    "number": 3,
+    "name": "Ice",
+    "airdate": "2007-12-04",
+    "summary": "<p>Ice isn't just something to put in a gin and tonic - it has carved out landscapes, unleashedcatstrophes and shaped human evolution. Now it could cause the destruction of our civilisation. Iain visits the Jacobshavn glacier in Greenland which has retreated 10km in the last few years because of global warming.</p>"
+  },
+  {
+    "season": 1,
+    "number": 4,
+    "name": "Oceans",
+    "airdate": "2007-12-11",
+    "summary": "<p>Iain travels to surfers' paradise Hawaii to learn more about oceans, explaining the difference between waves, tides and currents. In the Amazon, he rides the world's longest tidal bore. In the beginning, there were no oceans: they are thought to have gradually formed from volcano steam and melted comet ice. Change continues today: a new sea is forming in Ethiopia, which will separate East Africa from the mainland, and the Mediterranean is drying up.</p>"
+  },
+  {
+    "season": 1,
+    "number": 5,
+    "name": "Rare Earth",
+    "airdate": "2007-12-18",
+    "summary": "<p>Our planet is unique within the solar system. Four-and-a-half billion years ago it had a twin named Theia which was absorbed into the Earth, increasing its gravity and allowing it to form an atmosphere. Iain travels to Meteor Crater in Arizona to explore the atmosphere's role in protecting us from bombardment by meteorites. Life on earth only prospers because it is provided with right amount of heat from the sun.</p>"
+  }
+]
