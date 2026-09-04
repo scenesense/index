@@ -12,16 +12,16 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Integrate and audit six series
+      - name: Rebuild, integrate and audit six series
         shell: bash
         run: |
           set -euo pipefail
           git pull --ff-only origin main
-          python .tmp-repair-tv-payload.py
+          python .tmp-rebuild-tv-batch.py
           rm -f tv-batch-research.tmp.json
           rm -rf tmp-tv-batch-research
           rm -f .github/workflows/fetch-tv-batch-research.yml
-          rm -f .tmp-tv-batch-payload.b64 .tmp-integrate-tv-batch.py .tmp-repair-tv-payload.py
+          rm -f .tmp-tv-batch-payload.b64 .tmp-integrate-tv-batch.py .tmp-repair-tv-payload.py .tmp-rebuild-tv-batch.py
           rm -f .github/workflows/integrate-tv-batch-k-l.yml
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
