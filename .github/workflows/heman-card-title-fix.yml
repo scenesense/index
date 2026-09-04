@@ -1,0 +1,37 @@
+name: He-Man library card title fix
+on:
+  push:
+    paths:
+      - '.github/workflows/heman-card-title-fix.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch library-card display title only
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('series.js')
+          s=p.read_text(encoding='utf-8')
+          old='      <div class="cardTitle">${escapeHtml(series.title)}</div>'
+          new='      <div class="cardTitle">${escapeHtml(series.id==="he-man-and-the-masters-of-the-universe-1983"?"He-Man & the Masters of the Universe":series.title)}</div>'
+          if old not in s:
+              raise SystemExit('Expected library-card title renderer not found')
+          if s.count(old) != 1:
+              raise SystemExit(f'Expected one card-title renderer, found {s.count(old)}')
+          s=s.replace(old,new,1)
+          if '<h1>${escapeHtml(series.title)}</h1>' not in s:
+              raise SystemExit('Series detail title renderer changed unexpectedly')
+          p.write_text(s,encoding='utf-8')
+          PY
+          rm .github/workflows/heman-card-title-fix.yml
+      - name: Commit
+        run: |
+          git config user.name soap2
+          git config user.email 46655904+soap2@users.noreply.github.com
+          git add -A
+          git commit -m 'Use ampersand on He-Man library card only'
+          git push
