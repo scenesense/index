@@ -44,10 +44,14 @@ function tvDisplayEpisodeTitle(title){
     .replace(/\s+Part\s+(One|Two|Three|Four)\b/gi,(_,part)=>` (Part ${part.charAt(0).toUpperCase()+part.slice(1).toLowerCase()})`);
 }
 
+function tvEpisodeDigitsMarkup(number){
+  return [...String(number||"")].map(char=>char==="1" ? `<span class="episodeOpticalOne">1</span>` : escapeHtml(char)).join("");
+}
+
 function tvEpisodeCodeMarkup(seasonNumber, episodeNumber){
   const season=`S${String(seasonNumber).padStart(2,"0")}`;
   const episodes=String(episodeNumber||"").split("-").filter(Boolean);
-  return `<span class="episodeSeasonCode">${escapeHtml(season)}</span><span class="episodeNumberStack">${episodes.map(n=>`<span class="episodeNumberLine">E${escapeHtml(n)}</span>`).join("")}</span>`;
+  return `<span class="episodeSeasonCode">${escapeHtml(season)}</span><span class="episodeNumberStack">${episodes.map(n=>`<span class="episodeNumberLine">E${tvEpisodeDigitsMarkup(n)}</span>`).join("")}</span>`;
 }
 
 function tvPresentationRuntime(meta, episode){
@@ -86,6 +90,7 @@ function injectTvEnhancementStyles(){
     .episodeSeasonCode{display:flex!important;align-items:center!important;justify-content:flex-start!important;min-width:30px!important}
     .episodeNumberStack{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;gap:1px!important;min-width:38px!important;margin-left:-2px!important}
     .episodeNumberLine{display:block!important}
+    .episodeOpticalOne{display:inline-block!important;transform:scaleX(1.16)!important;transform-origin:50% 50%!important}
     .tvBottomBack{display:inline-flex!important;margin:4px 0 28px!important}
     .tvPlotDescription{margin:17px 0 18px!important;max-width:980px!important}
     .tvEpisodePlot{max-width:900px!important}

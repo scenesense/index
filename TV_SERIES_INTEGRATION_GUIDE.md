@@ -1173,6 +1173,9 @@ Before declaring a series complete, verify all of the following:
 - 236 numbered episodes / 226 scoring entries
 - globally `uncut:true`
 - `PRiSM` is the canonical retained presentation
+- display both `PRiSM` and `SiLVER35` format badges because both physical file options are retained
+- Friends audio summary reflects both retained options: perceptual 5.0 UNCUT plus high-res 5.1 with lossless available; visible output is `Surround · Lossless`
+- Friends lossless scan entries are ordinary 16-bit/48 kHz, so do not mark Friends as `Lossless 24-bit` without new scan evidence
 - where regular and uncut copies existed separately, use the chosen longer runtime
 - where the UNCUT physical file combines two numbered episodes, use one combined scoring row
 - no `editions`, `editionGroups`, HIGH RES/UNCUT toggle, runtime-delta UI or Friends-specific edition renderer
