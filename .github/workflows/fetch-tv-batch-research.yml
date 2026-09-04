@@ -1,0 +1,57 @@
+name: Fetch TV batch research
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/fetch-tv-batch-research.yml'
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch TVMaze reference data
+        run: |
+          python - <<'PY'
+          import json, urllib.request, re
+          shows = {
+            'Kevin.From.Work':2712,
+            'La.Legge.Di.Lidia.Poet':66616,
+            'La.Primera.Vez':66923,
+            'Last.Resort':228,
+            'Legend.Of.The.Seeker':461,
+            'Lois.And.Clark':1323,
+          }
+          out={}
+          for key,sid in shows.items():
+            def get(url):
+              with urllib.request.urlopen(url,timeout=30) as r:
+                return json.load(r)
+            show=get(f'https://api.tvmaze.com/shows/{sid}')
+            eps=get(f'https://api.tvmaze.com/shows/{sid}/episodes')
+            cast=get(f'https://api.tvmaze.com/shows/{sid}/cast')
+            out[key]={
+              'show':{k:show.get(k) for k in ['id','name','premiered','ended','genres','summary']},
+              'cast':[{'person':x.get('person',{}).get('name'),'character':x.get('character',{}).get('name')} for x in cast[:12]],
+              'episodes':[{'season':e.get('season'),'number':e.get('number'),'name':e.get('name'),'airdate':e.get('airdate'),'summary':e.get('summary')} for e in eps]
+            }
+          # exact poster inventory relevant to this batch
+          import os
+          names=[]
+          if os.path.isdir('assets/posters'):
+            for n in os.listdir('assets/posters'):
+              low=n.lower()
+              if any(tok in low for tok in ['kevin-from-work','lidia','poet','primera','eva-lasting','last-resort','legend-of-the-seeker','lois-and-clark']):
+                names.append(n)
+          out['_posters']=sorted(names)
+          with open('tv-batch-research.tmp.json','w',encoding='utf-8') as f:
+            json.dump(out,f,ensure_ascii=False,indent=2)
+          PY
+      - name: Commit research snapshot
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add tv-batch-research.tmp.json
+          git commit -m 'Fetch TV batch reference data'
+          git push
