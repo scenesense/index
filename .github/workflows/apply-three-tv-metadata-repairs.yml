@@ -1,0 +1,79 @@
+name: Apply three TV metadata repairs
+on:
+  push:
+    paths:
+      - '.github/workflows/apply-three-tv-metadata-repairs.yml'
+permissions:
+  contents: write
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Apply guarded metadata repairs
+        shell: bash
+        run: |
+          set -euo pipefail
+          git pull --ff-only origin main
+          python - <<'PY'
+          import json
+          import re
+
+          path='data/series/index-additions.json'
+          with open(path,encoding='utf-8') as f:
+              data=json.load(f)
+          series=data.get('series',[])
+
+          # 1) LA PRIMERA VEZ: authoritative visible series title.
+          lpv=[x for x in series if x.get('id')=='eva-lasting-2023']
+          if len(lpv)!=1:
+              raise SystemExit(f'Expected one eva-lasting-2023 entry, found {len(lpv)}')
+          lpv[0]['title']='La Primera Vez'
+
+          # 2) DAWSON'S CREEK: find robustly by any catalogue field containing dawson.
+          def norm(v):
+              return re.sub(r'[^a-z0-9]+','',str(v).lower())
+          dawson=[]
+          for x in series:
+              hay=' '.join(str(x.get(k,'')) for k in ('id','title','poster'))
+              if 'dawson' in hay.lower():
+                  dawson.append(x)
+          if len(dawson)!=1:
+              raise SystemExit(f'Expected one Dawson entry, found {[(x.get("id"),x.get("title"),x.get("poster")) for x in dawson]}')
+          d=dawson[0]
+          d['edition']='SPECIAL EDITION'
+          for season in d.get('seasons',[]):
+              season['edition']='SPECIAL EDITION'
+
+          # 3) LAST RESORT: remove invalid made-up genre only; preserve all valid genres/order.
+          lr=[x for x in series if x.get('id')=='last-resort-2012']
+          if len(lr)!=1:
+              raise SystemExit(f'Expected one last-resort-2012 entry, found {len(lr)}')
+          lr[0]['genres']=[g for g in lr[0].get('genres',[]) if g!='War']
+
+          with open(path,'w',encoding='utf-8',newline='\n') as f:
+              json.dump(data,f,ensure_ascii=False,separators=(',',':'))
+              f.write('\n')
+
+          # Final assertions.
+          assert lpv[0]['title']=='La Primera Vez'
+          assert d.get('edition')=='SPECIAL EDITION'
+          assert all(s.get('edition')=='SPECIAL EDITION' for s in d.get('seasons',[]))
+          assert 'War' not in lr[0].get('genres',[])
+          print('LA PRIMERA VEZ title:', lpv[0]['title'])
+          print('Dawson matched:', d.get('id'), d.get('title'), d.get('edition'))
+          print('Last Resort genres:', lr[0].get('genres'))
+          PY
+
+          rm -f .github/workflows/fix-dawsons-creek-edition.yml
+          rm -f .github/workflows/remove-invalid-war-genre.yml
+          rm -f .github/workflows/apply-three-tv-metadata-repairs.yml
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --name-only
+          git commit -m 'Repair La Primera Vez, Dawson edition and Last Resort genre'
+          git push origin main
