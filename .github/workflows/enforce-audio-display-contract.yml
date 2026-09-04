@@ -1,0 +1,212 @@
+name: Enforce strict audio display contract
+on:
+  push:
+    paths:
+      - '.github/workflows/enforce-audio-display-contract.yml'
+permissions:
+  contents: write
+jobs:
+  enforce:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Enforce audio display contract
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          audio = Path('audio-metadata-base.js')
+          text = audio.read_text(encoding='utf-8')
+          old = '''  function compactLosslessQuality(value){
+            const quality=String(value||"").trim();
+            if(!quality) return "";
+            if(/^24-bit$/i.test(quality)) return "24-bit";
+            const hiRes=quality.match(/^24-bit\\/(\\d+(?:\\.\\d+)?)kHz$/i);
+            if(hiRes) return `24/${hiRes[1]}`;
+            return quality;
+          }
+          '''
+          new = '''  function compactLosslessQuality(value){
+            const quality=String(value||"").trim();
+            if(!quality) return "";
+            if(/^24-bit$/i.test(quality)) return "24-bit";
+            if(/^(?:24-bit\\/96kHz|96\\/24)$/i.test(quality)) return "96/24";
+            return "";
+          }
+          '''
+          if old not in text:
+              raise RuntimeError('Expected compactLosslessQuality block not found')
+          text = text.replace(old, new, 1)
+          audio.write_text(text, encoding='utf-8')
+
+          guide = Path('TV_SERIES_INTEGRATION_GUIDE.md')
+          g = guide.read_text(encoding='utf-8')
+
+          old_group = '''Global display grouping is deliberately simpler than stored channel metadata:
+
+```text
+5.0 / 5.1 / 6.1 / 7.1  -> Surround
+11.1 / 13.1 / 15.1     -> Atmos
+```
+
+Keep the exact channel layout in structured data; apply `Surround` / `Atmos` only at display time.
+'''
+          new_group = '''Global display grouping is deliberately simpler than stored channel metadata:
+
+```text
+1.0 / Mono              -> Mono
+2.0 / Stereo            -> Stereo
+5.0 / 5.1 / 6.1 / 7.1  -> Surround
+11.1 / 13.1 / 15.1     -> Atmos
+```
+
+**Visible channel labels are restricted to exactly `Mono`, `Stereo`, `Surround`, and `Atmos`. Numeric channel layouts are storage-only and must never appear in the UI.** Keep the exact numeric layout in structured data where applicable, but always collapse it to one of those four visible labels.
+'''
+          if old_group not in g:
+              raise RuntimeError('Expected channel grouping block not found')
+          g = g.replace(old_group, new_group, 1)
+
+          old_examples = '''Aggregate multiple layouts with **no spaces around `/`**:
+
+```text
+Stereo/5.1
+```
+
+UI rendering:
+
+```text
+Stereo
+5.1 · Lossless
+5.1 · Lossless 24-bit
+5.1 · Lossless 24/96
+```
+
+Rules:
+
+- perceptual audio: channel layout only
+- lossless: append `Lossless`
+- genuine 24-bit at normal sample rate: `Lossless 24-bit`
+- 24-bit above 48 kHz: compact to `Lossless 24/96`, `Lossless 24/192`, etc.
+- 16-bit lossless remains simply `Lossless` unless a future UI rule explicitly changes it
+'''
+          new_examples = '''Aggregate multiple visible layout classes with **no spaces around `/`** and collapse duplicates after mapping:
+
+```text
+Stereo/Surround
+Surround/Atmos
+```
+
+## Strict visible audio labels
+
+The visible channel portion may be only:
+
+```text
+Mono
+Stereo
+Surround
+Atmos
+```
+
+The visible lossless portion has **exactly three allowed states**:
+
+```text
+Lossless
+Lossless 24-bit
+Lossless 96/24
+```
+
+Therefore valid rendered examples include:
+
+```text
+Stereo
+Surround
+Surround · Lossless
+Surround · Lossless 24-bit
+Surround · Lossless 96/24
+Atmos · Lossless
+Atmos · Lossless 24-bit
+Atmos · Lossless 96/24
+```
+
+Rules:
+
+- perceptual audio: visible channel class only; never show the numeric layout
+- ordinary lossless, including 16-bit/48 kHz: append exactly `Lossless`
+- genuine 24-bit at normal sample rate: append exactly `Lossless 24-bit`
+- genuine 96 kHz / 24-bit lossless: append exactly `Lossless 96/24`
+- **no other `Lossless ...` display label is allowed** unless this guide is explicitly amended first
+- do not display `5.1`, `7.1`, `15.1`, `24/96`, `24/192`, `16-bit`, sample-rate text, or codec names in the visible audio rail
+'''
+          if old_examples not in g:
+              raise RuntimeError('Expected audio examples block not found')
+          g = g.replace(old_examples, new_examples, 1)
+
+          old_schema = '''For lossless audio:
+
+- `lossless:true` is sufficient for ordinary 16-bit lossless audio
+- `quality` is permitted only for supported elevated values such as `24-bit` or `24-bit/96kHz`
+- **never write `quality:"16-bit"`, `quality:"16-bit/48kHz"`, or display `Lossless 16-bit`**
+- do not add codec, bit-depth or sample-rate fields unless the current SceneSense schema/guide explicitly supports them
+- a scan value such as `16-bit/48kHz` may confirm ordinary lossless provenance, but it does not become a UI label
+'''
+          new_schema = '''For lossless audio:
+
+- `lossless:true` with no `quality` is the ordinary lossless state and renders exactly `Lossless`
+- `quality:"24-bit"` is the only normal elevated bit-depth state and renders exactly `Lossless 24-bit`
+- `quality:"24-bit/96kHz"` is the only high-resolution state and renders exactly `Lossless 96/24`
+- these are the **only three permitted visible lossless states**: `Lossless`, `Lossless 24-bit`, `Lossless 96/24`
+- **never write `quality:"16-bit"`, `quality:"16-bit/48kHz"`, or display `Lossless 16-bit`**
+- unsupported `quality` values must not create a new visible label; they fall back to ordinary `Lossless` until the contract is explicitly amended
+- do not add codec, bit-depth or sample-rate fields unless the current SceneSense schema/guide explicitly supports them
+- a scan value such as `16-bit/48kHz` may confirm ordinary lossless provenance, but it does not become a UI label
+'''
+          if old_schema not in g:
+              raise RuntimeError('Expected strict schema block not found')
+          g = g.replace(old_schema, new_schema, 1)
+
+          old_audit = '''- 5.0/5.1/6.1/7.1 render as `Surround`; 11.1/13.1/15.1 render as `Atmos` while exact layouts remain stored
+'''
+          new_audit = '''- visible channel labels are only `Mono`, `Stereo`, `Surround`, `Atmos`; numeric layouts never render
+- visible lossless labels are only `Lossless`, `Lossless 24-bit`, `Lossless 96/24`; no fourth lossless label exists
+'''
+          if old_audit not in g:
+              raise RuntimeError('Expected final audit audio rule not found')
+          g = g.replace(old_audit, new_audit, 1)
+
+          guide.write_text(g, encoding='utf-8')
+
+          # Contract assertions.
+          final = guide.read_text(encoding='utf-8')
+          required = [
+              'Visible channel labels are restricted to exactly `Mono`, `Stereo`, `Surround`, and `Atmos`',
+              'The visible lossless portion has **exactly three allowed states**',
+              'Lossless 96/24',
+              'numeric layouts never render',
+              'no fourth lossless label exists',
+          ]
+          for token in required:
+              if token not in final:
+                  raise RuntimeError(f'Missing guide assertion: {token}')
+          forbidden = ['Lossless 24/96', 'Lossless 24/192']
+          for token in forbidden:
+              if token in final:
+                  raise RuntimeError(f'Forbidden legacy label remains in guide: {token}')
+
+          js = audio.read_text(encoding='utf-8')
+          if 'return `24/${hiRes[1]}`' in js:
+              raise RuntimeError('Legacy 24/96 renderer remains')
+          if 'return "96/24"' not in js:
+              raise RuntimeError('96/24 renderer mapping missing')
+          PY
+      - name: Commit contract changes
+        shell: bash
+        run: |
+          git config user.name "soap2"
+          git config user.email "46655904+soap2@users.noreply.github.com"
+          git rm -f .github/workflows/enforce-audio-display-contract.yml
+          git add audio-metadata-base.js TV_SERIES_INTEGRATION_GUIDE.md
+          git commit -m "Enforce strict audio display labels"
+          git push origin HEAD:main
