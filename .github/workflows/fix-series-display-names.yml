@@ -1,0 +1,73 @@
+name: Fix series display names
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-series-display-names.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Apply naming corrections
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import subprocess
+
+          replacements = {
+              'Hooten & the Lady': 'Hooten and the Lady',
+              'Hooten & The Lady': 'Hooten and the Lady',
+              'Hooten &amp; the Lady': 'Hooten and the Lady',
+              'Hooten &amp; The Lady': 'Hooten and the Lady',
+          }
+
+          tracked = subprocess.check_output(['git','ls-files','-z']).decode().split('\0')
+          changed = []
+          for name in tracked:
+              if not name or name.startswith('.git/'):
+                  continue
+              p = Path(name)
+              try:
+                  text = p.read_text(encoding='utf-8')
+              except (UnicodeDecodeError, OSError):
+                  continue
+              new = text
+              for old, repl in replacements.items():
+                  new = new.replace(old, repl)
+              if new != text:
+                  p.write_text(new, encoding='utf-8')
+                  changed.append(name)
+
+          p = Path('series.js')
+          text = p.read_text(encoding='utf-8')
+          old = 'He-Man & the Masters of the Universe'
+          new = 'He-Man: The Masters of the Universe'
+          if old not in text:
+              raise SystemExit('Expected current He-Man library-card override not found')
+          text = text.replace(old, new, 1)
+          p.write_text(text, encoding='utf-8')
+          changed.append('series.js')
+
+          print('Changed:', *sorted(set(changed)), sep='\n- ')
+          PY
+
+          if git grep -n -E 'Hooten (&|&amp;) (the|The) Lady' -- ':!*.webp' ':!*.png' ':!*.jpg' ':!*.jpeg'; then
+            echo 'Ampersand form of Hooten title still exists' >&2
+            exit 1
+          fi
+          grep -F 'Hooten and the Lady' data/series/index-additions.json
+          grep -F 'He-Man: The Masters of the Universe' series.js
+          grep -F '"title":"He-Man and the Masters of the Universe"' data/series/index-additions.json
+
+      - name: Remove helper workflow and commit
+        run: |
+          rm -f .github/workflows/fix-series-display-names.yml
+          git config user.name soap2
+          git config user.email 46655904+soap2@users.noreply.github.com
+          git add -A
+          git commit -m 'Correct Hooten and He-Man display names'
+          git push
