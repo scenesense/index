@@ -1,0 +1,1362 @@
+{{Short description|None}}
+{{Redirect|Web of Desire|the 1917 lost film|The Web of Desire{{!}}''The Web of Desire''}}
+{{one source|date=November 2024}}
+{{Use mdy dates|date=July 2021}}
+{{Italic title|string=Hercules: The Legendary Journeys}}
+''[[Hercules: The Legendary Journeys]]'' is a television series that was filmed in New Zealand<ref>{{cite book |last1=Elmer |first1=Greg |last2=Davis |first2=Charles H. |last3=Marchessault |first3=Janine |last4=McCullough |first4=John |title=Locating Migrating Media |date=10 July 2012 |publisher=Lexington Books |isbn=978-0-7391-4243-1 |page=120 |url=https://books.google.com/books?id=Pr7RR-MIfBsC&pg=PA120 |language=en}}</ref> and the United States, starring [[Kevin Sorbo]] as [[Heracles|Hercules]]. It is very loosely based on the tales of the classical [[Greek mythology|Greek]] [[culture hero]] [[Heracles]]. It ran for 111 episodes over six seasons.
+
+It was preceded by several TV movies with the same major characters in 1994 as part of [[Universal Television|Universal Media Studios]]'s [[Action Pack (TV programming block)|Action Pack]]: in order, ''[[Hercules and the Amazon Women]]'', ''[[Hercules and the Lost Kingdom]]'', ''[[Hercules and the Circle of Fire]]'', ''[[Hercules in the Underworld]]'', and ''[[Hercules in the Maze of the Minotaur]]'', the last of which served mostly as a "[[clip show]]" of the previous movies as a lead up to the series.
+{{TOC right}}
+
+==Series overview==
+<onlyinclude>{{Series overview
+
+| color0S = #ce9812
+| link0S = List of Hercules: The Legendary Journeys episodes#Television films (1994)
+| linkT0S = TV films
+| episodes0S = 5
+| start0S = {{Start date|1994|04|25}}
+| end0S = {{End date|1994|11|14}}
+
+| color1 = #1c1d1f
+| link1 = List of Hercules: The Legendary Journeys episodes#Season 1 (1995)
+| episodes1 = 13
+| start1 = {{Start date|1995|01|16}}
+| end1 = {{End date|1995|05|08}}
+
+| color2 = #B30407
+| link2 = List of Hercules: The Legendary Journeys episodes#Season 2 (1995-1996)
+| episodes2 = 24
+| start2 = {{Start date|1995|09|04}}
+| end2 = {{End date|1996|06|24}}
+
+| color3 = #3651B3
+| link3 = List of Hercules: The Legendary Journeys episodes#Season 3 (1996-1997)
+| episodes3 = 22
+| start3 = {{Start date|1996|09|30}}
+| end3 = {{End date|1997|05|12}}
+
+| color4 = #5AA652
+| link4 = List of Hercules: The Legendary Journeys episodes#Season 4 (1997-1998)
+| episodes4 = 22
+| start4 = {{Start date|1997|09|29}}
+| end4 = {{End date|1998|05|11}}
+
+| color5 = #E67833
+| link5 = List of Hercules: The Legendary Journeys episodes#Season 5 (1998-1999)
+| episodes5 = 22
+| start5 = {{Start date|1998|09|28}}
+| end5 = {{End date|1999|05|17}}
+
+| color6 = #634078
+| link6 = List of Hercules: The Legendary Journeys episodes#Season 6 (1999)
+| episodes6 = 8
+| start6 = {{start date|1999|09|27}}
+| end6 = {{End date|1999|11|22}}
+}}</onlyinclude>
+
+==Episodes==
+=== Television films (1994)===
+{{Episode table |background=#ce9812 |title=32 |director=20 |writer=22 |airdate=25|episodes=
+
+{{Episode list
+ |RTitle=''[[Hercules and the Amazon Women]]''
+ |DirectedBy=Bill L. Norton
+ |WrittenBy=Andrew Dettmann, Jule Selbo & Daniel Truly
+ |OriginalAirDate={{start date|1994|04|25}}
+ |ShortSummary=On the even of Iolaus's marriage, a village of men seeks Hercules's aid to defeat a band of mysterious creatures. Hercules discovers that these "creatures" are the women of the village, who have left their chauvinistic men and aligned themselves with Hera.
+ |LineColor=ce9812
+}}
+{{Episode list
+ |RTitle=''[[Hercules and the Lost Kingdom]]''
+ |DirectedBy=[[Harley Cokeliss]]
+ |WrittenBy=[[Christian Williams]]
+ |OriginalAirDate={{start date|1994|05|2}}
+ |ShortSummary=Hercules comes to the aid of a young woman who is seeking the lost city of Troy. Eventually, he leads her to a camp of refugees from a city taken over by Hera's Blue Priests. Hercules helps the refugees take back the city.
+ |LineColor=ce9812
+}}
+{{Episode list
+ |RTitle=''[[Hercules and the Circle of Fire]]''
+ |DirectedBy=[[Doug Lefler]]
+ |WrittenBy=Andrew Dettmann, [[Barry Pullman]] & Daniel Truly
+ |OriginalAirDate={{start date|1994|10|31}}
+ |ShortSummary=When all the Earth's fire begins to go out, Hercules and Deianeira seek to stop the world from freezing.
+ |LineColor=ce9812
+}}
+{{Episode list
+ |RTitle=''[[Hercules in the Underworld]]''
+ |DirectedBy=Bill L. Norton
+ |WrittenBy=Andrew Dettmann & Daniel Truly
+ |OriginalAirDate={{start date|1994|11|7}}
+ |ShortSummary=As villagers begin disappearing, it is discovered that they had fallen through a crack in the Earth and plunged  straight into Hades. Coming to the rescue, Hercules faces one of his most difficult challenges and must prove himself as a man as well as a god.
+ |LineColor=ce9812
+}}
+{{Episode list
+ |RTitle=''[[Hercules in the Maze of the Minotaur]]''
+ |DirectedBy=[[Josh Becker (filmmaker)|Josh Becker]]
+ |WrittenBy=Andrew Dettmann & Daniel Truly
+ |OriginalAirDate={{start date|1994|11|14}}
+ |ShortSummary=Hercules has settled down to spend time with his family, but, when a distant village is threatened by an unseen monster, he is called upon to help save the village.
+ |LineColor=ce9812
+}}
+}}
+
+===Season 1 (1995){{anchor|Season One (1995)}}===
+{{Episode table |background=#1c1d1f |overall=5 |season=5 |title=21 |director=20 |writer=22 |airdate=17 |prodcode=8 |episodes={{Episode list
+ |EpisodeNumber=1
+ |EpisodeNumber2=1
+ |Title=The Wrong Path
+ |DirectedBy=[[Doug Lefler]]
+ |WrittenBy=John Schulian
+ |OriginalAirDate={{start date|1995|01|16}}
+ |ProdCode=76601
+ |ShortSummary=Hercules returns home just in time to see [[Deianira]] and his children murdered by Hera. Vowing vengeance, he sets out to destroy the goddess, but a young girl helps to soothe his soul and turn him from the dark path he has chosen.
+ |LineColor=1c1d1f
+}}
+{{Episode list
+ |EpisodeNumber=2
+ |EpisodeNumber2=2
+ |Title=Eye of the Beholder
+ |DirectedBy=[[John T. Kretchmer]]
+ |WrittenBy=John Schulian
+ |OriginalAirDate={{start date|1995|01|23}}
+ |ProdCode=76605
+ |ShortSummary=Hercules runs from the 50 daughters of [[Thespius]]. Hercules agrees to aid the town of [[Trachis]] terrorized by a [[Cyclops]], but soon learns that the creature's actions may not be entirely unjustified.
+ |LineColor=1c1d1f
+}}
+{{Episode list
+ |EpisodeNumber=3
+ |EpisodeNumber2=3
+ |Title=The Road to Calydon
+ |DirectedBy=Doug Lefler
+ |WrittenBy=Andrew Dettmann & Daniel Truly
+ |OriginalAirDate={{start date|1995|01|30}}
+ |ProdCode=76602
+ |ShortSummary=A group of refugees fleeing Parthus, a city destroyed by Hera, seek Hercules' help in staving off the attacks of the goddess and her followers. Hercules learns along the way that Broteas, the leader of the refugees, had stolen a cup from Hera, prompting her wrath on the city and continued pursuance of the group.
+ |LineColor=1c1d1f
+}}
+{{Episode list
+ |EpisodeNumber=4
+ |EpisodeNumber2=4
+ |Title=The Festival of Dionysus
+ |DirectedBy=[[Peter Ellis (director)|Peter Ellis]]
+ |WrittenBy=Andrew Dettmann & Daniel Truly
+ |OriginalAirDate={{start date|1995|02|06}}
+ |ProdCode=76609
+ |ShortSummary=Hercules is invited to the Festival of Dionysus in Meliad because of an ill omen. Nothing seems to be out of place as the festival begins, but the presence of Tiresias cues Hercules that something foul is afoot and he tries to get to the bottom of it.
+ |LineColor=1c1d1f
+}}
+{{Episode list
+ |EpisodeNumber=5
+ |EpisodeNumber2=5
+ |Title=Ares
+ |DirectedBy=[[Harley Cokeliss]]
+ |WrittenBy=Steve Roberts
+ |OriginalAirDate={{start date|1995|02|13}}
+ |ProdCode=76603
+ |ShortSummary=Ares plans to form an army of children, part of his bid to cover the world in war without end. Naturally it falls to Hercules to stop his evil half-brother. Thankfully, he has the aid of the warrior blacksmith [[Atalanta]].
+ |LineColor=1c1d1f
+}}
+{{Episode list
+ |EpisodeNumber=6
+ |EpisodeNumber2=6
+ |Title=As Darkness Falls
+ |DirectedBy=[[George Mendeluk]]
+ |WrittenBy=Robert Bielak
+ |OriginalAirDate={{start date|1995|02|20}}
+ |ProdCode=76607
+ |ShortSummary=A woman named Penelope is set to marry a man named Marcus, but the [[centaur]] Nemis wishes her for himself and makes a deal with Hera to make her his, but first he has to kill the eternal thorn in Hera's side, Hercules.
+ |LineColor=1c1d1f
+}}
+{{Episode list
+ |EpisodeNumber=7
+ |EpisodeNumber2=7
+ |Title=Pride Comes Before a Brawl
+ |DirectedBy=Peter Ellis
+ |WrittenBy=Steve Roberts
+ |OriginalAirDate={{start date|1995|02|27}}
+ |ProdCode=76604
+ |ShortSummary=Iolaus becomes prideful after some initial successes and arrogantly decides to race Hercules to the city of Thrace. The two separate, but then Hercules finds he has to contend with his old flame [[Nemesis (Xena and Hercules)|Nemesis]], sent by Hera to kill Iolaus for his behavior.
+*Eric Gruendemann, one of the show's producers, makes a cameo appearance as a fisherman.
+ |LineColor=1c1d1f
+}}
+{{Episode list
+ |EpisodeNumber=8
+ |EpisodeNumber2=8
+ |Title=The March to Freedom
+ |DirectedBy=Harley Cokeliss
+ |WrittenBy=Adam Armus & Kay Foster
+ |OriginalAirDate={{start date|1995|03|06}}
+ |ProdCode=76606
+ |ShortSummary=After purchasing an Asian slave to free her, Hercules gets more than he bargained for when she asks for his help in freeing her fiancé, who incidentally is set to be fed to the lions in a large public spectacle.
+ |LineColor=1c1d1f
+}}
+{{Episode list
+ |EpisodeNumber=9
+ |EpisodeNumber2=9
+ |Title=The Warrior Princess
+ |DirectedBy=[[Bruce Seth Green]]
+ |WrittenBy=John Schulian
+ |OriginalAirDate={{start date|1995|03|13}}
+ |ProdCode=76608
+ |ShortSummary=Iolaus is seduced by the cunning and cruel [[Xena]], Warrior Princess, who aims to use him to destroy Hercules, leaving her free to take over the world.
+ |LineColor=1c1d1f
+}}
+{{Episode list
+ |EpisodeNumber=10
+ |EpisodeNumber2=10
+ |Title=Gladiator
+ |DirectedBy=Garth Maxwell
+ |WrittenBy=Robert Bielak
+ |OriginalAirDate={{start date|1995|03|20}}
+ |ProdCode=76611
+ |ShortSummary=Trying to reunite a woman and her young baby with her prisoner husband, Hercules and Iolaus enter a slave prison where the inmates are forced to fight in to-death gladiatorial tournaments.
+ |LineColor=1c1d1f
+}}
+{{Episode list
+ |EpisodeNumber=11
+ |EpisodeNumber2=11
+ |Title=The Vanishing Dead
+ |DirectedBy=[[Bruce Campbell]]
+ |WrittenBy=Andrew Dettmann & Daniel Truly
+ |OriginalAirDate={{start date|1995|04|24}}
+ |ProdCode=76610
+ |ShortSummary=Hercules, with Iolaus, are asked to investigate the ghost of a deceased soldier, and wind ups finding himself battling Graegus, Ares' dog of war.
+ |LineColor=1c1d1f
+}}
+{{Episode list
+ |EpisodeNumber=12
+ |EpisodeNumber2=12
+ |Title=The Gauntlet
+ |DirectedBy=[[Jack Perez]]
+ |WrittenBy=Peter Bielak
+ |OriginalAirDate={{start date|1995|05|01}}
+ |ProdCode=76612
+ |ShortSummary=Xena is betrayed by her lieutenant, Darphus, and forced to walk "the gauntlet". Determined to get her revenge, she forms an alliance with Hercules, who tries to make her see that there is more to life than vengeance and evil.  
+ |LineColor=1c1d1f
+}}
+{{Episode list
+ |EpisodeNumber=13
+ |EpisodeNumber2=13
+ |Title=Unchained Heart
+ |DirectedBy=Bruce Seth Green
+ |WrittenBy=John Schulian
+ |OriginalAirDate={{start date|1995|05|08}}
+ |ProdCode=76613
+ |ShortSummary=It's the end of the season and Hercules, Salmoneus, Xena and Iolaus team up to fight Darphus, who has risen from the grave and plans to feed Hercules to Ares' dog of war Graegus. In the end, Ares loses his most valuable pawn as Xena turns her back on evil once and for all. 
+ |LineColor=1c1d1f
+}}
+}}
+
+===Season 2 (1995-1996) {{anchor|Season Two (1995–1996)}}===
+{{Episode table |background=#B30407 |overall=5 |season=5 |title=21 |director=20 |writer=22 |airdate=17 |prodcode=8 |episodes={{Episode list
+ |EpisodeNumber=14
+ |EpisodeNumber2=1
+ |Title=The King of Thieves
+ |DirectedBy=[[Doug Lefler]]
+ |WrittenBy=Doug Lefler
+ |OriginalAirDate={{start date|1995|09|04}}
+ |ProdCode=876807
+ |ShortSummary=Autolycus commits robbery but Iolaus is sentenced to death for the act so Hercules must find the real culprit to save the life of Iolaus.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=15
+ |EpisodeNumber2=2
+ |Title=All That Glitters 
+ |DirectedBy=Garth Maxwell
+ |WrittenBy=Craig Volk
+ |OriginalAirDate={{start date|1995|09|11}}
+ |ProdCode=876805
+ |ShortSummary=Hercules and Salmoneus visit King Midas' gambling palace, only to find that it has got out of control with sadistic entertainment after it was taken over by a villainess and her henchman.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=16
+ |EpisodeNumber2=3
+ |Title=What's in a Name?
+ |DirectedBy=[[Bruce Campbell]]
+ |WrittenBy=[[Michael Marks (writer)|Michael Marks]]
+ |OriginalAirDate={{start date|1995|09|18}}
+ |ProdCode=876803
+ |ShortSummary=Hercules learns that his half-brother [[Iphicles]] in [[Phlegra (mythology)|Phlegra]] is claiming to be him, and is planning to wed the stepdaughter of evil warlord Gorgus.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=17
+ |EpisodeNumber2=4
+ |Title=Siege at Naxos
+ |DirectedBy=Stephen L. Posey
+ |WrittenBy=[[Darrell Fetty]]
+ |OriginalAirDate={{start date|1995|09|25}}
+ |ProdCode=876810
+ |ShortSummary=Hercules and Iolaus capture Goth, the leader of a band of barbarians. They plan to take him to Athens, where he will stand trial. Goth's men follow Hercules and Iolaus to free their leader.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=18
+ |EpisodeNumber2=5
+ |Title=Outcast
+ |DirectedBy=[[Bruce Seth Green]]
+ |WrittenBy=Robert Bielak
+ |OriginalAirDate={{start date|1995|10|02}}
+ |ProdCode=876801
+ |ShortSummary=Deric, a centaur, and his human wife, Lyla and their son, Kefor are being persecuted because she married a centaur. When Lyla is killed, Deric takes revenge on the people and kills two men in self defense. Hercules fights alongside Deric against the prejudice of the local people.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=19
+ |EpisodeNumber2=6
+ |Title=Under the Broken Sky
+ |DirectedBy=[[James A. Contner]]
+ |WrittenBy=John Schulian
+ |OriginalAirDate={{start date|1995|10|09}}
+ |ProdCode=876811
+ |ShortSummary=When Hercules finds Salmoneus working in a pleasure palace, he meets a woman named Lucina. Hercules helps to get her away from the life she has been living and reunites her with her estranged husband.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=20
+ |EpisodeNumber2=7
+ |Title=The Mother of All Monsters
+ |DirectedBy=Bruce Seth Green
+ |WrittenBy=John Schulian
+ |OriginalAirDate={{start date|1995|10|16}}
+ |ProdCode=876806
+ |ShortSummary=Echidna, the self-proclaimed "Mother of All Monsters", is out to get revenge on Hercules for killing all of her children.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=21
+ |EpisodeNumber2=8
+ |Title=The Other Side
+ |DirectedBy=[[George Mendeluk]]
+ |WrittenBy=Robert Bielak
+ |OriginalAirDate={{start date|1995|10|30}}
+ |ProdCode=876802
+ |ShortSummary=When Persephone, the daughter of Demeter is abducted by Hades, Hercules travels to the Underworld to rescue her. While there, he briefly reunites with his family.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=22
+ |EpisodeNumber2=9
+ |Title=The Fire Down Below
+ |DirectedBy=Timothy Bond
+ |WrittenBy={{StoryTeleplay|s= John Schulian|t= Scott Smith Miller}}
+ |OriginalAirDate={{start date|1995|11|06}}
+ |ProdCode=876804
+ |ShortSummary=Salmoneus incurs Hera's wrath when he takes a stash of her treasure and sells it. With Nemesis sent to dispatch divine retribution, Hercules finds himself in the hot of things – literally.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=23
+ |EpisodeNumber2=10
+ |Title=Cast a Giant Shadow
+ |DirectedBy=[[John T. Kretchmer]]
+ |WrittenBy=John Schulian
+ |OriginalAirDate={{start date|1995|11|13}}
+ |ProdCode=876814
+ |ShortSummary=While Hercules befriends Typhon, a bumbling but kind hearted giant (along with the husband of Echinda), Iolaus is captured by Maceus, brother of Demetrius (from 'The Mother of All Monsters'), vowing revenge on Hercules.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=24
+ |EpisodeNumber2=11
+ |Title=Highway to Hades
+ |DirectedBy=T.J. Scott
+ |WrittenBy=Robert Bielak
+ |OriginalAirDate={{start date|1995|11|20}}
+ |ProdCode=876813
+ |ShortSummary=[[Sisyphus]] escapes from the Underworld and tricks Timeron into taking his place. It is up to Hercules to restore justice by capturing Sisyphus and freeing Timeron.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=25
+ |EpisodeNumber2=12
+ |Title=The Sword of Veracity
+ |DirectedBy=Steven Baum
+ |WrittenBy=Garth Maxwell
+ |OriginalAirDate={{start date|1996|01|08}}
+ |ProdCode=876817
+ |ShortSummary=When their friend, Amphion is framed for murder, Hercules and Iolaus set off to find the Sword of Veracity, which will make the real culprit admit the truth and set Amphion free.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=26
+ |EpisodeNumber2=13
+ |Title=The Enforcer
+ |DirectedBy=T.J. Scott
+ |WrittenBy=Nelson Costello
+ |OriginalAirDate={{start date|1996|01|15}}
+ |ProdCode=876815
+ |ShortSummary=Nemesis is made mortal and Hera sends her Enforcer to kill Hercules.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=27
+ |EpisodeNumber2=14
+ |Title=Once a Hero
+ |DirectedBy=[[Robert G. Tapert|Rob Tapert]]
+ |WrittenBy={{StoryTeleplay|s= Rob Tapert and Robert Bielak & John Schulian|t= John Schulian & Robert Bielak}}
+ |OriginalAirDate={{start date|1996|01|29}}
+ |ProdCode=876818
+ |ShortSummary=When the Golden Fleece is stolen, Hercules and Iolaus team up with Jason to retrieve it.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=28
+ |EpisodeNumber2=15
+ |Title=Heedless Hearts
+ |DirectedBy=[[Peter Ellis (director)|Peter Ellis]]
+ |WrittenBy=Robert Bielak
+ |OriginalAirDate={{start date|1996|02|05}}
+ |ProdCode=876819
+ |ShortSummary=Iolaus is struck by lightning, which gives him the power of foresight. When he and Hercules help out Rheanna in her fight against a tyrannical ruler, Melkos, Hercules begins falling for her.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=29
+ |EpisodeNumber2=16
+ |Title=Let the Games Begin
+ |DirectedBy=[[Gus Trikonis]]
+ |WrittenBy=John Schulian
+ |OriginalAirDate={{start date|1996|02|12}}
+ |ProdCode=876808
+ |ShortSummary=To try and stop the Spartans and the Eleans fighting, Hercules devises the first ever Olympic Games.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=30
+ |EpisodeNumber2=17
+ |Title=The Apple
+ |DirectedBy=[[Kevin Sorbo]]
+ |WrittenBy=Steven Baum
+ |OriginalAirDate={{start date|1996|02|19}}
+ |ProdCode=876824
+ |ShortSummary=Aphrodite gives Iolaus a magical golden apple that makes anyone who touches it fall in love with him, but it serves to jeopardise a wedding that will bring together two feuding kingdoms.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=31
+ |EpisodeNumber2=18
+ |Title=Promises
+ |DirectedBy=Stewart Main
+ |WrittenBy=Michael Marks
+ |OriginalAirDate={{start date|1996|03|04}}
+ |ProdCode=876809
+ |ShortSummary=When Ramina, the fiancée of King Beraeus is kidnapped, it is up to Hercules and Iolaus to rescue her. Although it appears she may not want to be rescued after all.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=32
+ |EpisodeNumber2=19
+ |Title=King for a Day
+ |DirectedBy=[[Anson Williams]]
+ |WrittenBy=Patricia Manney
+ |OriginalAirDate={{start date|1996|03|18}}
+ |ProdCode=876816
+ |ShortSummary=When Prince Orestes is drugged so he cannot attend his coronation, Iolaus stands in his stead so that Orestes' brother, Minos will not become king.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=33
+ |EpisodeNumber2=20
+ |Title=Protean Challenge
+ |DirectedBy=Oley Sassone
+ |WrittenBy=Brian Herskowitz
+ |OriginalAirDate={{start date|1996|04|22}}
+ |ProdCode=876825
+ |ShortSummary=Thanis, a friend of Hercules and Iolaus, is framed for a crime he did not commit. Hercules and Iolaus help out to prove his innocence.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=34
+ |EpisodeNumber2=21
+ |Title=The Wedding of Alcmene
+ |DirectedBy=Timothy Bond
+ |WrittenBy=John Schulian
+ |OriginalAirDate={{start date|1996|04|29}}
+ |ProdCode=876822
+ |ShortSummary=Alcmene tells Hercules and Iolaus that she is to marry Jason. Hera resurrects the Blue Priest who plans to kill Hercules at the wedding. Meanwhile, as Jason must give up his crown as Alcmene is not of royal descent, Hercules sends Iolaus to seek out his half-brother Iphicles, hoping Iphicles can become the new king of Corinth.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=35
+ |EpisodeNumber2=22
+ |Title=The Power
+ |DirectedBy=Charlie Haskell
+ |WrittenBy=Nelson Costello
+ |OriginalAirDate={{start date|1996|05|06}}
+ |ProdCode=876823
+ |ShortSummary=Deon discovers he has the godly power to order people to do his bidding. Hercules helps him to use his gift wisely.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=36
+ |EpisodeNumber2=23
+ |Title=Centaur Mentor Journey
+ |DirectedBy=Stephen L. Posey
+ |WrittenBy=Robert Bielak
+ |OriginalAirDate={{start date|1996|05|13}}
+ |ProdCode=876821
+ |ShortSummary=Hercules' dying mentor, the centaur Ceridian, asks him to stop another of his protégés, fellow centaur Cassius, from going to war with humans over a struggle for equal rights.
+ |LineColor=B30407
+}}
+{{Episode list
+ |EpisodeNumber=37
+ |EpisodeNumber2=24
+ |Title=The Cave of Echoes
+ |DirectedBy=Gus Trikonis
+ |WrittenBy=John Schulian & Robert Bielak
+ |OriginalAirDate={{start date|1996|06|24}}
+ |ProdCode=876820
+ |ShortSummary=Hercules and Iolaus, accompanied by a timid young writer, head into the perilous Cave of Echoes to rescue a man's daughter, whilst they recall some of their past adventures.
+ |LineColor=B30407
+}}
+}}
+
+===Season 3 (1996-1997) {{anchor|Season Three (1996–1997)}}===
+{{Episode table |background=#3651B3 |overall=5 |season=5 |title=21 |director=20 |writer=22 |airdate=17 |prodcode=8 |episodes={{Episode list
+ |EpisodeNumber=38
+ |EpisodeNumber2=1
+ |Title=Mercenary
+ |DirectedBy=[[Michael Hurst]]
+ |WrittenBy=Robert Bielak
+ |OriginalAirDate={{start date|1996|09|30}}
+ |ProdCode=76827
+ |ShortSummary=Hercules is shipwrecked on a deserted island and must fight a mercenary, a band of pirates and battle giant sand monsters.
+ |LineColor=3651B3
+}}
+{{Episode list
+ |EpisodeNumber=39
+ |EpisodeNumber2=2
+ |Title=Doomsday
+ |DirectedBy=[[Michael Lange]]
+ |WrittenBy=Brian Herskowitz
+ |OriginalAirDate={{start date|1996|10|07}}
+ |ProdCode=76830
+ |ShortSummary=When Daedalus falls under the evil influence of King Nikolos, Hercules must step in to help his friend regain the right path.
+ |LineColor=3651B3
+}}
+{{Episode list
+ |EpisodeNumber=40
+ |EpisodeNumber2=3
+ |Title=Love Takes a Holiday
+ |DirectedBy=Charlie Haskell
+ |WrittenBy=Noreen Tobin & Gene F. O'Neill
+ |OriginalAirDate={{start date|1996|10|14}}
+ |ProdCode=V0113
+ |ShortSummary=Aphrodite quits as the Goddess of Love and tries out a new career, meanwhile there is a plot to kidnap Iolaus' grandmother, Leandra.
+ |LineColor=3651B3
+}}
+{{Episode list
+ |EpisodeNumber=41
+ |EpisodeNumber2=4
+ |Title=Mummy Dearest
+ |DirectedBy=[[Anson Williams]]
+ |WrittenBy=[[Melissa Rosenberg]]
+ |OriginalAirDate={{start date|1996|10|21}}
+ |ProdCode=76833
+ |ShortSummary=Hercules must retrieve a lost mummy before it can consume human life force and become an evil monster.
+ |LineColor=3651B3
+}}
+{{Episode list
+ |EpisodeNumber=42
+ |EpisodeNumber2=5
+ |Title=Not Fade Away
+ |DirectedBy=T.J. Scott
+ |WrittenBy=John Schulian
+ |OriginalAirDate={{start date|1996|10|28}}
+ |ProdCode=76831
+ |ShortSummary=Hera unleashes the Enforcer mk. II, made of fire. When this fiery foe kills Iolaus, Hercules strikes a deal with Hades – until sunset to defeat the new Enforcer in exchange for Iolaus' life, and has an unlikely companion – the original Enforcer.
+ |LineColor=3651B3
+}}
+{{Episode list
+ |EpisodeNumber=43
+ |EpisodeNumber2=6
+ |Title=Monster Child in the Promised Land
+ |DirectedBy=[[John T. Kretchmer]]
+ |WrittenBy=John Schulian
+ |OriginalAirDate={{start date|1996|11|04}}
+ |ProdCode=76826
+ |ShortSummary=Hercules and Iolaus hear that Echidna and Typhon have had another baby monster, but their help is soon needed when the baby is kidnapped by a small-time thief.
+ |LineColor=3651B3
+}}
+{{Episode list
+ |EpisodeNumber=44
+ |EpisodeNumber2=7
+ |Title=The Green-Eyed Monster
+ |DirectedBy=[[Charles Braverman|Chuck Braverman]]
+ |WrittenBy=Steven Baum
+ |OriginalAirDate={{start date|1996|11|11}}
+ |ProdCode=76828
+ |ShortSummary=Aphrodite's son Cupid is in love with Psyche, a mortal. But Aphrodite is jealous of Psyche's beauty. Hercules is accidentally shot by one of Cupid's arrows, making him too fall in love with Psyche.
+ |LineColor=3651B3
+}}
+{{Episode list
+ |EpisodeNumber=45
+ |EpisodeNumber2=8
+ |Title=Prince Hercules
+ |DirectedBy=[[Charles Siebert]]
+ |WrittenBy={{StoryTeleplay|s= Brad Carpenter|t= Robert Bielak}}
+ |OriginalAirDate={{start date|1996|11|18}}
+ |ProdCode=76834
+ |ShortSummary=Hercules and Iolaus are traveling to a festival when they save some travelers from a group of bandits. Hercules decides to travel with them so they will not be attacked again. Hercules is knocked unconscious and stricken with amnesia when he wakes up. Queen Parnassa convinces him that he is her son so he will lead her army in Hera's name.
+ |LineColor=3651B3
+}}
+{{Episode list
+ |EpisodeNumber=46
+ |EpisodeNumber2=9
+ |Title=A Star to Guide Them
+ |DirectedBy=Michael Levine
+ |WrittenBy={{StoryTeleplay|s= John Schulian|t= Brian Herskowitz and John Schulian}}
+ |OriginalAirDate={{start date|1996|12|09}}
+ |ProdCode=76835
+ |ShortSummary=Iolaus has a strange dream, which leaves him with a yearning to travel north. Meanwhile, King Polonius and Queen Maliphone round up all the boys under one year old, because the Oracle has said that the next king will not be their heir.
+ |LineColor=3651B3
+}}
+{{Episode list
+ |EpisodeNumber=47
+ |EpisodeNumber2=10
+ |Title=The Lady and the Dragon
+ |DirectedBy=Oley Sassone
+ |WrittenBy=Michael Berlin & Eric Estrin
+ |OriginalAirDate={{start date|1997|01|13}}
+ |ProdCode=76832
+ |ShortSummary=Hercules must fight a dragon, when he hears news of it terrorizing several villages in Laurentia and killing some of his old friends.
+ |LineColor=3651B3
+}}
+{{Episode list
+ |EpisodeNumber=48
+ |EpisodeNumber2=11
+ |Title=Long Live the King
+ |DirectedBy=Timothy Bond
+ |WrittenBy={{StoryTeleplay|s= Patricia Manney|t= Sonny Gordon}}
+ |OriginalAirDate={{start date|1997|01|20}}
+ |ProdCode=V0114
+ |ShortSummary=Iolaus' help is once again needed by his look-alike cousin, King Orestes. But when Orestes is murdered, Iolaus must once more take his place to try and secure a peace treaty.
+ |LineColor=3651B3
+}}
+{{Episode list
+ |EpisodeNumber=49
+ |EpisodeNumber2=12
+ |Title=Surprise
+ |DirectedBy=Oley Sassone
+ |WrittenBy=[[Alex Kurtzman]]
+ |OriginalAirDate={{start date|1997|01|27}}
+ |ProdCode=V0117
+ |ShortSummary=Hercules has a nasty surprise for his birthday when Xena's mortal foe [[Callisto (mythology)|Callisto]] makes a deal with Hera to escape the afterlife and drug Herc's family, in a plot to kill the half-god in return for her freedom.
+ |LineColor=3651B3
+}}
+{{Episode list
+ |EpisodeNumber=50
+ |EpisodeNumber2=13
+ |Title=Encounter
+ |DirectedBy=Charlie Haskell
+ |WrittenBy=Jerry Patrick Brown
+ |OriginalAirDate={{start date|1997|02|03}}
+ |ProdCode=V0119
+ |ShortSummary=Hercules tries to save the [[Ceryneian Hind|Golden Hind]], a part-woman, part-deer, from hunters. But the Hind is being used in a plot by Ares, in a scheme to kill Herc. Meanwhile, Hercules starts to fall in love with the Hind in human form.
+ |LineColor=3651B3
+}}
+{{Episode list
+ |EpisodeNumber=51
+ |EpisodeNumber2=14
+ |Title=When a Man Loves a Woman
+ |DirectedBy=Charlie Haskell
+ |WrittenBy=Noreen Tobin & Gene F. O'Neill
+ |OriginalAirDate={{start date|1997|02|10}}
+ |ProdCode=V0116
+ |ShortSummary=Hercules asks Serena to marry him. But Ares is still manipulating the situation and, determined to destroy the pair's relationship, makes Hercules a deal – Serena's hand in return for Hercules giving up his godly powers.
+ |LineColor=3651B3
+}}
+{{Episode list
+ |EpisodeNumber=52
+ |EpisodeNumber2=15
+ |Title=Judgment Day
+ |DirectedBy=[[Gus Trikonis]]
+ |WrittenBy=Robert Bielak
+ |OriginalAirDate={{start date|1997|02|17}}
+ |ProdCode=V0120
+ |ShortSummary=Hercules is now without his powers and married to Serena, but Strife frames him for killing his new bride, leaving the townspeople ready to lynch him. Xena and Gabrielle must help to rectify the situation.
+ |LineColor=3651B3
+}}
+{{Episode list
+ |EpisodeNumber=53
+ |EpisodeNumber2=16
+ |Title=The Lost City
+ |DirectedBy=Charlie Haskell
+ |WrittenBy={{StoryTeleplay|s= Robert Bielak and [[Liz Friedman]]|t= Robert Bielak}}
+ |OriginalAirDate={{start date|1997|02|24}}
+ |ProdCode=V0109
+ |ShortSummary=Iolaus and his companion Moria discover an underground cult that has brainwashed Salmoneus and Iolaus' missing cousin Regina, part of a group duped into mining for gold for crooked cult leader Kamaros.
+ |LineColor=3651B3
+}}
+{{Episode list
+ |EpisodeNumber=54
+ |EpisodeNumber2=17
+ |Title=Les Contemptibles
+ |DirectedBy=Charlie Haskell
+ |WrittenBy=Brian Herskowitz
+ |OriginalAirDate={{start date|1997|04|07}}
+ |ProdCode=V0123
+ |ShortSummary=Troyes, France: 1789 – Marie de Valle makes a deal with a man claiming to be the infamous Revolutionary Chartreuse Fox to try a turn two highwaymen into fellow Revolutionary fighters. But no-one is as they seem. (clip show)
+ |LineColor=3651B3
+}}
+{{Episode list
+ |EpisodeNumber=55
+ |EpisodeNumber2=18
+ |Title=Reign of Terror
+ |DirectedBy=Rodney Charters
+ |WrittenBy=John Kirk
+ |OriginalAirDate={{start date|1997|04|14}}
+ |ProdCode=V0112
+ |ShortSummary=King [[Augeas|Augeus]] has gone mad and believes himself to be Zeus. Naturally, Hera uses the situation to her own means – he can have real godly powers if he can kill Hercules.
+ |LineColor=3651B3
+}}
+{{Episode list
+ |EpisodeNumber=56
+ |EpisodeNumber2=19
+ |Title=The End of the Beginning
+ |DirectedBy=[[James Whitmore, Jr.]]
+ |WrittenBy=Paul Robert Coyle
+ |OriginalAirDate={{start date|1997|04|21}}
+ |ProdCode=V0124
+ |ShortSummary=Autolycus steals the Cronus stone, which whisks himself and Hercules five years into the past. While Autolycus and his past self plan to steal the stone over again, Hercules is reunited with Serena, still alive in this time-line.
+ |LineColor=3651B3
+}}
+{{Episode list
+ |EpisodeNumber=57
+ |EpisodeNumber2=20
+ |Title=War Bride
+ |DirectedBy=[[Kevin Sorbo]]
+ |WrittenBy=Adam Armus & Kay Foster
+ |OriginalAirDate={{start date|1997|04|28}}
+ |ProdCode=V0126
+ |ShortSummary=Hercules and Iolaus rescue a spoilt princess from kidnappers, and as they try to return her home, it emerges that her own sister is behind the kidnapping as she plots to become Queen herself.
+ |LineColor=3651B3
+}}
+{{Episode list
+ |EpisodeNumber=58
+ |EpisodeNumber2=21
+ |Title=A Rock and a Hard Place
+ |DirectedBy=[[Robert Trebor]]
+ |WrittenBy=Alex Kurtzman & [[Roberto Orci]]
+ |OriginalAirDate={{start date|1997|05|05}}
+ |ProdCode=V0128
+ |ShortSummary=A suspected murderer is trapped under a rock fall in a mine. Hercules must convince the man to confess before he dies.
+ |LineColor=3651B3
+}}
+{{Episode list
+ |EpisodeNumber=59
+ |EpisodeNumber2=22
+ |Title=Atlantis
+ |DirectedBy=Gus Trikonis
+ |WrittenBy=Roberto Orci & Alex Kurtzman
+ |OriginalAirDate={{start date|1997|05|12}}
+ |ProdCode=V0121
+ |ShortSummary=Hercules is washed up on the strange island of Atlantis, a technologically advanced place where an outcast psychic is predicting the island's impending doom, but no-one will listen to her.
+ |LineColor=3651B3
+}}
+}}
+
+===Season 4 (1997-1998) {{anchor|Season Four (1997-1998)}}===
+{{Episode table |background=#5AA652 |overall=5 |season=5 |title=21 |director=20 |writer=22 |airdate=17 |prodcode=8 |episodes=
+
+{{Episode list
+ |EpisodeNumber=60
+ |EpisodeNumber2=1
+ |Title=Beanstalks and Bad Eggs
+ |DirectedBy=[[John T. Kretchmer]]
+ |WrittenBy=[[Melissa Rosenberg]]
+ |OriginalAirDate={{start date|1997|09|29}}
+ |ProdCode=V0129
+ |ShortSummary=Hercules and Autolycus climb a beanstalk to rescue a maiden from a giant who lives in the clouds. The three golden eggs that the girl is caring for spell even more trouble for the duo.
+ |LineColor=5AA652
+}}
+{{Episode list
+ |EpisodeNumber=61
+ |EpisodeNumber2=2
+ |Title=Hero's Heart
+ |DirectedBy=[[Philip Sgriccia]]
+ |WrittenBy=Jerry Patrick Brown
+ |OriginalAirDate={{start date|1997|10|06}}
+ |ProdCode=V0313
+ |ShortSummary=The goddess [[Tyche|Fortune]] wipes Iolaus' memory after a woman he is trying to save falls to her death. Iolaus becomes a thief and begins working for the local gang.
+ |LineColor=5AA652
+}}
+{{Episode list
+ |EpisodeNumber=62
+ |EpisodeNumber2=3
+ |Title=Regrets... I've Had a Few
+ |DirectedBy=[[Gus Trikonis]]
+ |WrittenBy=Paul Robert Coyle
+ |OriginalAirDate={{start date|1997|10|13}}
+ |ProdCode=V0309
+ |ShortSummary=Celesta, the goddess of death, comes for Jaris, an old childhood friend of Hercules. Hercules remembers the first time he met Celesta, and attempts to stop her from taking Jaris to the Elysian Fields.
+ |LineColor=5AA652
+}}
+{{Episode list
+ |EpisodeNumber=63
+ |EpisodeNumber2=4
+ |Title=Web of Desire
+ |DirectedBy=Michael Lange
+ |WrittenBy=[[Roberto Orci]] & [[Alex Kurtzman]]
+ |OriginalAirDate={{start date|1997|10|20}}
+ |ProdCode=V0133
+ |ShortSummary=After the pirate Nebula is attacked by [[Arachne]] the spider woman, Hercules and Iolaus decide to help her out.
+ |LineColor=5AA652
+}}
+{{Episode list
+ |EpisodeNumber=64
+ |EpisodeNumber2=5
+ |Title=Stranger in a Strange World
+ |DirectedBy=Michael Levine
+ |WrittenBy=Paul Robert Coyle
+ |OriginalAirDate={{start date|1997|10|27}}
+ |ProdCode=V0130
+ |ShortSummary=When Iolaus is kidnapped into a parallel universe, Hercules must save him from the wrath of the Sovereign.
+ |LineColor=5AA652
+}}
+{{Episode list
+ |EpisodeNumber=65
+ |EpisodeNumber2=6
+ |Title=Two Men and a Baby
+ |DirectedBy=Christopher Graves
+ |WrittenBy={{StoryTeleplay|s= [[Kevin Sorbo]]|t= John Hudock}}
+ |OriginalAirDate={{start date|1997|11|03}}
+ |ProdCode=V0122
+ |ShortSummary=Nemesis comes to Hercules and Iolaus' camp with her young infant and tells Hercules that he is the father. She leaves the baby with the two men and vanishes. Ares and Hercules must then battle it out over the baby.
+ |LineColor=5AA652
+}}
+{{Episode list
+ |EpisodeNumber=66
+ |EpisodeNumber2=7
+ |Title=Prodigal Sister
+ |DirectedBy=Gary Jones
+ |WrittenBy=Robert Blielak
+ |OriginalAirDate={{start date|1997|11|10}}
+ |ProdCode=V0125
+ |ShortSummary=Hercules help reunite a blind teenager with his long-lost sister, who was kidnapped years ago by a group of renegade [[Amazons]].
+ |LineColor=5AA652
+}}
+{{Episode list
+ |EpisodeNumber=67
+ |EpisodeNumber2=8
+ |Title=...And Fancy Free
+ |DirectedBy=[[Michael Hurst]]
+ |WrittenBy=Alex Kurtzman & Roberto Orci
+ |OriginalAirDate={{start date|1997|11|17}}
+ |ProdCode=V0132
+ |ShortSummary=Hercules must help a young girl's dream come true by becoming her dance partner to help her win the competition. Problem is Hercules cannot dance. Enter [[Widow Twanky]], to teach Hercules some moves.
+ |LineColor=5AA652
+}}
+{{Episode list
+ |EpisodeNumber=68
+ |EpisodeNumber2=9
+ |Title=If I Had a Hammer
+ |DirectedBy=Steve Polivka
+ |WrittenBy=Paul Robert Coyle
+ |OriginalAirDate={{start date|1998|01|12}}
+ |ProdCode=V0127
+ |ShortSummary=The lonely blacksmith, Atalanta, forges a lifelike statue of Hercules out of scrap metal. Hephaestus brings the statue to life, but the new "Hercules" is childlike and nothing like the original. Discord encourages "Hercules" to commit murder, framing the real Hercules for the crime. Hercules and his double fight it out and "Hercules" helps saves Atalanta's life.
+ |LineColor=5AA652
+}}
+{{Episode list
+ |EpisodeNumber=69
+ |EpisodeNumber2=10
+ |Title=Hercules on Trial
+ |DirectedBy=[[John Laing (director)|John Laing]]
+ |WrittenBy=Robert Bielak
+ |OriginalAirDate={{start date|1998|01|19}}
+ |ProdCode=V0134
+ |ShortSummary=When a man impersonating Hercules is killed doing a good deed, Hercules is put on trial for encouraging ordinary people to risk their lives to help others in need.
+ |LineColor=5AA652
+}}
+{{Episode list
+ |EpisodeNumber=70
+ |EpisodeNumber2=11
+ |Title=Medea Culpa
+ |DirectedBy=[[Charles Siebert]]
+ |WrittenBy={{StoryTeleplay|s= Robert Bielak|t= Robert Bielak and Alex Kurtzman & Roberto Orci}}
+ |OriginalAirDate={{start date|1998|01|26}}
+ |ProdCode=V0315
+ |ShortSummary=While on a fishing trip, Hercules, Iolaus and Jason reminisce about the time when they met Medea and fought the fire-breathing monster, Ghidra.
+ |LineColor=5AA652
+}}
+{{Episode list
+ |EpisodeNumber=71
+ |EpisodeNumber2=12
+ |Title=Men in Pink
+ |DirectedBy=[[Alan J. Levi]]
+ |WrittenBy=Alex Kurtzman & Roberto Orci
+ |OriginalAirDate={{start date|1998|02|02}}
+ |ProdCode=V0317
+ |ShortSummary=Salmoneus and Autolycus are framed for murdering a rich king, and hide out as female dancers in Widow Twanky's all-girl dance troupe.
+ |LineColor=5AA652
+}}
+{{Episode list
+ |EpisodeNumber=72
+ |EpisodeNumber2=13
+ |Title=Armageddon Now: Part 1
+ |DirectedBy=Mark Beesley
+ |WrittenBy=Paul Robert Coyle
+ |OriginalAirDate={{start date|1998|02|09}}
+ |ProdCode=V0319
+ |ShortSummary=Hope frees Callisto from her prison and sends her back through time to prevent Hercules from being born. Iolaus convinces Ares to send him back to stop her.
+ |LineColor=5AA652
+}}
+{{Episode list
+ |EpisodeNumber=73
+ |EpisodeNumber2=14
+ |Title=Armageddon Now: Part 2
+ |DirectedBy=Mark Beesley
+ |WrittenBy={{StoryTeleplay|s= Paul Robert Coyle|t= Gene F. O'Neill & Noreen V. Tobin}}
+ |OriginalAirDate={{start date|1998|02|16}}
+ |ProdCode=V0320
+ |ShortSummary=With Hercules and the Sovereign trapped in a limbo world, Iolaus must navigate a deadly alternate timeline where Xena rules the known world. 
+This episode continues directly on from the events of the ''Xena'' episode "Maternal Instincts." and the ''Hercules'' episode, "[[Stranger in a Strange World]]."
+ |LineColor=5AA652
+}}
+{{Episode list
+ |EpisodeNumber=74
+ |EpisodeNumber2=15
+ |Title=Yes, Virginia, There Is a Hercules
+ |DirectedBy=Christopher Graves
+ |WrittenBy=Alex Kurtzman & Roberto Orci
+ |OriginalAirDate={{start date|1998|02|23}}
+ |ProdCode=V0318
+ |ShortSummary=In this clip show, an earthquake in modern-day Los Angeles causes panic for the writers of Hercules when the series' star, Kevin Sorbo goes missing.
+ |LineColor=5AA652
+}}
+{{Episode list
+ |EpisodeNumber=75
+ |EpisodeNumber2=16
+ |Title=Porkules
+ |DirectedBy=Christopher Graves
+ |WrittenBy=Alex Kurtzman & Roberto Orci
+ |OriginalAirDate={{start date|1998|03|16}}
+ |ProdCode=V0322
+ |ShortSummary=[[Eris (mythology)|Discord]] gets her hands on Artemis' bow and uses it to turn Hercules into a pig. Iolaus and Autolycus race to save the pig Herc from a butcher's chopping block.
+ |LineColor=5AA652
+}}
+{{Episode list
+ |EpisodeNumber=76
+ |EpisodeNumber2=17
+ |Title=One Fowl Day
+ |DirectedBy=Michael Hurst
+ |WrittenBy=Adam Armus & Kay Foster
+ |OriginalAirDate={{start date|1998|03|23}}
+ |ProdCode=V0314
+ |ShortSummary=Continuing on from the previous episode, Aphrodite turns the pig Katherine into a human, while Ares, angry about their turning Discord into a chicken, exacts his revenge on Iolaus and Autolycus by chaining them together.
+ |LineColor=5AA652
+}}
+{{Episode list
+ |EpisodeNumber=77
+ |EpisodeNumber2=18
+ |Title=My Fair Cupcake
+ |DirectedBy=[[Rick Jacobson]]
+ |WrittenBy=Gene F. O'Neill & Noreen V. Tobin
+ |OriginalAirDate={{start date|1998|04|13}}
+ |ProdCode=V0324
+ |ShortSummary=When Autolycus plans to steal a priceless sapphire, he dupes naïve would-be girlfriend Cupcake into posing as a princess to gain entry, but walks into the middle of a feud between two opposing kingdoms when they unknowingly use one of these kingdoms as their cover. Iolaus, upon learning of this, allows Autolycus to carry out his scheme to help buy time for Hercules who is working on preventing a potential war between the two kingdoms. 
+ |LineColor=5AA652
+}}
+{{Episode list
+ |EpisodeNumber=78
+ |EpisodeNumber2=19
+ |Title=War Wounds
+ |DirectedBy=John Mahaffie
+ |WrittenBy=Paul Robert Coyle
+ |OriginalAirDate={{start date|1998|04|20}}
+ |ProdCode=V0324
+ |ShortSummary=Iolaus and Hercules become involved in a feud between war veterans and Hercules' half-brother, King Iphicles. But they are all in danger when the action moves to a prison surrounded by deadly sand-sharks.
+ |LineColor=5AA652
+}}
+{{Episode list
+ |EpisodeNumber=79
+ |EpisodeNumber2=20
+ |Title=Twilight
+ |DirectedBy=Philip Sgriccia
+ |WrittenBy=Gene F. O'Neill & Noreen V. Tobin and Alex Kurtzman & Roberto Orci
+ |OriginalAirDate={{start date|1998|04|27}}
+ |ProdCode=
+ |ShortSummary=When Hercules rushes to see his mother Alcmene, whose health is failing fast, they reminisce about how Herc, as a teenager, left with Iolaus and Jason to go to war for the first time.
+ |LineColor=5AA652
+}}
+{{Episode list
+ |EpisodeNumber=80
+ |EpisodeNumber2=21
+ |Title=Top God
+ |DirectedBy=Charles Siebert
+ |WrittenBy={{StoryTeleplay|s= Paul Robert Coyle|t= Jerry Patrick Brown}}
+ |OriginalAirDate={{start date|1998|05|04}}
+ |ProdCode=V0325
+ |ShortSummary=With his mother Alcmene dead, Hercules is asked by estranged father Zeus to join him ruling the Gods of Olympus, causing him to recall a teenage brush with Godliness and the brash God Apollo.
+ |LineColor=5AA652
+}}
+{{Episode list
+ |EpisodeNumber=81
+ |EpisodeNumber2=22
+ |Title=Reunions
+ |DirectedBy=Charles Siebert
+ |WrittenBy=Alex Kurtzman & Roberto Orci and Jerry Patrick Brown
+ |OriginalAirDate={{start date|1998|05|11}}
+ |ProdCode=V0326
+ |ShortSummary=Hercules has agreed to join father Zeus as a God of Olympus, but soon learns that his father had an ulterior motive for inviting him. Meanwhile, Iolaus visits his mother whom he has not seen for many years.
+ |LineColor=5AA652
+}}
+}}
+
+===Season 5 (1998-1999) {{anchor|Season Five (1998-1999)}}===
+{{Episode table |background=#E67833 |overall=5 |season=5 |title=21 |director=20 |writer=22 |airdate=17 |prodcode=8 |episodes=
+
+{{Episode list
+ |EpisodeNumber=82
+ |EpisodeNumber2=1
+ |Title=Faith
+ |DirectedBy=[[Michael Hurst]]
+ |WrittenBy=[[Alex Kurtzman]] & [[Roberto Orci]]
+ |OriginalAirDate={{start date|1998|09|28}}
+ |ProdCode=V0311
+ |ShortSummary=Hercules and Iolaus sail to the land of Sumeria with Nebula to help King Gilgamesh, who claims he is under attack by gods. But nothing is as it seems.
+ |LineColor=E67833
+}}
+{{Episode list
+ |EpisodeNumber=83
+ |EpisodeNumber2=2
+ |Title=Descent
+ |DirectedBy=[[Richard Compton]]
+ |WrittenBy=Lisa Klink
+ |OriginalAirDate={{start date|1998|10|05}}
+ |ProdCode=V0328
+ |ShortSummary=Grieving over the loss of Iolaus, Hercules vows to persuade the Sumerian gods to bring him back from their underworld. Reluctantly accompanied by Nebula, he sets off on his quest, but many things stand in their way.
+ |LineColor=E67833
+}}
+{{Episode list
+ |EpisodeNumber=84
+ |EpisodeNumber2=3
+ |Title=Resurrection
+ |DirectedBy=[[Philip Sgriccia]]
+ |WrittenBy=Alex Kurtzman & Roberto Orci
+ |OriginalAirDate={{start date|1998|10|12}}
+ |ProdCode=V0329
+ |ShortSummary=Hercules, having lost his confidence as a hero, is washed up on the island of [[Éire|Eire]], where [[Druids]] claim he is their "Chosen One," brought to them to deal with an [[The Morrígan|evil demigod]] who is out to destroy them with the help of the horned god [[Cernunnos]].
+ |LineColor=E67833
+}}
+{{Episode list
+ |EpisodeNumber=85
+ |EpisodeNumber2=4
+ |Title=Genies and Grecians and Geeks, Oh My!
+ |DirectedBy=John Cameron
+ |WrittenBy=Paul Robert Coyle
+ |OriginalAirDate={{start date|1998|10|19}}
+ |ProdCode=V0332
+ |ShortSummary=Salmoneus and Autolycus wind up in possession of a sultan's lamp and release a [[The Fisherman and the Jinni|genie]] who grants them three wishes. But they soon learn to be careful what they wish for. Meanwhile, the sultan wants his lamp back.
+ |LineColor=E67833
+}}
+{{Episode list
+ |EpisodeNumber=86
+ |EpisodeNumber2=5
+ |Title=Render Unto Caesar
+ |DirectedBy=[[John Laing (director)|John Laing]]
+ |WrittenBy=Gene F. O'Neill & Noreen V. Tobin
+ |OriginalAirDate={{start date|1998|10|26}}
+ |ProdCode=V0330
+ |ShortSummary=Hercules, still in Eire, is teaching Morrigan to face her new role as guardian of Justice, when Caesar prepares to attack the isle. Herc leads the locals and Morrigan in defending the island.
+ |LineColor=E67833
+}}
+{{Episode list
+ |EpisodeNumber=87
+ |EpisodeNumber2=6
+ |Title=Norse by Norsevest
+ |DirectedBy=John Laing
+ |WrittenBy={{StoryTeleplay|s=Paul Robert Coyle|t=[[Gerry Conway]]}}
+ |OriginalAirDate={{start date|1998|11|2}}
+ |ProdCode=V0333
+ |ShortSummary=Hercules, having had a vision that he must save a man's life, heads to Norway, where he learns that the man is in fact the Norse God [[Baldr|Balder]]. Soon he becomes entangled in an end-of-the-world prophecy.
+ |LineColor=E67833
+}}
+{{Episode list
+ |EpisodeNumber=88
+ |EpisodeNumber2=7
+ |Title=Somewhere Over the Rainbow Bridge
+ |DirectedBy=Michael Hurst
+ |WrittenBy=Gerry Conway
+ |OriginalAirDate={{start date|1998|11|9}}
+ |ProdCode=V0710
+ |ShortSummary=Hercules is forced to join forces with Thor to stop the evil [[Loki]], who is trying to bring about [[Ragnarök|Ragnarok]], the end of all things.
+ |LineColor=E67833
+}}
+{{Episode list
+ |EpisodeNumber=89
+ |EpisodeNumber2=8
+ |Title=Darkness Rising
+ |DirectedBy=[[Chris Long (director)|Chris Long]]
+ |WrittenBy=Lisa Klink
+ |OriginalAirDate={{start date|1998|11|16}}
+ |ProdCode=V0331
+ |ShortSummary=Hercules is enjoying life in Eire, where he is getting close to Morrigan. But visions of Nebula in danger lead him and Morrigan back to Sumeria, where they find Nebula on the brink of insanity after visions of the dead Iolaus.
+ |LineColor=E67833
+}}
+{{Episode list
+ |EpisodeNumber=90
+ |EpisodeNumber2=9
+ |Title=For Those of You Just Joining Us...
+ |DirectedBy=[[Bruce Campbell]]
+ |WrittenBy=Alex Kurtzman & Roberto Orci
+ |OriginalAirDate={{start date|1999|01|04}}
+ |ProdCode=V0334
+ |ShortSummary=Studio head B.S. Hollingfoffer orders the producers and writers to come up with better stories for the series, so they head off to a corporate retreat camp, but once there, someone keeps trying to kill them. (clip show)
+ |LineColor=E67833
+}}
+{{Episode list
+ |EpisodeNumber=91
+ |EpisodeNumber2=10
+ |Title=Let There Be Light
+ |DirectedBy=Robert Radler
+ |WrittenBy=Gene F. O'Neill & Noreen V. Tobin
+ |OriginalAirDate={{start date|1999|01|11}}
+ |ProdCode=V0713
+ |ShortSummary=Hercules, with Morrigan and Nebula, returns to Greece in pursuit of [[Zahhak|Dahak]] who, in Iolaus' body, has convinced the locals that he is their savior and that Hercules is out to destroy them. Herc must find a way to separate Dahak from Iolaus.
+ |LineColor=E67833
+}}
+{{Episode list
+ |EpisodeNumber=92
+ |EpisodeNumber2=11
+ |Title=Redemption
+ |DirectedBy=Bruce Campbell
+ |WrittenBy=Lisa Klink
+ |OriginalAirDate={{start date|1999|01|18}}
+ |ProdCode=V0714
+ |ShortSummary=Hercules attempts to exorcise Dahak from Iolaus' body and free his friend's soul.
+ |LineColor=E67833
+}}
+{{Episode list
+ |EpisodeNumber=93
+ |EpisodeNumber2=12
+ |Title=Sky High
+ |DirectedBy=John Laing
+ |WrittenBy=Paul Robert Coyle
+ |OriginalAirDate={{start date|1999|01|25}}
+ |ProdCode=V0718
+ |ShortSummary=Hercules, with Amazon Ephiny, recruits a rag-tag band, including a murderer, in a mission to use explosive crystals to blow a hole in the side of a volcano and stop lava from destroying a town in its path.
+ |LineColor=E67833
+}}
+{{Episode list
+ |EpisodeNumber=94
+ |EpisodeNumber2=13
+ |Title=Stranger and Stranger
+ |DirectedBy=Bruce Campbell
+ |WrittenBy={{StoryTeleplay|s= Paul Robert Coyle|t= Gerry Conway}}
+ |OriginalAirDate={{start date|1999|02|01}}
+ |ProdCode=V0716
+ |ShortSummary=Hercules travels back to the Alternate Universe, where Iolaus' parallel double joins him in trying to free the gods of Olympus, whom Ares has entrapped.
+ |LineColor=E67833
+}}
+{{Episode list
+ |EpisodeNumber=95
+ |EpisodeNumber2=14
+ |Title=Just Passing Through
+ |DirectedBy=[[Charles Siebert]]
+ |WrittenBy=Gene F. O'Neill & Noreen V. Tobin
+ |OriginalAirDate={{start date|1999|02|08}}
+ |ProdCode=V0327
+ |ShortSummary=Hercules, missing the original Iolaus, tells Iolaus II of an adventure where he and Iolaus had to retrieve a stolen ruby from Autolycus, who had a curse looming over him until he returned it.
+ |LineColor=E67833
+}}
+{{Episode list
+ |EpisodeNumber=96
+ |EpisodeNumber2=15
+ |Title=Greece Is Burning
+ |DirectedBy=Michael Hurst
+ |WrittenBy=Andrew Landis & Julia Swift
+ |OriginalAirDate={{start date|1999|02|15}}
+ |ProdCode=V0715
+ |ShortSummary=Hercules helps Althea achieve her goal of putting on a fashion show and calls upon the aid of the washed-up Widow Twanky.
+ |LineColor=E67833
+}}
+{{Episode list
+ |EpisodeNumber=97
+ |EpisodeNumber2=16
+ |Title=We'll Always Have Cyprus
+ |DirectedBy=Garth Maxwell
+ |WrittenBy={{StoryTeleplay|s= Stephanie C. Meyer|t= Alex Kurtzman & Roberto Orci}}
+ |OriginalAirDate={{start date|1999|02|22}}
+ |ProdCode=V0721
+ |ShortSummary=[[The Morrígan|Morrigan]] returns and joins Hercules on his mission to save the Oracle of Cyprus from a wronged soul who has returned from the grave to destroy her. As they travel, Hercules learns why Morrigan suddenly left him.
+ |LineColor=E67833
+}}
+{{Episode list
+ |EpisodeNumber=98
+ |EpisodeNumber2=17
+ |Title=The Academy
+ |DirectedBy=Charlie Haskell
+ |WrittenBy=Paul Robert Coyle
+ |OriginalAirDate={{start date|1999|03|15}}
+ |ProdCode=
+ |ShortSummary=Hercules and Jason return to their old academy with Iolaus II, where they find the place in chaos as a group of renegade cadets are taking over the running of the school. Meanwhile, Jason finds he has a daughter he never knew existed. 
+
+The storyline from this episode is based on the series' second spinoff ''[[Young Hercules]]'', which also adapts several characters from that series.
+ |LineColor=E67833
+}}
+{{Episode list
+ |EpisodeNumber=99
+ |EpisodeNumber2=18
+ |Title=Love on the Rocks
+ |DirectedBy=[[Rick Jacobson]]
+ |WrittenBy=[[Kevin Maynard]]
+ |OriginalAirDate={{start date|1999|04|19}}
+ |ProdCode=V0720
+ |ShortSummary=With Hercules away on a mission, Iolaus II admits to Aphrodite that he longs to experience love. Meanwhile, Discord turns Nautica ([[Angela Dotchin]]) the mermaid into a beautiful woman, and soon Nautica and Iolaus fall in love, unaware that Discord's ulterior motive is that a spell Poseidon placed on Nautica long ago will cause the seas to freeze unless Nautica returns to the ocean.
+ |LineColor=E67833
+}}
+{{Episode list
+ |EpisodeNumber=100
+ |EpisodeNumber2=19
+ |Title=Once Upon a Future King
+ |DirectedBy=Mark Beesley
+ |WrittenBy=Gene F. O'Neill & Noreen V. Tobin
+ |OriginalAirDate={{start date|1999|04|26}}
+ |ProdCode=V0722
+ |ShortSummary=In 500 A.D., Merlin sends tyrannical Arthur of Camelot back to Hercules' time for the half-god to set him straight. Younger Merlin leads Herc to Britannia to team up with Morrigan and stop Arthur and his sorceress accomplice.
+ |LineColor=E67833
+}}
+{{Episode list
+ |EpisodeNumber=101
+ |EpisodeNumber2=20
+ |Title=Fade Out
+ |DirectedBy=Charles Siebert
+ |WrittenBy=Gerry Conway
+ |OriginalAirDate={{start date|1999|05|3}}
+ |ProdCode=V0723
+ |ShortSummary=A scheme by Ares, [[Eris (mythology)|Discord]] and Ares' new lackey [[Deimos (deity)|Deimos]] has cursed a whole village into starting to fade out of existence. When Hercules breaks the stone that has caused the curse, he starts to fade away.
+ |LineColor=E67833
+}}
+{{Episode list
+ |EpisodeNumber=102
+ |EpisodeNumber2=21
+ |Title=My Best Girl's Wedding
+ |DirectedBy=Andrew Merrifield
+ |WrittenBy=Gerry Conway
+ |OriginalAirDate={{start date|1999|05|10}}
+ |ProdCode=V0727
+ |ShortSummary=Iolaus II is shocked to learn that his beloved Nautica is being forced into marrying a goon. Meanwhile, Hercules runs into his former wife Serena, who does not recognise him from this time-line, and whose husband is lost at sea. With Aphrodite's help, the two learn that the goon had stolen the trident which belongs to Nautica's father Triton and, while she agreed to marry to get it back and to save her father's life, Nautica is unaware that its power was already lost. Hercules must work at getting a new trident made or the seas will die with Triton. 
+ |LineColor=E67833
+}}
+{{Episode list
+ |EpisodeNumber=103
+ |EpisodeNumber2=22
+ |Title=Revelations
+ |DirectedBy=Bruce Campbell
+ |WrittenBy=Tom O'Neill & George Strayton
+ |OriginalAirDate={{start date|1999|05|17}}
+ |ProdCode=V0726
+ |ShortSummary=Iolaus returns from beyond the grave to warn Hercules that the end of the world is at hand. The Archangel Michael is bringing about the apocalypse by releasing the [[Four Horsemen of the Apocalypse|Four Horsemen]] onto the land.
+ |LineColor=E67833
+}}
+}}
+
+===Season 6 (1999)===
+{{Episode table |background=#634078 |overall=5 |season=5 |title=21 |director=20 |writer=22 |airdate=17 |prodcode=8 |episodes=
+
+{{Episode list
+ |EpisodeNumber=104
+ |EpisodeNumber2=1
+ |Title=Be Deviled
+ |DirectedBy=Mark Beesley
+ |WrittenBy=Paul Robert Coyle
+ |OriginalAirDate={{start date|1999|09|27}}
+ |ProdCode=V1102
+ |ShortSummary=Hercules and Iolaus trail an evil being that takes the appearance of Hercules's beloved Serena in an attempt to lure him into a life of anger and war.
+ |LineColor=634078
+}}
+{{Episode list
+ |EpisodeNumber=105
+ |EpisodeNumber2=2
+ |Title=Love, Amazon Style
+ |DirectedBy=David Grossman
+ |WrittenBy=Adam Armus & Kay Foster
+ |OriginalAirDate={{start date|1999|10|04}}
+ |ProdCode=V1106
+ |ShortSummary=When Aphrodite's love spell on a tribe of Amazons allows Deimos to order them to follow his every order, Hercules reunites with Aphrodite and Hephaestus to break the spell.
+ |LineColor=634078
+}}
+{{Episode list
+ |EpisodeNumber=106
+ |EpisodeNumber2=3
+ |Title=Rebel with a Cause
+ |DirectedBy=Garth Maxwell
+ |WrittenBy=Lisa Klink
+ |OriginalAirDate={{start date|1999|10|11}}
+ |ProdCode=V1104
+ |ShortSummary=Hercules protects [[Oedipus]]'s his brash daughter, Princess [[Antigone]] ([[Paige Moss]]), battling the evil King [[Creon of Thebes|Creon]] so that Antigone may take her rightful place as Queen of Thebes.
+ |LineColor=634078
+}}
+{{Episode list
+ |EpisodeNumber=107
+ |EpisodeNumber2=4
+ |Title=Darkness Visible
+ |DirectedBy=[[Philip Sgriccia]]
+ |WrittenBy=Phyllis Strong
+ |OriginalAirDate={{start date|1999|10|18}}
+ |ProdCode=V1101
+ |ShortSummary=Although Hercules and Iolaus are summoned by their old friend, [[Oedipus]], to help defend his kingdom from the [[strigoi]] (vampires) in Dacia, Vlad is actually leading them into a trap.
+ |LineColor=634078
+}}
+{{Episode list
+ |EpisodeNumber=108
+ |EpisodeNumber2=5
+ |Title=Hercules, Tramps & Thieves
+ |DirectedBy=[[Charles Siebert]]
+ |WrittenBy=[[Liz Friedman]] & [[Vanessa Place]]
+ |OriginalAirDate={{start date|1999|11|01}}
+ |ProdCode=V1105
+ |ShortSummary=Hercules is joined by Autolycus as the latter journeys to Greece to protect its First Bank. Autolycus finds his ex-wife ([[Traci Lords]]) working as a showgirl nearby and angry at him for letting her take the rap for a robbery years before.
+ |LineColor=634078
+}}
+{{Episode list
+ |EpisodeNumber=109
+ |EpisodeNumber2=6
+ |Title=City of the Dead
+ |DirectedBy=[[Chris Long (director)|Chris Long]]
+ |WrittenBy=Tom ONeill & George Strayton
+ |OriginalAirDate={{start date|1999|11|08}}
+ |ProdCode=V1108
+ |ShortSummary=Hercules and Iolaus, visiting Egypt on a diplomatic mission, save Queen [[Nefertiti]], whose life is endangered during a bitter family feud.
+ |LineColor=634078
+}}
+{{Episode list
+ |EpisodeNumber=110
+ |EpisodeNumber2=7
+ |Title=A Wicked Good Time
+ |DirectedBy=[[Adam Nimoy]]
+ |WrittenBy=Liz Friedman & [[Vanessa Place]]
+ |OriginalAirDate={{start date|1999|11|15}}
+ |ProdCode=V1107
+ |ShortSummary=Two apprentice witches persuade bullied Seska to join them, but they are in cahoots with Discord to frame Hercules as being an evil warlock.
+ |LineColor=634078
+}}
+{{Episode list
+ |EpisodeNumber=111
+ |EpisodeNumber2=8
+ |Title=Full Circle
+ |DirectedBy=[[Bruce Campbell]]
+ |WrittenBy=[[Alex Kurtzman]] & [[Roberto Orci]]
+ |OriginalAirDate={{start date|1999|11|22}}
+ |ProdCode=V1103
+ |ShortSummary=In the series finale, Hercules and Iolaus try to protect Nemesis and Ares' young son [[Evander of Pallene|Evander]], who can make things happen at will. When Zeus convinces the boy to free Hera, two evil Titans are also released.
+ |LineColor=634078
+}}
+}}
+
+==References==
+{{Reflist}}
+
+==External links==
+* {{IMDb episodes|0111999|Hercules: The Legendary Journeys}}
+
+{{Herc-Xenaverse}}
+
+[[Category:Lists of fantasy television series episodes|Hercules: The Legendary Journeys]]
+[[Category:Hercules: The Legendary Journeys episodes| ]]
