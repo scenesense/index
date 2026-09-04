@@ -18,49 +18,40 @@ jobs:
         shell: bash
         run: |
           python3 - <<'PY'
-          import json
+          import json,re
           from pathlib import Path
-
           def load(p): return json.loads(Path(p).read_text(encoding='utf-8'))
           def save(p,o): Path(p).write_text(json.dumps(o,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8')
 
-          defaults={
+          for path,fmt in {
             'data/series/buffy-the-vampire-slayer/season-01-meta.json':'PRiSM',
             'data/series/chuck/season-01-meta.json':'SiLVER16',
-            'data/series/chuck/season-02-meta.json':'SiLVER16',
-          }
-          for path,fmt in defaults.items():
+            'data/series/chuck/season-02-meta.json':'SiLVER16'
+          }.items():
               d=load(path); d['format']=fmt; save(path,d)
 
           additions_path='data/series/index-additions.json'
           additions=load(additions_path)
-          friends=next(x for x in additions['series'] if x['id']=='friends-1994')
-          friends['allEpisodeFormats']=True
+          next(x for x in additions['series'] if x['id']=='friends-1994')['allEpisodeFormats']=True
           save(additions_path,additions)
 
           js_path=Path('audio-metadata-base.js')
           js=js_path.read_text(encoding='utf-8')
-          old='''  function renderTvFormatBadges(scoreLine,presentation){
-            if(!scoreLine) return;
-            const formats=formatList(presentation);
-            if(!formats.length) return;
-            scoreLine.querySelectorAll(".detailBlurayBadge,.detailPrismBadge,.detailSilver8Badge,.detailSilver16Badge,.detailSilver35Badge,.detailSilver55Badge,.detailSilver70Badge,.detailBrazier35Badge,.detailBrazier70Badge,.detailClarity35Badge,.detailClarity70Badge").forEach(node=>node.remove());
-            scoreLine.insertAdjacentHTML("beforeend",formats.map(tvFormatBadgeLocal).join(""));
-          }
-          '''
-          new='''  function renderTvFormatBadges(scoreLine,presentation){
+          pattern=r'  function renderTvFormatBadges\(scoreLine,presentation\)\{.*?\n  \}\n\n  if\(typeof tvFormatBadge'
+          replacement='''  function renderTvFormatBadges(scoreLine,presentation){
             if(!scoreLine) return;
             scoreLine.querySelectorAll(".detailBlurayBadge,.detailPrismBadge,.detailSilver8Badge,.detailSilver16Badge,.detailSilver35Badge,.detailSilver55Badge,.detailSilver70Badge,.detailBrazier35Badge,.detailBrazier70Badge,.detailClarity35Badge,.detailClarity70Badge").forEach(node=>node.remove());
             const formats=formatList(presentation);
             if(!formats.length) return;
             scoreLine.insertAdjacentHTML("beforeend",formats.map(tvFormatBadgeLocal).join(""));
           }
-          '''
-          if old not in js: raise RuntimeError('renderTvFormatBadges block not found')
-          js=js.replace(old,new,1)
-          old2='''        renderTvFormatBadges(document.querySelector("#seriesHero .scoreLine"),formatList(episodePresentation).length ? episodePresentation : seasonPresentation);
-          '''
-          new2='''        let badgePresentation=null;
+
+          if(typeof tvFormatBadge'''
+          js,n=re.subn(pattern,replacement,js,count=1,flags=re.S)
+          if n!=1: raise RuntimeError(f'renderTvFormatBadges structural patch matched {n}')
+
+          old='renderTvFormatBadges(document.querySelector("#seriesHero .scoreLine"),formatList(episodePresentation).length ? episodePresentation : seasonPresentation);'
+          new='''let badgePresentation=null;
             if(formatList(episodePresentation).length){
               badgePresentation=episodePresentation;
             }else if(series?.allEpisodeFormats){
@@ -70,50 +61,43 @@ jobs:
             }else if(formatList(seasonPresentation).length===1){
               badgePresentation=seasonPresentation;
             }
-            renderTvFormatBadges(document.querySelector("#seriesHero .scoreLine"),badgePresentation);
-          '''
-          if old2 not in js: raise RuntimeError('episode badge inheritance line not found')
-          js=js.replace(old2,new2,1)
+            renderTvFormatBadges(document.querySelector("#seriesHero .scoreLine"),badgePresentation);'''
+          if js.count(old)!=1: raise RuntimeError(f'episode inheritance target count {js.count(old)}')
+          js=js.replace(old,new,1)
           js_path.write_text(js,encoding='utf-8')
 
           guide_path=Path('TV_SERIES_INTEGRATION_GUIDE.md')
           guide=guide_path.read_text(encoding='utf-8')
           anchor='A normal new-series integration should be **data-driven**. Change renderer code only when the new series exposes a real unsupported feature.\n'
-          section='\n'.join([
-            'A normal new-series integration should be **data-driven**. Change renderer code only when the new series exposes a real unsupported feature.',
-            '',
-            '## Mixed-format badge inheritance hard rule',
-            '',
+          rules='\n'.join([
+            anchor.rstrip('\n'),'',
+            '## Mixed-format badge inheritance hard rule','',
             '- A **season page** may show every format used anywhere in that season.',
             '- An **episode page must never inherit every season format merely because the season is mixed**.',
             '- Episode badge precedence is: explicit episode `format`/`formats` → deliberate series-level `allEpisodeFormats:true` → season `format` default → sole season format.',
             '- For a mixed season with a dominant/default format plus exceptions, store the dominant format in top-level season-meta `format`, and store only the exceptions on individual episodes.',
             '- Use `allEpisodeFormats:true` only when every canonical episode/scoring row genuinely represents all listed retained file options, as with Friends. It is not a substitute for missing episode metadata.',
-            '- Final audit must reject any mixed-format season that has untagged episodes and neither a valid season default nor an explicit all-episode-formats rule.',
-            ''
+            '- Final audit must reject any mixed-format season that has untagged episodes and neither a valid season default nor an explicit all-episode-formats rule.',''
           ])
           if anchor not in guide: raise RuntimeError('guide anchor not found')
-          guide=guide.replace(anchor,section,1)
+          guide=guide.replace(anchor,rules,1)
           guide_path.write_text(guide,encoding='utf-8')
 
           additions=load(additions_path)
-          all_formats_series={x['id'] for x in additions.get('series',[]) if x.get('allEpisodeFormats')}
+          all_series={x['id'] for x in additions.get('series',[]) if x.get('allEpisodeFormats')}
           problems=[]
           for mp in sorted(Path('data/series').glob('*/season-??-meta.json')):
-              m=load(mp)
-              fs=m.get('formats')
+              m=load(mp); fs=m.get('formats')
               if not isinstance(fs,list) or len(fs)<=1: continue
               eps=m.get('episodes') or {}
               missing=[k for k,v in eps.items() if not v.get('format') and not v.get('formats')]
-              if missing and not m.get('format') and m.get('seriesId') not in all_formats_series:
-                  problems.append((str(mp),missing))
-          if problems: raise RuntimeError(f'Unsafe mixed-format inheritance remains: {problems}')
-
+              if missing and not m.get('format') and m.get('seriesId') not in all_series:
+                  problems.append((str(mp),len(missing)))
+          if problems: raise RuntimeError(f'unsafe mixed-format inheritance remains: {problems}')
           assert load('data/series/buffy-the-vampire-slayer/season-01-meta.json')['format']=='PRiSM'
           assert load('data/series/chuck/season-01-meta.json')['format']=='SiLVER16'
           assert load('data/series/chuck/season-02-meta.json')['format']=='SiLVER16'
           assert next(x for x in additions['series'] if x['id']=='friends-1994')['allEpisodeFormats'] is True
-          assert 'series?.allEpisodeFormats' in js_path.read_text(encoding='utf-8')
           PY
       - name: Commit fixes
         shell: bash
