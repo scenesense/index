@@ -17,11 +17,11 @@ jobs:
         run: |
           set -euo pipefail
           git pull --ff-only origin main
-          python .tmp-integrate-tv-batch.py
+          python .tmp-repair-tv-payload.py
           rm -f tv-batch-research.tmp.json
           rm -rf tmp-tv-batch-research
           rm -f .github/workflows/fetch-tv-batch-research.yml
-          rm -f .tmp-tv-batch-payload.b64 .tmp-integrate-tv-batch.py
+          rm -f .tmp-tv-batch-payload.b64 .tmp-integrate-tv-batch.py .tmp-repair-tv-payload.py
           rm -f .github/workflows/integrate-tv-batch-k-l.yml
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
