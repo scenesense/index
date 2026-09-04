@@ -14,44 +14,53 @@ jobs:
       - name: Fetch TVMaze reference data
         run: |
           python - <<'PY'
-          import json, urllib.request, re
+          import json, urllib.request, os, shutil
           shows = {
-            'Kevin.From.Work':2712,
-            'La.Legge.Di.Lidia.Poet':66616,
-            'La.Primera.Vez':66923,
-            'Last.Resort':228,
-            'Legend.Of.The.Seeker':461,
-            'Lois.And.Clark':1323,
+            'kevin-from-work':2712,
+            'the-law-according-to-lidia-poet':66616,
+            'eva-lasting':66923,
+            'last-resort':228,
+            'legend-of-the-seeker':461,
+            'lois-and-clark':1323,
           }
-          out={}
-          for key,sid in shows.items():
-            def get(url):
-              with urllib.request.urlopen(url,timeout=30) as r:
-                return json.load(r)
+          root='tmp-tv-batch-research'
+          shutil.rmtree(root,ignore_errors=True)
+          os.makedirs(root,exist_ok=True)
+          index={}
+          def get(url):
+            with urllib.request.urlopen(url,timeout=30) as r:
+              return json.load(r)
+          for slug,sid in shows.items():
             show=get(f'https://api.tvmaze.com/shows/{sid}')
             eps=get(f'https://api.tvmaze.com/shows/{sid}/episodes')
             cast=get(f'https://api.tvmaze.com/shows/{sid}/cast')
-            out[key]={
-              'show':{k:show.get(k) for k in ['id','name','premiered','ended','genres','summary']},
+            showinfo={
+              'id':show.get('id'),'name':show.get('name'),'premiered':show.get('premiered'),'ended':show.get('ended'),
+              'genres':show.get('genres'),'summary':show.get('summary'),
               'cast':[{'person':x.get('person',{}).get('name'),'character':x.get('character',{}).get('name')} for x in cast[:12]],
-              'episodes':[{'season':e.get('season'),'number':e.get('number'),'name':e.get('name'),'airdate':e.get('airdate'),'summary':e.get('summary')} for e in eps]
             }
-          # exact poster inventory relevant to this batch
-          import os
+            seasons=sorted({e.get('season') for e in eps if e.get('season')})
+            index[slug]={'show':showinfo,'seasons':seasons}
+            for season in seasons:
+              payload={'show':showinfo,'season':season,'episodes':[
+                {'season':e.get('season'),'number':e.get('number'),'name':e.get('name'),'airdate':e.get('airdate'),'summary':e.get('summary')}
+                for e in eps if e.get('season')==season
+              ]}
+              with open(f'{root}/{slug}-s{season:02d}.json','w',encoding='utf-8') as f:
+                json.dump(payload,f,ensure_ascii=False,indent=2)
           names=[]
-          if os.path.isdir('assets/posters'):
-            for n in os.listdir('assets/posters'):
-              low=n.lower()
-              if any(tok in low for tok in ['kevin-from-work','lidia','poet','primera','eva-lasting','last-resort','legend-of-the-seeker','lois-and-clark']):
-                names.append(n)
-          out['_posters']=sorted(names)
-          with open('tv-batch-research.tmp.json','w',encoding='utf-8') as f:
-            json.dump(out,f,ensure_ascii=False,indent=2)
+          for n in os.listdir('assets/posters'):
+            low=n.lower()
+            if any(tok in low for tok in ['kevin-from-work','lidia','poet','primera','eva-lasting','last-resort','legend-of-the-seeker','lois-and-clark']):
+              names.append(n)
+          index['_posters']=sorted(names)
+          with open(f'{root}/index.json','w',encoding='utf-8') as f:
+            json.dump(index,f,ensure_ascii=False,indent=2)
           PY
       - name: Commit research snapshot
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add tv-batch-research.tmp.json
-          git commit -m 'Fetch TV batch reference data'
+          git add tmp-tv-batch-research
+          git commit -m 'Split TV batch reference data by season'
           git push
