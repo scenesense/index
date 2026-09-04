@@ -22,10 +22,12 @@ jobs:
           path='data/series/index-additions.json'
           with open(path,encoding='utf-8') as f:
               data=json.load(f)
-          hits=[x for x in data.get('series',[]) if x.get('id')=='dawsons-creek-1998']
+          hits=[x for x in data.get('series',[]) if x.get('title')=="Dawson's Creek"]
           if len(hits)!=1:
-              raise SystemExit(f'Expected one dawsons-creek-1998 entry, found {len(hits)}')
+              print([(x.get('id'),x.get('title')) for x in data.get('series',[]) if 'Dawson' in str(x.get('title',''))])
+              raise SystemExit(f'Expected one Dawson\'s Creek entry, found {len(hits)}')
           entry=hits[0]
+          print('Matched catalogue id:', entry.get('id'))
           entry['edition']='SPECIAL EDITION'
           for season in entry.get('seasons',[]):
               season['edition']='SPECIAL EDITION'
