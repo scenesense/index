@@ -93,11 +93,22 @@
           if(bottomBack) body.appendChild(bottomBack);
         }
 
-        function episodeCutLabel(series,episode){
-          const explicit=String(episode?.cutLabel || "").trim();
+        function episodeEditionLabel(series,seasonData,episode,presentation){
+          const explicit=String(
+            episode?.cutLabel || episode?.edition ||
+            presentation?.cutLabel || presentation?.edition || ""
+          ).trim();
           if(explicit) return explicit;
           const legacyUncut=/\bUNCUT\b|\(Uncut\)/i.test(String(episode?.title||""));
-          return (series?.uncut || episode?.uncut || legacyUncut) ? "UNCUT" : "";
+          if(series?.uncut || episode?.uncut || presentation?.uncut || legacyUncut) return "UNCUT";
+          const seasonPresentation=typeof tvPresentation==="function" ? tvPresentation(series.id,seasonData.season) : null;
+          const catalogSeason=series?.seasons?.find(season=>Number(season.number)===Number(seasonData.season));
+          return String(
+            seasonPresentation?.edition || seasonPresentation?.cutLabel ||
+            seasonData?.edition || seasonData?.cutLabel ||
+            catalogSeason?.edition || catalogSeason?.cutLabel ||
+            series?.edition || ""
+          ).trim();
         }
 
         function refreshEpisodeListMetadata(series,seasonData){
@@ -108,7 +119,7 @@
             const facts=[
               tvPresentationRuntime(presentation,episode),
               tvFormatAirDate(episode.airDate || presentation?.airDate),
-              episodeCutLabel(series,episode)
+              episodeEditionLabel(series,seasonData,episode,presentation)
             ].filter(Boolean);
             const detail=card.children[1];
             let meta=detail?.querySelector(".episodeRuntime");
@@ -130,7 +141,7 @@
             [`S${String(seasonData.season).padStart(2,"0")} E${tvDisplayEpisodeNumber(episode.number)}`,"tvEpisodeMetaCode"],
             [tvFormatAirDate(episode.airDate || presentation?.airDate),"tvEpisodeMetaDate"],
             [tvPresentationRuntime(presentation,episode),"tvEpisodeMetaRuntime"],
-            [episodeCutLabel(series,episode),"tvEpisodeMetaUncut"]
+            [episodeEditionLabel(series,seasonData,episode,presentation),"tvEpisodeMetaUncut"]
           ].filter(([value])=>Boolean(value));
           meta.classList.remove("tvDetailMetaRail");
           meta.classList.add("tvEpisodeMetaRail");
