@@ -17,6 +17,7 @@ jobs:
         run: |
           set -euo pipefail
           git pull --ff-only origin main
+          sed -i 's/"name": "\.\.\. We Have a Lot to Talk About"/"name": "We Have a Lot to Talk About"/' tmp-tv-batch-research/lois-and-clark-s03.json
           python .tmp-rebuild-tv-batch.py
           rm -f tv-batch-research.tmp.json
           rm -rf tmp-tv-batch-research
