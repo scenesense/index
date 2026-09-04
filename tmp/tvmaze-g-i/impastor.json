@@ -1,0 +1,202 @@
+[
+  {
+    "id": 164339,
+    "name": "Genesis",
+    "season": 1,
+    "number": 1,
+    "type": "regular",
+    "airdate": "2015-07-15",
+    "runtime": 30,
+    "summary": "<p>A lowlife who is on the run after having having created gambling debts cons a small town into thinking that he is their new pastor.</p>"
+  },
+  {
+    "id": 182505,
+    "name": "On the Third Day...",
+    "season": 1,
+    "number": 2,
+    "type": "regular",
+    "airdate": "2015-07-22",
+    "runtime": 30,
+    "summary": "<p>Buddy returns home to attend his own funeral, but his new home is in an uproar after a couple of people are found dead and evidence sees Buddy as a suspect.</p>"
+  },
+  {
+    "id": 182506,
+    "name": "Bird of Pray",
+    "season": 1,
+    "number": 3,
+    "type": "regular",
+    "airdate": "2015-07-29",
+    "runtime": 30,
+    "summary": "<p>After Buddy's first sermon, Schmidt calls in the bishop to assess his competence; Dora has an unusual request for Buddy; Alexa and Russell compete for Buddy's affection.</p>"
+  },
+  {
+    "id": 183222,
+    "name": "Thou Shalt Not Steal",
+    "season": 1,
+    "number": 4,
+    "type": "regular",
+    "airdate": "2015-08-05",
+    "runtime": 30,
+    "summary": "<p>To pay off another gambling loss, Buddy steals a ruby necklace from a woman in a coffin. Dora and Alexa have a falling out over a church fashion show and Schmidt becomes smitten with a mystery woman.</p>"
+  },
+  {
+    "id": 185646,
+    "name": "Ex-Communication",
+    "season": 1,
+    "number": 5,
+    "type": "regular",
+    "airdate": "2015-08-12",
+    "runtime": 30,
+    "summary": "<p>When Buddy tries to help Alexa escape her dark past, he puts both of their lives in danger. Dora has a meltdown when she learns her ex-fiance is getting married.</p>"
+  },
+  {
+    "id": 185647,
+    "name": "Honor Thy Boyfriend's Father and Mother",
+    "season": 1,
+    "number": 6,
+    "type": "regular",
+    "airdate": "2015-08-19",
+    "runtime": 30,
+    "summary": "<p>Buddy surprises Russell's parents with a revelation about Russell, then gets a huge surprise of his own. Alexa instructs Dora in the art of self-pleasuring.</p>"
+  },
+  {
+    "id": 185648,
+    "name": "The Body of Kenny Compels You",
+    "season": 1,
+    "number": 7,
+    "type": "regular",
+    "airdate": "2015-08-26",
+    "runtime": 30,
+    "summary": "<p>When Kenny's dead body is found, Buddy has to answer to Alexa, Schmidt and the police. A young blackmailer photographs the new pastor in a very compromising position.</p>"
+  },
+  {
+    "id": 185649,
+    "name": "Bingo Tell It on the Mountain",
+    "season": 1,
+    "number": 8,
+    "type": "regular",
+    "airdate": "2015-09-02",
+    "runtime": 30,
+    "summary": "<p>Buddy is threatened by a new family in town; Dora asks Buddy for help to overcome a strange addiction; and Schmidt has a rendezvous with Ashlee.</p>"
+  },
+  {
+    "id": 185650,
+    "name": "Flings & Arrows",
+    "season": 1,
+    "number": 9,
+    "type": "regular",
+    "airdate": "2015-09-09",
+    "runtime": 30,
+    "summary": "<p>An unexpected delivery threatens to expose Buddy as a fraud. Schmidt's wife accuses him of having an affair. A hired assassin comes to Ladner looking for Buddy.</p>"
+  },
+  {
+    "id": 185651,
+    "name": "Exodus",
+    "season": 1,
+    "number": 10,
+    "type": "regular",
+    "airdate": "2015-09-16",
+    "runtime": 30,
+    "summary": "<p>Knowing there's a hit out on him, Buddy is forced to flee Ladner forever.</p>"
+  },
+  {
+    "id": 636361,
+    "name": "The Devil Went Down to Ladner",
+    "season": 2,
+    "number": 1,
+    "type": "regular",
+    "airdate": "2016-09-28",
+    "runtime": 30,
+    "summary": "<p>Buddy's attempt to outfox the detectives backfires; Dora, Alexa and Russell suspect something ominous is going on with their new pastor; Schmidt learns the truth about Ashlee.</p>"
+  },
+  {
+    "id": 712831,
+    "name": "Guardian Angel",
+    "season": 2,
+    "number": 2,
+    "type": "regular",
+    "airdate": "2016-10-05",
+    "runtime": 30,
+    "summary": "<p>The church must convince an eccentric elderly woman to donate her estate; Dora goes on a date with Detective Lovello; Schmidt makes a troubling confession.</p>"
+  },
+  {
+    "id": 714329,
+    "name": "Buddy's Prayer",
+    "season": 2,
+    "number": 3,
+    "type": "regular",
+    "airdate": "2016-10-12",
+    "runtime": 30,
+    "summary": "<p>An ex-con threatens to burn down the church. Dora's relationship with Detective Lovello proves dangerous. Russell helps Schmidt set up his new bachelor pad.</p>"
+  },
+  {
+    "id": 714330,
+    "name": "Sins of the Past-or Part 1",
+    "season": 2,
+    "number": 4,
+    "type": "regular",
+    "airdate": "2016-10-19",
+    "runtime": 30,
+    "summary": "<p>Buddy becomes trapped by a deadly criminal; the church council tries to stop an arson attempt on Ladner Trinity; and Dora meets up with her high school crush.</p>"
+  },
+  {
+    "id": 714331,
+    "name": "Sins of the Past-or Part 2",
+    "season": 2,
+    "number": 5,
+    "type": "regular",
+    "airdate": "2016-10-26",
+    "runtime": 30,
+    "summary": "<p>Dora and Alexa come under threat and Buddy tries to decide who he can save. Also: Russell and Dora have a falling out and Schmidt falls victim to a robbery.</p>"
+  },
+  {
+    "id": 714332,
+    "name": "The Bish is Back",
+    "season": 2,
+    "number": 6,
+    "type": "regular",
+    "airdate": "2016-11-02",
+    "runtime": 30,
+    "summary": "<p>Bishop Perkins returns with an announcement that rocks Trinity Lutheran. Sheriff Graham turns up the heat on Buddy regarding a recent murder in town. Alexa reveals an astonishing secret.</p>"
+  },
+  {
+    "id": 714333,
+    "name": "Ah-Men",
+    "season": 2,
+    "number": 7,
+    "type": "regular",
+    "airdate": "2016-11-09",
+    "runtime": 30,
+    "summary": "<p>Russell calls on Buddy to become more of a leader in the gay community. Sheriff Graham enlists Dora to spy on Buddy and Alexa. Schmidt and Ashlee take their relationship public.</p>"
+  },
+  {
+    "id": 714334,
+    "name": "My Little Brother's Little Brother's Keeper",
+    "season": 2,
+    "number": 8,
+    "type": "regular",
+    "airdate": "2016-11-16",
+    "runtime": 30,
+    "summary": "<p>Buddy's attempt to counsel Russell's little brother goes awry. Dora decides to run against Schmidt for church president. Buddy struggles with his feelings for Alexa.</p>"
+  },
+  {
+    "id": 714335,
+    "name": "Judge Not",
+    "season": 2,
+    "number": 9,
+    "type": "regular",
+    "airdate": "2016-11-30",
+    "runtime": 30,
+    "summary": "<p>The FBI has a surprise plan for Buddy. Sheriff Graham finally drops the hammer on the pastor. Dora suspects Buddy has a female lover.</p>"
+  },
+  {
+    "id": 714336,
+    "name": "Thy Neighbor's Wife",
+    "season": 2,
+    "number": 10,
+    "type": "regular",
+    "airdate": "2016-12-07",
+    "runtime": 30,
+    "summary": "<p>Buddy deals with the shocking arrival of Alexa's husband. Dora makes a frightening discovery. Schmidt's engagement party takes an unexpected turn.</p>"
+  }
+]

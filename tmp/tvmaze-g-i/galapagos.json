@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1138749,
+    "name": "Born of Fire",
+    "season": 1,
+    "number": 1,
+    "type": "regular",
+    "airdate": "2006-09-29",
+    "runtime": 60,
+    "summary": "<p>This programme examines the stages of the islands' lives and how an array of different creatures have found ways to survive there.</p>"
+  },
+  {
+    "id": 1138750,
+    "name": "Islands That Changed the World",
+    "season": 1,
+    "number": 2,
+    "type": "regular",
+    "airdate": "2006-10-06",
+    "runtime": 60,
+    "summary": "<p>From flightless cormorants to giant tortoises, a look at the hidden side of Galapagos.</p>"
+  },
+  {
+    "id": 1138751,
+    "name": "Forces of Change",
+    "season": 1,
+    "number": 3,
+    "type": "regular",
+    "airdate": "2006-10-13",
+    "runtime": 60,
+    "summary": "<p>This concluding episode reveals how the local species have evolved to survive in their environment.</p>"
+  }
+]
