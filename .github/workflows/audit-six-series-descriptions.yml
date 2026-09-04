@@ -1,0 +1,62 @@
+name: Audit six-series descriptions
+on:
+  push:
+    paths:
+      - '.github/workflows/audit-six-series-descriptions.yml'
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit season and episode description quality
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, glob, re, os, collections
+          dirs=['kevin-from-work','the-law-according-to-lidia-poet','eva-lasting','last-resort','legend-of-the-seeker','lois-and-clark']
+          bad_patterns=[
+            r'\bthis collection\b', r'\bcollection-local\b', r'\bpreserv(?:e|ing) .*order\b',
+            r'\bruns from\b.*\bthrough\b', r'\bthis .* episode\b', r'\bepisode-specific\b',
+            r'\bdevelops that conflict\b', r'\bsurrounding story\b', r'\bthe characters confront\b',
+            r'\bsource runtimes?\b', r'\bretained file\b', r'\bcurated\b', r'\bscoring row\b'
+          ]
+          rx=re.compile('|'.join(bad_patterns),re.I)
+          episode_total=0; flagged=[]; short=[]; season_rows=[]; all_desc=[]
+          print('=== SEASON DESCRIPTIONS ===')
+          for d in dirs:
+            for path in sorted(glob.glob(f'data/series/{d}/season-*-meta.json')):
+              meta=json.load(open(path,encoding='utf-8'))
+              sd=str(meta.get('description','')).strip()
+              season_rows.append((path,sd,bool(rx.search(sd))))
+              print(f'{path}\n  {sd}\n  GENERIC={bool(rx.search(sd))}')
+              for eid,m in meta.get('episodes',{}).items():
+                desc=str(m.get('description','')).strip(); episode_total+=1; all_desc.append((path,eid,desc))
+                if rx.search(desc): flagged.append((path,eid,desc))
+                if len(desc)<90: short.append((path,eid,len(desc),desc))
+          print('\n=== GENERIC/BOILERPLATE EPISODE FLAGS ===')
+          if flagged:
+            for row in flagged: print(row[0],row[1],row[2])
+          else: print('NONE')
+          print('\n=== SUSPICIOUSLY SHORT EPISODE DESCRIPTIONS (<90 chars) ===')
+          if short:
+            for row in short: print(row)
+          else: print('NONE')
+          print('\n=== DUPLICATE EPISODE DESCRIPTIONS ===')
+          c=collections.Counter(d for _,_,d in all_desc)
+          dup=[(d,n) for d,n in c.items() if n>1]
+          if dup:
+            for d,n in dup: print(n,d)
+          else: print('NONE')
+          print('\n=== SUMMARY ===')
+          print('season files',len(season_rows))
+          print('generic seasons',sum(1 for _,_,b in season_rows if b))
+          print('episode descriptions',episode_total)
+          print('generic episode flags',len(flagged))
+          print('short episode descriptions',len(short))
+          print('duplicate descriptions',len(dup))
+          if len(season_rows)!=15 or episode_total!=216:
+            raise SystemExit(f'COUNT MISMATCH seasons={len(season_rows)} episodes={episode_total}')
+          PY
