@@ -21,10 +21,11 @@ jobs:
           import json
           from pathlib import Path
 
-          # Friends catalogue audio: both physical options exist. The scan-backed
-          # high-res option includes ordinary 16-bit/48 kHz lossless 5.1, so there
-          # is deliberately no quality field.
-          index_path = Path('data/series/index.json')
+          # Friends is loaded through index-additions.json. Both retained file
+          # options contribute to the collection summary: UNCUT 5.0 perceptual
+          # and high-res 5.1, which includes ordinary 16-bit/48 kHz lossless
+          # entries. Therefore lossless is available, but there is no 24-bit flag.
+          index_path = Path('data/series/index-additions.json')
           index = json.loads(index_path.read_text(encoding='utf-8'))
           friends = next(s for s in index['series'] if s['id'] == 'friends-1994')
           friends['audio'] = {'layouts':['5.0','5.1'],'lossless':True}
@@ -43,7 +44,7 @@ jobs:
               data['source'] = 'UNCUT 1080p AI.PRO · PRiSM | HIGH RES 2160p AI.ARC · SiLVER35'
               path.write_text(json.dumps(data, ensure_ascii=False, separators=(',',':')) + '\n', encoding='utf-8')
 
-          # Optical correction: widen only glyph "1" without changing its layout width.
+          # Optical correction: widen only glyph "1" without changing layout width.
           js_path = Path('series-tv-enhancements.js')
           js = js_path.read_text(encoding='utf-8')
           old = '''function tvEpisodeCodeMarkup(seasonNumber, episodeNumber){
@@ -72,13 +73,14 @@ jobs:
           js = js.replace(css_old, css_new, 1)
           js_path.write_text(js, encoding='utf-8')
 
-          # Keep the integration contract synchronized with the actual Friends model.
+          # Keep the guide synchronized with the actual Friends model.
           guide_path = Path('TV_SERIES_INTEGRATION_GUIDE.md')
           guide = guide_path.read_text(encoding='utf-8')
           anchor = '- `PRiSM` is the canonical retained presentation\n'
           addition = ('- `PRiSM` is the canonical retained presentation\n'
                       '- display both `PRiSM` and `SiLVER35` format badges because both physical file options are retained\n'
-                      '- Friends high-res scan entries that are lossless are ordinary 16-bit/48 kHz 5.1, so they render `Surround · Lossless`; do not mark Friends as 24-bit without new scan evidence\n')
+                      '- Friends audio summary reflects both retained options: perceptual 5.0 UNCUT plus high-res 5.1 with lossless available; visible output is `Surround · Lossless`\n'
+                      '- Friends lossless scan entries are ordinary 16-bit/48 kHz, so do not mark Friends as `Lossless 24-bit` without new scan evidence\n')
           if anchor not in guide:
               raise RuntimeError('Friends guide anchor not found')
           guide = guide.replace(anchor, addition, 1)
@@ -102,6 +104,6 @@ jobs:
           git config user.name "soap2"
           git config user.email "46655904+soap2@users.noreply.github.com"
           git rm -f .github/workflows/fix-friends-format-optical-one.yml
-          git add data/series/index.json data/series/friends/season-??-meta.json series-tv-enhancements.js TV_SERIES_INTEGRATION_GUIDE.md
+          git add data/series/index-additions.json data/series/friends/season-??-meta.json series-tv-enhancements.js TV_SERIES_INTEGRATION_GUIDE.md
           git commit -m "Fix Friends formats audio and episode number optics"
           git push origin HEAD:tmp-friends-fix
