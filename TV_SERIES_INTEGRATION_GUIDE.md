@@ -1064,3 +1064,17 @@ Before declaring a series complete, verify all of the following:
 ---
 
 This document is the integration contract. When a new show exposes a genuinely new requirement, update the contract at the same time as the site so the next chat inherits the rule instead of rediscovering the mistake.
+
+### Multipart episode title convention
+
+SceneSense has a hard, site-wide title-style rule for multipart episode names:
+
+```text
+Title (Part One)
+Title (Part Two)
+Title (Part Three)
+Title (Part Four)
+```
+
+Do not replace this house style with database variants such as `Part I`, `Part II`, `Part 1`, `Part 2`, `Pt. 1`, `Pt. 2`, colon-separated forms, or hyphen-separated forms. External databases may verify the underlying title wording and punctuation, but this multipart suffix convention always wins.
+
