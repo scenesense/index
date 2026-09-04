@@ -165,14 +165,14 @@
   }
 
   function renderTvFormatBadges(scoreLine,presentation){
-    if(!scoreLine) return;
-    const formats=formatList(presentation);
-    if(!formats.length) return;
-    scoreLine.querySelectorAll(".detailBlurayBadge,.detailPrismBadge,.detailSilver8Badge,.detailSilver16Badge,.detailSilver35Badge,.detailSilver55Badge,.detailSilver70Badge,.detailBrazier35Badge,.detailBrazier70Badge,.detailClarity35Badge,.detailClarity70Badge").forEach(node=>node.remove());
-    scoreLine.insertAdjacentHTML("beforeend",formats.map(tvFormatBadgeLocal).join(""));
-  }
+  if(!scoreLine) return;
+  scoreLine.querySelectorAll(".detailBlurayBadge,.detailPrismBadge,.detailSilver8Badge,.detailSilver16Badge,.detailSilver35Badge,.detailSilver55Badge,.detailSilver70Badge,.detailBrazier35Badge,.detailBrazier70Badge,.detailClarity35Badge,.detailClarity70Badge").forEach(node=>node.remove());
+  const formats=formatList(presentation);
+  if(!formats.length) return;
+  scoreLine.insertAdjacentHTML("beforeend",formats.map(tvFormatBadgeLocal).join(""));
+}
 
-  if(typeof tvFormatBadge==="function"){
+if(typeof tvFormatBadge==="function"){
     tvFormatBadge=tvFormatBadgeLocal;
   }
 
@@ -279,7 +279,17 @@
           tvAudioFor(series,seasonData,episode),
           episodeEditionText(series,seasonData,episode)
         );
-        renderTvFormatBadges(document.querySelector("#seriesHero .scoreLine"),formatList(episodePresentation).length ? episodePresentation : seasonPresentation);
+        let badgePresentation=null;
+  if(formatList(episodePresentation).length){
+    badgePresentation=episodePresentation;
+  }else if(series?.allEpisodeFormats){
+    badgePresentation=seasonPresentation;
+  }else if(seasonPresentation?.format){
+    badgePresentation={format:seasonPresentation.format};
+  }else if(formatList(seasonPresentation).length===1){
+    badgePresentation=seasonPresentation;
+  }
+  renderTvFormatBadges(document.querySelector("#seriesHero .scoreLine"),badgePresentation);
       };
     }
 

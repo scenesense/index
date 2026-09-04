@@ -79,6 +79,15 @@ Responsibilities:
 
 A normal new-series integration should be **data-driven**. Change renderer code only when the new series exposes a real unsupported feature.
 
+## Mixed-format badge inheritance hard rule
+
+- A **season page** may show every format used anywhere in that season.
+- An **episode page must never inherit every season format merely because the season is mixed**.
+- Episode badge precedence is: explicit episode `format`/`formats` → deliberate series-level `allEpisodeFormats:true` → season `format` default → sole season format.
+- For a mixed season with a dominant/default format plus exceptions, store the dominant format in top-level season-meta `format`, and store only the exceptions on individual episodes.
+- Use `allEpisodeFormats:true` only when every canonical episode/scoring row genuinely represents all listed retained file options, as with Friends. It is not a substitute for missing episode metadata.
+- Final audit must reject any mixed-format season that has untagged episodes and neither a valid season default nor an explicit all-episode-formats rule.
+
 ---
 
 # 3. Series IDs, folders and visible naming
