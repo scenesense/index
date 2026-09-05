@@ -64,25 +64,55 @@
     return true;
   }
 
+  let movieAudioMap=null;
+
+  function reapplyMovieAudio(){
+    if(!movieAudioMap) return false;
+    if(typeof data==="undefined" || !data?.movies?.length) return false;
+    if(typeof savedData==="undefined" || !savedData?.movies?.length) return false;
+    installDetailFormatter();
+    const covered=applyAudio(data,movieAudioMap);
+    applyAudio(savedData,movieAudioMap);
+    if(covered!==data.movies.length){
+      console.warn(`Movie audio metadata available for ${covered}/${data.movies.length} movies.`);
+    }
+    if(typeof activeMovieId!=="undefined" && activeMovieId && typeof movieById==="function" && typeof renderMovieIdentity==="function"){
+      const movie=movieById(activeMovieId);
+      if(movie) renderMovieIdentity(movie);
+    }
+    return true;
+  }
+
+  function installSaveHook(){
+    if(window.__sceneMovieAudioSaveWrapped) return true;
+    if(typeof saveData!=="function") return false;
+    const saveBtn=document.getElementById("saveBtn");
+    if(!saveBtn) return false;
+    const originalSaveData=saveData;
+    const wrappedSaveData=async function(...args){
+      const result=await originalSaveData.apply(this,args);
+      reapplyMovieAudio();
+      return result;
+    };
+    saveBtn.removeEventListener("click",originalSaveData);
+    saveData=wrappedSaveData;
+    saveBtn.addEventListener("click",wrappedSaveData);
+    window.__sceneMovieAudioSaveWrapped=true;
+    return true;
+  }
+
+  window.reapplySceneMovieAudio=reapplyMovieAudio;
+
   loadManifest().then(map=>{
+    movieAudioMap=map;
     let attempts=0;
     const finish=()=>{
       attempts+=1;
-      const dataReady=typeof data!=="undefined" && data?.movies?.length;
-      const savedReady=typeof savedData!=="undefined" && savedData?.movies?.length;
       const formatterReady=installDetailFormatter();
-      if(!dataReady || !savedReady || !formatterReady){
-        if(attempts<120) setTimeout(finish,50);
-        return;
-      }
-      const covered=applyAudio(data,map);
-      applyAudio(savedData,map);
-      if(covered!==data.movies.length){
-        console.warn(`Movie audio metadata available for ${covered}/${data.movies.length} movies.`);
-      }
-      if(typeof activeMovieId!=="undefined" && activeMovieId && typeof movieById==="function" && typeof renderMovieIdentity==="function"){
-        const movie=movieById(activeMovieId);
-        if(movie) renderMovieIdentity(movie);
+      const audioReady=reapplyMovieAudio();
+      const saveHookReady=installSaveHook();
+      if((!formatterReady || !audioReady || !saveHookReady) && attempts<120){
+        setTimeout(finish,50);
       }
     };
     finish();
