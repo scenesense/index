@@ -2,7 +2,8 @@
   try{
     const sources=[
       `data/series/index-additions.json?v=${Date.now()}`,
-      `data/series/index-additions-sep06.json?v=${Date.now()}`
+      `data/series/index-additions-sep06.json?v=${Date.now()}`,
+      `data/series/index-additions-melrose.json?v=${Date.now()}`
     ];
     const additions=[];
     for(const source of sources){
