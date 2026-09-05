@@ -1,0 +1,29 @@
+name: Fix Pirates card lines
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.tmp-fix-pirates-card-lines-trigger.txt'
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore one-line Pirates card title and subtitle
+        shell: bash
+        run: |
+          set -euo pipefail
+          git pull --ff-only origin main
+          python .tmp-fix-pirates-card-lines.py
+          python scripts/validate-visible-ampersands.py
+          rm .tmp-fix-pirates-card-lines.py .tmp-fix-pirates-card-lines-trigger.txt .github/workflows/fix-pirates-card-lines.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "Restore Pirates card line structure and widen fit"
+          git push origin main
