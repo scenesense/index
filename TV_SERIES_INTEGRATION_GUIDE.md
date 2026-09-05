@@ -6,7 +6,7 @@
 **Branch:** `main`  
 **Site:** `https://scenesense.github.io/index/`  
 **TV questions version:** `tv-v1`  
-**Last updated:** 2026-09-04
+**Last updated:** 2026-09-05
 
 ---
 
@@ -119,7 +119,30 @@ Internal IDs do **not** need to be renamed merely because display punctuation la
 
 ## Canonical visible title
 
-`title` is the canonical title used on the library card, search and ordinary UI surfaces.
+`title` is the canonical series title used for search, detail views and ordinary UI surfaces. The library card uses `title` unless an explicit card-only shortening is stored in `cardTitle`.
+
+### Original-language title preservation — hard rule
+
+- **Never translate a series title merely because an external database, API, streaming service or English-language reference returns a localized English title.**
+- Preserve the authoritative/original-language display title chosen for the collection, including diacritics and native wording.
+- A translated title may replace the original-language title only when the user explicitly requests that translation.
+- Internal IDs and folder names may remain stable/transliterated; they do not authorize changing the visible title.
+- External databases are title-verification sources, not title-localization authority.
+
+### Visible-title punctuation — hard rule
+
+- **Ampersands are not allowed in visible series or episode titles. Always write `and`, never `&`.**
+- Apply this to canonical titles, card titles, detail titles and episode titles.
+- Do not re-import an ampersand from IMDb, TMDb, TVMaze, Wikipedia, broadcaster metadata or poster copy.
+
+If only the library card needs a shorter title, use:
+
+```json
+"title": "Lois and Clark: The New Adventures of Superman",
+"cardTitle": "Lois and Clark"
+```
+
+`cardTitle` is a library-card display override only. Search, detail views, descriptions and internal identity continue to use the canonical `title` unless another explicit field/rule says otherwise.
 
 If a long canonical title needs a shorter detail-page rendering, use:
 
