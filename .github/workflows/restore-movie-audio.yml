@@ -1,0 +1,46 @@
+name: Restore movie audio metadata
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.tmp-restore-movie-audio-trigger.txt'
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install independent movie audio bootstrap
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          tag='  <script src="movie-audio-bootstrap.js?v=20260905-1"></script>\n'
+          if tag not in s:
+              pos=s.rfind('</body>')
+              if pos < 0:
+                  raise SystemExit('index.html closing body not found')
+              s=s[:pos]+tag+s[pos:]
+              p.write_text(s,encoding='utf-8')
+          manifest=Path('data/audio_manifest.json').read_text(encoding='utf-8')
+          if '"movies"' not in manifest or 'back-to-the-future-1985' not in manifest or 'pirates-of-the-caribbean-2003' not in manifest:
+              raise SystemExit('audio manifest sanity check failed')
+          bootstrap=Path('movie-audio-bootstrap.js').read_text(encoding='utf-8')
+          for required in ['data/audio_manifest.json','detailMetaMarkup','movieAudioText','renderMovieIdentity']:
+              if required not in bootstrap:
+                  raise SystemExit(f'bootstrap missing {required}')
+          print('MOVIE AUDIO BOOTSTRAP AUDIT PASSED')
+          PY
+      - name: Commit repair and remove one-shot files
+        run: |
+          rm -f .github/workflows/restore-movie-audio.yml .tmp-restore-movie-audio-trigger.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html movie-audio-bootstrap.js .github/workflows/restore-movie-audio.yml .tmp-restore-movie-audio-trigger.txt
+          git diff --cached --quiet && exit 0
+          git commit -m "Restore independent movie audio metadata"
+          git push origin main
