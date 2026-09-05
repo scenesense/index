@@ -1,0 +1,29 @@
+name: Enforce no visible ampersands
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  apply:
+    if: contains(github.event.head_commit.message, 'Run no-ampersand enforcement')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Apply replacements, install guard, audit and clean up
+        shell: bash
+        run: |
+          set -euo pipefail
+          git pull --ff-only origin main
+          python .tmp-enforce-no-visible-ampersands.py
+          rm .tmp-enforce-no-visible-ampersands.py .tmp-audit-visible-ampersands.py .github/workflows/audit-visible-ampersands.yml .github/workflows/enforce-no-visible-ampersands.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          echo "Changed paths:"
+          git diff --cached --name-only
+          git commit -m "Enforce no ampersands in visible site text"
+          git push origin main
