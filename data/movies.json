@@ -741,7 +741,7 @@
           "emotionalLife": 4,
           "delivery": 3,
           "physicalPerformance": 5,
-          "performanceControl": 5
+          "performanceControl": 4
         },
         "chemistry": {
           "connection": 5,
@@ -767,16 +767,16 @@
         "visuals": {
           "photography": 4,
           "imageDesign": 5,
-          "imageQuality": 4,
-          "visualEffects": 5,
-          "visualBeauty": 4
+          "imageQuality": 3,
+          "visualEffects": 4,
+          "visualBeauty": 3
         },
         "world": {
           "worldDepth": 5,
           "place": 5,
           "productionDesign": 5,
-          "effectsRealization": 5,
-          "designRestraint": 5
+          "effectsRealization": 4,
+          "designRestraint": 4
         },
         "sound": {
           "soundQuality": 3,
@@ -809,7 +809,7 @@
         "integrity": {
           "independence": 5,
           "viewerRespect": 5,
-          "restraint": 5,
+          "restraint": 4,
           "degradation": 5,
           "cohesion": 3
         }
