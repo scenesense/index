@@ -1,0 +1,14 @@
+name: Validate visible text punctuation
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reject forbidden visible punctuation
+        run: python scripts/validate-visible-ampersands.py
