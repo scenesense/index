@@ -75,7 +75,7 @@ Responsibilities:
 - `series-tv.js`: base season/episode scoring implementation.
 - `series-tv-loader.js`: current scoring split patches, M flags, cut labels, ordering and format support.
 - `series-tv-enhancements.js`: season/episode presentation, exact runtimes, descriptions, metadata rails and base format badges.
-- `audio-metadata.js`: current audio presentation, edition inheritance, mixed-format badges, episode-level format overrides and TV metadata ordering.
+- `audio-metadata.js`: current audio presentation, edition scope, mixed-format badges, episode-level format overrides and TV metadata ordering.
 
 A normal new-series integration should be **data-driven**. Change renderer code only when the new series exposes a real unsupported feature.
 
@@ -842,16 +842,29 @@ Children of the Gods (Uncut)
 Consider Me Gone (Alternate Ending)
 ```
 
-Cut precedence:
+## Edition scope — hard rule
 
-1. explicit episode `cutLabel`
-2. explicit episode `edition`
-3. globally uncut series / episode `uncut`
-4. season edition/cut
-5. catalogue season edition/cut
-6. series-wide edition
+`edition` and `cutLabel` are **scope-specific metadata**. They do not automatically propagate downward.
 
-Explicit episode metadata overrides inherited series metadata.
+- A series-level `edition` describes the collection/series detail only. It may be an aggregate tag because one or more retained seasons contain special material.
+- A season-level `edition` or `cutLabel` describes that season detail/overview only. It may be an aggregate tag because one or more retained episodes use a special cut.
+- An episode page/list shows a cut or edition **only when that episode has explicit episode-level `cutLabel`/`edition` metadata**.
+- Do not infer episode `SPECIAL EDITION` merely because the series or season carries `SPECIAL EDITION`.
+- `uncut:true` on the series is the deliberate exception: it is genuinely global and may render `UNCUT` for every retained episode.
+- If every episode really is the same special edition, store that episode scope explicitly for each retained episode.
+
+Dawson's Creek is the reference mixed-scope case:
+
+```text
+Series detail: SPECIAL EDITION
+Season 01: no edition tag
+Season 02: SPECIAL EDITION
+S02E05: ALTERNATE CUT
+S02E08: ALTERNATE ENDING
+all other episode rows: no edition/cut tag
+```
+
+Firefly is the reference all-episodes case: series, season and each retained episode are explicitly `SPECIAL EDITION`.
 
 ### Entire series uncut
 

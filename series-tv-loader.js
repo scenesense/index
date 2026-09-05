@@ -101,14 +101,7 @@
           if(explicit) return explicit;
           const legacyUncut=/\bUNCUT\b|\(Uncut\)/i.test(String(episode?.title||""));
           if(series?.uncut || episode?.uncut || presentation?.uncut || legacyUncut) return "UNCUT";
-          const seasonPresentation=typeof tvPresentation==="function" ? tvPresentation(series.id,seasonData.season) : null;
-          const catalogSeason=series?.seasons?.find(season=>Number(season.number)===Number(seasonData.season));
-          return String(
-            seasonPresentation?.edition || seasonPresentation?.cutLabel ||
-            seasonData?.edition || seasonData?.cutLabel ||
-            catalogSeason?.edition || catalogSeason?.cutLabel ||
-            series?.edition || ""
-          ).trim();
+          return "";
         }
 
         function refreshEpisodeListMetadata(series,seasonData){

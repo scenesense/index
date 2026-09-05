@@ -72,28 +72,20 @@
       presentation?.edition || presentation?.cutLabel ||
       seasonData?.edition || seasonData?.cutLabel ||
       catalog?.edition || catalog?.cutLabel ||
-      series?.edition ||
       (series?.uncut ? "UNCUT" : "")
     ).trim();
   }
 
   function episodeEditionText(series,seasonData,episode){
     const presentation=typeof tvEpisodePresentation==="function" ? tvEpisodePresentation(series.id,seasonData.season,episode.id) : null;
-    const seasonPresentation=typeof tvPresentation==="function" ? tvPresentation(series.id,seasonData.season) : null;
-    const catalog=catalogSeason(series,seasonData.season);
     const explicit=String(
       episode?.cutLabel || episode?.edition ||
       presentation?.cutLabel || presentation?.edition || ""
     ).trim();
     if(explicit) return explicit;
     const legacyUncut=/\bUNCUT\b|\(Uncut\)/i.test(String(episode?.title||""));
-    if(series?.uncut || episode?.uncut || legacyUncut) return "UNCUT";
-    return String(
-      seasonPresentation?.edition || seasonPresentation?.cutLabel ||
-      seasonData?.edition || seasonData?.cutLabel ||
-      catalog?.edition || catalog?.cutLabel ||
-      series?.edition || ""
-    ).trim();
+    if(series?.uncut || episode?.uncut || presentation?.uncut || legacyUncut) return "UNCUT";
+    return "";
   }
 
   function seasonOverviewText(series,season){
