@@ -1,0 +1,16 @@
+{
+  "version":1,
+  "seriesId":"luna-park-2021",
+  "status":"deployed",
+  "series":"Luna Park",
+  "mastering":"CLARiTY70",
+  "audio":"Perceptual 5.1",
+  "seasons":1,
+  "episodes":6,
+  "scoringRows":6,
+  "runtimeSeconds":17596,
+  "poster":"assets/posters/luna-park-2021.webp",
+  "sourceBasis":"seriestonmedia-scan-2026-09-05(3).txt",
+  "episodeRuntimes":["00:53:35","00:49:23","00:50:11","00:43:01","00:48:38","00:48:28"],
+  "notes":"All six episodes use exact scan runtimes, perceptual 5.1 audio, CLARiTY70 presentation metadata and episode-specific plot descriptions."
+}
