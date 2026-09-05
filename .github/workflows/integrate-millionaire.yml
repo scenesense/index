@@ -1,0 +1,36 @@
+name: Integrate Jeremy Clarkson Millionaire
+on:
+  push:
+    paths:
+      - '.github/workflows/integrate-millionaire.yml'
+permissions:
+  contents: write
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build, audit, commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git pull --ff-only origin main
+          python .tmp-integrate-millionaire.py
+          test "$(find data/series/jeremy-clarksons-millionaire -maxdepth 1 -type f | wc -l)" -eq 22
+          rm .tmp-millionaire-source.json .tmp-integrate-millionaire.py .github/workflows/integrate-millionaire.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          echo "Changed paths:"
+          git diff --cached --name-only
+          bad=$(git diff --cached --name-only | grep -Ev '^(TV_SERIES_INTEGRATION_GUIDE\.md|data/series/index\.json|data/series/jeremy-clarksons-millionaire/season-(0[1-9]|1[01])(-meta)?\.json|\.tmp-millionaire-source\.json|\.tmp-integrate-millionaire\.py|\.github/workflows/integrate-millionaire\.yml)$' || true)
+          if [ -n "$bad" ]; then
+            echo "Unexpected changed paths:" >&2
+            echo "$bad" >&2
+            exit 1
+          fi
+          git commit -m "Integrate Jeremy Clarkson's Millionaire"
+          git push origin main
