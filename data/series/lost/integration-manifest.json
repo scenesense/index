@@ -1,0 +1,22 @@
+{
+  "version":1,
+  "seriesId":"lost-2004",
+  "status":"build-checkpoint",
+  "series":"Lost",
+  "format":"SPECIAL EDITION",
+  "mastering":"SiLVER70",
+  "audio":"Lossless 24-bit",
+  "seasons":7,
+  "episodes":0,
+  "scoringRows":0,
+  "seasonYears":{
+    "1":2004,
+    "2":2005,
+    "3":2006,
+    "4":2008,
+    "5":2009,
+    "6":2010,
+    "7":2010
+  },
+  "notes":"Season 7 reserved for separated flash-sideways and afterlife material. Episode grouping remains unset until edit is finalized. No invented episodes or runtimes."
+}
