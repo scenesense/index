@@ -313,7 +313,7 @@ Christmas
 Fantasy
 ```
 
-`Documentary` is currently used as a deliberate nonfiction exception for the Brian Cox collection. Do not casually invent additional labels.
+`Documentary` and `Game Show` are deliberate nonfiction/television-format exceptions, currently used for the Brian Cox collection and Jeremy Clarkson's Millionaire respectively. Do not casually invent additional labels.
 
 ## Hard ordering rules
 
