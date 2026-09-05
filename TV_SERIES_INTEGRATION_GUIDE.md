@@ -129,11 +129,13 @@ Internal IDs do **not** need to be renamed merely because display punctuation la
 - Internal IDs and folder names may remain stable/transliterated; they do not authorize changing the visible title.
 - External databases are title-verification sources, not title-localization authority.
 
-### Visible-title punctuation — hard rule
+### Visible-text punctuation — hard rule
 
-- **Ampersands are not allowed in visible series or episode titles. Always write `and`, never `&`.**
-- Apply this to canonical titles, card titles, detail titles and episode titles.
-- Do not re-import an ampersand from IMDb, TMDb, TVMaze, Wikipedia, broadcaster metadata or poster copy.
+- **The ampersand character (U+0026) is forbidden in all user-visible SceneSense text. Always write `and`.**
+- This applies to series titles, movie titles, card titles, detail titles, episode titles, category headings, descriptions, labels, metadata copy and any other text rendered to the user.
+- External sources never have punctuation authority here. IMDb, TMDb, TVMaze, Wikipedia, broadcaster metadata, poster copy and similar sources must be normalized before SceneSense data is written.
+- **A title audit is invalid if it copies an ampersand from a generic database. Episode identity may come from verification; punctuation must still obey SceneSense house style.**
+- Before every TV integration commit, run the repository visible-text validator and treat any failure as a release blocker.
 
 If only the library card needs a shorter title, use:
 

@@ -4,7 +4,7 @@ const DATA_PATH = "data/movies.json";
 
 const CATEGORIES = [
   {
-    key:"writing", title:"Writing & Narrative Construction", weight:9,
+    key:"writing", title:"Writing and Narrative Construction", weight:9,
     items:[
       ["storyQuality","Story Quality","Did the story keep revealing more, or did its main idea wear thin?"],
       ["storyLogic","Story Logic","Did events grow naturally from what came before, or did the script force them?"],
@@ -34,7 +34,7 @@ const CATEGORIES = [
     ]
   },
   {
-    key:"casting", title:"Casting & Role Congruence", weight:12,
+    key:"casting", title:"Casting and Role Congruence", weight:12,
     items:[
       ["functionalFit","Functional Fit","Did the performers look and move like people who could actually fill these roles?"],
       ["roleFit","Role Fit","Did the performers feel born for their roles, or merely placed in them?"],
@@ -44,7 +44,7 @@ const CATEGORIES = [
     ]
   },
   {
-    key:"performance", title:"Performance & Character Embodiment", weight:6,
+    key:"performance", title:"Performance and Character Embodiment", weight:6,
     items:[
       ["characterization","Characterization","Did I see the characters, or mostly actors performing?"],
       ["emotionalLife","Emotional Life","Could I read what the characters were feeling even when they said nothing?"],
@@ -54,7 +54,7 @@ const CATEGORIES = [
     ]
   },
   {
-    key:"chemistry", title:"Interpersonal Genuineness & Chemistry", weight:6,
+    key:"chemistry", title:"Interpersonal Genuineness and Chemistry", weight:6,
     items:[
       ["connection","Connection","Did the characters genuinely affect each other, or merely share scenes?"],
       ["flow","Flow","Did people flow naturally together, or feel like actors taking turns?"],
@@ -64,7 +64,7 @@ const CATEGORIES = [
     ]
   },
   {
-    key:"direction", title:"Direction & Scene Construction", weight:5,
+    key:"direction", title:"Direction and Scene Construction", weight:5,
     items:[
       ["staging","Staging","Did scenes use the space around the characters well, or did everyone just stand where the camera needed them?"],
       ["actorDirection","Actor Direction","Did the cast feel in sync, or did some performances throw the scene off?"],
@@ -74,7 +74,7 @@ const CATEGORIES = [
     ]
   },
   {
-    key:"editing", title:"Editing, Rhythm & Pacing", weight:7,
+    key:"editing", title:"Editing, Rhythm and Pacing", weight:7,
     items:[
       ["pacing","Pacing","Did scenes last as long as they needed to, without dragging or rushing?"],
       ["rhythm","Rhythm","Did the film know when to move and when to let a moment breathe?"],
@@ -84,7 +84,7 @@ const CATEGORIES = [
     ]
   },
   {
-    key:"visuals", title:"Visual Craft & Cinematography", weight:5,
+    key:"visuals", title:"Visual Craft and Cinematography", weight:5,
     items:[
       ["photography","Photography","Did the camera put me in the right place to experience each scene?"],
       ["imageDesign","Image Design","Did the lighting and color belong to the movie, or make it look processed?"],
@@ -104,7 +104,7 @@ const CATEGORIES = [
     ]
   },
   {
-    key:"sound", title:"Sound Design & Aural Realization", weight:5,
+    key:"sound", title:"Sound Design and Aural Realization", weight:5,
     items:[
       ["soundQuality","Sound Quality","Could the soundtrack go from whisper-quiet to huge without losing control?"],
       ["dialogue","Dialogue","Did voices stay clear without sounding pasted onto the scene?"],
@@ -124,7 +124,7 @@ const CATEGORIES = [
     ]
   },
   {
-    key:"creativity", title:"Creative Intelligence & Originality", weight:6,
+    key:"creativity", title:"Creative Intelligence and Originality", weight:6,
     items:[
       ["originality","Originality","Did this feel like its own creation, or something I'd basically seen before?"],
       ["ingenuity","Ingenuity","Did the film find clever solutions, or keep taking the obvious route?"],

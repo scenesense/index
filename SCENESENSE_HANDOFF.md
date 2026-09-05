@@ -22,6 +22,7 @@ Before every repository edit:
 4. Write directly to `main` unless the user explicitly requests another workflow.
 5. Re-fetch the edited file after the commit when the change is important.
 6. For `data/movies.json`, preserve all newer ratings and fields. Never overwrite it from a stale local/chat copy.
+7. **Global visible-text rule: the ampersand character (U+0026) is forbidden everywhere the site can display text. Write `and` instead, including when importing or matching titles from external databases. Run `python scripts/validate-visible-ampersands.py` before committing content changes.**
 
 The GitHub connector is the normal way to work on this repo. Do not tell the user the repository is inaccessible merely because one particular write route fails. Try the appropriate GitHub-native action instead.
 
