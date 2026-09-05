@@ -1,0 +1,207 @@
+name: Fix TV edition scope
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-edition-scope.yml'
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Correct edition scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          git pull --ff-only origin main
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          # Dawson catalogue: series aggregate SPECIAL EDITION, S2 only at season scope.
+          p = Path('data/series/index.json')
+          data = json.loads(p.read_text(encoding='utf-8'))
+          dawson = next(s for s in data['series'] if s['id'] == 'dawsons-creek-1998')
+          assert dawson.get('edition') == 'SPECIAL EDITION'
+          seasons = {int(s['number']): s for s in dawson['seasons']}
+          assert seasons[1].get('edition') == 'SPECIAL EDITION'
+          assert seasons[2].get('edition') == 'SPECIAL EDITION'
+          seasons[1].pop('edition', None)
+          seasons[2]['edition'] = 'SPECIAL EDITION'
+          p.write_text(json.dumps(data, ensure_ascii=False, separators=(',', ':')) + '\n', encoding='utf-8')
+
+          # Loader episode labels: episode scope only; no season/series edition inheritance.
+          p = Path('series-tv-loader.js')
+          js = p.read_text(encoding='utf-8')
+          old = '''        function episodeEditionLabel(series,seasonData,episode,presentation){
+          const explicit=String(
+            episode?.cutLabel || episode?.edition ||
+            presentation?.cutLabel || presentation?.edition || ""
+          ).trim();
+          if(explicit) return explicit;
+          const legacyUncut=/\\bUNCUT\\b|\\(Uncut\\)/i.test(String(episode?.title||""));
+          if(series?.uncut || episode?.uncut || presentation?.uncut || legacyUncut) return "UNCUT";
+          const seasonPresentation=typeof tvPresentation==="function" ? tvPresentation(series.id,seasonData.season) : null;
+          const catalogSeason=series?.seasons?.find(season=>Number(season.number)===Number(seasonData.season));
+          return String(
+            seasonPresentation?.edition || seasonPresentation?.cutLabel ||
+            seasonData?.edition || seasonData?.cutLabel ||
+            catalogSeason?.edition || catalogSeason?.cutLabel ||
+            series?.edition || ""
+          ).trim();
+        }'''
+          new = '''        function episodeEditionLabel(series,seasonData,episode,presentation){
+          const explicit=String(
+            episode?.cutLabel || episode?.edition ||
+            presentation?.cutLabel || presentation?.edition || ""
+          ).trim();
+          if(explicit) return explicit;
+          const legacyUncut=/\\bUNCUT\\b|\\(Uncut\\)/i.test(String(episode?.title||""));
+          if(series?.uncut || episode?.uncut || presentation?.uncut || legacyUncut) return "UNCUT";
+          return "";
+        }'''
+          if old not in js:
+              raise SystemExit('series-tv-loader episodeEditionLabel anchor not found')
+          js = js.replace(old, new, 1)
+          p.write_text(js, encoding='utf-8')
+
+          # Audio/metadata layer: series edition does not bleed into seasons; season/series edition does not bleed into episodes.
+          p = Path('audio-metadata-base.js')
+          js = p.read_text(encoding='utf-8')
+          old = '''  function seasonEditionText(series,seasonData,presentation){
+    const catalog=catalogSeason(series,seasonData?.season ?? presentation?.season);
+    return String(
+      presentation?.edition || presentation?.cutLabel ||
+      seasonData?.edition || seasonData?.cutLabel ||
+      catalog?.edition || catalog?.cutLabel ||
+      series?.edition ||
+      (series?.uncut ? "UNCUT" : "")
+    ).trim();
+  }'''
+          new = '''  function seasonEditionText(series,seasonData,presentation){
+    const catalog=catalogSeason(series,seasonData?.season ?? presentation?.season);
+    return String(
+      presentation?.edition || presentation?.cutLabel ||
+      seasonData?.edition || seasonData?.cutLabel ||
+      catalog?.edition || catalog?.cutLabel ||
+      (series?.uncut ? "UNCUT" : "")
+    ).trim();
+  }'''
+          if old not in js:
+              raise SystemExit('audio seasonEditionText anchor not found')
+          js = js.replace(old, new, 1)
+
+          old = '''  function episodeEditionText(series,seasonData,episode){
+    const presentation=typeof tvEpisodePresentation==="function" ? tvEpisodePresentation(series.id,seasonData.season,episode.id) : null;
+    const seasonPresentation=typeof tvPresentation==="function" ? tvPresentation(series.id,seasonData.season) : null;
+    const catalog=catalogSeason(series,seasonData.season);
+    const explicit=String(
+      episode?.cutLabel || episode?.edition ||
+      presentation?.cutLabel || presentation?.edition || ""
+    ).trim();
+    if(explicit) return explicit;
+    const legacyUncut=/\\bUNCUT\\b|\\(Uncut\\)/i.test(String(episode?.title||""));
+    if(series?.uncut || episode?.uncut || legacyUncut) return "UNCUT";
+    return String(
+      seasonPresentation?.edition || seasonPresentation?.cutLabel ||
+      seasonData?.edition || seasonData?.cutLabel ||
+      catalog?.edition || catalog?.cutLabel ||
+      series?.edition || ""
+    ).trim();
+  }'''
+          new = '''  function episodeEditionText(series,seasonData,episode){
+    const presentation=typeof tvEpisodePresentation==="function" ? tvEpisodePresentation(series.id,seasonData.season,episode.id) : null;
+    const explicit=String(
+      episode?.cutLabel || episode?.edition ||
+      presentation?.cutLabel || presentation?.edition || ""
+    ).trim();
+    if(explicit) return explicit;
+    const legacyUncut=/\\bUNCUT\\b|\\(Uncut\\)/i.test(String(episode?.title||""));
+    if(series?.uncut || episode?.uncut || presentation?.uncut || legacyUncut) return "UNCUT";
+    return "";
+  }'''
+          if old not in js:
+              raise SystemExit('audio episodeEditionText anchor not found')
+          js = js.replace(old, new, 1)
+          p.write_text(js, encoding='utf-8')
+
+          # Firefly was explicitly defined as SPECIAL EDITION throughout, so make episode scope explicit.
+          p = Path('data/series/firefly/season-01-meta.json')
+          meta = json.loads(p.read_text(encoding='utf-8'))
+          assert meta.get('edition') == 'SPECIAL EDITION'
+          assert len(meta['episodes']) == 5
+          for ep in meta['episodes'].values():
+              ep['edition'] = 'SPECIAL EDITION'
+          p.write_text(json.dumps(meta, ensure_ascii=False, separators=(',', ':')) + '\n', encoding='utf-8')
+
+          # Buck Rogers was already represented as a full special-edition collection; preserve its prior episode display explicitly.
+          p = Path('data/series/buck-rogers-in-the-25th-century/season-01-meta.json')
+          meta = json.loads(p.read_text(encoding='utf-8'))
+          assert meta.get('edition') == 'SPECIAL EDITION'
+          for ep in meta['episodes'].values():
+              ep['edition'] = 'SPECIAL EDITION'
+          p.write_text(json.dumps(meta, ensure_ascii=False, separators=(',', ':')) + '\n', encoding='utf-8')
+
+          # Harden the rulebook: edition is scoped; only UNCUT can be genuinely global by series flag.
+          p = Path('TV_SERIES_INTEGRATION_GUIDE.md')
+          guide = p.read_text(encoding='utf-8')
+          guide = guide.replace('`audio-metadata.js`: current audio presentation, edition inheritance, mixed-format badges, episode-level format overrides and TV metadata ordering.',
+                                '`audio-metadata.js`: current audio presentation, edition scope, mixed-format badges, episode-level format overrides and TV metadata ordering.', 1)
+          old = '''Cut precedence:\n\n1. explicit episode `cutLabel`\n2. explicit episode `edition`\n3. globally uncut series / episode `uncut`\n4. season edition/cut\n5. catalogue season edition/cut\n6. series-wide edition\n\nExplicit episode metadata overrides inherited series metadata.\n'''
+          new = '''## Edition scope — hard rule\n\n`edition` and `cutLabel` are **scope-specific metadata**. They do not automatically propagate downward.\n\n- A series-level `edition` describes the collection/series detail only. It may be an aggregate tag because one or more retained seasons contain special material.\n- A season-level `edition` or `cutLabel` describes that season detail/overview only. It may be an aggregate tag because one or more retained episodes use a special cut.\n- An episode page/list shows a cut or edition **only when that episode has explicit episode-level `cutLabel`/`edition` metadata**.\n- Do not infer episode `SPECIAL EDITION` merely because the series or season carries `SPECIAL EDITION`.\n- `uncut:true` on the series is the deliberate exception: it is genuinely global and may render `UNCUT` for every retained episode.\n- If every episode really is the same special edition, store that episode scope explicitly for each retained episode.\n\nDawson's Creek is the reference mixed-scope case:\n\n```text\nSeries detail: SPECIAL EDITION\nSeason 01: no edition tag\nSeason 02: SPECIAL EDITION\nS02E05: ALTERNATE CUT\nS02E08: ALTERNATE ENDING\nall other episode rows: no edition/cut tag\n```\n\nFirefly is the reference all-episodes case: series, season and each retained episode are explicitly `SPECIAL EDITION`.\n'''
+          if old not in guide:
+              raise SystemExit('guide cut precedence anchor not found')
+          guide = guide.replace(old, new, 1)
+          p.write_text(guide, encoding='utf-8')
+
+          # Final exact-state audit.
+          catalog = json.loads(Path('data/series/index.json').read_text(encoding='utf-8'))
+          dawson = next(s for s in catalog['series'] if s['id'] == 'dawsons-creek-1998')
+          seasons = {int(s['number']): s for s in dawson['seasons']}
+          assert dawson['edition'] == 'SPECIAL EDITION'
+          assert 'edition' not in seasons[1]
+          assert seasons[2]['edition'] == 'SPECIAL EDITION'
+
+          s1meta = json.loads(Path('data/series/dawsons-creek/season-01-meta.json').read_text(encoding='utf-8'))
+          s2meta = json.loads(Path('data/series/dawsons-creek/season-02-meta.json').read_text(encoding='utf-8'))
+          assert 'edition' not in s1meta and 'cutLabel' not in s1meta
+          assert 'edition' not in s2meta and 'cutLabel' not in s2meta
+          assert s2meta['episodes']['s02e05']['cutLabel'] == 'ALTERNATE CUT'
+          assert s2meta['episodes']['s02e08']['cutLabel'] == 'ALTERNATE ENDING'
+          for eid, ep in s2meta['episodes'].items():
+              if eid not in {'s02e05','s02e08'}:
+                  assert not ep.get('cutLabel') and not ep.get('edition')
+          for ep in s1meta['episodes'].values():
+              assert not ep.get('cutLabel') and not ep.get('edition')
+
+          firefly = json.loads(Path('data/series/firefly/season-01-meta.json').read_text(encoding='utf-8'))
+          assert all(ep.get('edition') == 'SPECIAL EDITION' for ep in firefly['episodes'].values())
+          buck = json.loads(Path('data/series/buck-rogers-in-the-25th-century/season-01-meta.json').read_text(encoding='utf-8'))
+          assert all(ep.get('edition') == 'SPECIAL EDITION' for ep in buck['episodes'].values())
+
+          loader = Path('series-tv-loader.js').read_text(encoding='utf-8')
+          audio = Path('audio-metadata-base.js').read_text(encoding='utf-8')
+          assert 'catalogSeason?.edition || catalogSeason?.cutLabel' not in loader
+          assert 'seasonPresentation?.edition || seasonPresentation?.cutLabel' not in audio
+          assert 'series?.edition || ""' not in audio[audio.index('function episodeEditionText'):audio.index('function seasonOverviewText')]
+          assert 'Edition scope — hard rule' in guide
+          print('EDITION SCOPE AUDIT PASSED')
+          PY
+
+          rm -f .github/workflows/fix-edition-scope.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          echo 'Changed paths:'
+          git diff --cached --name-only
+          bad=$(git diff --cached --name-only | grep -Ev '^(data/series/index\.json|series-tv-loader\.js|audio-metadata-base\.js|data/series/firefly/season-01-meta\.json|data/series/buck-rogers-in-the-25th-century/season-01-meta\.json|TV_SERIES_INTEGRATION_GUIDE\.md|\.github/workflows/fix-edition-scope\.yml)$' || true)
+          if [ -n "$bad" ]; then
+            echo "Unexpected files changed:" >&2
+            echo "$bad" >&2
+            exit 1
+          fi
+          git commit -m 'Correct TV edition scope semantics'
+          git push origin main
