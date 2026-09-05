@@ -1,0 +1,49 @@
+name: Bump movie audio bootstrap
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.tmp-bump-movie-audio-trigger.txt'
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Bump bootstrap and audit lifecycle hook
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          old='movie-audio-bootstrap.js?v=20260905-1'
+          new='movie-audio-bootstrap.js?v=20260905-2'
+          if s.count(old) != 1:
+              raise SystemExit(f'Expected exactly one old bootstrap reference, found {s.count(old)}')
+          s=s.replace(old,new,1)
+          p.write_text(s,encoding='utf-8')
+          b=Path('movie-audio-bootstrap.js').read_text(encoding='utf-8')
+          required=[
+              'window.reapplySceneMovieAudio=reapplyMovieAudio',
+              'saveBtn.removeEventListener("click",originalSaveData)',
+              'saveData=wrappedSaveData',
+              'saveBtn.addEventListener("click",wrappedSaveData)',
+              'reapplyMovieAudio();'
+          ]
+          missing=[token for token in required if token not in b]
+          if missing:
+              raise SystemExit('Movie audio lifecycle hook audit failed: '+repr(missing))
+          print('MOVIE AUDIO SAVE-LIFECYCLE AUDIT PASSED')
+          PY
+      - name: Commit and remove one-shot files
+        run: |
+          rm -f .github/workflows/bump-movie-audio-bootstrap.yml .tmp-bump-movie-audio-trigger.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html movie-audio-bootstrap.js .github/workflows/bump-movie-audio-bootstrap.yml .tmp-bump-movie-audio-trigger.txt
+          git diff --cached --quiet && exit 0
+          git commit -m "Harden movie audio metadata lifecycle"
+          git push origin main
