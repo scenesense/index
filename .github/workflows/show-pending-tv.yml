@@ -1,0 +1,31 @@
+name: Show pending TV broadcasts
+on:
+  push:
+    paths:
+      - '.github/workflows/show-pending-tv.yml'
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Apply, audit and clean up
+        shell: bash
+        run: |
+          set -euo pipefail
+          git pull --ff-only origin main
+          python .tmp-show-pending-tv.py
+          rm .tmp-show-pending-tv.py .github/workflows/show-pending-tv.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          changed=$(git diff --cached --name-only)
+          echo "$changed"
+          bad=$(printf '%s\n' "$changed" | grep -Ev '^(data/series/jeremy-clarksons-millionaire/season-11-meta\.json|series-tv-enhancements\.js|TV_SERIES_INTEGRATION_GUIDE\.md|\.tmp-show-pending-tv\.py|\.github/workflows/show-pending-tv\.yml)$' || true)
+          if [ -n "$bad" ]; then echo "$bad" >&2; exit 1; fi
+          git commit -m "Show unheld Millionaire broadcasts"
+          git push origin main
