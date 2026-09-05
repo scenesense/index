@@ -86,6 +86,9 @@ function injectTvEnhancementStyles(){
     .seasonBannerScore{font-size:21px!important}
     .episodeGrid{grid-template-columns:1fr!important;gap:6px!important}
     .episodeCard{grid-template-columns:68px minmax(0,1fr) auto!important;column-gap:20px!important;min-height:48px!important;padding:7px 11px!important;border-radius:9px!important}
+    .pendingEpisodeCard{cursor:default!important;opacity:.72!important}
+    .pendingEpisodeCard .episodeTitle{color:#c9cdd3!important}
+    .pendingEpisodeStatus{color:rgba(201,205,211,.46)!important;font-size:18px!important}
     .episodeCode{width:68px!important;display:grid!important;grid-template-columns:30px 38px!important;column-gap:0!important;align-items:stretch!important;line-height:1.03!important;white-space:nowrap!important}
     .episodeSeasonCode{display:flex!important;align-items:center!important;justify-content:flex-start!important;min-width:30px!important}
     .episodeNumberStack{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;gap:1px!important;min-width:38px!important;margin-left:-2px!important}
@@ -278,6 +281,17 @@ renderTvSeason = function(series, seasonData){
   });
 
   const episodeGrid=body.querySelector(".episodeGrid");
+  const pendingEpisodes=Array.isArray(presentation?.pendingEpisodes) ? presentation.pendingEpisodes : [];
+  if(episodeGrid && pendingEpisodes.length){
+    pendingEpisodes.forEach(item=>{
+      const card=document.createElement("div");
+      card.className="episodeCard pendingEpisodeCard";
+      const label=String(item?.label || "Pending broadcast");
+      const facts=[tvFormatAirDate(item?.airDate), String(item?.status || "NOT HELD")].filter(Boolean);
+      card.innerHTML=`<div class="episodeCode">${tvEpisodeCodeMarkup(seasonData.season,item?.number)}</div><div><div class="episodeTitle">${escapeHtml(label)}</div>${facts.length?`<div class="episodeRuntime">${escapeHtml(facts.join(" · "))}</div>`:""}</div><div class="episodeScore pendingEpisodeStatus">—</div>`;
+      episodeGrid.appendChild(card);
+    });
+  }
   if(episodeGrid && !body.querySelector(".tvBottomBack")){
     const bottomBack=document.createElement("button");
     bottomBack.type="button";

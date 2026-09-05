@@ -432,6 +432,26 @@ The Final Day
 
 If titles are derived rather than official, preserve that fact in working notes if needed, but **the UI still gets proper titles**.
 
+## Confirmed broadcasts not yet held
+
+A confirmed broadcast that belongs to the collection but is **not yet held** is not a canonical scoring row and does not need a fabricated episode title, runtime or plot description. Store it in season presentation metadata as `pendingEpisodes`, for example:
+
+```json
+"pendingEpisodes": [
+  {"number":"07","airDate":"2026-07-14","label":"ITVX Broadcast","status":"NOT HELD"}
+]
+```
+
+Rules:
+
+- pending broadcasts contribute to catalogue `episodeCount` but **not** `scoringEntryCount`
+- do not add them to the core season `episodes` array until the media is acquired and can be scored
+- do not invent runtime, question-derived title, description, audio or restoration format
+- the season page renders them as non-clickable pending rows with date/status
+- when acquired, remove the pending entry and add the normal core/meta episode row using authoritative collection metadata
+
+This is distinct from a generic placeholder. It records a verified missing physical presentation without pretending unavailable episode content is known.
+
 ## External title audit rules
 
 When checking episode titles against TVMaze, IMDb, TMDb, Wikipedia or another database:
