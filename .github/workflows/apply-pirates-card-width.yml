@@ -1,0 +1,29 @@
+name: Apply Pirates card width
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.tmp-pirates-card-width-trigger.txt'
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Apply guarded library-card width fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          git pull --ff-only origin main
+          python .tmp-pirates-card-width.py
+          python scripts/validate-visible-ampersands.py
+          rm .tmp-pirates-card-width.py .tmp-pirates-card-width-trigger.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html .tmp-pirates-card-width.py .tmp-pirates-card-width-trigger.txt
+          git diff --cached --check
+          git commit -m "Let Pirates card titles use full library width"
+          git push origin main
