@@ -37,12 +37,19 @@ def quoted_strings(line):
             escaped=True
             continue
         if ch==quote:
-            out.append(''.join(buf))
+            out.append((quote,''.join(buf)))
             quote=None
             buf=[]
             continue
         buf.append(ch)
     return out
+
+
+def visible_string_text(quote,s):
+    if quote=='`':
+        # JavaScript operators inside template interpolation are code, not rendered text.
+        return re.sub(r'\$\{[^}]*\}', '', s)
+    return s
 
 
 production_json=[]
@@ -85,9 +92,10 @@ for p in js_files:
         )
         if technical_escape:
             continue
-        for s in quoted_strings(line):
-            if AMP in s:
-                errors.append(f'{p}:{n}: string -> {s}')
+        for quote,s in quoted_strings(line):
+            visible=visible_string_text(quote,s)
+            if AMP in visible:
+                errors.append(f'{p}:{n}: string -> {visible}')
 
 # HTML text nodes and quoted attributes/inline-script strings are checked. The
 # Google Fonts stylesheet URL is a technical query string and the sole current exception.
@@ -99,9 +107,10 @@ for p in html_files:
             errors.append(f'{p}:{n}: text -> {m.group(1).strip()}')
         if 'fonts.googleapis.com/css2' in line:
             continue
-        for s in quoted_strings(line):
-            if AMP in s:
-                errors.append(f'{p}:{n}: string -> {s}')
+        for quote,s in quoted_strings(line):
+            visible=visible_string_text(quote,s)
+            if AMP in visible:
+                errors.append(f'{p}:{n}: string -> {visible}')
 
 if errors:
     print('VISIBLE AMPERSAND POLICY FAILED')
