@@ -1,22 +1,22 @@
 {
   "version":1,
   "seriesId":"lost-2004",
-  "status":"build-checkpoint",
+  "status":"deployed",
   "series":"Lost",
-  "format":"SPECIAL EDITION",
+  "edition":"SPECIAL EDITION",
   "mastering":"SiLVER70",
   "audio":"Lossless 24-bit",
   "seasons":7,
-  "episodes":0,
+  "episodes":"TBD",
   "scoringRows":0,
   "seasonYears":{
-    "1":2004,
-    "2":2005,
-    "3":2006,
-    "4":2008,
-    "5":2009,
-    "6":2010,
-    "7":2010
+    "1":"2004-2005",
+    "2":"2005-2006",
+    "3":"2006-2007",
+    "4":"2008",
+    "5":"2009",
+    "6":"2010",
+    "7":"2010"
   },
-  "notes":"Season 7 reserved for separated flash-sideways and afterlife material. Episode grouping remains unset until edit is finalized. No invented episodes or runtimes."
+  "notes":"Season 7 uses the same 2010 year span as Season 6. Afterlife flashbacks remain separate. Episode grouping, counts and runtimes are intentionally unset until the SPECIAL EDITION edit is finalized."
 }
