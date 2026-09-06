@@ -1,29 +1,32 @@
 (async function loadSceneSeriesAdditions(){
   try{
+    const status=document.getElementById("libraryStatus");
+    if(status && typeof libraryMediaMode!=="undefined" && libraryMediaMode!=="movies") status.textContent="Loading full series catalogue…";
+    const stamp=Date.now();
     const sources=[
-      `data/series/index-additions.json?v=${Date.now()}`,
-      `data/series/index-additions-sep06.json?v=${Date.now()}`,
-      `data/series/index-additions-melrose.json?v=${Date.now()}`,
-      `data/series/index-additions-mscl.json?v=${Date.now()}`,
-      `data/series/index-additions-nautilus.json?v=${Date.now()}`,
-      `data/series/index-additions-northern-exposure.json?v=${Date.now()}`,
-      `data/series/index-additions-mr-sunshine.json?v=${Date.now()}`,
-      `data/series/index-additions-one-tree-hill.json?v=${Date.now()}`,
-      `data/series/index-additions-one-big-happy.json?v=${Date.now()}`,
-      `data/series/index-additions-october-road.json?v=${Date.now()}`,
-      `data/series/index-additions-missions.json?v=${Date.now()}`,
-      `data/series/index-additions-les-grandes-grandes-vacances.json?v=${Date.now()}`,
-      `data/series/index-additions-pat-and-mat.json?v=${Date.now()}`
+      `data/series/index-additions.json?v=${stamp}`,
+      `data/series/index-additions-sep06.json?v=${stamp}`,
+      `data/series/index-additions-melrose.json?v=${stamp}`,
+      `data/series/index-additions-mscl.json?v=${stamp}`,
+      `data/series/index-additions-nautilus.json?v=${stamp}`,
+      `data/series/index-additions-northern-exposure.json?v=${stamp}`,
+      `data/series/index-additions-mr-sunshine.json?v=${stamp}`,
+      `data/series/index-additions-one-tree-hill.json?v=${stamp}`,
+      `data/series/index-additions-one-big-happy.json?v=${stamp}`,
+      `data/series/index-additions-october-road.json?v=${stamp}`,
+      `data/series/index-additions-missions.json?v=${stamp}`,
+      `data/series/index-additions-les-grandes-grandes-vacances.json?v=${stamp}`,
+      `data/series/index-additions-pat-and-mat.json?v=${stamp}`
     ];
-    const additions=[];
-    for(const source of sources){
+    const groups=await Promise.all(sources.map(async source=>{
       try{
         const response=await fetch(source,{cache:"no-store"});
-        if(!response.ok) continue;
+        if(!response.ok) return [];
         const payload=await response.json();
-        (payload.series||[]).forEach(series=>additions.push(series));
-      }catch(error){ console.error(error); }
-    }
+        return Array.isArray(payload.series)?payload.series:[];
+      }catch(error){ console.error(error); return []; }
+    }));
+    const additions=groups.flat();
     if(typeof seriesCatalog==="undefined" || !Array.isArray(seriesCatalog)) return;
     const known=new Set(seriesCatalog.map(series=>series.id));
     additions.forEach(series=>{ if(!known.has(series.id)){ seriesCatalog.push(series); known.add(series.id); } });
