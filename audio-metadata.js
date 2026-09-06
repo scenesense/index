@@ -7,9 +7,9 @@
       document.body.appendChild(additions);
     }
   };
+  loadExtras();
   const base=document.createElement("script");
   base.src=`audio-metadata-base.js?v=${Date.now()}`;
   base.dataset.scenesenseAudioMetadataBase="1";
-  base.onload=loadExtras;
   document.body.appendChild(base);
 })();
