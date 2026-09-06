@@ -8,7 +8,8 @@
       `data/series/index-additions-nautilus.json?v=${Date.now()}`,
       `data/series/index-additions-northern-exposure.json?v=${Date.now()}`,
       `data/series/index-additions-mr-sunshine.json?v=${Date.now()}`,
-      `data/series/index-additions-one-tree-hill.json?v=${Date.now()}`
+      `data/series/index-additions-one-tree-hill.json?v=${Date.now()}`,
+      `data/series/index-additions-one-big-happy.json?v=${Date.now()}`
     ];
     const additions=[];
     for(const source of sources){
