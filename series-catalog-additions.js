@@ -12,7 +12,8 @@
       `data/series/index-additions-one-big-happy.json?v=${Date.now()}`,
       `data/series/index-additions-october-road.json?v=${Date.now()}`,
       `data/series/index-additions-missions.json?v=${Date.now()}`,
-      `data/series/index-additions-les-grandes-grandes-vacances.json?v=${Date.now()}`
+      `data/series/index-additions-les-grandes-grandes-vacances.json?v=${Date.now()}`,
+      `data/series/index-additions-pat-and-mat.json?v=${Date.now()}`
     ];
     const additions=[];
     for(const source of sources){
