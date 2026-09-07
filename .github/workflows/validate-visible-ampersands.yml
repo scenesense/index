@@ -1,4 +1,4 @@
-name: Validate visible text punctuation
+name: Validate SceneSense data conventions
 on:
   push:
     branches: [main]
@@ -12,3 +12,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: Reject forbidden visible punctuation
         run: python scripts/validate-visible-ampersands.py
+      - name: Require zero-padded TV episode numbers
+        run: python scripts/validate-series-episode-numbers.py
