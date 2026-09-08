@@ -6,7 +6,7 @@
 When a retained television presentation includes a secondary audio option whose identity is editorially meaningful, season presentation metadata may include:
 
 ```json
-"secondaryAudioLabel": "Stereo [original music]"
+"secondaryAudioLabel": "Stereo (original music)"
 ```
 
 Hard rules:
@@ -17,11 +17,11 @@ Hard rules:
 - It is not shown on library cards, series headers, season overview banners or episode-list rows.
 - Do not encode a secondary soundtrack as a fake channel layout, quality state, edition or cut label.
 - A season-level `secondaryAudioLabel` applies to every retained episode in that season unless a later schema explicitly defines an episode-level override.
-- Bracketed qualifiers may intentionally use lowercase when they function as descriptive metadata rather than a title.
+- Parenthetical qualifiers may intentionally use lowercase when they function as descriptive metadata rather than a title.
 - Example visible rendering:
 
 ```text
-Surround · Stereo [original music]
+Surround · Stereo (original music)
 ```
 
 Roswell (1999) is the reference implementation.
