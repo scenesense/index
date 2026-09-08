@@ -17,7 +17,8 @@
       `data/series/index-additions-missions.json?v=${stamp}`,
       `data/series/index-additions-les-grandes-grandes-vacances.json?v=${stamp}`,
       `data/series/index-additions-pat-and-mat.json?v=${stamp}`,
-      `data/series/index-additions-rick-steins-odysseys.json?v=${stamp}`
+      `data/series/index-additions-rick-steins-odysseys.json?v=${stamp}`,
+      `data/series/index-additions-sep08-r.json?v=${stamp}`
     ];
     const groups=await Promise.all(sources.map(async source=>{
       try{

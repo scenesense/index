@@ -6,6 +6,12 @@
       additions.dataset.scenesenseSeriesAdditions="1";
       document.body.appendChild(additions);
     }
+    if(!document.querySelector('script[data-scenesense-secondary-audio]')){
+      const secondary=document.createElement("script");
+      secondary.src=`series-secondary-audio.js?v=${Date.now()}`;
+      secondary.dataset.scenesenseSecondaryAudio="1";
+      document.body.appendChild(secondary);
+    }
   };
   loadExtras();
   const base=document.createElement("script");
