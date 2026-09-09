@@ -28,7 +28,8 @@
       `data/series/index-additions-rick-steins-odysseys.json?v=${stamp}`,
       `data/series/index-additions-sep08-r.json?v=${stamp}`,
       `data/series/index-additions-sep08-s.json?v=${stamp}`,
-      `data/series/index-additions-sep09-t.json?v=${stamp}`
+      `data/series/index-additions-sep09-t.json?v=${stamp}`,
+      `data/series/index-additions-sep09-u.json?v=${stamp}`
     ];
     const groups=await Promise.all(sources.map(async source=>{
       try{
@@ -62,7 +63,13 @@
       const baseRenderSeriesCard=renderSeriesCard;
       const wrappedRenderSeriesCard=function(series){
         let html=baseRenderSeriesCard(series);
-        const subtitle=series?.id==="star-trek-deep-space-nine-1993"?"Deep Space Nine":series?.id==="star-trek-enterprise-2001"?"Enterprise":"";
+        const starTrekSubtitles={
+          "star-trek-deep-space-nine-1993":"Deep Space Nine",
+          "star-trek-enterprise-2001":"Enterprise",
+          "star-trek-voyager-1995":"Voyager",
+          "star-trek-the-next-generation-1987":"The Next Generation"
+        };
+        const subtitle=starTrekSubtitles[series?.id] || "";
         if(!subtitle) return html;
         const displayed=series.cardTitle || series.title;
         const original=`<div class="cardTitle">${escapeHtml(displayed)}</div>`;
