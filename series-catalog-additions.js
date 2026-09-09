@@ -34,6 +34,38 @@
     if(typeof seriesCatalog==="undefined" || !Array.isArray(seriesCatalog)) return;
     const known=new Set(seriesCatalog.map(series=>series.id));
     additions.forEach(series=>{ if(!known.has(series.id)){ seriesCatalog.push(series); known.add(series.id); } });
+
+    const installStarTrekSeriesCardTitles=()=>{
+      if(typeof renderSeriesCard!=="function"){
+        setTimeout(installStarTrekSeriesCardTitles,25);
+        return;
+      }
+      if(renderSeriesCard.__sceneStarTrekTwoLine) return;
+      if(!document.getElementById("starTrekSeriesCardTitleStyles")){
+        const style=document.createElement("style");
+        style.id="starTrekSeriesCardTitleStyles";
+        style.textContent=`
+          .seriesCard .starTrekSeriesSubtitle{
+            color:#c59b45!important;
+          }
+        `;
+        document.head.appendChild(style);
+      }
+      const baseRenderSeriesCard=renderSeriesCard;
+      const wrappedRenderSeriesCard=function(series){
+        let html=baseRenderSeriesCard(series);
+        const subtitle=series?.id==="star-trek-deep-space-nine-1993"?"Deep Space Nine":series?.id==="star-trek-enterprise-2001"?"Enterprise":"";
+        if(!subtitle) return html;
+        const displayed=series.cardTitle || series.title;
+        const original=`<div class="cardTitle">${escapeHtml(displayed)}</div>`;
+        const replacement=`<div class="cardTitle">Star Trek</div><div class="cardSubtitle starTrekSeriesSubtitle">${escapeHtml(subtitle)}</div>`;
+        return html.replace(original,replacement);
+      };
+      wrappedRenderSeriesCard.__sceneStarTrekTwoLine=true;
+      renderSeriesCard=wrappedRenderSeriesCard;
+    };
+    installStarTrekSeriesCardTitles();
+
     if(typeof renderLibrary==="function") renderLibrary();
     const hash=location.hash;
     if(hash.startsWith("#series=")){
