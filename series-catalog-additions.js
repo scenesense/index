@@ -1,7 +1,15 @@
 (async function loadSceneSeriesAdditions(){
+  let loadingGrid=null;
   try{
     const status=document.getElementById("libraryStatus");
     if(status && typeof libraryMediaMode!=="undefined" && libraryMediaMode!=="movies") status.textContent="Loading full series catalogue…";
+
+    loadingGrid=document.getElementById("movieGrid");
+    if(loadingGrid && typeof libraryMediaMode!=="undefined" && libraryMediaMode!=="movies"){
+      loadingGrid.querySelectorAll(".seriesCard").forEach(card=>card.remove());
+      loadingGrid.setAttribute("aria-busy","true");
+    }
+
     const stamp=Date.now();
     const sources=[
       `data/series/index-additions.json?v=${stamp}`,
@@ -66,11 +74,15 @@
     };
     installStarTrekSeriesCardTitles();
 
+    if(loadingGrid) loadingGrid.removeAttribute("aria-busy");
     if(typeof renderLibrary==="function") renderLibrary();
     const hash=location.hash;
     if(hash.startsWith("#series=")){
       const id=decodeURIComponent(hash.replace(/^#series=/,""));
       if(additions.some(series=>series.id===id) && typeof openSeries==="function") openSeries(id,false);
     }
-  }catch(error){ console.error(error); }
+  }catch(error){
+    if(loadingGrid) loadingGrid.removeAttribute("aria-busy");
+    console.error(error);
+  }
 })();
