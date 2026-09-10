@@ -45,6 +45,26 @@
     const known=new Set(seriesCatalog.map(series=>series.id));
     additions.forEach(series=>{ if(!known.has(series.id)){ seriesCatalog.push(series); known.add(series.id); } });
 
+    const installSeriesFranchiseChronology=()=>{
+      if(typeof mixedTitle!=="function") return;
+      if(mixedTitle.__sceneSeriesFranchiseChronology) return;
+      const baseMixedTitle=mixedTitle;
+      const wrappedMixedTitle=function(item){
+        if(item?.kind==="series"){
+          const series=item.item || {};
+          const canonical=String(series.title||"").trim();
+          const lower=canonical.toLowerCase();
+          const year=String(Number(series.yearStart)||0).padStart(4,"0");
+          if(lower.startsWith("star trek")) return `star trek ${year}`;
+          if(lower.startsWith("stargate")) return `stargate ${year}`;
+        }
+        return baseMixedTitle(item);
+      };
+      wrappedMixedTitle.__sceneSeriesFranchiseChronology=true;
+      mixedTitle=wrappedMixedTitle;
+    };
+    installSeriesFranchiseChronology();
+
     const installStarTrekSeriesCardTitles=()=>{
       if(typeof renderSeriesCard!=="function"){
         setTimeout(installStarTrekSeriesCardTitles,25);
