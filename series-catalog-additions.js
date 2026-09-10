@@ -30,7 +30,8 @@
       `data/series/index-additions-sep08-s.json?v=${stamp}`,
       `data/series/index-additions-sep09-t.json?v=${stamp}`,
       `data/series/index-additions-sep09-u.json?v=${stamp}`,
-      `data/series/index-additions-sep09-tc.json?v=${stamp}`
+      `data/series/index-additions-sep09-tc.json?v=${stamp}`,
+      `data/series/index-additions-sep10-l.json?v=${stamp}`
     ];
     const groups=await Promise.all(sources.map(async source=>{
       try{
