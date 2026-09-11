@@ -1,12 +1,12 @@
 name: Temporary series catalogue append
 on:
   push:
-    branches: [__tmp-series-deploy-20260911]
+    branches: [main]
 permissions:
   contents: write
 jobs:
   append:
-    if: github.event.head_commit.message == 'Activate temporary series catalogue append'
+    if: github.event.head_commit.message == 'Activate temporary series catalogue append on main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
