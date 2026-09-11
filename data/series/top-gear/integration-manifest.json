@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "seriesId": "top-gear-2002",
+  "status": "deployed",
+  "series": "Top Gear",
+  "seasons": 22,
+  "episodes": "TBD",
+  "scoringRows": 0,
+  "yearStart": 2002,
+  "yearEnd": 2017,
+  "notes": "Placeholder limited to the requested 22-season Clarkson, Hammond and May Top Gear collection. Episode grouping, counts, runtimes and scoring rows are intentionally unset until the collection media is mapped."
+}
