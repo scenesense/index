@@ -1,0 +1,161 @@
+name: Fix Warehouse and Xena metadata
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-warehouse-xena.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Correct Warehouse pilot and Xena presentation
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          def load(path):
+              return json.loads(Path(path).read_text(encoding='utf-8'))
+
+          def save(path, data):
+              Path(path).write_text(json.dumps(data, ensure_ascii=False, separators=(',', ':')) + '\n', encoding='utf-8')
+
+          # --- Warehouse 13: Pilot is one physical scoring row representing E01-02 ---
+          wh_path = Path('data/series/warehouse-13/season-01.json')
+          wh = load(wh_path)
+          eps = wh['episodes']
+          assert len(eps) == 12, len(eps)
+          expected_titles = ['Pilot','Resonance','Magnetism','Claudia','Elements','Burnout','Implosion','Duped','Regrets','Breakdown','Nevermore','MacPherson']
+          assert [e['title'] for e in eps] == expected_titles
+          assert eps[0]['runtimeSeconds'] == 5265
+          eps[0]['id'] = 's01e01-02'
+          eps[0]['number'] = '01-02'
+          for old_number, ep in enumerate(eps[1:], start=2):
+              new_number = old_number + 1
+              assert ep['id'] == f's01e{old_number:02d}'
+              assert ep['number'] == f'{old_number:02d}'
+              ep['id'] = f's01e{new_number:02d}'
+              ep['number'] = f'{new_number:02d}'
+          save(wh_path, wh)
+
+          wh_meta_path = Path('data/series/warehouse-13/season-01-meta.json')
+          wh_meta = load(wh_meta_path)
+          old_meta = wh_meta['episodes']
+          assert list(old_meta) == [f's01e{i:02d}' for i in range(1,13)]
+          new_meta = {}
+          new_meta['s01e01-02'] = old_meta['s01e01']
+          for old_number in range(2,13):
+              new_meta[f's01e{old_number+1:02d}'] = old_meta[f's01e{old_number:02d}']
+          wh_meta['episodes'] = new_meta
+          save(wh_meta_path, wh_meta)
+
+          cat_path = Path('data/series/index-additions-sep11-last.json')
+          cat = load(cat_path)
+          warehouse = next(s for s in cat['series'] if s['id'] == 'warehouse-13-2009')
+          assert warehouse['episodeCount'] == 64 and warehouse['scoringEntryCount'] == 64
+          warehouse['episodeCount'] = 65
+          warehouse['scoringEntryCount'] = 64
+          s1 = next(s for s in warehouse['seasons'] if s['number'] == 1)
+          assert s1['episodeCount'] == 12 and s1['scoringEntryCount'] == 12
+          s1['episodeCount'] = 13
+          s1['scoringEntryCount'] = 12
+          save(cat_path, cat)
+
+          wh_manifest_path = Path('data/series/warehouse-13/integration-manifest.json')
+          wh_manifest = load(wh_manifest_path)
+          wh_manifest['episodes'] = 65
+          wh_manifest['scoringRows'] = 64
+          wh_manifest['notes'] = 'Built from media-scan-2026-09-11last.txt. The 87:45 Pilot is one physical scoring row representing S01E01-02; following Season 1 entries continue as E03-E13. Episode ordering, runtimes and collection scope follow the supplied scan.'
+          save(wh_manifest_path, wh_manifest)
+
+          # --- Xena: move M markers into the canonical episode-flags file ---
+          m_ids = [
+              's01e01','s01e02','s01e06','s01e08','s01e11','s01e12','s01e15','s01e21','s01e22',
+              's02e02','s02e05','s02e07','s02e08','s02e12','s02e13','s02e14','s02e16','s02e19',
+              's05e12','s05e16','s05e19','s05e20','s05e21','s05e22',
+              's06e01','s06e11','s06e14','s06e15'
+          ]
+          assert len(m_ids) == 28 and len(set(m_ids)) == 28
+          flags_path = Path('data/series/xena-warrior-princess/episode-flags.json')
+          save(flags_path, {'version':1,'seriesId':'xena-warrior-princess-1995','flags':{'M':m_ids}})
+
+          seen_markers = []
+          for season in range(1,7):
+              p = Path(f'data/series/xena-warrior-princess/season-{season:02d}.json')
+              data = load(p)
+              for ep in data['episodes']:
+                  if ep.get('marker') == 'M':
+                      seen_markers.append(ep['id'])
+                  ep.pop('marker', None)
+              save(p, data)
+          assert seen_markers == m_ids, (seen_markers, m_ids)
+
+          x_manifest_path = Path('data/series/xena-warrior-princess/integration-manifest.json')
+          x_manifest = load(x_manifest_path)
+          assert x_manifest.get('markers',{}).get('M') == 28
+          x_manifest['notes'] = 'Built from media-scan-2026-09-11last.txt. Episode ordering, numbering, runtimes and collection scope follow the supplied scan. The 28 [M] mythology/memorable selections are stored in episode-flags.json; S06E21-22 remains one physical UNCUT scoring entry.'
+          save(x_manifest_path, x_manifest)
+
+          # --- Remove the accidental raw [M] suffix renderer from base TV code ---
+          tv_path = Path('series-tv.js')
+          tv = tv_path.read_text(encoding='utf-8')
+          bad_list = '<div class="episodeCode">S${String(seasonData.season).padStart(2,"0")} E${escapeHtml(tvDisplayEpisodeNumber(ep.number))}${ep.marker?` [${escapeHtml(ep.marker)}]`:""}</div>'
+          good_list = '<div class="episodeCode">S${String(seasonData.season).padStart(2,"0")} E${escapeHtml(tvDisplayEpisodeNumber(ep.number))}</div>'
+          assert tv.count(bad_list) == 1, tv.count(bad_list)
+          tv = tv.replace(bad_list, good_list)
+          bad_detail = 'const meta=[`S${String(seasonData.season).padStart(2,"0")} E${tvDisplayEpisodeNumber(episode.number)}${episode.marker?` [${episode.marker}]`:""}`,runtime,year].filter(Boolean).join(" · ");'
+          good_detail = 'const meta=[`S${String(seasonData.season).padStart(2,"0")} E${tvDisplayEpisodeNumber(episode.number)}`,runtime,year].filter(Boolean).join(" · ");'
+          assert tv.count(bad_detail) == 1, tv.count(bad_detail)
+          tv = tv.replace(bad_detail, good_detail)
+          assert 'ep.marker' not in tv and 'episode.marker' not in tv
+          tv_path.write_text(tv, encoding='utf-8')
+
+          # --- Xena library card: same two-line hierarchy used for Star Trek cards ---
+          cards_path = Path('series-catalog-additions.js')
+          cards = cards_path.read_text(encoding='utf-8')
+          anchor = '        let html=baseRenderSeriesCard(series);\n        const starTrekSubtitles={'
+          replacement = '''        let html=baseRenderSeriesCard(series);\n        if(series?.id==="xena-warrior-princess-1995"){\n          const displayed=series.cardTitle || series.title;\n          const original=`<div class="cardTitle">${escapeHtml(displayed)}</div>`;\n          const replacement=`<div class="cardTitle">Xena</div><div class="cardSubtitle starTrekSeriesSubtitle">Warrior Princess</div>`;\n          return html.replace(original,replacement);\n        }\n        const starTrekSubtitles={'''
+          assert cards.count(anchor) == 1, cards.count(anchor)
+          cards = cards.replace(anchor, replacement)
+          assert 'xena-warrior-princess-1995' in cards
+          assert '<div class="cardTitle">Xena</div><div class="cardSubtitle starTrekSeriesSubtitle">Warrior Princess</div>' in cards
+          cards_path.write_text(cards, encoding='utf-8')
+
+          # --- Hard validation ---
+          wh = load(wh_path)
+          assert len(wh['episodes']) == 12
+          assert wh['episodes'][0]['id'] == 's01e01-02' and wh['episodes'][0]['number'] == '01-02'
+          assert wh['episodes'][1]['id'] == 's01e03' and wh['episodes'][1]['title'] == 'Resonance'
+          assert wh['episodes'][-1]['id'] == 's01e13' and wh['episodes'][-1]['title'] == 'MacPherson'
+          warehouse = next(s for s in load(cat_path)['series'] if s['id'] == 'warehouse-13-2009')
+          assert (warehouse['episodeCount'],warehouse['scoringEntryCount']) == (65,64)
+          s1 = next(s for s in warehouse['seasons'] if s['number'] == 1)
+          assert (s1['episodeCount'],s1['scoringEntryCount']) == (13,12)
+          assert (load(wh_manifest_path)['episodes'],load(wh_manifest_path)['scoringRows']) == (65,64)
+          flags = load(flags_path)
+          assert flags['flags']['M'] == m_ids
+          for season in range(1,7):
+              data = load(f'data/series/xena-warrior-princess/season-{season:02d}.json')
+              assert all('marker' not in ep for ep in data['episodes'])
+          assert load('data/series/xena-warrior-princess/season-06.json')['episodes'][-1]['id'] == 's06e21-22'
+          assert load('data/series/xena-warrior-princess/season-06.json')['episodes'][-1]['edition'] == 'UNCUT'
+          print('Validated: Warehouse 65/64 with S01 pilot E01-02; Xena 28 canonical M flags and two-line card.')
+          PY
+
+      - name: Commit corrections
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/series/warehouse-13 data/series/xena-warrior-princess data/series/index-additions-sep11-last.json series-tv.js series-catalog-additions.js
+          git commit -m "Fix Warehouse pilot and Xena M flags"
+          git push origin main
