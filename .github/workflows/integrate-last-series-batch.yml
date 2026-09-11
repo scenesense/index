@@ -1,0 +1,139 @@
+name: Integrate final series batch
+
+on:
+  push:
+    paths:
+      - '.github/workflows/integrate-last-series-batch.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build, patch and validate final series batch
+        shell: bash
+        run: |
+          python - <<'PY'
+          import base64, gzip, json
+          from pathlib import Path
+
+          chunks = sorted(Path('.scene-temp').glob('last-batch-*.b64'))
+          assert len(chunks) == 6, f'expected 6 payload chunks, found {len(chunks)}'
+          encoded = ''.join(p.read_text(encoding='utf-8').strip() for p in chunks)
+          files = json.loads(gzip.decompress(base64.b64decode(encoded)).decode('utf-8'))
+          assert isinstance(files, dict) and len(files) == 44, f'expected 44 generated files, found {len(files)}'
+
+          for raw_path, content in files.items():
+              path = Path(raw_path)
+              path.parent.mkdir(parents=True, exist_ok=True)
+              path.write_text(content, encoding='utf-8')
+              if path.suffix == '.json':
+                  json.loads(content)
+
+          tg_path = Path('data/series/index-additions-sep09-tc.json')
+          tg = json.loads(tg_path.read_text(encoding='utf-8'))
+          top_gear = next((s for s in tg['series'] if s.get('id') == 'top-gear-2002'), None)
+          assert top_gear is not None, 'Top Gear catalogue entry missing'
+          top_gear['poster'] = 'assets/posters/top-gear-2002.webp'
+          tg_path.write_text(json.dumps(tg, ensure_ascii=False, separators=(',', ':')) + '\n', encoding='utf-8')
+
+          loader_path = Path('series-catalog-additions.js')
+          loader = loader_path.read_text(encoding='utf-8')
+          new_source = '      `data/series/index-additions-sep11-last.json?v=${stamp}`'
+          if new_source not in loader:
+              anchor = '      `data/series/index-additions-sep10-fkl.json?v=${stamp}`'
+              assert anchor in loader, 'catalogue source-list anchor missing'
+              loader = loader.replace(anchor, anchor + ',\n' + new_source, 1)
+          loader_path.write_text(loader, encoding='utf-8')
+
+          tv_path = Path('series-tv.js')
+          tv = tv_path.read_text(encoding='utf-8')
+          old_card = 'E${escapeHtml(tvDisplayEpisodeNumber(ep.number))}</div>'
+          new_card = 'E${escapeHtml(tvDisplayEpisodeNumber(ep.number))}${ep.marker?` [${escapeHtml(ep.marker)}]`:""}</div>'
+          if new_card not in tv:
+              assert tv.count(old_card) == 1, f'episode-card marker anchor count {tv.count(old_card)}'
+              tv = tv.replace(old_card, new_card, 1)
+          old_detail = 'E${tvDisplayEpisodeNumber(episode.number)}`,runtime,year]'
+          new_detail = 'E${tvDisplayEpisodeNumber(episode.number)}${episode.marker?` [${episode.marker}]`:""}`,runtime,year]'
+          if new_detail not in tv:
+              assert tv.count(old_detail) == 1, f'episode-detail marker anchor count {tv.count(old_detail)}'
+              tv = tv.replace(old_detail, new_detail, 1)
+          tv_path.write_text(tv, encoding='utf-8')
+
+          cat_path = Path('data/series/index-additions-sep11-last.json')
+          cat = json.loads(cat_path.read_text(encoding='utf-8'))
+          by_id = {s['id']: s for s in cat['series']}
+          expected = {
+              'tijuana-toads-1969': (17, 17, 1, 'BRAZiER35', 'assets/posters/tijuana-toads-1969.webp'),
+              'tomb-raider-2024': (16, 16, 2, 'BRAZiER35', 'assets/posters/tomb-raider-2024.webp'),
+              'tru-calling-2003': (13, 13, 1, 'PRiSM', 'assets/posters/tru-calling-2003.webp'),
+              'what-about-brian-2006': (25, 25, 2, 'SiLVER70', 'assets/posters/what-about-brian-2006.webp'),
+              'wonderfalls-2004': (13, 13, 1, 'PRiSM', 'assets/posters/wonderfalls-2004.webp'),
+              'xena-warrior-princess-1995': (134, 133, 6, 'PRiSM', 'assets/posters/xena-warrior-princess-1995.webp'),
+              'warehouse-13-2009': (64, 64, 5, 'SiLVER70', 'assets/posters/warehouse-13-2009.webp'),
+          }
+          assert set(by_id) == set(expected), f'unexpected final-batch ids: {set(by_id) ^ set(expected)}'
+          for sid, (episodes, entries, seasons, fmt, poster) in expected.items():
+              s = by_id[sid]
+              assert s['episodeCount'] == episodes, (sid, 'episodeCount', s['episodeCount'])
+              assert s['scoringEntryCount'] == entries, (sid, 'scoringEntryCount', s['scoringEntryCount'])
+              assert s['seasonCount'] == seasons, (sid, 'seasonCount', s['seasonCount'])
+              assert s['format'] == fmt, (sid, 'format', s['format'])
+              assert s['poster'] == poster, (sid, 'poster', s['poster'])
+
+          assert top_gear['poster'] == 'assets/posters/top-gear-2002.webp'
+          assert by_id['tru-calling-2003']['poster'] == 'assets/posters/tru-calling-2003.webp'
+          assert 'truau-calling' not in json.dumps(cat)
+
+          xena_rows = []
+          for season in range(1, 7):
+              data = json.loads(Path(f'data/series/xena-warrior-princess/season-{season:02d}.json').read_text(encoding='utf-8'))
+              xena_rows.extend(data['episodes'])
+          assert len(xena_rows) == 133, len(xena_rows)
+          marked = [ep for ep in xena_rows if ep.get('marker') == 'M']
+          assert len(marked) == 28, len(marked)
+          assert all(ep.get('marker') in (None, 'M') for ep in xena_rows)
+          last = xena_rows[-1]
+          assert last['id'] == 's06e21-22'
+          assert last['number'] == '21-22'
+          assert last['title'] == 'A Friend In Need'
+          assert last['edition'] == 'UNCUT'
+          xena_s6 = by_id['xena-warrior-princess-1995']['seasons'][-1]
+          assert xena_s6['episodeCount'] == 22 and xena_s6['scoringEntryCount'] == 21
+
+          assert new_source in loader_path.read_text(encoding='utf-8')
+          rendered = tv_path.read_text(encoding='utf-8')
+          assert new_card in rendered and new_detail in rendered
+
+          posters = [
+              'assets/posters/top-gear-2002.webp',
+              'assets/posters/tijuana-toads-1969.webp',
+              'assets/posters/tomb-raider-2024.webp',
+              'assets/posters/tru-calling-2003.webp',
+              'assets/posters/warehouse-13-2009.webp',
+              'assets/posters/what-about-brian-2006.webp',
+              'assets/posters/wonderfalls-2004.webp',
+              'assets/posters/xena-warrior-princess-1995.webp',
+          ]
+          missing = [p for p in posters if not Path(p).is_file()]
+          assert not missing, f'missing posters: {missing}'
+
+          print('Validated 7 series / 281 scoring rows / Xena 134 numbered, 133 physical, 28 [M] markers.')
+          PY
+
+      - name: Commit deployed data and remove staged payload
+        shell: bash
+        run: |
+          rm -rf .scene-temp
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --stat
+          git commit -m "Integrate final series batch and Top Gear poster"
+          git push origin HEAD:main
