@@ -281,7 +281,7 @@ function renderTvSeason(series,seasonData){
     const score=tvEpisodeScore(seasonData,ep);
     const runtime=tvRuntimeText(ep.runtimeSeconds);
     return `<button class="episodeCard" type="button" data-episode="${escapeAttr(ep.id)}">
-      <div class="episodeCode">S${String(seasonData.season).padStart(2,"0")} E${escapeHtml(tvDisplayEpisodeNumber(ep.number))}${ep.marker?` [${escapeHtml(ep.marker)}]`:""}</div>
+      <div class="episodeCode">S${String(seasonData.season).padStart(2,"0")} E${escapeHtml(tvDisplayEpisodeNumber(ep.number))}</div>
       <div><div class="episodeTitle">${escapeHtml(ep.title)}</div>${runtime?`<div class="episodeRuntime">${runtime}</div>`:""}</div>
       <div class="episodeScore">${scoreText(score)}</div>
     </button>`;
@@ -333,7 +333,7 @@ function renderTvEpisode(series,seasonData,episode){
   const seasonRated=tvRatedCount(seasonData.seasonRatings,TV_SEASON_CATEGORIES);
   const runtime=tvRuntimeText(episode.runtimeSeconds);
   const year=seasonData.yearStart===seasonData.yearEnd?String(seasonData.yearStart):`${seasonData.yearStart}\u2013${seasonData.yearEnd}`;
-  const meta=[`S${String(seasonData.season).padStart(2,"0")} E${tvDisplayEpisodeNumber(episode.number)}${episode.marker?` [${episode.marker}]`:""}`,runtime,year].filter(Boolean).join(" · ");
+  const meta=[`S${String(seasonData.season).padStart(2,"0")} E${tvDisplayEpisodeNumber(episode.number)}`,runtime,year].filter(Boolean).join(" · ");
 
   hero.innerHTML=`<div class="tvSubHero">
     <div class="tvKicker">${escapeHtml(series.title)}</div>

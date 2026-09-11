@@ -87,6 +87,12 @@
       const baseRenderSeriesCard=renderSeriesCard;
       const wrappedRenderSeriesCard=function(series){
         let html=baseRenderSeriesCard(series);
+        if(series?.id==="xena-warrior-princess-1995"){
+          const displayed=series.cardTitle || series.title;
+          const original=`<div class="cardTitle">${escapeHtml(displayed)}</div>`;
+          const replacement=`<div class="cardTitle">Xena</div><div class="cardSubtitle starTrekSeriesSubtitle">Warrior Princess</div>`;
+          return html.replace(original,replacement);
+        }
         const starTrekSubtitles={
           "star-trek-deep-space-nine-1993":"Deep Space Nine",
           "star-trek-enterprise-2001":"Enterprise",
