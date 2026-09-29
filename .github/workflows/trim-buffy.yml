@@ -1,0 +1,137 @@
+name: Trim Buffy collection
+
+on:
+  push:
+    paths:
+      - '.github/workflows/trim-buffy.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  trim:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Trim Buffy to curated six-season collection
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          def load(path):
+              return json.loads(Path(path).read_text(encoding='utf-8'))
+
+          def save(path, data):
+              Path(path).write_text(json.dumps(data, ensure_ascii=False, separators=(',', ':')) + '\n', encoding='utf-8')
+
+          root = Path('data/series/buffy-the-vampire-slayer')
+
+          # Season 6: retain E01-E08, then promote original E17 Normal Again to new E09.
+          s6_path = root / 'season-06.json'
+          s6 = load(s6_path)
+          assert len(s6['episodes']) == 22
+          original = {ep['id']: ep for ep in s6['episodes']}
+          assert original['s06e17']['title'] == 'Normal Again'
+          retained = [original[f's06e{i:02d}'] for i in range(1,9)]
+          normal = dict(original['s06e17'])
+          normal['id'] = 's06e09'
+          normal['number'] = '09'
+          normal['runtimeSeconds'] = 36*60 + 31
+          retained.append(normal)
+          s6['episodes'] = retained
+          save(s6_path, s6)
+
+          # Season 6 presentation metadata: same promotion, exact alternate-ending tag convention as Chuck.
+          s6m_path = root / 'season-06-meta.json'
+          s6m = load(s6m_path)
+          old_meta = s6m['episodes']
+          assert 's06e17' in old_meta and 's06e09' in old_meta
+          new_meta = {f's06e{i:02d}': old_meta[f's06e{i:02d}'] for i in range(1,9)}
+          promoted = dict(old_meta['s06e17'])
+          promoted['runtimeSeconds'] = 36*60 + 31
+          promoted['cutLabel'] = 'ALTERNATE ENDING'
+          new_meta['s06e09'] = promoted
+          s6m['episodes'] = new_meta
+          save(s6m_path, s6m)
+
+          # M flags: retain only episodes that still physically exist.
+          flags_path = root / 'episode-flags.json'
+          flags = load(flags_path)
+          old_flags = flags['flags']['M']
+          retained_ids = set()
+          for season in range(1,6):
+              data = load(root / f'season-{season:02d}.json')
+              retained_ids.update(ep['id'] for ep in data['episodes'])
+          retained_ids.update(ep['id'] for ep in retained)
+          flags['flags']['M'] = [eid for eid in old_flags if eid in retained_ids]
+          save(flags_path, flags)
+
+          # Catalogue: six seasons, ending in 2002, 109 retained/scoring episodes.
+          index_path = Path('data/series/index.json')
+          index = load(index_path)
+          buffy = next(s for s in index['series'] if s['id'] == 'buffy-the-vampire-slayer-1997')
+          assert buffy['seasonCount'] == 7 and buffy['episodeCount'] == 144 and buffy['scoringEntryCount'] == 144
+          assert len(buffy['seasons']) == 7
+          buffy['yearEnd'] = 2002
+          buffy['seasonCount'] = 6
+          buffy['episodeCount'] = 109
+          buffy['scoringEntryCount'] = 109
+          buffy['seasons'] = [s for s in buffy['seasons'] if s['number'] <= 6]
+          s6cat = next(s for s in buffy['seasons'] if s['number'] == 6)
+          s6cat['episodeCount'] = 9
+          s6cat['scoringEntryCount'] = 9
+
+          # Recompute aggregate runtime from retained canonical season rows.
+          runtime = 0
+          count = 0
+          for season in range(1,7):
+              data = load(root / f'season-{season:02d}.json')
+              count += len(data['episodes'])
+              runtime += sum(int(ep.get('runtimeSeconds') or 0) for ep in data['episodes'])
+          assert count == 109, count
+          assert runtime == 290595, runtime
+          buffy['runtimeSeconds'] = runtime
+          save(index_path, index)
+
+          # Remove Season 7 entirely.
+          for name in ('season-07.json','season-07-meta.json'):
+              p = root / name
+              assert p.exists()
+              p.unlink()
+
+          # Hard audit.
+          final_s6 = load(s6_path)
+          assert [ep['id'] for ep in final_s6['episodes']] == [f's06e{i:02d}' for i in range(1,10)]
+          assert final_s6['episodes'][-1]['title'] == 'Normal Again'
+          assert final_s6['episodes'][-1]['runtimeSeconds'] == 2191
+          final_meta = load(s6m_path)
+          assert list(final_meta['episodes']) == [f's06e{i:02d}' for i in range(1,10)]
+          assert final_meta['episodes']['s06e09']['cutLabel'] == 'ALTERNATE ENDING'
+          assert final_meta['episodes']['s06e09']['runtimeSeconds'] == 2191
+          final_flags = load(flags_path)['flags']['M']
+          assert all(not x.startswith('s07') for x in final_flags)
+          assert all(not (x.startswith('s06e') and int(x[5:7]) > 9) for x in final_flags)
+          assert 's06e09' in final_flags
+          final_index = load(index_path)
+          b = next(s for s in final_index['series'] if s['id'] == 'buffy-the-vampire-slayer-1997')
+          assert (b['yearEnd'], b['seasonCount'], b['episodeCount'], b['scoringEntryCount'], b['runtimeSeconds']) == (2002,6,109,109,290595)
+          assert len(b['seasons']) == 6 and b['seasons'][-1]['number'] == 6
+          assert (b['seasons'][-1]['episodeCount'], b['seasons'][-1]['scoringEntryCount']) == (9,9)
+          assert not (root / 'season-07.json').exists()
+          assert not (root / 'season-07-meta.json').exists()
+          print('Validated Buffy trim: 6 seasons / 109 episodes; S06E09 Normal Again 36:31 with ALTERNATE ENDING.')
+          PY
+
+      - name: Commit Buffy trim
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A data/series/buffy-the-vampire-slayer data/series/index.json
+          git commit -m "Trim Buffy to curated six-season collection"
+          git push origin main
