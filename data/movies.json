@@ -2266,6 +2266,143 @@
         }
       },
       "tmdbId": 45612
+    },
+    {
+      "id": "white-collar-2009",
+      "title": "White Collar",
+      "year": 2009,
+      "runtimeMinutes": 61,
+      "runtimeSeconds": 3637,
+      "runtimeExact": "01:00:37",
+      "version": "Television Movie",
+      "poster": "assets/posters/white-collar-2009.webp",
+      "description": "Brilliant con artist Neal Caffrey escapes prison to search for the woman he loves, only to be recaptured by FBI agent Peter Burke. Neal bargains for supervised release as Peter's consultant, turning the hunter and fugitive into an uneasy team solving sophisticated white-collar crimes.",
+      "actors": [
+        "Matt Bomer",
+        "Tim DeKay",
+        "Willie Garson",
+        "Tiffani-Amber Thiessen",
+        "Sharif Atkins"
+      ],
+      "genres": [
+        "Crime",
+        "Drama",
+        "Comedy"
+      ],
+      "ratings": {
+        "writing": {
+          "storyQuality": 5,
+          "storyLogic": 5,
+          "development": 3,
+          "construction": 4,
+          "dialogue": 5
+        },
+        "character": {
+          "characterDepth": 5,
+          "drive": 5,
+          "consistency": 5,
+          "practicalIntelligence": 4,
+          "maturity": 4
+        },
+        "realism": {
+          "humanRealism": 4,
+          "realityGrounding": 5,
+          "practicalRealism": 5,
+          "technicalRealism": 5,
+          "physicalRealism": 5
+        },
+        "casting": {
+          "functionalFit": 5,
+          "roleFit": 5,
+          "aesthetics": 4,
+          "magnetism": 4,
+          "ensembleFit": 5
+        },
+        "performance": {
+          "characterization": 5,
+          "emotionalLife": 5,
+          "delivery": 5,
+          "physicalPerformance": 4,
+          "performanceControl": 4
+        },
+        "chemistry": {
+          "connection": 5,
+          "flow": 5,
+          "relationshipDepth": 4,
+          "relationshipGrowth": 4,
+          "relationshipCharge": 4
+        },
+        "direction": {
+          "staging": 3,
+          "actorDirection": 4,
+          "tone": 3,
+          "action": 4,
+          "directorialControl": 2
+        },
+        "editing": {
+          "pacing": 4,
+          "rhythm": 4,
+          "cutting": 3,
+          "clarity": 5,
+          "restraint": 4
+        },
+        "visuals": {
+          "photography": 4,
+          "imageDesign": 5,
+          "imageQuality": 5,
+          "visualEffects": 3,
+          "visualBeauty": 4
+        },
+        "world": {
+          "worldDepth": 2,
+          "place": 3,
+          "productionDesign": 2,
+          "effectsRealization": 4,
+          "designRestraint": 3
+        },
+        "sound": {
+          "soundQuality": 3,
+          "dialogue": 5,
+          "soundscape": 4,
+          "spatialSound": 4,
+          "mixing": 4
+        },
+        "music": {
+          "musicQuality": 2,
+          "execution": 2,
+          "musicalIdentity": 1,
+          "sceneFit": 3,
+          "scoreControl": 2
+        },
+        "creativity": {
+          "originality": 5,
+          "ingenuity": 5,
+          "ideaGrowth": 4,
+          "filmicInvention": 3,
+          "resourcefulness": 5
+        },
+        "morality": {
+          "humanValues": 5,
+          "relationshipEthics": 4,
+          "responsibility": 4,
+          "moralOpposition": 5,
+          "ethicalFraming": 4
+        },
+        "integrity": {
+          "independence": 4,
+          "viewerRespect": 5,
+          "restraint": 4,
+          "degradation": 5,
+          "cohesion": 4
+        }
+      },
+      "tmdbId": 21510,
+      "audio": {
+        "layouts": [
+          "5.1"
+        ],
+        "lossless": true
+      }
     }
   ]
 }
