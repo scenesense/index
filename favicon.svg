@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>SceneSense</title>
+  <rect x="3" y="3" width="58" height="58" rx="13" fill="#0a111e" stroke="#3b4f61" stroke-width="2"/>
+  <path d="M14 20 47 13 49 20 16 27Z" fill="#d5e0ec"/>
+  <path d="m23 18 5 6m7-8 5 6m5-8 4 6" stroke="#0a111e" stroke-width="3.2"/>
+  <rect x="13" y="25" width="38" height="26" rx="5" fill="#10202e" stroke="#5ad6c5" stroke-width="3"/>
+  <path d="M28 31v14l13-7Z" fill="#ebbe70"/>
+</svg>
