@@ -175,6 +175,7 @@ function injectTvEnhancementStyles(){
     .scoreLine .detailPrismBadge,
     .scoreLine .detailSilver55Badge,
     .scoreLine .detailSilver70Badge,
+    .scoreLine .detailSilver8Badge,
     .scoreLine .detailSilver35Badge,
     .scoreLine .detailClarity70Badge{
       width:auto!important;
@@ -199,6 +200,7 @@ function injectTvEnhancementStyles(){
       .scoreLine .detailPrismBadge,
       .scoreLine .detailSilver55Badge,
       .scoreLine .detailSilver70Badge,
+    .scoreLine .detailSilver8Badge,
       .scoreLine .detailSilver35Badge,
       .scoreLine .detailClarity70Badge{max-width:170px!important;max-height:52px!important;margin-left:18px!important}
     }
