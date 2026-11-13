@@ -32,7 +32,7 @@ The GitHub connector is the normal way to work on this repo. Do not tell the use
 
 SceneSense is a static GitHub Pages movie database and scoring application built around the user's independent **Movie Quality Index** rather than IMDb/Rotten Tomatoes/awards/popularity.
 
-The public library is read-only. The owner can unlock scoring in the browser with a fine-grained GitHub personal access token. The token is kept in `sessionStorage`, is never committed, and is used by the site to update scores through the GitHub Contents API.
+The public library is read-only. The owner can unlock scoring in the browser with a fine-grained GitHub personal access token. The token is kept in this browser's `localStorage` across browser restarts (and migrated from legacy `sessionStorage` where available), is never committed, and is used by the site to update scores through the GitHub Contents API. Selecting **Lock scoring** clears both local and session storage. Local storage is not encrypted and should only be used on a trusted browser/device.
 
 The current visual design is dark navy/black, compact, poster-first, and intentionally information-dense without becoming a conventional streaming-service UI.
 

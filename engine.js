@@ -4,6 +4,7 @@ let savedData = null;
 let runtimeManifest = [];
 let supplementalMovies = [];
 let activeMovieId = null;
+const ADMIN_TOKEN_KEY = "scenesense_admin_token";
 let adminToken = "";
 let dirty = false;
 let query = "";
@@ -290,8 +291,10 @@ async function validateToken(token){
 
 async function unlock(token){
   await validateToken(token);
+  // Persist only in this browser; no credentials are written into repository files.
+  localStorage.setItem(ADMIN_TOKEN_KEY,token);
+  sessionStorage.removeItem(ADMIN_TOKEN_KEY);
   adminToken=token;
-  sessionStorage.setItem("scenesense_admin_token",token);
   $("adminBtn").textContent="Lock scoring";
   $("adminDialog").close();
   renderMovie();
@@ -299,7 +302,8 @@ async function unlock(token){
 
 function lock(){
   adminToken="";
-  sessionStorage.removeItem("scenesense_admin_token");
+  localStorage.removeItem(ADMIN_TOKEN_KEY);
+  sessionStorage.removeItem(ADMIN_TOKEN_KEY);
   $("adminBtn").textContent="Unlock scoring";
   if(activeMovieId) renderMovie();
 }
@@ -400,6 +404,15 @@ $("homeBtn").addEventListener("click",()=>{ if(activeMovieId) closeMovie(); });
 $("saveBtn").addEventListener("click",saveData);
 $("revertBtn").addEventListener("click",revertChanges);
 $("adminBtn").addEventListener("click",()=> adminToken ? lock() : showAdminDialog());
+// If another tab locks scoring, immediately lock this tab as well.
+window.addEventListener("storage",event=>{
+  if(event.key===ADMIN_TOKEN_KEY && event.newValue===null && adminToken){
+    adminToken="";
+    sessionStorage.removeItem(ADMIN_TOKEN_KEY);
+    $("adminBtn").textContent="Unlock scoring";
+    if(activeMovieId) renderMovie();
+  }
+});
 
 $("adminForm").addEventListener("submit",async e=>{
   e.preventDefault();
@@ -436,15 +449,19 @@ window.addEventListener("beforeunload",e=>{
 (async function init(){
   try{
     await loadData();
-    const stored=sessionStorage.getItem("scenesense_admin_token");
+    const stored=localStorage.getItem(ADMIN_TOKEN_KEY) || sessionStorage.getItem(ADMIN_TOKEN_KEY);
     if(stored){
       try{
         await validateToken(stored);
+        // Migrate any surviving session-only token to persistent browser storage.
+        localStorage.setItem(ADMIN_TOKEN_KEY,stored);
+        sessionStorage.removeItem(ADMIN_TOKEN_KEY);
         adminToken=stored;
         $("adminBtn").textContent="Lock scoring";
         if(activeMovieId) renderMovie();
-      }catch{
-        sessionStorage.removeItem("scenesense_admin_token");
+      }catch(error){
+        // A temporary network or GitHub failure must not erase a saved token.
+        console.warn("SceneSense could not restore scoring access:",error);
       }
     }
   }catch(err){
