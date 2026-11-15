@@ -2788,7 +2788,7 @@
         "character": {
           "characterDepth": 5,
           "drive": 5,
-          "consistency": 5,
+          "consistency": 4,
           "practicalIntelligence": 4,
           "maturity": 5
         },
@@ -2821,7 +2821,7 @@
           "relationshipCharge": 5
         },
         "direction": {
-          "staging": 5,
+          "staging": 4,
           "actorDirection": 5,
           "tone": 5,
           "action": 4,
@@ -2845,7 +2845,7 @@
           "worldDepth": 4,
           "place": 5,
           "productionDesign": 5,
-          "effectsRealization": 5,
+          "effectsRealization": 4,
           "designRestraint": 5
         },
         "sound": {
