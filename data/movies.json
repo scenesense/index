@@ -2403,6 +2403,144 @@
         ],
         "lossless": true
       }
+    },
+    {
+      "id": "the-time-travelers-wife-2009",
+      "title": "The Time Traveler’s Wife",
+      "year": 2009,
+      "runtimeMinutes": 107,
+      "runtimeSeconds": 6445,
+      "runtimeExact": "01:47:25",
+      "version": "Theatrical Cut",
+      "poster": "assets/posters/the-time-travelers-wife-2009.webp",
+      "description": "Librarian Henry DeTamble has a genetic condition that causes him to disappear unpredictably into different moments of his own life. His relationship with Clare Abshire therefore unfolds out of sequence, forcing both of them to build a marriage around absences, foreknowledge and events neither can reliably prevent.",
+      "actors": [
+        "Eric Bana",
+        "Rachel McAdams",
+        "Arliss Howard",
+        "Ron Livingston",
+        "Stephen Tobolowsky"
+      ],
+      "genres": [
+        "Romance",
+        "Drama",
+        "Science Fiction"
+      ],
+      "ratings": {
+        "writing": {
+          "storyQuality": 5,
+          "storyLogic": 5,
+          "development": 5,
+          "construction": 4,
+          "dialogue": 5
+        },
+        "character": {
+          "characterDepth": 4,
+          "drive": 4,
+          "consistency": 4,
+          "practicalIntelligence": 3,
+          "maturity": 5
+        },
+        "realism": {
+          "humanRealism": 5,
+          "realityGrounding": 4,
+          "practicalRealism": 3,
+          "technicalRealism": 2,
+          "physicalRealism": 4
+        },
+        "casting": {
+          "functionalFit": 5,
+          "roleFit": 5,
+          "aesthetics": 5,
+          "magnetism": 5,
+          "ensembleFit": 5
+        },
+        "performance": {
+          "characterization": 5,
+          "emotionalLife": 5,
+          "delivery": 4,
+          "physicalPerformance": 5,
+          "performanceControl": 4
+        },
+        "chemistry": {
+          "connection": 4,
+          "flow": 3,
+          "relationshipDepth": 5,
+          "relationshipGrowth": 4,
+          "relationshipCharge": 5
+        },
+        "direction": {
+          "staging": 3,
+          "actorDirection": 4,
+          "tone": 5,
+          "action": 5,
+          "directorialControl": 5
+        },
+        "editing": {
+          "pacing": 4,
+          "rhythm": 4,
+          "cutting": 3,
+          "clarity": 4,
+          "restraint": 4
+        },
+        "visuals": {
+          "photography": 5,
+          "imageDesign": 4,
+          "imageQuality": 4,
+          "visualEffects": 2,
+          "visualBeauty": 4
+        },
+        "world": {
+          "worldDepth": 2,
+          "place": 2,
+          "productionDesign": 4,
+          "effectsRealization": 2,
+          "designRestraint": 5
+        },
+        "sound": {
+          "soundQuality": 3,
+          "dialogue": 4,
+          "soundscape": 4,
+          "spatialSound": 3,
+          "mixing": 4
+        },
+        "music": {
+          "musicQuality": 2,
+          "execution": 3,
+          "musicalIdentity": 2,
+          "sceneFit": 3,
+          "scoreControl": 1
+        },
+        "creativity": {
+          "originality": 4,
+          "ingenuity": 5,
+          "ideaGrowth": 5,
+          "filmicInvention": 4,
+          "resourcefulness": 5
+        },
+        "morality": {
+          "humanValues": 4,
+          "relationshipEthics": 5,
+          "responsibility": 5,
+          "moralOpposition": 3,
+          "ethicalFraming": 5
+        },
+        "integrity": {
+          "independence": 5,
+          "viewerRespect": 5,
+          "restraint": 5,
+          "degradation": 5,
+          "cohesion": 5
+        }
+      },
+      "tmdbId": 24420,
+      "audio": {
+        "layouts": [
+          "5.1"
+        ],
+        "lossless": true,
+        "quality": "24-bit"
+      }
     }
   ]
 }
