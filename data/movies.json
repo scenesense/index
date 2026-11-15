@@ -1489,7 +1489,113 @@
         "Jacqueline Bisset",
         "Moira Kelly"
       ],
-      "ratings": {}
+      "ratings": {
+        "writing": {
+          "storyQuality": 4,
+          "storyLogic": 3,
+          "development": 3,
+          "construction": 3,
+          "dialogue": 2
+        },
+        "character": {
+          "characterDepth": 4,
+          "drive": 3,
+          "consistency": 5,
+          "practicalIntelligence": 3,
+          "maturity": 3
+        },
+        "realism": {
+          "humanRealism": 3,
+          "realityGrounding": 4,
+          "practicalRealism": 4,
+          "technicalRealism": 3,
+          "physicalRealism": 5
+        },
+        "casting": {
+          "functionalFit": 5,
+          "roleFit": 5,
+          "aesthetics": 5,
+          "magnetism": 5,
+          "ensembleFit": 4
+        },
+        "performance": {
+          "characterization": 3,
+          "emotionalLife": 4,
+          "delivery": 2,
+          "physicalPerformance": 5,
+          "performanceControl": 3
+        },
+        "chemistry": {
+          "connection": 3,
+          "flow": 3,
+          "relationshipDepth": 4,
+          "relationshipGrowth": 4,
+          "relationshipCharge": 2
+        },
+        "direction": {
+          "staging": 5,
+          "actorDirection": 2,
+          "tone": 3,
+          "action": 3,
+          "directorialControl": 3
+        },
+        "editing": {
+          "pacing": 2,
+          "rhythm": 3,
+          "cutting": 3,
+          "clarity": 4,
+          "restraint": 3
+        },
+        "visuals": {
+          "photography": 5,
+          "imageDesign": 5,
+          "imageQuality": 4,
+          "visualEffects": 4,
+          "visualBeauty": 4
+        },
+        "world": {
+          "worldDepth": 4,
+          "place": 5,
+          "productionDesign": 5,
+          "effectsRealization": 5,
+          "designRestraint": 4
+        },
+        "sound": {
+          "soundQuality": 4,
+          "dialogue": 4,
+          "soundscape": 3,
+          "spatialSound": 2,
+          "mixing": 3
+        },
+        "music": {
+          "musicQuality": 3,
+          "execution": 3,
+          "musicalIdentity": 2,
+          "sceneFit": 3,
+          "scoreControl": 3
+        },
+        "creativity": {
+          "originality": 3,
+          "ingenuity": 4,
+          "ideaGrowth": 3,
+          "filmicInvention": 3,
+          "resourcefulness": 4
+        },
+        "morality": {
+          "humanValues": 3,
+          "relationshipEthics": 2,
+          "responsibility": 3,
+          "moralOpposition": 4,
+          "ethicalFraming": 3
+        },
+        "integrity": {
+          "independence": 5,
+          "viewerRespect": 5,
+          "restraint": 4,
+          "degradation": 5,
+          "cohesion": 3
+        }
+      }
     },
     {
       "id": "dark-water-2005",
