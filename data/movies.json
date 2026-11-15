@@ -1233,25 +1233,25 @@
           "dialogue": 2
         },
         "character": {
-          "characterDepth": 2,
-          "drive": 2,
-          "consistency": 3,
+          "characterDepth": 3,
+          "drive": 3,
+          "consistency": 4,
           "practicalIntelligence": 3,
           "maturity": 3
         },
         "realism": {
-          "humanRealism": 1,
-          "realityGrounding": 2,
-          "practicalRealism": 2,
-          "technicalRealism": 1,
-          "physicalRealism": 1
+          "humanRealism": 2,
+          "realityGrounding": 3,
+          "practicalRealism": 3,
+          "technicalRealism": 2,
+          "physicalRealism": 2
         },
         "casting": {
           "functionalFit": 2,
           "roleFit": 3,
           "aesthetics": 3,
           "magnetism": 2,
-          "ensembleFit": 2
+          "ensembleFit": 3
         },
         "performance": {
           "characterization": 4,
