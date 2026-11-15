@@ -1224,7 +1224,113 @@
         "Larry the Cable Guy",
         "Michael Keaton"
       ],
-      "ratings": {}
+      "ratings": {
+        "writing": {
+          "storyQuality": 3,
+          "storyLogic": 4,
+          "development": 4,
+          "construction": 4,
+          "dialogue": 2
+        },
+        "character": {
+          "characterDepth": 2,
+          "drive": 2,
+          "consistency": 3,
+          "practicalIntelligence": 3,
+          "maturity": 3
+        },
+        "realism": {
+          "humanRealism": 1,
+          "realityGrounding": 2,
+          "practicalRealism": 2,
+          "technicalRealism": 1,
+          "physicalRealism": 1
+        },
+        "casting": {
+          "functionalFit": 2,
+          "roleFit": 3,
+          "aesthetics": 3,
+          "magnetism": 2,
+          "ensembleFit": 2
+        },
+        "performance": {
+          "characterization": 4,
+          "emotionalLife": 4,
+          "delivery": 4,
+          "physicalPerformance": 3,
+          "performanceControl": 3
+        },
+        "chemistry": {
+          "connection": 4,
+          "flow": 4,
+          "relationshipDepth": 3,
+          "relationshipGrowth": 2,
+          "relationshipCharge": 2
+        },
+        "direction": {
+          "staging": 2,
+          "actorDirection": 3,
+          "tone": 5,
+          "action": 4,
+          "directorialControl": 3
+        },
+        "editing": {
+          "pacing": 3,
+          "rhythm": 3,
+          "cutting": 3,
+          "clarity": 4,
+          "restraint": 4
+        },
+        "visuals": {
+          "photography": 5,
+          "imageDesign": 5,
+          "imageQuality": 5,
+          "visualEffects": 5,
+          "visualBeauty": 4
+        },
+        "world": {
+          "worldDepth": 4,
+          "place": 4,
+          "productionDesign": 2,
+          "effectsRealization": 5,
+          "designRestraint": 4
+        },
+        "sound": {
+          "soundQuality": 3,
+          "dialogue": 5,
+          "soundscape": 3,
+          "spatialSound": 5,
+          "mixing": 5
+        },
+        "music": {
+          "musicQuality": 2,
+          "execution": 3,
+          "musicalIdentity": 2,
+          "sceneFit": 3,
+          "scoreControl": 3
+        },
+        "creativity": {
+          "originality": 5,
+          "ingenuity": 3,
+          "ideaGrowth": 3,
+          "filmicInvention": 4,
+          "resourcefulness": 4
+        },
+        "morality": {
+          "humanValues": 5,
+          "relationshipEthics": 4,
+          "responsibility": 5,
+          "moralOpposition": 2,
+          "ethicalFraming": 4
+        },
+        "integrity": {
+          "independence": 3,
+          "viewerRespect": 4,
+          "restraint": 3,
+          "degradation": 5,
+          "cohesion": 4
+        }
+      }
     },
     {
       "id": "casanova-2005",
