@@ -2753,6 +2753,144 @@
         "lossless": true,
         "quality": "24-bit"
       }
+    },
+    {
+      "id": "wicker-park-2004",
+      "title": "Wicker Park",
+      "year": 2004,
+      "runtimeMinutes": 115,
+      "runtimeSeconds": 6896,
+      "runtimeExact": "01:54:56",
+      "version": "Theatrical Cut",
+      "poster": "assets/posters/wicker-park-2004.webp",
+      "description": "Advertising executive Matthew sees a woman in a restaurant whom he believes is Lisa, the girlfriend who vanished from his life two years earlier. His attempt to find her pulls him through overlapping apartments, messages and relationships, gradually revealing that the disappearance was not as simple as either abandonment or coincidence.",
+      "actors": [
+        "Josh Hartnett",
+        "Rose Byrne",
+        "Matthew Lillard",
+        "Diane Kruger",
+        "Christopher Cousins"
+      ],
+      "genres": [
+        "Romance",
+        "Mystery",
+        "Drama",
+        "Thriller"
+      ],
+      "ratings": {
+        "writing": {
+          "storyQuality": 5,
+          "storyLogic": 5,
+          "development": 5,
+          "construction": 5,
+          "dialogue": 5
+        },
+        "character": {
+          "characterDepth": 5,
+          "drive": 5,
+          "consistency": 5,
+          "practicalIntelligence": 4,
+          "maturity": 5
+        },
+        "realism": {
+          "humanRealism": 5,
+          "realityGrounding": 5,
+          "practicalRealism": 4,
+          "technicalRealism": 4,
+          "physicalRealism": 5
+        },
+        "casting": {
+          "functionalFit": 5,
+          "roleFit": 5,
+          "aesthetics": 5,
+          "magnetism": 5,
+          "ensembleFit": 5
+        },
+        "performance": {
+          "characterization": 5,
+          "emotionalLife": 5,
+          "delivery": 5,
+          "physicalPerformance": 5,
+          "performanceControl": 4
+        },
+        "chemistry": {
+          "connection": 5,
+          "flow": 5,
+          "relationshipDepth": 5,
+          "relationshipGrowth": 5,
+          "relationshipCharge": 5
+        },
+        "direction": {
+          "staging": 5,
+          "actorDirection": 5,
+          "tone": 5,
+          "action": 4,
+          "directorialControl": 4
+        },
+        "editing": {
+          "pacing": 5,
+          "rhythm": 5,
+          "cutting": 3,
+          "clarity": 4,
+          "restraint": 5
+        },
+        "visuals": {
+          "photography": 5,
+          "imageDesign": 5,
+          "imageQuality": 3,
+          "visualEffects": 5,
+          "visualBeauty": 4
+        },
+        "world": {
+          "worldDepth": 4,
+          "place": 5,
+          "productionDesign": 5,
+          "effectsRealization": 5,
+          "designRestraint": 5
+        },
+        "sound": {
+          "soundQuality": 5,
+          "dialogue": 4,
+          "soundscape": 4,
+          "spatialSound": 3,
+          "mixing": 3
+        },
+        "music": {
+          "musicQuality": 4,
+          "execution": 5,
+          "musicalIdentity": 5,
+          "sceneFit": 5,
+          "scoreControl": 5
+        },
+        "creativity": {
+          "originality": 5,
+          "ingenuity": 5,
+          "ideaGrowth": 4,
+          "filmicInvention": 5,
+          "resourcefulness": 5
+        },
+        "morality": {
+          "humanValues": 5,
+          "relationshipEthics": 5,
+          "responsibility": 5,
+          "moralOpposition": 5,
+          "ethicalFraming": 4
+        },
+        "integrity": {
+          "independence": 5,
+          "viewerRespect": 5,
+          "restraint": 4,
+          "degradation": 5,
+          "cohesion": 4
+        }
+      },
+      "tmdbId": 11208,
+      "audio": {
+        "layouts": [
+          "5.1"
+        ],
+        "lossless": false
+      }
     }
   ]
 }
