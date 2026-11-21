@@ -1683,7 +1683,113 @@
         "Sam Neill",
         "Sean Bean"
       ],
-      "ratings": {}
+      "ratings": {
+        "writing": {
+          "storyQuality": 4,
+          "storyLogic": 5,
+          "development": 3,
+          "construction": 4,
+          "dialogue": 5
+        },
+        "character": {
+          "characterDepth": 5,
+          "drive": 3,
+          "consistency": 5,
+          "practicalIntelligence": 5,
+          "maturity": 5
+        },
+        "realism": {
+          "humanRealism": 4,
+          "realityGrounding": 4,
+          "practicalRealism": 2,
+          "technicalRealism": 2,
+          "physicalRealism": 2
+        },
+        "casting": {
+          "functionalFit": 5,
+          "roleFit": 5,
+          "aesthetics": 5,
+          "magnetism": 5,
+          "ensembleFit": 5
+        },
+        "performance": {
+          "characterization": 4,
+          "emotionalLife": 4,
+          "delivery": 4,
+          "physicalPerformance": 5,
+          "performanceControl": 4
+        },
+        "chemistry": {
+          "connection": 5,
+          "flow": 4,
+          "relationshipDepth": 4,
+          "relationshipGrowth": 4,
+          "relationshipCharge": 4
+        },
+        "direction": {
+          "staging": 5,
+          "actorDirection": 3,
+          "tone": 4,
+          "action": 4,
+          "directorialControl": 3
+        },
+        "editing": {
+          "pacing": 4,
+          "rhythm": 3,
+          "cutting": 3,
+          "clarity": 4,
+          "restraint": 3
+        },
+        "visuals": {
+          "photography": 5,
+          "imageDesign": 5,
+          "imageQuality": 5,
+          "visualEffects": 3,
+          "visualBeauty": 5
+        },
+        "world": {
+          "worldDepth": 5,
+          "place": 3,
+          "productionDesign": 3,
+          "effectsRealization": 3,
+          "designRestraint": 2
+        },
+        "sound": {
+          "soundQuality": 4,
+          "dialogue": 5,
+          "soundscape": 4,
+          "spatialSound": 4,
+          "mixing": 4
+        },
+        "music": {
+          "musicQuality": 3,
+          "execution": 3,
+          "musicalIdentity": 4,
+          "sceneFit": 3,
+          "scoreControl": 3
+        },
+        "creativity": {
+          "originality": 4,
+          "ingenuity": 3,
+          "ideaGrowth": 2,
+          "filmicInvention": 3,
+          "resourcefulness": 4
+        },
+        "morality": {
+          "humanValues": 2,
+          "relationshipEthics": 3,
+          "responsibility": 3,
+          "moralOpposition": 5,
+          "ethicalFraming": 3
+        },
+        "integrity": {
+          "independence": 4,
+          "viewerRespect": 2,
+          "restraint": 3,
+          "degradation": 5,
+          "cohesion": 3
+        }
+      }
     },
     {
       "id": "dangerous-beauty-1998",
