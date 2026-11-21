@@ -1134,7 +1134,113 @@
         "John Heard",
         "Jared Rushton"
       ],
-      "ratings": {}
+      "ratings": {
+        "writing": {
+          "storyQuality": 3,
+          "storyLogic": 2,
+          "development": 4,
+          "construction": 4,
+          "dialogue": 4
+        },
+        "character": {
+          "characterDepth": 4,
+          "drive": 5,
+          "consistency": 4,
+          "practicalIntelligence": 4,
+          "maturity": 4
+        },
+        "realism": {
+          "humanRealism": 3,
+          "realityGrounding": 3,
+          "practicalRealism": 1,
+          "technicalRealism": 1,
+          "physicalRealism": 4
+        },
+        "casting": {
+          "functionalFit": 4,
+          "roleFit": 4,
+          "aesthetics": 4,
+          "magnetism": 4,
+          "ensembleFit": 2
+        },
+        "performance": {
+          "characterization": 3,
+          "emotionalLife": 4,
+          "delivery": 4,
+          "physicalPerformance": 4,
+          "performanceControl": 3
+        },
+        "chemistry": {
+          "connection": 4,
+          "flow": 4,
+          "relationshipDepth": 3,
+          "relationshipGrowth": 2,
+          "relationshipCharge": 2
+        },
+        "direction": {
+          "staging": 4,
+          "actorDirection": 4,
+          "tone": 4,
+          "action": 4,
+          "directorialControl": 4
+        },
+        "editing": {
+          "pacing": 3,
+          "rhythm": 4,
+          "cutting": 4,
+          "clarity": 4,
+          "restraint": 5
+        },
+        "visuals": {
+          "photography": 4,
+          "imageDesign": 4,
+          "imageQuality": 4,
+          "visualEffects": 2,
+          "visualBeauty": 3
+        },
+        "world": {
+          "worldDepth": 2,
+          "place": 3,
+          "productionDesign": 3,
+          "effectsRealization": 2,
+          "designRestraint": 4
+        },
+        "sound": {
+          "soundQuality": 3,
+          "dialogue": 3,
+          "soundscape": 4,
+          "spatialSound": 4,
+          "mixing": 3
+        },
+        "music": {
+          "musicQuality": 3,
+          "execution": 3,
+          "musicalIdentity": 3,
+          "sceneFit": 3,
+          "scoreControl": 4
+        },
+        "creativity": {
+          "originality": 3,
+          "ingenuity": 2,
+          "ideaGrowth": 4,
+          "filmicInvention": 3,
+          "resourcefulness": 4
+        },
+        "morality": {
+          "humanValues": 4,
+          "relationshipEthics": 5,
+          "responsibility": 4,
+          "moralOpposition": 3,
+          "ethicalFraming": 4
+        },
+        "integrity": {
+          "independence": 4,
+          "viewerRespect": 4,
+          "restraint": 4,
+          "degradation": 5,
+          "cohesion": 3
+        }
+      }
     },
     {
       "id": "blame-it-on-rio-1984",
