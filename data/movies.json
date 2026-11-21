@@ -710,15 +710,15 @@
       "ratings": {
         "writing": {
           "storyQuality": 3,
-          "storyLogic": 4,
-          "development": 4,
+          "storyLogic": 3,
+          "development": 3,
           "construction": 3,
           "dialogue": 3
         },
         "character": {
-          "characterDepth": 5,
+          "characterDepth": 4,
           "drive": 5,
-          "consistency": 5,
+          "consistency": 4,
           "practicalIntelligence": 3,
           "maturity": 3
         },
@@ -755,13 +755,13 @@
           "actorDirection": 2,
           "tone": 4,
           "action": 4,
-          "directorialControl": 5
+          "directorialControl": 4
         },
         "editing": {
           "pacing": 3,
           "rhythm": 3,
           "cutting": 3,
-          "clarity": 5,
+          "clarity": 4,
           "restraint": 5
         },
         "visuals": {
